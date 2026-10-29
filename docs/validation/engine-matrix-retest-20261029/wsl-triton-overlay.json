@@ -1,0 +1,14 @@
+{
+  "source": "/opt/tokenspeed-work/venv/flashinfer-comparison/tokenspeed_kernel",
+  "target": "/opt/tokenspeed-work/venv/flashinfer-comparison-triton-retest/tokenspeed_kernel",
+  "changes": {
+    "ops/layernorm/__init__.py": {
+      "before_sha256": "0d2194a2967afbcf22679ec69e435eeed3519955415df0a1e4217783c27158b3",
+      "after_sha256": "28264ab69e9b4b06de717dab805c120392b45dc4c5331e8fe84b909367b80873"
+    },
+    "ops/activation/__init__.py": {
+      "before_sha256": "f9bb4cd11d530019ad291df416cd427b6bc5efcbf23ac83a0c5078468aa4523e",
+      "after_sha256": "a15cba87e814b3d248f2031a551b58c0cc39e5dba1bbea902e2ada329a03bfee"
+    }
+  }
+}

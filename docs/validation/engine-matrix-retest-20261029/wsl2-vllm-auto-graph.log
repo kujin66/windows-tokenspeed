@@ -1,0 +1,298 @@
+INFO 10-29 17:35:31 [api_utils.py:273] non-default args: {'dtype': 'bfloat16', 'seed': 20261028, 'max_model_len': 704, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.03, 'kv_cache_memory_bytes': 335544320, 'max_num_batched_tokens': 2816, 'max_num_seqs': 4, 'disable_log_stats': True, 'enable_chunked_prefill': True, 'compilation_config': {'mode': None, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': [], 'ir_enable_torch_wrap': None, 'splitting_ops': None, 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': None, 'compile_ranges_endpoints': None, 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': None, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [1, 4], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': None, 'pass_config': {}, 'max_cudagraph_capture_size': 4, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': None, 'static_all_moe_layers': []}, 'generation_config': 'vllm', 'model': '/opt/tokenspeed-work/models/Qwen3-0.6B'}
+INFO 10-29 17:35:31 [model.py:623] Resolved architecture: Qwen3ForCausalLM
+INFO 10-29 17:35:31 [model.py:1788] Using max model len 704
+INFO 10-29 17:35:32 [scheduler.py:252] Chunked prefill is enabled with max_num_batched_tokens=2816.
+INFO 10-29 17:35:32 [vllm.py:1109] Asynchronous scheduling is enabled.
+INFO 10-29 17:35:32 [kernel.py:295] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(EngineCore pid=6088) INFO 10-29 17:35:53 [core.py:116] Initializing a V1 LLM engine (v0.26.0) with config: model='/opt/tokenspeed-work/models/Qwen3-0.6B', speculative_config=None, tokenizer='/opt/tokenspeed-work/models/Qwen3-0.6B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=704, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=20261028, served_model_name=/opt/tokenspeed-work/models/Qwen3-0.6B, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'ir_enable_torch_wrap': True, 'splitting_ops': ['vllm::unified_attention_with_output', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::linear_attention', 'vllm::plamo2_mamba_mixer', 'vllm::qwen_gdn_attention_core', 'vllm::gdn_attention_core_xpu', 'vllm::olmo_hybrid_gdn_full_forward', 'vllm::kda_attention', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::deepseek_v4_attention', 'vllm::hpc_rope_norm_forward', 'vllm::unified_kv_cache_update', 'vllm::unified_mla_kv_cache_update'], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [2816], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.FULL_AND_PIECEWISE: (2, 1)>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [1, 4], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 4, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+(EngineCore pid=6088) INFO 10-29 17:35:56 [parallel_state.py:1615] world_size=1 rank=0 local_rank=0 distributed_init_method=tcp://172.20.113.148:49479 backend=nccl
+(EngineCore pid=6088) INFO 10-29 17:36:00 [parallel_state.py:1946] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(EngineCore pid=6088) INFO 10-29 17:36:00 [gpu_worker.py:378] Using V2 Model Runner
+(EngineCore pid=6088) INFO 10-29 17:36:07 [model_runner.py:284] Loading model from scratch...
+(EngineCore pid=6088) INFO 10-29 17:36:17 [cuda.py:482] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=6088) INFO 10-29 17:36:17 [flash_attn.py:776] Using FlashAttention version 2
+(EngineCore pid=6088) INFO 10-29 17:36:19 [weight_utils.py:869] Filesystem type for checkpoints: EXT4. Checkpoint size: 1.40 GiB. Available RAM: 3.95 GiB.
+(EngineCore pid=6088) INFO 10-29 17:36:19 [weight_utils.py:892] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(EngineCore pid=6088) 
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(EngineCore pid=6088) 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:39<00:00, 39.63s/it]
+(EngineCore pid=6088) 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:39<00:00, 39.70s/it]
+(EngineCore pid=6088) 
+(EngineCore pid=6088) INFO 10-29 17:36:58 [default_loader.py:430] Loading weights took 39.77 seconds
+(EngineCore pid=6088) INFO 10-29 17:37:38 [model_runner.py:305] Model loading took 1.12 GiB and 90.752421 seconds
+(EngineCore pid=6088) INFO 10-29 17:37:39 [topk_topp_sampler.py:39] FlashInfer top-p/top-k sampling disabled via VLLM_USE_FLASHINFER_SAMPLER=0.
+(EngineCore pid=6088) INFO 10-29 17:38:07 [backends.py:1094] Using cache directory: /opt/tokenspeed-work/cache/vllm-retest/torch_compile_cache/dc75e7e1ad/rank_0_0/backbone for vLLM's torch.compile
+(EngineCore pid=6088) INFO 10-29 17:38:07 [backends.py:1155] Dynamo bytecode transform time: 25.91 s
+(EngineCore pid=6088) [rank0]:W1029 17:38:20.159000 6088 torch/_inductor/utils.py:1731] Not enough SMs to use max_autotune_gemm mode
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpnbbtt4ue/cuda_utils.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpnbbtt4ue/cuda_utils.c:1:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+(EngineCore pid=6088) INFO 10-29 17:38:32 [backends.py:378] Cache the graph of compile range (1, 2816) for later use
+(EngineCore pid=6088) INFO 10-29 17:38:37 [backends.py:393] Compiling a graph for compile range (1, 2816) takes 19.82 s
+(EngineCore pid=6088) INFO 10-29 17:38:40 [decorators.py:708] saved AOT compiled function to /opt/tokenspeed-work/cache/vllm-retest/torch_compile_cache/torch_aot_compile/71f0cf26cf3a82b0f3e2026a5f80db6921bf4fabc887d8954825309289cd90c2/rank_0_0/model
+(EngineCore pid=6088) INFO 10-29 17:38:40 [monitor.py:53] torch.compile took 58.82 s in total
+(EngineCore pid=6088) INFO 10-29 17:38:44 [monitor.py:81] Initial profiling/warmup run took 4.00 s
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpya9siroa/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpya9siroa/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpfybvlm5p/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpfybvlm5p/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+(EngineCore pid=6088) INFO 10-29 17:38:47 [gpu_worker.py:479] Initial free memory 3.62 GiB, reserved 0.31 GiB memory for KV Cache as specified by kv_cache_memory_bytes config and skipped memory profiling. This does not respect the gpu_memory_utilization config. Only use kv_cache_memory_bytes config when you want manual control of KV cache memory size. If OOM'ed, check the difference of initial free memory between the current run and the previous run where kv_cache_memory_bytes is suggested and update it correspondingly.
+(EngineCore pid=6088) INFO 10-29 17:38:47 [kv_cache_utils.py:2177] GPU KV cache size: 2,912 tokens
+(EngineCore pid=6088) INFO 10-29 17:38:47 [kv_cache_utils.py:2178] Maximum concurrency for 704 tokens per request: 4.14x
+(EngineCore pid=6088) INFO 10-29 17:38:48 [kernel_warmup.py:227] Using FlashInfer autotune cache file: /opt/tokenspeed-work/cache/vllm-retest/flashinfer_autotune_cache/0.6.14/121a/9bf5517762986c3ba72ae65917f1d7af00ba0ad036091db06542e1a91137b812/autotune_configs.json
+(EngineCore pid=6088) 2026-10-29 17:38:48,834 - INFO - autotuner.py:651 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+(EngineCore pid=6088) 2026-10-29 17:39:38,745 - INFO - autotuner.py:674 - flashinfer.jit: [Autotuner]: Autotuning process ends
+(EngineCore pid=6088) WARNING 10-29 17:39:38 [kernel_warmup.py:258] No FlashInfer autotune cache entries found.Falling back to default tactics.
+(EngineCore pid=6088) INFO 10-29 17:39:39 [kernel_warmup.py:65] Warming up ll_bf16 router GEMM kernels.
+(EngineCore pid=6088) INFO 10-29 17:39:52 [cutedsl_warmup.py:101] Skipping CuTeDSL warmup because no compile units were requested.
+(EngineCore pid=6088) 
+Capturing CUDA graphs (PIECEWISE):   0%|          | 0/2 [00:00<?, ?it/s]
+Capturing CUDA graphs (PIECEWISE):  50%|█████     | 1/2 [00:00<00:00,  1.78it/s]
+Capturing CUDA graphs (PIECEWISE): 100%|██████████| 2/2 [00:02<00:00,  1.16s/it]
+Capturing CUDA graphs (PIECEWISE): 100%|██████████| 2/2 [00:02<00:00,  1.07s/it]
+(EngineCore pid=6088) 
+Capturing CUDA graphs (FULL):   0%|          | 0/2 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL):  50%|█████     | 1/2 [01:02<01:02, 62.03s/it]
+Capturing CUDA graphs (FULL): 100%|██████████| 2/2 [01:02<00:00, 31.04s/it]
+(EngineCore pid=6088) INFO 10-29 17:41:02 [model_runner.py:747] Graph capturing finished in 69 secs, took 0.05 GiB
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmptv6exogi/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmptv6exogi/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpplc6f6i1/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpplc6f6i1/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpf8vcwil6/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpf8vcwil6/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpvl1f9loe/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpvl1f9loe/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpnbgfpuc3/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpnbgfpuc3/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpemqfyoz4/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpemqfyoz4/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpt_qlv5mu/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpt_qlv5mu/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpgtng_p2z/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpgtng_p2z/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmplfqa8u6i/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmplfqa8u6i/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmp0byqdzq1/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmp0byqdzq1/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpbi1g9zy_/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpbi1g9zy_/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmp82eieb93/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmp82eieb93/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmp88ctk3pc/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmp88ctk3pc/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmp3psv1s1j/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmp3psv1s1j/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmpvfp_hcdg/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmpvfp_hcdg/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /tmp/tmp1f0xwmfn/__triton_launcher.c:7:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/vllm-0.26-retest-venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /tmp/tmp1f0xwmfn/__triton_launcher.c:2:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+(EngineCore pid=6088) INFO 10-29 17:41:35 [jit_monitor.py:79] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(EngineCore pid=6088) INFO 10-29 17:41:41 [core.py:340] init engine (profile, create kv cache, warmup model) took 242.27 s (compilation: 58.82 s)
+(EngineCore pid=6088) INFO 10-29 17:41:44 [vllm.py:1109] Asynchronous scheduling is enabled.
+(EngineCore pid=6088) INFO 10-29 17:41:45 [kernel.py:295] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+wsl2-arm64 vllm/auto graph input=128 batch=1: 143.02 tok/s repeat=True
+wsl2-arm64 vllm/auto graph input=128 batch=4: 549.26 tok/s repeat=False
+wsl2-arm64 vllm/auto graph input=512 batch=1: 134.46 tok/s repeat=True
+wsl2-arm64 vllm/auto graph input=512 batch=4: 496.45 tok/s repeat=True
+INFO 10-29 17:42:20 [core_client.py:655] [shutdown] MPClient: start timeout=default
+INFO 10-29 17:42:20 [core_client.py:657] [shutdown] MPClient: stopping engine manager
+(EngineCore pid=6088) INFO 10-29 17:42:20 [core.py:1313] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=6088) INFO 10-29 17:42:20 [core.py:1432] [shutdown] EngineCore: start mode=abort timeout=0s
+(EngineCore pid=6088) INFO 10-29 17:42:20 [core.py:1463] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=6088) INFO 10-29 17:42:20 [core.py:1326] [shutdown] EngineCore: exiting busy loop
+WARNING 10-29 17:42:25 [utils.py:626] [shutdown] Process manager: force killing remaining processes count=1
+INFO 10-29 17:42:25 [core_client.py:659] [shutdown] MPClient: engine manager stopped
+INFO 10-29 17:42:25 [core_client.py:660] [shutdown] MPClient: cleaning up background resources
+INFO 10-29 17:42:25 [core_client.py:662] [shutdown] MPClient: complete

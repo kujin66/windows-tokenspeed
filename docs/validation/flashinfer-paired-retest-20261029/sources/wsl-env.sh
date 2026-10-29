@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+export VIRTUAL_ENV=/opt/tokenspeed-work/venv
+export PATH="$VIRTUAL_ENV/bin:/opt/tokenspeed-work/rust-toolchain/bin:$PATH"
+export CUDA_HOME=/opt/tokenspeed-work/cuda-sdk-13.4/nvidia/cu13
+export CUDA_PATH="$CUDA_HOME"
+export PATH="$CUDA_HOME/bin:$PATH"
+python_base=$("$VIRTUAL_ENV/bin/python" -c 'import sys; print(sys.base_prefix)')
+export LD_LIBRARY_PATH="$CUDA_HOME/lib:$python_base/lib:/usr/lib/wsl/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export LIBRARY_PATH="$CUDA_HOME/lib:/usr/lib/wsl/lib${LIBRARY_PATH:+:$LIBRARY_PATH}"
+export CARGO_HOME=/opt/tokenspeed-work/cargo
+export PYO3_PYTHON="$VIRTUAL_ENV/bin/python"
+export CMAKE_GENERATOR=Ninja
+export CMAKE_BUILD_PARALLEL_LEVEL=2
+export CARGO_BUILD_JOBS=2
+export MAX_JOBS=2
+export CUDA_VISIBLE_DEVICES=0
+export TOKENSPEED_KERNEL_BACKEND=cuda
+export TOKENSPEED_CUDA_ARCH=121
+export TRITON_CACHE_DIR=/opt/tokenspeed-work/cache/triton
+export FLASHINFER_WORKSPACE_BASE=/opt/tokenspeed-work/cache/flashinfer
+export FLASHINFER_CACHE_DIR=/opt/tokenspeed-work/cache/flashinfer
+export TOKENSPEED_FLASHINFER_AUTOTUNE_CACHE_DIR=/opt/tokenspeed-work/cache/autotune
+export PYTHONPATH=
+export PIP_INDEX_URL=https://pypi.org/simple
+export PIP_DISABLE_PIP_VERSION_CHECK=1

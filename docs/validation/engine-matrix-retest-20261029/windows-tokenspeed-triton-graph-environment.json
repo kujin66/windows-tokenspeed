@@ -1,0 +1,6 @@
+{
+  "flashinfer_version": "0.6.17+g2ea3c24b5dac",
+  "flashinfer_module": "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617\\flashinfer\\__init__.py",
+  "module_sha256": "a64477a6d238a10a19054e8e733184c52fc4897c9124a91fb1a93024a6f9c0f9",
+  "backend": "triton"
+}

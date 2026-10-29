@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+  "factory": "compile_tensor",
+  "parameters": {
+    "divisibility": 4
+  },
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "4c476e0fc85b0e5dd0ff196592cef048f6c249c39f15effa2917da13a1e9aeba",
+  "ptx_sha256": "24441dfa5ceb8ebe88b3a7b5bdd0f8c5df3a9514ea65e01d3abe0aec136dd9cf",
+  "entries": [
+    {
+      "name": "kernel_cutlass_tensor_copy_tensorptrf32gmemalign16oi64div4i64_tensorptrf32gmemalign16oi64div41_0",
+      "ptx_parameters": "\n\t.param .align 8 .b8 kernel_cutlass_tensor_copy_tensorptrf32gmemalign16oi64div4i64_tensorptrf32gmemalign16oi64div41_0_param_0[24],\n\t.param .align 8 .b8 kernel_cutlass_tensor_copy_tensorptrf32gmemalign16oi64div4i64_tensorptrf32gmemalign16oi64div41_0_param_1[16]\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract",
+  "host": {
+    "target": "aarch64-pc-windows-msvc",
+    "parameters": [
+      {
+        "name": "a",
+        "ctype": "tokenspeed_aot_Tensor_a_t *",
+        "kind": "tensor",
+        "dtype": "Float32",
+        "alignment": 16,
+        "shape": [
+          {
+            "symbol": 0,
+            "width": 64,
+            "divisibility": 4
+          }
+        ],
+        "stride": [
+          {
+            "symbol": 1,
+            "width": 64,
+            "divisibility": 1
+          }
+        ],
+        "fields": [
+          {
+            "ctype": "void *",
+            "name": "data",
+            "count": null
+          },
+          {
+            "ctype": "int64_t",
+            "name": "dynamic_shapes",
+            "count": 1
+          },
+          {
+            "ctype": "int64_t",
+            "name": "dynamic_strides",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "name": "out",
+        "ctype": "tokenspeed_aot_Tensor_out_t *",
+        "kind": "tensor",
+        "dtype": "Float32",
+        "alignment": 16,
+        "shape": [
+          {
+            "symbol": 0,
+            "width": 64,
+            "divisibility": 4
+          }
+        ],
+        "stride": [
+          {
+            "static": 1
+          }
+        ],
+        "fields": [
+          {
+            "ctype": "void *",
+            "name": "data",
+            "count": null
+          },
+          {
+            "ctype": "int64_t",
+            "name": "dynamic_shapes",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "name": "stream",
+        "ctype": "cudaStream_t",
+        "kind": "stream"
+      }
+    ],
+    "prefix": "tokenspeed_aot",
+    "exporter_sha256": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498"
+  },
+  "host_files": {
+    "host.h": "89dc11c24df5320e14573a36d4ee48d5cc4136efd2a0c8c24d9d4c33e2044679",
+    "host.o": "8ae5b36064cd84ec7eba86942e21f6d9bb1273d893dce94736973cfc383de53e",
+    "adapter.cpp": "86fd013ec190a8e9af95777e58241691d88091592c01e0d09b09cf57b6a3f0fa"
+  }
+}

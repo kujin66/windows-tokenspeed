@@ -1,0 +1,23 @@
+[
+  {
+    "name": "wsl2-tokenspeed-triton-graph",
+    "returncode": 0,
+    "passed": true,
+    "seconds": 253.55881751599986,
+    "error": null
+  },
+  {
+    "name": "wsl2-tokenspeed-flashinfer-graph",
+    "returncode": 0,
+    "passed": true,
+    "seconds": 227.96150853599988,
+    "error": null
+  },
+  {
+    "name": "wsl2-vllm-auto-graph",
+    "returncode": 1,
+    "passed": false,
+    "seconds": 139.62454765500001,
+    "error": "RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "flag": "1",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "pin_available": true,
+  "uva_available": true,
+  "passed": true,
+  "cpu_pinned": true,
+  "view_device": "cuda:0",
+  "graph_replays": 3
+}

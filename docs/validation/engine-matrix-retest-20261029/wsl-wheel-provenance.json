@@ -1,0 +1,50 @@
+{
+  "vllm": {
+    "version": "0.26.0",
+    "download": {
+      "url": "https://files.pythonhosted.org/packages/58/27/6ff13689a5931f0c97b7008042f07aacc4a246e7eb06fd9b4d5a72de483c/vllm-0.26.0-cp38-abi3-manylinux_2_28_aarch64.whl",
+      "archive_info": {
+        "hashes": {
+          "sha256": "52a4c3e55c2c80cc8793e52ccc244457ceade25b0ad7caa1c15e5002a95a1b2c"
+        },
+        "hash": "sha256=52a4c3e55c2c80cc8793e52ccc244457ceade25b0ad7caa1c15e5002a95a1b2c"
+      }
+    }
+  },
+  "apache-tvm-ffi": {
+    "version": "0.1.10",
+    "download": {
+      "url": "https://files.pythonhosted.org/packages/92/d0/54badf5c8f6208e06f331a20ddd154f19c94c2e906da5b8cce7d60727d4b/apache_tvm_ffi-0.1.10-cp312-abi3-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl",
+      "archive_info": {
+        "hashes": {
+          "sha256": "3829216a8500c2f61062e48c627f6db6c3fa49416b3ffa85bc04243ae5d759f7"
+        },
+        "hash": "sha256=3829216a8500c2f61062e48c627f6db6c3fa49416b3ffa85bc04243ae5d759f7"
+      }
+    }
+  },
+  "flashinfer-python": {
+    "version": "0.6.14",
+    "download": {
+      "url": "https://files.pythonhosted.org/packages/f2/8f/b101913cb2b3687654f56681cfe9836d447526be663c149966470ef70531/flashinfer_python-0.6.14-py3-none-any.whl",
+      "archive_info": {
+        "hashes": {
+          "sha256": "d124369346a3d48eac67e31c42f7a3c813bcc0abc10e2e36db413b7b3dfd97df"
+        },
+        "hash": "sha256=d124369346a3d48eac67e31c42f7a3c813bcc0abc10e2e36db413b7b3dfd97df"
+      }
+    }
+  },
+  "torch": {
+    "version": "2.11.0",
+    "download": {
+      "url": "https://files.pythonhosted.org/packages/32/d1/8ed2173589cbfe744ed54e5a73efc107c0085ba5777ee93a5f4c1ab90553/torch-2.11.0-cp313-cp313-manylinux_2_28_aarch64.whl",
+      "archive_info": {
+        "hashes": {
+          "sha256": "63a68fa59de8f87acc7e85a5478bb2dddbb3392b7593ec3e78827c793c4b73fd"
+        },
+        "hash": "sha256=63a68fa59de8f87acc7e85a5478bb2dddbb3392b7593ec3e78827c793c4b73fd"
+      }
+    }
+  }
+}

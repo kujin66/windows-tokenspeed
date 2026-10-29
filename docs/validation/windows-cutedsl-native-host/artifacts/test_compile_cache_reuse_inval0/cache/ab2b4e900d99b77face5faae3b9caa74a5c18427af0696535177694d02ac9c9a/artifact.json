@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "1364caac29e28e78937d377e5847c2dbc589244e394db5ffd268c004ce8a81f3",
+  "factory": "build",
+  "parameters": {
+    "block_size": 128
+  },
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "ca6b343172954d36ab967c090d3d5978244c6c7f443f0808f43c40ef9229260e",
+  "ptx_sha256": "5509ca9231bc19d2047676a0e9ecf6bb3327b7657fd72eedb12c275f154ce8aa",
+  "entries": [
+    {
+      "name": "kernel_cutlass_elementwise_ptrf32gmemalign16_ptrf32gmemalign16_ptrf32gmemalign16__add_0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_elementwise_ptrf32gmemalign16_ptrf32gmemalign16_ptrf32gmemalign16__add_0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_elementwise_ptrf32gmemalign16_ptrf32gmemalign16_ptrf32gmemalign16__add_0_param_1,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_elementwise_ptrf32gmemalign16_ptrf32gmemalign16_ptrf32gmemalign16__add_0_param_2,\n\t.param .u32 kernel_cutlass_elementwise_ptrf32gmemalign16_ptrf32gmemalign16_ptrf32gmemalign16__add_0_param_3\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract"
+}

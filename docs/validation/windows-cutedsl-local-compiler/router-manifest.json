@@ -1,0 +1,673 @@
+{
+  "schema": 1,
+  "compiler_host": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "machine": "AMD64",
+    "python_pe_machine": "0x8664"
+  },
+  "source": "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cute_dsl/ll_bf16/_kernel.py",
+  "source_sha256": "f7002218589c3af7639f6c245b69209142b922abdadcd8998be3c511da9cd278",
+  "exporter_sha256": "68f78853b2b6fd26cd5ce0dde745fd8948e9928d79e2c37d73f839e8d08267f6",
+  "cutedsl": "4.8.1",
+  "cuda_bindings": "13.4.4",
+  "options": "--keep-ptx --keep-cubin --ptxas-options -maxrregcount=64",
+  "kernels": [
+    {
+      "name": "router-m1-n896-k7168-bs64",
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block": [
+        64,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 8,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "fd505546032ea33aceb03b6d45129aa8d6e9472aa328a46efef141d7118e82e2",
+      "ptx_sha256": "9620332fb9e3e055a67a68e2faf2056c85205bf9de8dd0aaea1b391d9d505286",
+      "cubin_bytes": 12464
+    },
+    {
+      "name": "router-m1-n896-k7168-bs128",
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 16,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "f9bed9bd51ef1ad7cc08b1bea1c3a9b012877f9373a9c7ef6e01d939aa57c74b",
+      "ptx_sha256": "6e3b20e5dd6aed83f2948abd50de93575ff1b002c698f8c69b616c0e96b75a48",
+      "cubin_bytes": 11208
+    },
+    {
+      "name": "router-m1-n896-k7168-bs256",
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 32,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "fea505c0bcda1b3d0609e1893f2a7eb240c34b4162c7323adada75bbcc779cc1",
+      "ptx_sha256": "9eb5b8ad167a9c0e53494fa7eb13624dda87e7e374122f80d1fe1264f1a8c3b1",
+      "cubin_bytes": 11096
+    },
+    {
+      "name": "router-m1-n896-k7168-bs512",
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block": [
+        512,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 64,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "13c31473d1cdf6dbba8c050a53ea86dbee63b0d7d791ec45666bcb33cdfa5695",
+      "ptx_sha256": "2b9bdfe94e75a445038ae32b3d2d56348464cc1500438e21306b32ff7bc2d165",
+      "cubin_bytes": 11040
+    },
+    {
+      "name": "router-m2-n896-k7168-bs64",
+      "shape_mnk": [
+        2,
+        896,
+        7168
+      ],
+      "block": [
+        64,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 16,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "1743ee9419dcbf44fb57f6595b89b2fa789d03b620032ad211ec81e491621415",
+      "ptx_sha256": "e01d9e212052262f05270cff665d9fad12bedb3d3b9ee970bb6c0843dbe36d29",
+      "cubin_bytes": 15048
+    },
+    {
+      "name": "router-m2-n896-k7168-bs128",
+      "shape_mnk": [
+        2,
+        896,
+        7168
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 32,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "677c57c15ac2a83f1b594268f9f2db1cc49c78459506b558787671009f15a05c",
+      "ptx_sha256": "af2fb705f56814b9751cd1e5e01be679ba5422d58aca2ed3c817d9d7661499ad",
+      "cubin_bytes": 12536
+    },
+    {
+      "name": "router-m2-n896-k7168-bs256",
+      "shape_mnk": [
+        2,
+        896,
+        7168
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 64,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "000f85558543f55a81dfe25fce6e1ab2d1ad25492145ceae5259cce99e04c479",
+      "ptx_sha256": "4926bc36c32d28eeba4d7ffbb99d7f898a1c005eec0c6f6541875605ff9104c9",
+      "cubin_bytes": 12312
+    },
+    {
+      "name": "router-m2-n896-k7168-bs512",
+      "shape_mnk": [
+        2,
+        896,
+        7168
+      ],
+      "block": [
+        512,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 128,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o2716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o28968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "96b46d0464f94a14e611651bbcec8646c23b1165b97b8f453f28c7408dca6216",
+      "ptx_sha256": "e888216386f96ad22763b2e31142bdb57a205887bd1ac13cc2e22b1576023d72",
+      "cubin_bytes": 12200
+    },
+    {
+      "name": "router-m4-n896-k7168-bs64",
+      "shape_mnk": [
+        4,
+        896,
+        7168
+      ],
+      "block": [
+        64,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 32,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "869b6debc18b84f163d464cdb2b6755d969c27b50a7e5692b44ab512b175801b",
+      "ptx_sha256": "421bd3e3d914d3abb9b92461df01359756a9df775f98b38df8f6564a9e90dc1b",
+      "cubin_bytes": 21240
+    },
+    {
+      "name": "router-m4-n896-k7168-bs128",
+      "shape_mnk": [
+        4,
+        896,
+        7168
+      ],
+      "block": [
+        128,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 64,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "7ebe9b5db4d16b38582056f737a2820787c3e0686b7aa0103eee0f8b601f6850",
+      "ptx_sha256": "88f2e69afe676e58e1c0e05368399a11d033a2dcfa557fbdc86d87fea5ab0b7d",
+      "cubin_bytes": 16216
+    },
+    {
+      "name": "router-m4-n896-k7168-bs256",
+      "shape_mnk": [
+        4,
+        896,
+        7168
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 128,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "7cb5bb1460f2a11148e7aa6b36587804fc93308b09833c54bc078c20b096542e",
+      "ptx_sha256": "32d15ab7b9d6d024978591a16cc92ad308ed2f94146dae6d6866dc196e0e315d",
+      "cubin_bytes": 13712
+    },
+    {
+      "name": "router-m4-n896-k7168-bs512",
+      "shape_mnk": [
+        4,
+        896,
+        7168
+      ],
+      "block": [
+        512,
+        1,
+        1
+      ],
+      "grid": [
+        896,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 256,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o4716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o48968961_tensorpt_0_param_3[8]"
+      ],
+      "cubin_sha256": "a77a2dc9eb2fe916e1cce9a266038c4d08a0be690b46d576df2c46730705e11e",
+      "ptx_sha256": "6ff47bf3064d087d65c2802c3be573a19b11973e5fd5c25d4b88b99313aee9aa",
+      "cubin_bytes": 13488
+    },
+    {
+      "name": "router-m1-n17-k8-bs256",
+      "shape_mnk": [
+        1,
+        17,
+        8
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "grid": [
+        17,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 32,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1881_tensorptrbf16gmemalign16o17881_tensorptrf32gmemalign16o117171_tensorptrf32gmemalign16_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1881_tensorptrbf16gmemalign16o17881_tensorptrf32gmemalign16o117171_tensorptrf32gmemalign16_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1881_tensorptrbf16gmemalign16o17881_tensorptrf32gmemalign16o117171_tensorptrf32gmemalign16_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1881_tensorptrbf16gmemalign16o17881_tensorptrf32gmemalign16o117171_tensorptrf32gmemalign16_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1881_tensorptrbf16gmemalign16o17881_tensorptrf32gmemalign16o117171_tensorptrf32gmemalign16_0_param_3[8]"
+      ],
+      "cubin_sha256": "02ef59eecbbcc23302a0726bef36d53e0a0fb4bafe8d831db00d1f1f2eccc48c",
+      "ptx_sha256": "2d777f8caa2d8f9406afb20585d48e3620e1b27bdafcac05841c204fa90472dc",
+      "cubin_bytes": 9952
+    },
+    {
+      "name": "router-m1-n17-k320-bs256",
+      "shape_mnk": [
+        1,
+        17,
+        320
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "grid": [
+        17,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 32,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o13203201_tensorptrbf16gmemalign16o173203201_tensorptrf32gmemalign16o117171_tensorptrf32gme_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o13203201_tensorptrbf16gmemalign16o173203201_tensorptrf32gmemalign16o117171_tensorptrf32gme_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o13203201_tensorptrbf16gmemalign16o173203201_tensorptrf32gmemalign16o117171_tensorptrf32gme_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o13203201_tensorptrbf16gmemalign16o173203201_tensorptrf32gmemalign16o117171_tensorptrf32gme_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o13203201_tensorptrbf16gmemalign16o173203201_tensorptrf32gmemalign16o117171_tensorptrf32gme_0_param_3[8]"
+      ],
+      "cubin_sha256": "377e6d0fa30cbb70e2867c9b78c375a20317d03a66d527c28ed8c847bd6f3d71",
+      "ptx_sha256": "4a3f30766cc1dacf07216b9838554af498198bea24d8cfd6cb05be5f9d6f1766",
+      "cubin_bytes": 9960
+    },
+    {
+      "name": "router-m1-n17-k1032-bs256",
+      "shape_mnk": [
+        1,
+        17,
+        1032
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "grid": [
+        17,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 32,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1103210321_tensorptrbf16gmemalign16o17103210321_tensorptrf32gmemalign16o117171_tensorptrf3_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1103210321_tensorptrbf16gmemalign16o17103210321_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1103210321_tensorptrbf16gmemalign16o17103210321_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1103210321_tensorptrbf16gmemalign16o17103210321_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1103210321_tensorptrbf16gmemalign16o17103210321_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_3[8]"
+      ],
+      "cubin_sha256": "412703178a275d46ee494dce6698aa87c71e5f948e753ea34eb5e703da0ebd2a",
+      "ptx_sha256": "14a91cc76eda8bd9951fa9dc4f3c9b960ec1f3c395e154eb63af47152532f0ac",
+      "cubin_bytes": 9968
+    },
+    {
+      "name": "router-m1-n17-k2056-bs256",
+      "shape_mnk": [
+        1,
+        17,
+        2056
+      ],
+      "block": [
+        256,
+        1,
+        1
+      ],
+      "grid": [
+        17,
+        1,
+        1
+      ],
+      "shared_memory_bytes": 32,
+      "arch": "sm_121a",
+      "input_dtype": "bfloat16",
+      "output_dtype": "float32",
+      "layout": "contiguous A[M,K], B[N,K], C[M,N]",
+      "has_bias": false,
+      "enable_pdl": false,
+      "entry": "kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1205620561_tensorptrbf16gmemalign16o17205620561_tensorptrf32gmemalign16o117171_tensorptrf3_0",
+      "abi": [
+        "a:u64",
+        "b:u64",
+        "c:u64",
+        "unused_bias:u64"
+      ],
+      "ptx_parameters": [
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1205620561_tensorptrbf16gmemalign16o17205620561_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_0[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1205620561_tensorptrbf16gmemalign16o17205620561_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_1[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1205620561_tensorptrbf16gmemalign16o17205620561_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_2[8]",
+        ".param .align 8 .b8 kernel_cutlass_kernel_tokenspeed_ll_bf16_sourceLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1205620561_tensorptrbf16gmemalign16o17205620561_tensorptrf32gmemalign16o117171_tensorptrf3_0_param_3[8]"
+      ],
+      "cubin_sha256": "9dd480cce8b7906c756f929b59bf5a1ce46bd67713c49cb1998d670e4eed53e8",
+      "ptx_sha256": "bbabd38bfebd5c9fd0f60fff9da61d6c02891507ec5aaec6b35eb5381b09bfd2",
+      "cubin_bytes": 9984
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
+  "factory": "compile_affine",
+  "parameters": {
+    "block_size": 128
+  },
+  "worker_sha256": "047f44cdd6d5503f71fccd8820179e3415502bab18893713bfa6d55da7e18996",
+  "cubin_sha256": "765108560561e82e1bf8218b5d5348495f17c865344d7a1c43583d59f57b087f",
+  "ptx_sha256": "515886d90414d3b6d09c70c52338683ee26c90a0679ca43c9677e4ff54920e00",
+  "entries": [
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_5\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract"
+}

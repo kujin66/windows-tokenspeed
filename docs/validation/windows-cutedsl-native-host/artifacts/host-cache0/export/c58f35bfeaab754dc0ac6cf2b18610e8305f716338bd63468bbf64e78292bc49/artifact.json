@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+  "factory": "compile_pdl_sequence",
+  "parameters": {},
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "ea796adaa66fa33c18f74e2e51c6dac0e74e987bd84c724f6eb9a6fbe30cbbc2",
+  "ptx_sha256": "03b727f2fb260374773a2bb3e17436245654b2637a0492f1416ddc54746c80b8",
+  "entries": [
+    {
+      "name": "kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_0_param_1,\n\t.param .u32 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_0_param_2\n"
+    },
+    {
+      "name": "kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_1",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_1_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_1_param_1,\n\t.param .u32 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__True_1_param_2\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract",
+  "host": {
+    "target": "aarch64-pc-windows-msvc",
+    "parameters": [
+      {
+        "name": "a",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "temporary",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "out",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "n",
+        "ctype": "int32_t",
+        "kind": "i32"
+      },
+      {
+        "name": "stream",
+        "ctype": "cudaStream_t",
+        "kind": "stream"
+      }
+    ],
+    "prefix": "tokenspeed_aot",
+    "exporter_sha256": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498"
+  },
+  "host_files": {
+    "host.h": "b9defb191d27e63bd1a5b20a8637849fd11ec3354ab2c0e74c563a14d4a93a0c",
+    "host.o": "a47f69ebb1fc15e3afe8ac9f3ef7e5a532be2c037b431f6959718c1b60720def",
+    "adapter.cpp": "8fd8128f7aed38b69a688d3a723b3b3d0973ac15178a5e986c38554b63d59b99"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-10-29T11:20:39.394812+00:00",
+  "scope": "Windows x64 compiler under system emulation; native ARM64 device execution and configured router auto dispatch; no WSL or model throughput claim",
+  "execution_python_pe_machine": "0xaa64",
+  "compiler_python_pe_machine": "0x8664",
+  "python": "3.13.16 (main, Oct 13 2026, 18:28:16) [MSC v.1944 64 bit (ARM64)]",
+  "torch": "2.14.0a0+git20b0f57",
+  "cuda": "13.4",
+  "gpu": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+  "capability": [
+    12,
+    1
+  ],
+  "test_exit_code": 0,
+  "suite": "all",
+  "native_host_dlls": {
+    "pytest/host-cache0/native/1f27185be1ae74b100a9cf4a64e8aab569d1a9bf8571b21baab3fdabbb97cc82/host.dll": "0xaa64",
+    "pytest/host-cache0/native/3075f198281a2852a48f821044a10cdaeaaf75a1aedf4c9cea83b5931a438dea/host.dll": "0xaa64",
+    "pytest/host-cache0/native/4221539300d5858dc5730d300ab648e9b0dbce2767fdb7256a7893a070547fc0/host.dll": "0xaa64",
+    "pytest/host-cache0/native/470c98ee488218070573a00980aedb409c40b0dc396d846a002c143534284798/host.dll": "0xaa64",
+    "pytest/host-cache0/native/4dfe99f446f8dfba71890a91413ef10a33b7da819a6b834f7f47a39b764e17f0/host.dll": "0xaa64",
+    "pytest/host-cache0/native/57a57453f95013fe2d8bdbc7e03d52adc367a6ebba44a2b6cab9ced3c6b3eda3/host.dll": "0xaa64",
+    "pytest/host-cache0/native/59dfc94b709b7647997f0c52de567cf0cdd26d3e63b8dccc9204520a450a4c8f/host.dll": "0xaa64",
+    "pytest/host-cache0/native/9867e3f36de5b963e146cc0f3f105aaf1045339a06464b14fe33044020bd5cde/host.dll": "0xaa64",
+    "pytest/host-cache0/native/d1d4a79b98e9b38a42d2a4508e5ce05b53cbd90047579e7cdb4a382a8951dafc/host.dll": "0xaa64",
+    "pytest/host-cache0/native/df4bbcce03cf72dad3c3824bb83658745eb6f6f01bfc2175cc92e738a11cfa18/host.dll": "0xaa64",
+    "pytest/host-cache0/native/f4353ce8d706e3b1bf01c238c5e7a6c0b5c7328150878bca31e5266839cb618a/host.dll": "0xaa64"
+  },
+  "tests": 33,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "source_sha256": {
+    "tools/windows/cute_dsl_aot/validate_local.py": "e5139b232a1e27cb75f288dba4dc4de93f7f788eb6e64c3531008cd16dfe8948",
+    "tools/windows/cute_dsl_aot/elementwise_factory.py": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
+    "tools/windows/cute_dsl_aot/export_router.py": "68f78853b2b6fd26cd5ce0dde745fd8948e9928d79e2c37d73f839e8d08267f6",
+    "tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_compile.py": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+    "tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_runtime.py": "ccb09688f16b62d2c93ab9f7ef942198fa0d7385ec168450333b682a79d0aa45",
+    "tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_aot.py": "bbc0806cdc142af75d953bbdf96e4514af947bc28804802d2fde14107ca5ae2e",
+    "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/cute_dsl_aot.py": "011e083c094dcd25ad84d3e6b47efab9827283e50ec8539f4c8f38b0e46e80f6",
+    "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/__init__.py": "1290c40f971a6506be8c53c62ff501f96fe80934d8db0bf68a33db033f6a6b54",
+    "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cute_dsl/ll_bf16/_kernel.py": "f7002218589c3af7639f6c245b69209142b922abdadcd8998be3c511da9cd278",
+    "tokenspeed-kernel/test/nvidia/test_cute_dsl_windows_compile.py": "6c965a83f84848d94fe1d6ed9f141e71f859a4778e10691eb40e9283682e5c56",
+    "tokenspeed-kernel/test/nvidia/test_cute_dsl_aot.py": "0babc91aa8821d370e2969d60c4162b379861a93c14581d354188390d76b71d6",
+    "tokenspeed-kernel/test/nvidia/test_cute_dsl_host.py": "634c997fcf2d6f48044f386bc3b70a55cb61cd0bfb0122344ea40a06b5ca1c0e",
+    "tools/windows/cute_dsl_aot/host_factory.py": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+    "tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_host.py": "0dde4704364c1da3bb2bb4418e876e4036c9b1983f2edebdaf555e5643451222",
+    "tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_host_export.py": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498",
+    "tokenspeed-kernel/python/tokenspeed_kernel/_cute_dsl_native.cpp": "8549c00a37e3e2cea6dce8b9b174325be438b11ac431b6fb5cbbf4fd4b43c587",
+    "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cute_dsl/ll_bf16/_windows_host.py": "4de96836b864d17cabf356b173a7e3531f387765d77acc9b763958aa20b64fe1",
+    "tokenspeed-kernel/python/setup.py": "53258017056d7280d827663e958e39060423f828f9ac00c88ca73939d9ca15d5"
+  }
+}

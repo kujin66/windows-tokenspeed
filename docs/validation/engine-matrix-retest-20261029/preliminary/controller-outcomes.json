@@ -1,0 +1,23 @@
+[
+  {
+    "name": "windows-tokenspeed-triton-graph",
+    "returncode": 0,
+    "passed": true,
+    "seconds": 288.2634900999983,
+    "error": null
+  },
+  {
+    "name": "windows-tokenspeed-flashinfer-graph",
+    "returncode": 1,
+    "passed": false,
+    "seconds": 110.0892629000009,
+    "error": "RuntimeError: Scheduler process 0 (pid 55888) exited or closed its ready pipe before startup finished (exit code None). Please check if there are relevant logs."
+  },
+  {
+    "name": "windows-vllm-auto-graph",
+    "returncode": 0,
+    "passed": true,
+    "seconds": 306.33843829999387,
+    "error": null
+  }
+]

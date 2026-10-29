@@ -1,0 +1,40 @@
+digraph dot {
+subgraph cluster_112 {
+label="graph_112" graph[style="dashed"];
+"graph_112_node_0"[style="bold" shape="record" label="{KERNEL
+| {ID | 0 (topoId: 2) | kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0\<\<\<3,128,0\>\>\>}
+| {{node handle | func handle} | {0x000000FE76A78950 | 0x000000FE94721000}}
+| {accessPolicyWindow | {base_ptr | num_bytes | hitRatio | hitProp | missProp} | {0x0000000000000000 | 0 | 0.000000 | N | N}}
+| {cooperative | 0}
+| {priority | 0}
+| {cluster dim | (0,0,0)}
+| {preferred cluster dim | (0,0,0)}
+| {cluster scheduling policy preference | 1}
+}"];
+
+"graph_112_node_1"[style="bold" shape="record" label="{KERNEL
+| {ID | 1 (topoId: 1) | kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1\<\<\<3,128,0\>\>\>}
+| {{node handle | func handle} | {0x000000FE76A780E0 | 0x000000FE94722400}}
+| {accessPolicyWindow | {base_ptr | num_bytes | hitRatio | hitProp | missProp} | {0x0000000000000000 | 0 | 0.000000 | N | N}}
+| {cooperative | 0}
+| {priority | 0}
+| {cluster dim | (0,0,0)}
+| {preferred cluster dim | (0,0,0)}
+| {cluster scheduling policy preference | 1}
+}"];
+
+"graph_112_node_2"[style="bold" shape="record" label="{KERNEL
+| {ID | 2 (topoId: 0) | kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2\<\<\<3,128,0\>\>\>}
+| {{node handle | func handle} | {0x000000FE76A79A30 | 0x000000FE94724200}}
+| {accessPolicyWindow | {base_ptr | num_bytes | hitRatio | hitProp | missProp} | {0x0000000000000000 | 0 | 0.000000 | N | N}}
+| {cooperative | 0}
+| {priority | 0}
+| {cluster dim | (0,0,0)}
+| {preferred cluster dim | (0,0,0)}
+| {cluster scheduling policy preference | 1}
+}"];
+
+"graph_112_node_0" -> "graph_112_node_1" [headlabel=0];
+"graph_112_node_1" -> "graph_112_node_2" [headlabel=0];
+}
+}

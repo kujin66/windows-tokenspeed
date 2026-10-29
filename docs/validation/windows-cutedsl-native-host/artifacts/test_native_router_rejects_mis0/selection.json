@@ -1,0 +1,15 @@
+{
+  "schema": 2,
+  "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+  "selections": [
+    {
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block_size": 128,
+      "program": "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\cutedsl-native-host-validation\\pytest\\test_native_router_rejects_mis0"
+    }
+  ]
+}

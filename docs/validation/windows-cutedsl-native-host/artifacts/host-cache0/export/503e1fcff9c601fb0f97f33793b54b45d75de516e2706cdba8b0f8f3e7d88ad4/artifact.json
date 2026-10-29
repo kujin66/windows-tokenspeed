@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "4de96836b864d17cabf356b173a7e3531f387765d77acc9b763958aa20b64fe1",
+  "factory": "compile_router",
+  "parameters": {
+    "m": 1,
+    "n": 896,
+    "k": 7168,
+    "block_size": 128
+  },
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "8e879f516fda380ced7e9a24d2563603c881a4994b253efeacc8e4527fb5c98d",
+  "ptx_sha256": "2b196bcafc5053f7f2b219e96381fff96233f60edf769b2325e41befb74a5d6f",
+  "entries": [
+    {
+      "name": "kernel_cutlass_kernel_router_kernelLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorptrf32gmemalig_0",
+      "ptx_parameters": "\n\t.param .align 8 .b8 kernel_cutlass_kernel_router_kernelLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorptrf32gmemalig_0_param_0[8],\n\t.param .align 8 .b8 kernel_cutlass_kernel_router_kernelLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorptrf32gmemalig_0_param_1[8],\n\t.param .align 8 .b8 kernel_cutlass_kernel_router_kernelLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorptrf32gmemalig_0_param_2[8],\n\t.param .align 8 .b8 kernel_cutlass_kernel_router_kernelLLBf16Dotprod_object_at__tensorptrbf16gmemalign16o1716871681_tensorptrbf16gmemalign16o896716871681_tensorptrf32gmemalign16o18968961_tensorptrf32gmemalig_0_param_3[8]\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract",
+  "host": {
+    "target": "aarch64-pc-windows-msvc",
+    "parameters": [
+      {
+        "name": "a",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "BFloat16",
+        "alignment": 16
+      },
+      {
+        "name": "b",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "BFloat16",
+        "alignment": 16
+      },
+      {
+        "name": "c",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "bias",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "stream",
+        "ctype": "cudaStream_t",
+        "kind": "stream"
+      }
+    ],
+    "prefix": "tokenspeed_aot",
+    "exporter_sha256": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498"
+  },
+  "host_files": {
+    "host.h": "16992d13b71e1fe5be61144e659f0054461158bb1d543722c149d25b21f33409",
+    "host.o": "33c5133a1b01c4f50331d6cba55fba4e51d834bd8ab35d5a029ece6320c22a52",
+    "adapter.cpp": "d956e72769176aa6320ee72ba5e8f3ed6585bde6b6afcc0e983e2177e9b6e09c"
+  }
+}

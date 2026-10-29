@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
+  "factory": "compile_affine",
+  "parameters": {
+    "block_size": 128
+  },
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "765108560561e82e1bf8218b5d5348495f17c865344d7a1c43583d59f57b087f",
+  "ptx_sha256": "515886d90414d3b6d09c70c52338683ee26c90a0679ca43c9677e4ff54920e00",
+  "entries": [
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16_____0_param_5\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract",
+  "host": {
+    "target": "aarch64-pc-windows-msvc",
+    "parameters": [
+      {
+        "name": "a",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "c",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "n",
+        "ctype": "int32_t",
+        "kind": "i32"
+      },
+      {
+        "name": "stride",
+        "ctype": "int64_t",
+        "kind": "i64"
+      },
+      {
+        "name": "scale",
+        "ctype": "float",
+        "kind": "f32"
+      },
+      {
+        "name": "offset",
+        "ctype": "float",
+        "kind": "f32"
+      },
+      {
+        "name": "stream",
+        "ctype": "cudaStream_t",
+        "kind": "stream"
+      }
+    ],
+    "prefix": "tokenspeed_aot",
+    "exporter_sha256": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498"
+  },
+  "host_files": {
+    "host.h": "e26d4520e1910e82056f40e5cfbe7a03e695ee17b6fea07c9b8e96dde60f500a",
+    "host.o": "30c40b0fa006ec3733f0f092a29bfd15db3a83a72dedf94b2c065851151f31ff",
+    "adapter.cpp": "cc45f9b3129ffe64e6379219590588c0fcc08a9bac160909bf778c2c58e6715f"
+  }
+}

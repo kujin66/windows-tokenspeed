@@ -1,3 +1,6 @@
 # Preserve immutable source/evidence bytes across platforms.
 docs/validation/** text eol=lf whitespace=-trailing-space
+docs/validation/windows-cutedsl-native-host/sources/** -text
+docs/validation/**/sources/benchmark_engine_matrix.py -text
+tools/perf/benchmark_engine_matrix.py -text
 ports/windows-arm64/overlay/** text eol=lf

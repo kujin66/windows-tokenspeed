@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+  "factory": "compile_sequence",
+  "parameters": {},
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "f047b83db41046f34633eb3c0bcbc0c1a3535700fe6f1eaa1509469842fe54cb",
+  "ptx_sha256": "a77edc9e427a9ac9f6078ace20373f67cbe76c44393656c275430db2e7a8f76a",
+  "entries": [
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_5\n"
+    },
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_5\n"
+    },
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_5\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract",
+  "host": {
+    "target": "aarch64-pc-windows-msvc",
+    "parameters": [
+      {
+        "name": "a",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "temporary",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "out",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "n",
+        "ctype": "int32_t",
+        "kind": "i32"
+      },
+      {
+        "name": "repetitions",
+        "ctype": "int32_t",
+        "kind": "i32"
+      },
+      {
+        "name": "stream",
+        "ctype": "cudaStream_t",
+        "kind": "stream"
+      }
+    ],
+    "prefix": "tokenspeed_aot",
+    "exporter_sha256": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498"
+  },
+  "host_files": {
+    "host.h": "c1cdd951afc3514727e82a5f27dc249d85008108593443b5ffd16909ae95c0cb",
+    "host.o": "4dcd6b8c2cf6999b991d9f0f383a7d33c31d25f61995a67c7ff4dd7570830ca3",
+    "adapter.cpp": "d8b22fb1cd66fcefaab771bc8e99a7ca1fc8386f440bcb0db98df500bd264d75",
+    "host.dll": "0f9639427e834573466d136e52d51da0ec0e748c207cc223a559b476f319053c"
+  },
+  "native_build": {
+    "export": "6a2ce0ba0909e03bb71acf5b515b2204e219f13d4c925a63421e432731eeaa97",
+    "tool_files": {
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\cl.exe": "9f36f48c99f07158a62f3d013247095f318d3560b0c31555f3664f0de25ebbcb",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\link.exe": "d760c224cb123adde2305665c8e929a0633224e9726a859b2233ab1cffdef747",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\_cute_dsl_native.cpp": "8549c00a37e3e2cea6dce8b9b174325be438b11ac431b6fb5cbbf4fd4b43c587",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\cute_dsl_host.py": "0dde4704364c1da3bb2bb4418e876e4036c9b1983f2edebdaf555e5643451222",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64\\cudart.lib": "fa32ce8a98655aee4e5afb5cbe022c8673990b34106055676f6dad9f134e3136",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64\\cuda.lib": "74b845cbc85bc8b4f477b2daf28c3370a2f2351f8585ada5f9752c962b2fedf6",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cuda.h": "7a79d67ca888061b1dfbe4739b51ad64f85a2f3ad874947ce09b2c635b4c7072",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cuda_runtime_api.h": "653d10792d9c576145fcb18956b661efdef7122b406ffb45a9e63f64602db6e6",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cuda_runtime.h": "a87442de29a171eb3a1ec2f522ad43137885ce9b79142b1de04579dda408b081",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\driver_types.h": "dd8c04447ff9999e4e78b7c3fa29a3fea9f7a59ce87ff8226b89ebbd5ba8afcb"
+    },
+    "environment": {
+      "PATH": "C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.13-windows-aarch64-none;C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64;C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Scripts;C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostARM64\\ARM64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\VC\\VCPackages;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\TestWindow;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\TeamFoundation\\Team Explorer;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\bin\\Roslyn;C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools\\;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\FSharp\\Tools;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Team Tools\\DiagnosticsHub\\Collector;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\Extensions\\Microsoft\\CodeCoverage.Console;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\\\arm64;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\\\arm64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\\\MSBuild\\Current\\Bin\\arm64;C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\Tools\\;C:\\Users\\user\\.codex\\tmp\\arg0\\codex-arg0AItBQZ;C:\\Program Files\\Microsoft SDKs\\Azure\\CLI2\\wbin;C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\arm64;C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR;C:\\Program Files\\dotnet\\;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\;C:\\Program Files\\Microsoft VS Code\\bin;C:\\Program Files\\WinDirStat\\;C:\\Program Files\\CMake\\bin;C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.1\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs\\;C:\\Program Files\\GitHub CLI\\;C:\\Program Files\\WSL\\;C:\\Users\\user\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\user\\AppData\\Local\\Microsoft\\WinGet\\Links;C:\\Users\\user\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;c:\\Users\\user\\.vscode\\extensions\\openai.chatgpt-26.1007.21434-win32-arm64\\bin\\windows-aarch64;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\Common7\\IDE\\VC\\Linux\\bin\\ConnectionManagerExe;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\vcpkg",
+      "INCLUDE": "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\include;C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\ATLMFC\\include;C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Auxiliary\\VS\\include;C:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.26100.0\\ucrt;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\um;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\shared;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\winrt;C:\\Program Files (x86)\\Windows Kits\\10\\\\include\\10.0.26100.0\\\\cppwinrt;C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.8\\include\\um",
+      "LIB": "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\ATLMFC\\lib\\ARM64;C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\lib\\ARM64;C:\\Program Files (x86)\\Windows Kits\\10\\lib\\10.0.26100.0\\ucrt\\arm64;C:\\Program Files (x86)\\Windows Kits\\10\\\\lib\\10.0.26100.0\\\\um\\arm64;C:\\Users\\user\\AppData\\Roaming\\uv\\python\\cpython-3.13-windows-aarch64-none\\libs",
+      "CL": "",
+      "_CL_": "",
+      "LINK": ""
+    }
+  },
+  "compile_inputs": {
+    "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tools\\windows\\cute_dsl_aot\\elementwise_factory.py": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
+    "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tools\\windows\\cute_dsl_aot\\host_factory.py": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f"
+  }
+}

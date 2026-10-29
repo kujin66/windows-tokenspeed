@@ -1,0 +1,46 @@
+--- flashinfer/ops/layernorm/__init__.py
++++ triton/ops/layernorm/__init__.py
+@@ -30,6 +30,7 @@
+ # attribute ``qk_rmsnorm_ssmax`` stays the module, which holds the facade of the
+ # same name.
+ import tokenspeed_kernel.ops.layernorm.qk_rmsnorm_ssmax  # noqa: F401
++import os
+ import torch
+ from tokenspeed_kernel.ops.layernorm.fused_norm import (
+     affine_rmsnorm,
+@@ -60,7 +61,7 @@
+ if _platform.is_npu:
+     from tokenspeed_kernel.ops.layernorm.ascend import qk_rmsnorm as _qk_rmsnorm
+     from tokenspeed_kernel.ops.layernorm.ascend import rmsnorm as _rmsnorm
+-elif _platform.is_amd:
++elif (_platform.is_amd or os.environ.get('TOKENSPEED_COMPARISON_OPS') == 'triton'):
+     from tokenspeed_kernel.ops.layernorm.triton import qk_rmsnorm as _qk_rmsnorm
+     from tokenspeed_kernel.ops.layernorm.triton import rmsnorm as triton_rmsnorm
+ else:
+@@ -79,7 +80,7 @@
+     out: torch.Tensor | None = None,
+ ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
+     """Apply RMSNorm with one platform-independent call contract."""
+-    if _platform.is_amd:
++    if (_platform.is_amd or os.environ.get('TOKENSPEED_COMPARISON_OPS') == 'triton'):
+         if residual is not None:
+             if out is not None:
+                 raise ValueError("fused add rmsnorm does not support out")
+--- flashinfer/ops/activation/__init__.py
++++ triton/ops/activation/__init__.py
+@@ -19,6 +19,7 @@
+ 
+ from __future__ import annotations
+ 
++import os
+ import torch
+ from tokenspeed_kernel.ops.activation.flashinfer import (
+     silu_and_mul as flashinfer_silu_and_mul,
+@@ -50,6 +51,7 @@
+         return npu_swiglu(x, out)
+     if (
+         limit is not None
++        or os.environ.get('TOKENSPEED_COMPARISON_OPS') == 'triton'
+         or current_platform().is_amd
+         or flashinfer_silu_and_mul is error_fn
+     ):

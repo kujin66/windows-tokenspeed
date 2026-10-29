@@ -1,0 +1,134 @@
+[
+  {
+    "name": "windows-flashinfer-repeat1",
+    "command": [
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tools\\windows\\run.py",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\launch_flashinfer0617.py",
+      "--ops",
+      "flashinfer",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\run_checked_benchmark.py",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\flashinfer-paired-retest-20261029\\windows-flashinfer-repeat1-environment.json",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tools\\perf\\benchmark_engine_matrix.py",
+      "--engine",
+      "tokenspeed",
+      "--backend",
+      "flashinfer",
+      "--platform",
+      "windows-arm64",
+      "--execution",
+      "graph",
+      "--model",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\models\\Qwen3-0.6B",
+      "--report",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\flashinfer-paired-retest-20261029\\windows-flashinfer-repeat1.json",
+      "--input-lengths",
+      "128",
+      "512",
+      "--batch-sizes",
+      "1",
+      "4",
+      "--output-length",
+      "128",
+      "--warmup",
+      "3",
+      "--rounds",
+      "5"
+    ],
+    "before": {
+      "timestamp": "2026-10-29T10:48:07.710823+00:00",
+      "gpu": "2026/10/29 18:48:07.690, NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU), 615.89, P0, 33, 0, [N/A], 0, 6.29",
+      "gpu_error": "",
+      "cpu_percent": 31.0,
+      "available_memory": 2287951872
+    }
+  },
+  {
+    "name": "wsl2-flashinfer-repeat1",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu-26.04",
+      "-u",
+      "root",
+      "--",
+      "bash",
+      "/mnt/c/Users/user/projects/official-repos/windows-tokenspeed/.port/retest_fi_wsl.sh",
+      "/mnt/c/Users/user/projects/official-repos/windows-tokenspeed/.port/flashinfer-paired-retest-20261029/wsl2-flashinfer-repeat1.json"
+    ],
+    "before": {
+      "timestamp": "2026-10-29T10:52:54.769327+00:00",
+      "gpu": "2026/10/29 18:52:54.736, NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU), 615.89, P0, 47, 0, [N/A], 0, 8.48",
+      "gpu_error": "",
+      "cpu_percent": 17.3,
+      "available_memory": 4065259520
+    }
+  },
+  {
+    "name": "wsl2-flashinfer-repeat2",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu-26.04",
+      "-u",
+      "root",
+      "--",
+      "bash",
+      "/mnt/c/Users/user/projects/official-repos/windows-tokenspeed/.port/retest_fi_wsl.sh",
+      "/mnt/c/Users/user/projects/official-repos/windows-tokenspeed/.port/flashinfer-paired-retest-20261029/wsl2-flashinfer-repeat2.json"
+    ],
+    "before": {
+      "timestamp": "2026-10-29T10:55:09.966672+00:00",
+      "gpu": "2026/10/29 18:55:09.943, NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU), 615.89, P0, 70, 0, [N/A], 0, 12.23",
+      "gpu_error": "",
+      "cpu_percent": 32.8,
+      "available_memory": 2064883712
+    }
+  },
+  {
+    "name": "windows-flashinfer-repeat2",
+    "command": [
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tools\\windows\\run.py",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\launch_flashinfer0617.py",
+      "--ops",
+      "flashinfer",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\run_checked_benchmark.py",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\flashinfer-paired-retest-20261029\\windows-flashinfer-repeat2-environment.json",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\tools\\perf\\benchmark_engine_matrix.py",
+      "--engine",
+      "tokenspeed",
+      "--backend",
+      "flashinfer",
+      "--platform",
+      "windows-arm64",
+      "--execution",
+      "graph",
+      "--model",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\models\\Qwen3-0.6B",
+      "--report",
+      "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\flashinfer-paired-retest-20261029\\windows-flashinfer-repeat2.json",
+      "--input-lengths",
+      "128",
+      "512",
+      "--batch-sizes",
+      "1",
+      "4",
+      "--output-length",
+      "128",
+      "--warmup",
+      "3",
+      "--rounds",
+      "5"
+    ],
+    "before": {
+      "timestamp": "2026-10-29T10:57:52.902564+00:00",
+      "gpu": "2026/10/29 18:57:52.884, NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU), 615.89, P0, 57, 0, [N/A], 0, 10.20",
+      "gpu_error": "",
+      "cpu_percent": 32.5,
+      "available_memory": 1388843008
+    }
+  }
+]

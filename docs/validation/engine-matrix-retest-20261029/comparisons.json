@@ -1,0 +1,917 @@
+{
+  "schema": 1,
+  "workload": {
+    "seed": 20261028,
+    "input_lengths": [
+      128,
+      512
+    ],
+    "batch_sizes": [
+      1,
+      4
+    ],
+    "output_length": 128,
+    "warmup": 3,
+    "rounds": 5,
+    "model_files": {
+      "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+      "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+    },
+    "gpu": {
+      "name": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+      "sm": [
+        12,
+        1
+      ],
+      "multiprocessors": 40
+    },
+    "benchmark_sha256": "90aae2d885835f00d24e91dde0c232a005a19b25c5f17c71d1ad672c30971deb"
+  },
+  "throughput": [
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "windows-vllm-auto": 137.78786576339272,
+      "windows-tokenspeed-triton": 143.6215654330198,
+      "windows-tokenspeed-flashinfer": 98.34478957961966,
+      "wsl2-vllm-auto": 143.01910768686676,
+      "wsl2-tokenspeed-triton": 141.98080270335095,
+      "wsl2-tokenspeed-flashinfer": 136.45635279551917
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "windows-vllm-auto": 585.1724434611042,
+      "windows-tokenspeed-triton": 597.7392939523298,
+      "windows-tokenspeed-flashinfer": 540.6685155000082,
+      "wsl2-vllm-auto": 549.2598469315196,
+      "wsl2-tokenspeed-triton": 571.5033218943647,
+      "wsl2-tokenspeed-flashinfer": 535.5629324765504
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "windows-vllm-auto": 134.78097081417692,
+      "windows-tokenspeed-triton": 130.0094230422733,
+      "windows-tokenspeed-flashinfer": 130.35337373900578,
+      "wsl2-vllm-auto": 134.45520718976135,
+      "wsl2-tokenspeed-triton": 125.92791303487174,
+      "wsl2-tokenspeed-flashinfer": 127.33681861752477
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "windows-vllm-auto": 509.2159736911297,
+      "windows-tokenspeed-triton": 522.4900110519117,
+      "windows-tokenspeed-flashinfer": 463.96212271288823,
+      "wsl2-vllm-auto": 496.44611793711465,
+      "wsl2-tokenspeed-triton": 499.85870985899675,
+      "wsl2-tokenspeed-flashinfer": 452.3876666646615
+    }
+  ],
+  "ratios": [
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "windows-vllm-auto",
+      "ratio": 1.0423382685935831,
+      "percent": 4.233826859358314,
+      "reference_ids_match": false,
+      "matching_positions": 86,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        4
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-vllm-auto",
+      "ratio": 0.7137405680446193,
+      "percent": -28.625943195538074,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-tokenspeed-triton",
+      "ratio": 0.6847494614273948,
+      "percent": -31.52505385726052,
+      "reference_ids_match": false,
+      "matching_positions": 86,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        4
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "wsl2-tokenspeed-triton",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 0.9927400960591285,
+      "percent": -0.7259903940871504,
+      "reference_ids_match": false,
+      "matching_positions": 86,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        4
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 0.9541127406156357,
+      "percent": -4.588725938436433,
+      "reference_ids_match": false,
+      "matching_positions": 86,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        4
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 0.9610901628766366,
+      "percent": -3.8909837123363378,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "windows-vllm-auto",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 0.9634227761025639,
+      "percent": -3.6577223897436117,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 1.0115562294227693,
+      "percent": 1.1556229422769349,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-flashinfer",
+      "ratio": 0.7207051014106323,
+      "percent": -27.929489858936773,
+      "reference_ids_match": false,
+      "matching_positions": 86,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        4
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "windows-vllm-auto",
+      "ratio": 1.0214754652780587,
+      "percent": 2.147546527805866,
+      "reference_ids_match": false,
+      "matching_positions": 350,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        100,
+        128,
+        8,
+        108
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-vllm-auto",
+      "ratio": 0.9239473279058225,
+      "percent": -7.605267209417754,
+      "reference_ids_match": false,
+      "matching_positions": 213,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        14,
+        0,
+        8,
+        48
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-tokenspeed-triton",
+      "ratio": 0.9045222908553289,
+      "percent": -9.547770914467113,
+      "reference_ids_match": false,
+      "matching_positions": 327,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        14,
+        0,
+        128,
+        48
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "wsl2-tokenspeed-triton",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 1.0404971801363414,
+      "percent": 4.04971801363414,
+      "reference_ids_match": false,
+      "matching_positions": 339,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        96,
+        0,
+        0,
+        106
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 0.975062960579609,
+      "percent": -2.493703942039105,
+      "reference_ids_match": false,
+      "matching_positions": 282,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        98,
+        0,
+        0,
+        48
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 0.9371125450352894,
+      "percent": -6.28874549647106,
+      "reference_ids_match": false,
+      "matching_positions": 404,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        96,
+        128,
+        128,
+        48
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "windows-vllm-auto",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 1.065383618937763,
+      "percent": 6.538361893776301,
+      "reference_ids_match": false,
+      "matching_positions": 353,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        98,
+        0,
+        0,
+        106
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 1.045906945861663,
+      "percent": 4.5906945861662996,
+      "reference_ids_match": false,
+      "matching_positions": 482,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        96,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-flashinfer",
+      "ratio": 1.0095331149970528,
+      "percent": 0.9533114997052783,
+      "reference_ids_match": false,
+      "matching_positions": 405,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        14,
+        0,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "windows-vllm-auto",
+      "ratio": 0.9645977637415732,
+      "percent": -3.5402236258426756,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-vllm-auto",
+      "ratio": 0.9671496870186853,
+      "percent": -3.285031298131469,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-tokenspeed-triton",
+      "ratio": 1.0026455828253358,
+      "percent": 0.26455828253357794,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "wsl2-tokenspeed-triton",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 0.9365789222067484,
+      "percent": -6.342107779325157,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 0.9470575463679131,
+      "percent": -5.294245363208693,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 1.011188191312778,
+      "percent": 1.118819131277804,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "windows-vllm-auto",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 1.0024228412660567,
+      "percent": 0.2422841266056741,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 1.0324114797826542,
+      "percent": 3.241147978265424,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-flashinfer",
+      "ratio": 1.0236895750516721,
+      "percent": 2.368957505167213,
+      "reference_ids_match": true,
+      "matching_positions": 128,
+      "total_positions": 128,
+      "common_prefix_lengths": [
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "windows-vllm-auto",
+      "ratio": 1.0260675981245504,
+      "percent": 2.6067598124550395,
+      "reference_ids_match": false,
+      "matching_positions": 511,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        6,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-vllm-auto",
+      "ratio": 0.9111303389596912,
+      "percent": -8.88696610403088,
+      "reference_ids_match": false,
+      "matching_positions": 511,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        6,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "windows-tokenspeed-triton",
+      "ratio": 0.8879827611992214,
+      "percent": -11.201723880077862,
+      "reference_ids_match": true,
+      "matching_positions": 512,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        128,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "wsl2-tokenspeed-triton",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 1.0068740429194258,
+      "percent": 0.6874042919425838,
+      "reference_ids_match": true,
+      "matching_positions": 512,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        128,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 0.9112522997349047,
+      "percent": -8.874770026509527,
+      "reference_ids_match": true,
+      "matching_positions": 512,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        128,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "wsl2-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 0.9050310772663616,
+      "percent": -9.496892273363844,
+      "reference_ids_match": true,
+      "matching_positions": 512,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        128,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "windows-vllm-auto",
+      "denominator": "wsl2-vllm-auto",
+      "ratio": 1.0257225412640505,
+      "percent": 2.572254126405049,
+      "reference_ids_match": false,
+      "matching_positions": 511,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        6,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-triton",
+      "denominator": "wsl2-tokenspeed-triton",
+      "ratio": 1.04527539632009,
+      "percent": 4.527539632009003,
+      "reference_ids_match": true,
+      "matching_positions": 512,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        128,
+        128,
+        128,
+        128
+      ]
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "numerator": "windows-tokenspeed-flashinfer",
+      "denominator": "wsl2-tokenspeed-flashinfer",
+      "ratio": 1.025585259946546,
+      "percent": 2.5585259946546035,
+      "reference_ids_match": true,
+      "matching_positions": 512,
+      "total_positions": 512,
+      "common_prefix_lengths": [
+        128,
+        128,
+        128,
+        128
+      ]
+    }
+  ],
+  "consistency": [
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 128,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 128,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-vllm-auto",
+      "input_length": 128,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-tokenspeed-triton",
+      "input_length": 128,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 128,
+      "batch_size": 4,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 128,
+      "batch_size": 4,
+      "repeat_consistent": false
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "repeat_consistent": false
+    },
+    {
+      "cell": "wsl2-vllm-auto",
+      "input_length": 128,
+      "batch_size": 4,
+      "repeat_consistent": false
+    },
+    {
+      "cell": "wsl2-tokenspeed-triton",
+      "input_length": 128,
+      "batch_size": 4,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "repeat_consistent": false
+    },
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 512,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 512,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-vllm-auto",
+      "input_length": 512,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-tokenspeed-triton",
+      "input_length": 512,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 1,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 512,
+      "batch_size": 4,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 512,
+      "batch_size": 4,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 4,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-vllm-auto",
+      "input_length": 512,
+      "batch_size": 4,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-tokenspeed-triton",
+      "input_length": 512,
+      "batch_size": 4,
+      "repeat_consistent": true
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 4,
+      "repeat_consistent": true
+    }
+  ],
+  "historical": [
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 128,
+      "batch_size": 1,
+      "old_tps": 144.75,
+      "new_tps": 137.78786576339272,
+      "new_over_old": 0.951902354151245
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 128,
+      "batch_size": 1,
+      "old_tps": 144.22,
+      "new_tps": 143.6215654330198,
+      "new_over_old": 0.9958505438428776
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 1,
+      "old_tps": 139.61,
+      "new_tps": 98.34478957961966,
+      "new_over_old": 0.7044251098031634
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 1,
+      "old_tps": 140.99,
+      "new_tps": 136.45635279551917,
+      "new_over_old": 0.9678441931734105
+    },
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 128,
+      "batch_size": 4,
+      "old_tps": 582.45,
+      "new_tps": 585.1724434611042,
+      "new_over_old": 1.0046741238923584
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 128,
+      "batch_size": 4,
+      "old_tps": 608.83,
+      "new_tps": 597.7392939523298,
+      "new_over_old": 0.9817835749754936
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "old_tps": 564.28,
+      "new_tps": 540.6685155000082,
+      "new_over_old": 0.9581564391791455
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "old_tps": 544.32,
+      "new_tps": 535.5629324765504,
+      "new_over_old": 0.9839119129860199
+    },
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 512,
+      "batch_size": 1,
+      "old_tps": 133.66,
+      "new_tps": 134.78097081417692,
+      "new_over_old": 1.008386733608985
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 512,
+      "batch_size": 1,
+      "old_tps": 128.36,
+      "new_tps": 130.0094230422733,
+      "new_over_old": 1.012849976957567
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 1,
+      "old_tps": 125.84,
+      "new_tps": 130.35337373900578,
+      "new_over_old": 1.0358659705896835
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 1,
+      "old_tps": 128.32,
+      "new_tps": 127.33681861752477,
+      "new_over_old": 0.9923380503236033
+    },
+    {
+      "cell": "windows-vllm-auto",
+      "input_length": 512,
+      "batch_size": 4,
+      "old_tps": 509.51,
+      "new_tps": 509.2159736911297,
+      "new_over_old": 0.9994229233795798
+    },
+    {
+      "cell": "windows-tokenspeed-triton",
+      "input_length": 512,
+      "batch_size": 4,
+      "old_tps": 515.84,
+      "new_tps": 522.4900110519117,
+      "new_over_old": 1.0128916157178809
+    },
+    {
+      "cell": "windows-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 4,
+      "old_tps": 502.62,
+      "new_tps": 463.96212271288823,
+      "new_over_old": 0.9230872681407191
+    },
+    {
+      "cell": "wsl2-tokenspeed-flashinfer",
+      "input_length": 512,
+      "batch_size": 4,
+      "old_tps": 477.95,
+      "new_tps": 452.3876666646615,
+      "new_over_old": 0.9465167207127555
+    }
+  ],
+  "reports_sha256": {
+    "windows-vllm-auto-graph.json": "86f131f4ea9a82033420a080497baf424e44532d4962af33ca76f338e7fa4f7b",
+    "windows-tokenspeed-triton-graph.json": "abe7ee1cbaf1daff6005e27c74d577c282a6fda357e76f56e65c2aabda2b5d4a",
+    "windows-tokenspeed-flashinfer-graph.json": "3534472e49f5469fdfb6cf393c9637b18ff44e0d862e48c1aeccebc44659d222",
+    "wsl2-vllm-auto-graph.json": "e5fa141704578f57fbbf051c32d429303d297e6bcadabfafc5e4988a9239cad9",
+    "wsl2-tokenspeed-triton-graph.json": "12caf7033ea8eb09ad1743a946af3dd660603af4b903e130f0780ba817aadae6",
+    "wsl2-tokenspeed-flashinfer-graph.json": "ce48bff6ed487ae241f27c0106b92953376ad077c8bfd770ade58a6788144850"
+  },
+  "scope": "Six fresh independent-engine/backend configurations; AOT router is inactive and inapplicable to this dense model; different package/graph policies prevent an OS-only or AOT speedup attribution."
+}

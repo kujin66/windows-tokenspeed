@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
+  "factory": "compile_transpose",
+  "parameters": {},
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "38c56b932e590e6f73a77036e483e43b2d65366abcc6b13982021d3f7f59c0c5",
+  "ptx_sha256": "22759510bf3f9d206d28320085471f265b9f9a2caa639dd890e94c652a48820c",
+  "entries": [
+    {
+      "name": "kernel_cutlass_transpose_ptrf32gmemalign16_ptrf32gmemalign16___0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_transpose_ptrf32gmemalign16_ptrf32gmemalign16___0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_transpose_ptrf32gmemalign16_ptrf32gmemalign16___0_param_1,\n\t.param .u32 kernel_cutlass_transpose_ptrf32gmemalign16_ptrf32gmemalign16___0_param_2,\n\t.param .u32 kernel_cutlass_transpose_ptrf32gmemalign16_ptrf32gmemalign16___0_param_3\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract"
+}

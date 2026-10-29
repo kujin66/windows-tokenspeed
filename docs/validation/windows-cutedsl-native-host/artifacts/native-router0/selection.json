@@ -1,0 +1,33 @@
+{
+  "schema": 2,
+  "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+  "selections": [
+    {
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block_size": 128,
+      "program": "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\cutedsl-native-host-validation\\pytest\\host-cache0\\native\\9867e3f36de5b963e146cc0f3f105aaf1045339a06464b14fe33044020bd5cde"
+    },
+    {
+      "shape_mnk": [
+        2,
+        896,
+        7168
+      ],
+      "block_size": 128,
+      "program": "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\cutedsl-native-host-validation\\pytest\\host-cache0\\native\\d1d4a79b98e9b38a42d2a4508e5ce05b53cbd90047579e7cdb4a382a8951dafc"
+    },
+    {
+      "shape_mnk": [
+        4,
+        896,
+        7168
+      ],
+      "block_size": 64,
+      "program": "C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\cutedsl-native-host-validation\\pytest\\host-cache0\\native\\3075f198281a2852a48f821044a10cdaeaaf75a1aedf4c9cea83b5931a438dea"
+    }
+  ]
+}

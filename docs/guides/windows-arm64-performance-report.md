@@ -1,31 +1,72 @@
-# TokenSpeed on Windows ARM64: Engine throughput, WSL2 and kernel backends
+# TokenSpeed on Windows ARM64: build, engine comparisons and CuTe validation
 
-## Latest practical alternative: direct vLLM comparison (2026-10-29)
+## Latest non-eager Windows/WSL2 comparison
 
-The primary engine-selection reference is now a [direct comparison with the
-installed native Windows ARM64 vLLM port](tokenspeed-vs-vllm.md), using freshly
-rerun TokenSpeed, identical Qwen3-0.6B BF16 weights, input 128/512, output 128,
-batch 1/4, three warmups/five measured rounds and normal text-output APIs.
-These are independent engines; the installed vLLM has no TokenSpeed toggle.
-Ratios below 1 mean TokenSpeed is slower; the earlier HF 3x ratio is not a gain
-over vLLM. The new cohort preserves failures, exact modes, IDs and raw timings.
+Current summary, aggregate output tokens/s: FlashInfer pools both confirmation
+runs; vLLM/Triton retain their earlier verified cohort. This explicitly combines
+cohorts and does not claim a new simultaneous six-configuration run or OS effect.
 
-| Execution mode | TokenSpeed Triton / vLLM | TokenSpeed FI / vLLM |
-| --- | ---: | ---: |
-| eager | 0.89–0.99x (-11.0% to -0.6%) | 1.07–1.19x (+6.8% to +19.5%) |
-| graph | 0.96–1.05x (-4.0% to +4.5%) | 0.94–0.99x (-5.9% to -1.4%) |
+| Input / batch | Win vLLM | Win TS Triton | Win TS FI | WSL2 vLLM | WSL2 TS Triton | WSL2 TS FI |
+| --- | --- | --- | --- | --- | --- | --- |
+| 128 / 1 | 137.79 | 143.62 | 141.63 | 143.02 | 141.98 | 138.85 |
+| 128 / 4 | 585.17 | 597.74 | 569.60 | 549.26 | 571.50 | 564.50 |
+| 512 / 1 | 134.78 | 130.01 | 130.94 | 134.46 | 125.93 | 132.60 |
+| 512 / 4 | 509.22 | 522.49 | 490.88 | 496.45 | 499.86 | 501.26 |
 
-**Eager versus vLLM:** triton: 0.6–11.0% lower; flashinfer: 6.8–19.5% higher.
+| Input / batch | vLLM Win / WSL2 | TS Triton Win / WSL2 | TS FI Win / WSL2 |
+| --- | --- | --- | --- |
+| 128 / 1 | 0.963x | 1.012x | 1.020x |
+| 128 / 4 | 1.065x | 1.046x | 1.009x |
+| 512 / 1 | 1.002x | 1.032x | 0.987x |
+| 512 / 4 | 1.026x | 1.045x | 0.979x |
 
-**Graph versus vLLM:** triton: -4.0% to +4.5% relative throughput; flashinfer: 1.4–5.9% lower.
+For input128/batch1, repeated Windows FI measures 145.12/138.30 tokens/s versus
+137.70/140.03 on WSL2. Its pooled ratio is 1.020x; the earlier large short-input
+drop did not reproduce. No measured sample is removed from either confirmation
+run. Old delayed calls remain archived; their cause is not established.
 
-There is no general throughput advantage over vLLM across modes/backends in
-this matrix; small graph differences are not a stable ranking from five rounds.
+The [full retest](windows-wsl2-engine-backend-retest.md) supplies every latest
+ratio, version/source check, method, graph-policy difference and consistency
+flag, with [raw evidence](../validation/flashinfer-paired-retest-20261029/).
+vLLM and TokenSpeed are independent engines; the measured vLLM has no
+TokenSpeed plugin or enable/disable toggle.
 
-The following historical backend/WSL2 tables and the separate HF control study
-remain independently dated references. New vLLM ratios apply to native Windows
-only; no WSL2 vLLM result or production serving/quality equivalence is claimed.
+## Eager comparison: separately measured cohort
 
+| Input / batch | vLLM | TS Triton | TS FlashInfer | TS Triton / vLLM | TS FI / vLLM |
+| --- | --- | --- | --- | --- | --- |
+| 128 / 1 | 59.00 | 58.65 | 63.02 | 0.994x | 1.068x |
+| 128 / 4 | 228.44 | 212.93 | 260.88 | 0.932x | 1.142x |
+| 512 / 1 | 61.60 | 54.82 | 67.90 | 0.890x | 1.102x |
+| 512 / 4 | 229.22 | 222.55 | 273.89 | 0.971x | 1.195x |
+
+These native eager measurements were not rerun during the latest FI confirmation.
+No WSL2 vLLM eager matrix exists. See [the engine guide](tokenspeed-vs-vllm.md)
+for cohort boundaries. [Transformers controls](tokenspeed-vs-transformers.md)
+remain a separately measured framework reference, not a gain over vLLM.
+
+## CuTe compiler and automatic router validation
+
+The [Windows-local compiler](windows-arm64-cutedsl-local-compiler.md) uses
+official Windows x64 CuTe4.8.1 under system emulation. Native ARM64 Python
+executes emitted GPU code; the newer [native-host route](windows-arm64-cutedsl-native-host.md)
+also compiles CuTe's original host launchers to ARM64 COFF/DLLs. Its recorded
+combined cohort passes 33 tests with zero failures/errors/skips, including
+dynamic arguments/layouts, host loops, concrete cluster/PDL/TMA cases,
+cache rejection and real TokenSpeed router auto dispatch at M=1/2/4.
+
+This does not supply an ARM64-native Python compiler extension or establish
+general CuTe/model support. Dense Qwen3 inference has no matching MoE router
+and records AOT inactive, so no model-throughput gain is attributed to CuTe.
+[Older router timings](windows-arm64-cutedsl-aot.md) are operation-level with
+wins and regressions retained. The exactly tested optional source snapshot is
+included with native-host evidence; restore it into the reconstructed validated
+port rather than PR main's different runtime API.
+
+## Earlier studies and build details
+
+The following build record, eager/backend measurements and HF controls retain
+their original dates and scopes; they do not replace the current summary above.
 
 ## Historical Windows/WSL2 backend study (2026-10-28)
 
