@@ -1,6 +1,35 @@
 # TokenSpeed on Windows ARM64: Engine throughput, WSL2 and kernel backends
 
-This report measures **TokenSpeed Engine.generate throughput** for Qwen3-0.6B
+## Latest practical alternative: direct vLLM comparison (2026-10-29)
+
+The primary engine-selection reference is now a [direct comparison with the
+installed native Windows ARM64 vLLM port](tokenspeed-vs-vllm.md), using freshly
+rerun TokenSpeed, identical Qwen3-0.6B BF16 weights, input 128/512, output 128,
+batch 1/4, three warmups/five measured rounds and normal text-output APIs.
+These are independent engines; the installed vLLM has no TokenSpeed toggle.
+Ratios below 1 mean TokenSpeed is slower; the earlier HF 3x ratio is not a gain
+over vLLM. The new cohort preserves failures, exact modes, IDs and raw timings.
+
+| Execution mode | TokenSpeed Triton / vLLM | TokenSpeed FI / vLLM |
+| --- | ---: | ---: |
+| eager | 0.89–0.99x (-11.0% to -0.6%) | 1.07–1.19x (+6.8% to +19.5%) |
+| graph | 0.96–1.05x (-4.0% to +4.5%) | 0.94–0.99x (-5.9% to -1.4%) |
+
+**Eager versus vLLM:** triton: 0.6–11.0% lower; flashinfer: 6.8–19.5% higher.
+
+**Graph versus vLLM:** triton: -4.0% to +4.5% relative throughput; flashinfer: 1.4–5.9% lower.
+
+There is no general throughput advantage over vLLM across modes/backends in
+this matrix; small graph differences are not a stable ranking from five rounds.
+
+The following historical backend/WSL2 tables and the separate HF control study
+remain independently dated references. New vLLM ratios apply to native Windows
+only; no WSL2 vLLM result or production serving/quality equivalence is claimed.
+
+
+## Historical Windows/WSL2 backend study (2026-10-28)
+
+This historical study measures **TokenSpeed Engine.generate throughput** for Qwen3-0.6B
 BF16 on native Windows ARM64 and WSL2. Within TokenSpeed, the adapted Windows
 FlashInfer path improves eager throughput by **30.75–40.73%** over its Windows
 Triton control.
@@ -83,8 +112,9 @@ a measured TokenSpeed speedup over another inference engine.
 **This historical 2026-10-28 matrix contains no non-TokenSpeed baseline.** The
 new [matched 2026-10-29 study](tokenspeed-vs-transformers.md) supplies real
 Transformers/PyTorch controls and graph/RMSNorm/cache/dispatcher ablations.
-Neither study measures an independent scheduler-only contribution or compares
-against vLLM or TensorRT-LLM.
+Neither historical/HF study isolates a scheduler-only contribution. The
+separate direct vLLM study above now supplies an engine comparison; TensorRT-LLM
+remains unmeasured.
 The separate operator/synchronization microbenchmarks are diagnostic experiments;
 their timings must not be presented as model-generation throughput.
 
@@ -393,6 +423,7 @@ bare-Linux TCC, nor as missing NCCL for a world-size-one workload.
 | [Investigation](../validation/windows-wsl2-diagnosis-20261028/README.md) | Microbenchmarks, synchronization tests, profiler summaries, earlier graph experiments |
 | [Final matrix](../validation/windows-flashinfer-0617-20261028/README.md) | Six raw runs, eight comparison rows, output IDs, probes, patches, source snapshots |
 | [Fresh no-TokenSpeed comparison](../validation/tokenspeed-vs-transformers-20261029/README.md) | Fresh paired engine runs; HF eager/graph, fusion/cache controls, backend and graph-state probes, source snapshots and comparison validator |
+| [Direct vLLM comparison](../validation/tokenspeed-vs-vllm-20261029/README.md) | Fresh native Windows engine runs with normal text-output APIs, per-case gains/losses, actual graph policy, diagnostics and source identities |
 
 Each record has an `evidence-sha256.json` manifest with original/public hashes.
 Public copies redact local user paths, hostnames and internal domains. The
@@ -406,15 +437,17 @@ refer to the tested source revisions.
 Run these publication checks from the PR checkout. Build and installed-wheel
 validation commands in the detailed guide run from the reconstructed checkout.
 
-The current publication checks passed 44 GPU-free tests for performance
+The current publication checks passed 58 GPU-free tests for performance
 aggregation, report compatibility, hash integrity, derived percentages and
-execution-mode labels, including 16 added matched-comparison checks. The
+execution-mode labels, including 16 HF comparison checks and 14 vLLM comparison
+checks. The direct vLLM publication verifies 41 evidence hashes and recomputes
+16 primary comparisons. The
 historical evidence verifier also verified all 152 manifest entries and all
 eight final comparison rows. Source reconstruction also verifies all 66 source
 postimages and 136 additional historical build evidence files. Real local-Git
 tests cover reconstruction, refusal to overwrite, corrupted input rejection
-and unexpected source differences. The historical GPU/model runs above were not
-rerun for this documentation change.
+and unexpected source differences. The 2026-10-28 GPU/model results remain
+unchanged; the separate 2026-10-29 studies contain fresh TokenSpeed measurements.
 
 ```bash
 python -m pytest test/tools --noconftest -q -o pythonpath=.

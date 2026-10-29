@@ -1,0 +1,207 @@
+[
+  {
+    "file": "commands.json",
+    "original_sha256": "4595abe3ebb3a31e30dd6082b75e3fa1e9d3b3ae555a55348e3d4f27d58cc83a",
+    "published_sha256": "473d8fe73b2af831b6544cff4d028f50a1fa5da722adcdf86d7c3cec2577cc15"
+  },
+  {
+    "file": "controller-outcomes.json",
+    "original_sha256": "a5dc2ec4e301a040c3a27d79d7083722fe7e80ae15ea563cc557c410a38addfa",
+    "published_sha256": "243f4b74bc311d2ac4cb9c43af19b1b4887ecc15d540e793ab05f1fe85f67087"
+  },
+  {
+    "file": "entrypoint-source-identity.json",
+    "original_sha256": "57b86e4148f4db2db98e24c7ce9a43d3a0e1b1985320986f94faf9e39f128e78",
+    "published_sha256": "604745cdfb1e1dd0f79b40626b6ce9babcd1188fcbd5aba1e75472243bfce9ef"
+  },
+  {
+    "file": "package-versions.json",
+    "original_sha256": "b8cff43d280e3d1045210a7951d8d54982d7384401f17305949b4ad0057ecd44",
+    "published_sha256": "6a0e5259c9075309279c9bbee39ee9a368b3a29a1156949cf9a33fc98fc718d1"
+  },
+  {
+    "file": "pilot-command.json",
+    "original_sha256": "4ef226cb9d4c8e06d75d82f58f7c454ef8f73dd1e70266bf9bb206e993e897fa",
+    "published_sha256": "6ab7b29cd26535c7ad0f1c88e0f37145118be84721b5efbe778ffd67e7f144b2"
+  },
+  {
+    "file": "pilot-controller-outcome.json",
+    "original_sha256": "4928c2ccffa07ec3f6a2f760d649c5951548e8e8ce80a952c17d52e838cd3b30",
+    "published_sha256": "206fdeef53d53e77c461704b2e952a2c88b9314c9b5e7ae6176077475a08c085"
+  },
+  {
+    "file": "pilot-vllm-auto-eager.json",
+    "original_sha256": "18c66af132c5677bb1f35681f576f4890d992f9d509387695bde256b748a7c4a",
+    "published_sha256": "cab80fabc23c14a3480c072fc9972e56206216eac9d22bf368d06d93b345dea2"
+  },
+  {
+    "file": "pilot-vllm-auto-eager.log",
+    "original_sha256": "8c7c0ceb127616ba61d314edfa4cab4f70f186e5c72653ee1179bfa72588cc55",
+    "published_sha256": "611bf6deda58cace6323f54faad28b3fa42aea08c0c7b2f21c881a498d5f3d7a"
+  },
+  {
+    "file": "selected-vllm.json",
+    "original_sha256": "8daef3013ec9a0d489d719a993820eb1406e4f806cbbee13317f1031fa3c7abe",
+    "published_sha256": "d75d5f855b49595496e82fea293282513b5b6ac4b9557c394a23caf36ad6c9b0"
+  },
+  {
+    "file": "selection-token-only.json",
+    "original_sha256": "8c7d71d0bd9d848f7240c5b9c814079697ac09dff8d001a8a2dd1a571a54bf52",
+    "published_sha256": "e21a7f566033f090e89d55063073fa78ebcf94c03b2cf666de3d63ff2e550768"
+  },
+  {
+    "file": "source-sha256.json",
+    "original_sha256": "bbbf6718624511d60f1e0622c48215e2b407c2886fa23d65a6cfae13bec73ead",
+    "published_sha256": "9a2220cb5b42b2fb26917b3f15013e29b5e0342191c08b7567f39fe7c7871212"
+  },
+  {
+    "file": "sources/benchmark_vllm.py",
+    "original_sha256": "765d0f5bd142854827ca18e0798763a87f87e81b0df00652159d055cd1630a98",
+    "published_sha256": "765d0f5bd142854827ca18e0798763a87f87e81b0df00652159d055cd1630a98"
+  },
+  {
+    "file": "sources/benchmark_vllm_text.py",
+    "original_sha256": "36c1b47c347cc38453551030cd801ab685448c2b82c1c05c0fce47be773079e8",
+    "published_sha256": "36c1b47c347cc38453551030cd801ab685448c2b82c1c05c0fce47be773079e8"
+  },
+  {
+    "file": "sources/flashinfer_comparison_bench.py",
+    "original_sha256": "9388ebbb2208d5ec8f4f8fc55c37eb6c0a08b5c6dc48cab47193e14fe6199026",
+    "published_sha256": "9388ebbb2208d5ec8f4f8fc55c37eb6c0a08b5c6dc48cab47193e14fe6199026"
+  },
+  {
+    "file": "sources/launch_flashinfer0617.py",
+    "original_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde",
+    "published_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde"
+  },
+  {
+    "file": "sources/launch_vllm_comparison.py",
+    "original_sha256": "3fde5e38cb336731b13844819916809d827fc0415eca5c998ebb892b47aac64b",
+    "published_sha256": "3fde5e38cb336731b13844819916809d827fc0415eca5c998ebb892b47aac64b"
+  },
+  {
+    "file": "sources/launch_vllm_text_comparison.py",
+    "original_sha256": "d72cfb2ea34a4cf67774a2c85b6681510e8edf188a36adaa173c61fd23f13337",
+    "published_sha256": "d72cfb2ea34a4cf67774a2c85b6681510e8edf188a36adaa173c61fd23f13337"
+  },
+  {
+    "file": "sources/pilot-benchmark-vllm-initial.py",
+    "original_sha256": "4a9c6d3bc077467e4005bf675acdc144809ff2ec59333a89cb94af45eb38df62",
+    "published_sha256": "4a9c6d3bc077467e4005bf675acdc144809ff2ec59333a89cb94af45eb38df62"
+  },
+  {
+    "file": "sources/run_vllm_comparison.py",
+    "original_sha256": "8c5cdcce772ab3c4035f6f0c6e06bc661f527ebffe4c2b268fe7da8ae69ae04c",
+    "published_sha256": "8c5cdcce772ab3c4035f6f0c6e06bc661f527ebffe4c2b268fe7da8ae69ae04c"
+  },
+  {
+    "file": "sources/run_vllm_text_followup.py",
+    "original_sha256": "9a2eff7a3581c2200900452bcbd91186b7011b6001d3fd1559960ae2b2a02620",
+    "published_sha256": "9a2eff7a3581c2200900452bcbd91186b7011b6001d3fd1559960ae2b2a02620"
+  },
+  {
+    "file": "text-commands.json",
+    "original_sha256": "bd6b6bc07365ecb0f8220f89ca39ccb824f08543063ef6a4afd14d6f7516a7d5",
+    "published_sha256": "731b984cabb957ac0301f55d88385332964e9c9e1cf4d72ecbc29f2f116e9db7"
+  },
+  {
+    "file": "text-controller-outcomes.json",
+    "original_sha256": "2417706b32555243689a35c9e6bfc876eb6ab91f6840554acbf72af6337f2cea",
+    "published_sha256": "26fd227c4e67eeba4777004a9ae9b099ef62df4756dc2c951298e3b18bd077c2"
+  },
+  {
+    "file": "tool-tests.log",
+    "original_sha256": "c59f9f1ff39d649043210d70aa527997be4b6f7363d00f7da2a68148a247363b",
+    "published_sha256": "9d79560591d69965ef511a890c5e1e35b9210e80c648de67a4db021cfd1ff75c"
+  },
+  {
+    "file": "tool-tests.xml",
+    "original_sha256": "d3242d30ee5aa750811300bd9c3c92f499e26b2d68d3f0c7d8aa55a0ad9c7d45",
+    "published_sha256": "15558252c3030187fdcb3f9ff3d8fdb9a155f014edf9577c576a8ba1dabde254"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-eager.json",
+    "original_sha256": "11d9f837bba2c78f37a8b5b1bca8752106fd1d102a053828413a04f1ab8cea1a",
+    "published_sha256": "d33b0e6344dd46368a30851ec9eb0cd3e43bc09d7d17468aaeced02213396663"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-eager.log",
+    "original_sha256": "ee1f659b053b4e06bd7c7867542432f88791aa3d5a8ac300322a93ba369ccf0f",
+    "published_sha256": "040d914e69236d8d6a8f0fce695717afbc7efad4a63772a53761c302999a9eef"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-graph.json",
+    "original_sha256": "6125c407fc658d7ffdc330ca0bf0c48226e91ec535a33784ccbf4c16017ee928",
+    "published_sha256": "89188b080d8e5db29817bb1882a33187435a0cafc2501a5b5f7944e784b8c627"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-graph.log",
+    "original_sha256": "9a2d19162a64c055f0663954bd9a94aa4414c4b061b3d2c1989133d28b3f14c0",
+    "published_sha256": "0b4d5d9ab7ff0c1e1ab54a9b26b1b6b18c34dcf8cbe655f46b10d63862d86dbc"
+  },
+  {
+    "file": "windows-tokenspeed-triton-eager.json",
+    "original_sha256": "bf24b3a835ec4005fa9d9bcb661219aaeba1130e4c41ccd1cc0f0bb45c7879b4",
+    "published_sha256": "79e731f18c1f96a93b303584819267858245a5bdaaccfb8014a7a7a2148aacba"
+  },
+  {
+    "file": "windows-tokenspeed-triton-eager.log",
+    "original_sha256": "0624c78babb8c6937c6a012b7a31276e603096b7e18fd39e8ae274d3387eb7b1",
+    "published_sha256": "9b417939afd6aab65f531ca0052771ef811039cc13168ba45c0fad7f89c9367f"
+  },
+  {
+    "file": "windows-tokenspeed-triton-graph.json",
+    "original_sha256": "7cf2cbe8d2ea02bbf4c615f933aee259a353c2d1a5340c6355b44f54d57dddd9",
+    "published_sha256": "fe07388a3b352c28b45184d99f7c6f7db8ec25369d16c7d5dfce973d7bde4c28"
+  },
+  {
+    "file": "windows-tokenspeed-triton-graph.log",
+    "original_sha256": "cbf327ca3797b1c267eda7d9bbe0895d869945c29576762b4fc092a00cd5f766",
+    "published_sha256": "159041dfddcbed5e78f77577b8c120bf85d3da09062b308d2c115e9730a72316"
+  },
+  {
+    "file": "windows-vllm-auto-eager-default.json",
+    "original_sha256": "b2846510b0aaebe27deb68554b14d967d06cea00fdfc14f02d9edfe0883fe5d1",
+    "published_sha256": "c41cdde706820abade1f2369a4d42d3126df0d1f0fdbe51a67c0cab168aa8f13"
+  },
+  {
+    "file": "windows-vllm-auto-eager-default.log",
+    "original_sha256": "6487303f24fd44fffd90e34e593976c4c7f9ca3159078ba2e113deb9db35884c",
+    "published_sha256": "2c4d86ab92380b246d419d3cce23041451c74bbcf9cb8c050e2eb5ef84472e00"
+  },
+  {
+    "file": "windows-vllm-auto-graph-default.json",
+    "original_sha256": "a5a805245f24373ac7d51425095c9ac188ccb5db1fce0e96a93df35e814d8ab8",
+    "published_sha256": "066dd9c5436dd3ce00cff7a423eeb86d5fade2f9438a8b2c77c0e717271519f5"
+  },
+  {
+    "file": "windows-vllm-auto-graph-default.log",
+    "original_sha256": "47a53a93a51ab7c7ba9c20230883a155c360fda15c2a09b3f9d9473672de6f1e",
+    "published_sha256": "2c47f46028592e185cf5afa09f351c0b40af0a535cb33cada4ffe0e2e073cab0"
+  },
+  {
+    "file": "windows-vllm-text-eager.json",
+    "original_sha256": "876e56212a65628b441d7d0427a7e6119f68fcd5425bfa531896cadfe1508bfb",
+    "published_sha256": "e727b76fb25263232d47e48aa47b39e1971a04398b36c471e82035e92f622442"
+  },
+  {
+    "file": "windows-vllm-text-eager.log",
+    "original_sha256": "f7f05f4249d3f0d22748415c66b8bf4d3c6aebb7d37d42e3bae0fb3b506356cb",
+    "published_sha256": "d5eeed3fbbda5746bb9f404cc23b6998f5a281a325742048f2a1bdd89f1a69bc"
+  },
+  {
+    "file": "windows-vllm-text-graph.json",
+    "original_sha256": "af3a779971bf2b1d753e51673b3bc03581763f9fd95ccad47c6e66674ebff3dc",
+    "published_sha256": "11e46132e373639adcb85274f756eba56af6274e45a4f997b49d31dcd83ca6dc"
+  },
+  {
+    "file": "windows-vllm-text-graph.log",
+    "original_sha256": "11307266d03e4025cf3fe4840028576bbf670c7490afcd2586ef2f5e30bcd4d1",
+    "published_sha256": "38eb5f6850eb71e777a0d3ae78956cf941f97604d8cfc6d8a828d6ff9b289b67"
+  },
+  {
+    "file": "results.json",
+    "published_sha256": "b0940496dc20ded6004d961b2064d88eba99a96797a0aadaa029cfd74f915dcb",
+    "generated_from": "selected paired reports and recorded controller outcomes"
+  }
+]

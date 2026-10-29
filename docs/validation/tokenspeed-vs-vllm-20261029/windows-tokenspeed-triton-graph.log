@@ -1,0 +1,280 @@
+NVML failed to query NUMA affinity: Not Supported
+[2026-10-29 14:25:45,930 None] - INFO - Specified world_size (1) (server_args.py:1073)
+[2026-10-29 14:25:45,931 None] - INFO - Parallelism configuration:
+Mapping(rank=?, world_size=1)
+  Cluster : 1 node(s) x 1 proc(s)
+  Pipeline: pp=1
+  Attention: tp=1  kvp=1  qcp=1  dp=1  head_tp=1
+    Vision: tp=1  item_dp=1
+  LM head : tp=1
+  Dense   : tp=1  dp=1
+  MoE     : tp=1  ep=1  dp=1 (server_args.py:1203)
+[2026-10-29 14:25:46,453 None] - INFO - server_args=ServerArgs(model='C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\models\\Qwen3-0.6B', tokenizer='C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\models\\Qwen3-0.6B', tokenizer_mode='auto', skip_tokenizer_init=False, load_format='auto', trust_remote_code=True, dtype='bfloat16', kv_cache_dtype='auto', kv_cache_quant_method='none', quantization=None, quantization_param_path=None, max_model_len=704, device='cuda', served_model_name='C:\\Users\\user\\projects\\official-repos\\windows-tokenspeed\\.port\\models\\Qwen3-0.6B', revision=None, language_model_only=False, data_parallel_address='127.0.0.1', data_parallel_rpc_port=30500, zmq_engine_index=0, host='127.0.0.1', port=8000, gpu_memory_utilization=0.25, max_num_seqs=4, max_total_tokens=2816, chunked_prefill_size=8192, max_prefill_tokens=8192, enable_mixed_batch=False, prefix_granularity=64, enable_state_checkpoint_in_forward=False, kv_offload_config=None, mamba_ssm_dtype='float32', stream_interval=1, stream_output=False, enable_inline_detokenizer=True, seed=20261028, distributed_timeout_seconds=None, download_dir=None, ext_yaml=None, base_gpu_id=0, gpu_id_step=1, log_level='warning', enable_log_requests=True, log_requests_level=0, enable_log_request_stats=False, enable_metrics=False, decode_log_interval=40, metrics_reporters=['prometheus'], metrics_reporter_config=None, metrics_port=None, metrics_host=None, app_key=None, kv_events_config=None, rl_control_port=None, rl_control_host=None, weight_version='default', model_update_config=None, model_update_sdk_module=None, model_update_engine_type=None, model_update_draft_weights=None, data_parallel_size=None, pipeline_parallel_size=1, pp_layer_partition=None, load_balance_method='shortest_queue', load_watch_interval=0.02, ep_size=1, init_expert_location='trivial', ep_num_redundant_experts=0, ep_dispatch_algorithm=None, eplb_algorithm='auto', expert_distribution_recorder_mode=None, enable_eplb=False, eplb_rebalance_num_iterations=None, eplb_rebalance_layers_per_chunk=None, dense_gemm_backend='auto', moe_backend='auto', draft_moe_backend=None, moe_mxfp4_fp8_activation=False, all2all_backend='none', deepep_mode='auto', disable_flashinfer_cutlass_moe_fp4_allgather=False, enable_kvstore=False, kvstore_ratio=2.0, kvstore_size=0, kvstore_io_backend='kernel', kvstore_storage_backend=None, kvstore_storage_backend_extra_config=None, retraction_snapshot_host_gb=0.0, retraction_snapshot_ratio=0, retraction_snapshot_max_requests=0, debug_force_retraction_interval=0, dist_init_addr=None, nnodes=1, node_rank=0, hf_overrides='{}', preferred_sampling_params=None, attention_backend='triton', kda_backend='auto', drafter_attention_backend=None, skip_softmax_threshold=0.0, sampling_backend='greedy', sampling_stream='batch', dp_sampling=False, dp_sampling_min_bs=None, attention_use_fp4_indexer_cache=None, use_trtllm_ragged_deepseek_prefill=None, kv_parallel_size=1, decode_context_parallel_size=1, query_context_parallel_size=1, deepseek_v41_attention_query_swa_min_tokens=4096, deepseek_v41_attention_query_min_tokens=1024, deepseek_v41_attention_query_parallel_size=1, deepseek_v41_indexer_query_parallel_size=1, deepseek_v4_mega_moe_max_num_tokens=0, deepseek_v4_indexer_prefill_max_logits_mb=512, deepseek_v4_prefill_chunk_size=4, engram_host_table=False, engram_host_table_dir=None, engram_host_table_layout='auto', grammar_backend='none', constrained_decoding=None, reasoning_parser=None, grammar_compile_timeout_secs=30.0, grammar_compile_max_retries=2, disable_any_whitespace=False, disable_capturable_grammar=False, draft_model_path_use_base=False, speculative_config=None, speculative_algorithm=None, speculative_draft_model_path=None, speculative_draft_model_quantization=None, speculative_num_steps=3, speculative_eagle_topk=1, speculative_num_draft_tokens=4, synthetic_acceptance_length=None, enable_speculative_sampling=False, spec_reject_draft_prob_threshold=2.0, enable_replay_ssm=True, eagle3_layers_to_capture=None, speculative_exec_mode=-1, speculative_data_path=None, speculative_compute_intensity='high_intensity', speculative_chain_width_table='off', enable_output_logprobs=False, input_logprob_chunk_tokens=256, disable_pdl=False, enable_prefix_caching=False, disable_kvstore=True, enforce_eager=False, disable_cuda_graph_padding=False, disable_autotune=False, enable_cudagraph_gc=False, disable_nccl_nvls=False, disable_symm_mem=False, disable_overlap_schedule=False, disable_tf32=False, force_deterministic_rsag=False, batch_invariant_collectives=False, disable_sampling_tp_sync=False, numerics='auto', yarn_ramp_mask_device='cuda', mla_lora_scale='folded', layer_boundary_norm='fused', router_topk='fused', logprob_order='torch', moe_combine_order='rank', dsa_slot_order='selection', low_latency_max_num_tokens_per_gpu=256, max_cudagraph_capture_size=4, disable_prefill_graph=True, disable_kda_prefill_graph=False, prefill_graph_max_tokens=None, prefill_graph_capture_sizes=None, prefill_graph_capture_batch_sizes=None, cudagraph_capture_sizes=[1, 4], enable_nan_detection=False, enable_nvtx=False, weight_loader_prefetch_checkpoints=True, weight_loader_prefetch_num_threads=8, enable_memory_saver=False, disable_cudagraph_memory_reserve=False, mla_disable_ragged=False, nprocs_per_node=None, world_size=1, attn_tp_size=None, attn_head_tp_size=None, lm_head_tp_size=None, tp_batch_invariant='none', dense_tp_size=None, moe_tp_size=None, mapping=Mapping(rank=?, world_size=1)
+  Cluster : 1 node(s) x 1 proc(s)
+  Pipeline: pp=1
+  Attention: tp=1  kvp=1  qcp=1  dp=1  head_tp=1
+    Vision: tp=1  item_dp=1
+  LM head : tp=1
+  Dense   : tp=1  dp=1
+  MoE     : tp=1  ep=1  dp=1, emulate_rank_zero=False, mla_chunk_multiplier=4, mm_attention_backend=None, mm_encoder_tp_mode='weights', disaggregation_mode='null', disaggregation_bootstrap_port=8998, disaggregation_transfer_backend='mooncake', disaggregation_ib_device=None, disaggregation_layerwise_interval=1, pdlb_url=None, comm_fusion_max_num_tokens=2048, enable_allreduce_fusion=False, enable_expert_parallel=False) (engine.py:162)
+NVML failed to query NUMA affinity: Not Supported
+C:\Users\user\projects\official-repos\windows-tokenspeed\.venv\Lib\site-packages\transformers\modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+  warnings.warn(
+[W1029 14:26:16.000000000 socket.cpp:764] [c10d] The client socket has failed to connect to [HOST]:8233 (system error: 10049 - The requested address is not valid in its context.).
+[2026-10-29 14:26:18 ATTN TP RANK 0] Routed normalization cluster kernel unavailable; using Triton: No module named 'cutlass'
+
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.40s/it]
+
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.40s/it]
+
+2026-10-29 14:26:27,004 - INFO - autotuner.py:2397 - flashinfer.jit: [Autotuner]: Loaded 0 configs from C:\Users\user\AppData\Local\Temp\tmpfb209pej\tactics.json
+2026-10-29 14:26:27,006 - INFO - autotuner.py:829 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+2026-10-29 14:26:29,101 - INFO - autotuner.py:852 - flashinfer.jit: [Autotuner]: Autotuning process ends
+2026-10-29 14:26:29,257 - INFO - autotuner.py:2269 - flashinfer.jit: [Autotuner]: Saved 0 configs to C:\Users\user\AppData\Local\Temp\tmpr92hoyb3\tactics.json (0 new, 0 from previous config)
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+Capturing batches (bs=4 avail_mem=10.53 GB):   0%|          | 0/2 [00:00<?, ?it/s]
+Capturing batches (bs=4 avail_mem=10.53 GB):  50%|█████     | 1/2 [00:00<00:00,  2.59it/s]
+Capturing batches (bs=1 avail_mem=10.47 GB):  50%|█████     | 1/2 [00:00<00:00,  2.59it/s]
+Capturing batches (bs=1 avail_mem=10.47 GB): 100%|██████████| 2/2 [00:00<00:00,  4.11it/s]
+Capturing batches (bs=1 avail_mem=10.47 GB): 100%|██████████| 2/2 [00:00<00:00,  3.77it/s]
+
+  0%|          | 0/2 [00:00<?, ?it/s]
+Capturing batches (bs=4 avail_mem=10.16 GB):   0%|          | 0/2 [00:00<?, ?it/s]
+Capturing batches (bs=4 avail_mem=10.16 GB):  50%|█████     | 1/2 [00:00<00:00,  7.49it/s]
+Capturing batches (bs=1 avail_mem=10.25 GB):  50%|█████     | 1/2 [00:00<00:00,  7.49it/s]
+Capturing batches (bs=1 avail_mem=10.25 GB): 100%|██████████| 2/2 [00:00<00:00,  9.00it/s]
+2026-10-29T06:26:33.193701Z  INFO ts_collective: collective mesh connected rank=0 world=1
+2026-10-29T06:26:33.240823Z  INFO ts_control::transport: connected to the frontend engine_index=0 input_address="tcp://127.0.0.1:57342" output_address="tcp://127.0.0.1:57343"
+C:\Users\user\projects\official-repos\windows-tokenspeed\.venv\Lib\site-packages\transformers\modeling_rope_utils.py:1036: FutureWarning: `rope_config_validation` is deprecated and has been removed. Its functionality has been moved to RotaryEmbeddingConfigMixin.validate_rope method. PreTrainedConfig inherits this class, so please call self.validate_rope() instead. Also, make sure to use the new rope_parameters syntax. You can call self.standardize_rope_params() in the meantime.
+  warnings.warn(
+2026-10-29T06:26:33.448411Z  INFO ts_host: serving rank=0 engine_index=0 replica_ranks=[0] pp_ranks=None dp_ranks=None in_flight_depth=1
+[2026-10-29 14:26:33,815 ] - WARNING - Signal handler is not added because the tokenizer manager is not in the main thread. This disables graceful shutdown of the tokenizer manager when SIGTERM is received. (async_llm.py:680)
+2026-10-29T06:26:33.828855Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:34.951077Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 166.0, #pages(active/cached/total): 4/0/44, page ratio: 0.09, gen throughput (token/s): 24.64, #queue-req: 0
+2026-10-29T06:26:35.223655Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 206.0, #pages(active/cached/total): 4/0/44, page ratio: 0.09, gen throughput (token/s): 146.75, #queue-req: 0
+2026-10-29T06:26:35.493127Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 246.0, #pages(active/cached/total): 4/0/44, page ratio: 0.09, gen throughput (token/s): 148.44, #queue-req: 0
+2026-10-29T06:26:35.561309Z  INFO ts_control::output: Req: e9baecd93355448caa5c9571147382e6 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:35.573035Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:35.780629Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 157.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 132.17, #queue-req: 0
+2026-10-29T06:26:36.046347Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 197.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 150.54, #queue-req: 0
+2026-10-29T06:26:36.314282Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 237.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 149.29, #queue-req: 0
+2026-10-29T06:26:36.442194Z  INFO ts_control::output: Req: bb2b4f679d4b420591530e973bf75c64 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:36.448987Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:36.593476Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 148.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 136.11, #queue-req: 0
+2026-10-29T06:26:36.857385Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 188.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 151.57, #queue-req: 0
+2026-10-29T06:26:37.126301Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 228.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 148.74, #queue-req: 0
+2026-10-29T06:26:37.315132Z  INFO ts_control::output: Req: b52326a071154e009d790bce00e5b817 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:37.321889Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:37.406681Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 139.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 135.53, #queue-req: 0
+2026-10-29T06:26:37.672850Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 179.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 150.28, #queue-req: 0
+2026-10-29T06:26:37.939572Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 219.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 149.97, #queue-req: 0
+2026-10-29T06:26:38.192539Z  INFO ts_control::output: Req: 76bfc2e40b9a4726b4729c8e45c935bd Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:38.199580Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:38.237199Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 130.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 127.68, #queue-req: 0
+2026-10-29T06:26:38.503152Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 170.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 150.40, #queue-req: 0
+2026-10-29T06:26:38.776327Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 210.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 146.43, #queue-req: 0
+2026-10-29T06:26:39.044192Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 250.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 149.33, #queue-req: 0
+2026-10-29T06:26:39.085237Z  INFO ts_control::output: Req: 22d862c550224771afb3efba6e506648 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:39.092051Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:39.325907Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 161.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 134.89, #queue-req: 0
+2026-10-29T06:26:39.594953Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 201.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 148.67, #queue-req: 0
+2026-10-29T06:26:39.862323Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 241.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 149.61, #queue-req: 0
+2026-10-29T06:26:39.964276Z  INFO ts_control::output: Req: 11c646c1347f4139989b8c6b52e99103 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:39.971345Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:40.145974Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 152.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 133.97, #queue-req: 0
+2026-10-29T06:26:40.410253Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 192.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 151.36, #queue-req: 0
+2026-10-29T06:26:40.675608Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 232.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 150.74, #queue-req: 0
+2026-10-29T06:26:40.840246Z  INFO ts_control::output: Req: 6941810959d345418a20ed68e9b476de Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:40.847039Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:40.975238Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 143.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 126.82, #queue-req: 0
+2026-10-29T06:26:41.256243Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 183.0, #pages(active/cached/total): 4/2/44, page ratio: 0.09, gen throughput (token/s): 142.35, #queue-req: 0
+2026-10-29T06:26:41.526264Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 223.0, #pages(active/cached/total): 4/1/44, page ratio: 0.09, gen throughput (token/s): 148.14, #queue-req: 0
+2026-10-29T06:26:41.751952Z  INFO ts_control::output: Req: 0731361a74cb491498162531a2fe9a38 Finish! Accept_num_tokens_avg: 0
+input=128 batch=1: 144.22 tok/s
+2026-10-29T06:26:41.760530Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:41.783354Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 3, #new-token: 384, #cached-token: 0, #running-req: 3, #queue-req: 0
+2026-10-29T06:26:41.843731Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 132.2, #pages(active/cached/total): 16/4/44, page ratio: 0.36, gen throughput (token/s): 144.90, #queue-req: 0
+2026-10-29T06:26:42.093601Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 172.2, #pages(active/cached/total): 16/4/44, page ratio: 0.36, gen throughput (token/s): 640.34, #queue-req: 0
+2026-10-29T06:26:42.348170Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 212.2, #pages(active/cached/total): 16/4/44, page ratio: 0.36, gen throughput (token/s): 628.51, #queue-req: 0
+2026-10-29T06:26:42.609306Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 252.2, #pages(active/cached/total): 16/4/44, page ratio: 0.36, gen throughput (token/s): 612.71, #queue-req: 0
+2026-10-29T06:26:42.627966Z  INFO ts_control::output: Req: f84747ba47474465a4fd645268a81d57 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:42.641338Z  INFO ts_control::output: Req: b35e5ee92b8e4bb290eb46f9be52c658 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:42.641469Z  INFO ts_control::output: Req: f47724e4f7704454a7558b1e75c15053 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:42.641518Z  INFO ts_control::output: Req: 15d31fec10344d699905c5f1e24bf475 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:42.653194Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 512, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:26:42.911583Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 163.0, #pages(active/cached/total): 16/12/44, page ratio: 0.36, gen throughput (token/s): 499.54, #queue-req: 0
+2026-10-29T06:26:43.159659Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 203.0, #pages(active/cached/total): 16/8/44, page ratio: 0.36, gen throughput (token/s): 644.96, #queue-req: 0
+2026-10-29T06:26:43.416590Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 243.0, #pages(active/cached/total): 16/8/44, page ratio: 0.36, gen throughput (token/s): 622.74, #queue-req: 0
+2026-10-29T06:26:43.500101Z  INFO ts_control::output: Req: b67c1cab93ba4d18af34f4605e8ac3da Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:43.500137Z  INFO ts_control::output: Req: 41171faf54054459bcbf5776f2d5835a Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:43.500141Z  INFO ts_control::output: Req: b1df344134984769b9a8fde8f668b3ec Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:43.500146Z  INFO ts_control::output: Req: e30fe33000434258bc85b501446ad677 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:43.506838Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:43.530562Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 3, #new-token: 384, #cached-token: 0, #running-req: 3, #queue-req: 0
+2026-10-29T06:26:43.700909Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 152.2, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 509.99, #queue-req: 0
+2026-10-29T06:26:43.950975Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 192.2, #pages(active/cached/total): 16/12/44, page ratio: 0.36, gen throughput (token/s): 639.83, #queue-req: 0
+2026-10-29T06:26:44.206781Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 232.2, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 625.47, #queue-req: 0
+2026-10-29T06:26:44.355952Z  INFO ts_control::output: Req: 3b71fc1ddc2c426d8a4dd59cbc7a4f1b Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:44.362264Z  INFO ts_control::output: Req: 6dde0bfd9a16466486322b2d0d31ebf6 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:44.362272Z  INFO ts_control::output: Req: 7000448c2b6f404183145772f7716788 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:44.362276Z  INFO ts_control::output: Req: 1b08b32e0553416c9e2bd30a9711afb5 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:44.368990Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 512, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:26:44.475685Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 143.0, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 561.54, #queue-req: 0
+2026-10-29T06:26:44.725850Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 183.0, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 639.58, #queue-req: 0
+2026-10-29T06:26:44.977205Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 223.0, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 636.57, #queue-req: 0
+2026-10-29T06:26:45.185534Z  INFO ts_control::output: Req: af2d80faabbf465bbcdf77ea3d8d3e97 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:45.185569Z  INFO ts_control::output: Req: 7cf0f94d639e45d5856338c33826a2a5 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:45.185574Z  INFO ts_control::output: Req: 45d05c708193486ca1c9d6b69c69b467 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:45.185578Z  INFO ts_control::output: Req: cea956b89514464e96b4aa1f74159e43 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:45.192202Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 3, #new-token: 384, #cached-token: 0, #running-req: 3, #queue-req: 0
+2026-10-29T06:26:45.214064Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 128, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:45.253122Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 132.8, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 532.75, #queue-req: 0
+2026-10-29T06:26:45.506476Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 172.8, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 631.53, #queue-req: 0
+2026-10-29T06:26:45.759135Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 212.8, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 633.26, #queue-req: 0
+2026-10-29T06:26:46.027195Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 252.8, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 596.88, #queue-req: 0
+2026-10-29T06:26:46.046717Z  INFO ts_control::output: Req: 13c9fba016824d418cfbc0913a3bc4cf Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.046761Z  INFO ts_control::output: Req: 5c6ce818461947808f66a750946f3ebf Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.046766Z  INFO ts_control::output: Req: c7a673146360486799eb1cbf0450e24d Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.053138Z  INFO ts_control::output: Req: c7f0ea7f87ac48a684f11e4cc3f6f94f Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.060048Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 512, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:26:46.298678Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 163.0, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 548.84, #queue-req: 0
+2026-10-29T06:26:46.561642Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 203.0, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 608.46, #queue-req: 0
+2026-10-29T06:26:46.816392Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 243.0, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 628.05, #queue-req: 0
+2026-10-29T06:26:46.900435Z  INFO ts_control::output: Req: 19521e8f623b4d72ab526a6144e499ed Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.900467Z  INFO ts_control::output: Req: 47b285999f5a4063a9ba193a2df72cc1 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.900472Z  INFO ts_control::output: Req: c3ca61ecc11d49bd9e788bcac1d65c33 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.900476Z  INFO ts_control::output: Req: 5bac093536ee495eb9c88c679a9e4051 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:46.906974Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 512, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:26:47.082667Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 154.0, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 570.84, #queue-req: 0
+2026-10-29T06:26:47.334889Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 194.0, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 634.36, #queue-req: 0
+2026-10-29T06:26:47.589086Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 234.0, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 629.44, #queue-req: 0
+2026-10-29T06:26:47.730394Z  INFO ts_control::output: Req: 6436dfcd8d034d24aba3dcc519133b96 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:47.730429Z  INFO ts_control::output: Req: 29b6928a99b34be8b07fe1143339fc34 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:47.730433Z  INFO ts_control::output: Req: 172a533bb2b74c16ad672ee61ededd1b Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:47.730436Z  INFO ts_control::output: Req: 1752439ccf484f0e81c8cf90d7788c1e Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:47.737290Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 512, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:26:47.861256Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 145.0, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 558.47, #queue-req: 0
+2026-10-29T06:26:48.115326Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 185.0, #pages(active/cached/total): 16/13/44, page ratio: 0.36, gen throughput (token/s): 629.76, #queue-req: 0
+2026-10-29T06:26:48.367563Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 225.0, #pages(active/cached/total): 16/9/44, page ratio: 0.36, gen throughput (token/s): 634.32, #queue-req: 0
+2026-10-29T06:26:48.567269Z  INFO ts_control::output: Req: 391eda2b34f844349d6b4b7a113606d5 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:48.567299Z  INFO ts_control::output: Req: 5ed9c1d332e24e139de726626ecb6cb7 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:48.567303Z  INFO ts_control::output: Req: 598c5b75449e4930a9ad79a804876dbb Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:48.567307Z  INFO ts_control::output: Req: 07e19d7667ac417b85693e21876d7a4c Finish! Accept_num_tokens_avg: 0
+input=128 batch=4: 608.83 tok/s
+2026-10-29T06:26:48.577015Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:48.658195Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 520.0, #pages(active/cached/total): 10/21/44, page ratio: 0.23, gen throughput (token/s): 450.74, #queue-req: 0
+2026-10-29T06:26:48.955672Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 560.0, #pages(active/cached/total): 10/21/44, page ratio: 0.23, gen throughput (token/s): 134.46, #queue-req: 0
+2026-10-29T06:26:49.255913Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 600.0, #pages(active/cached/total): 10/21/44, page ratio: 0.23, gen throughput (token/s): 133.23, #queue-req: 0
+2026-10-29T06:26:49.554887Z  INFO ts_control::output: Req: 4b899fa99ab44658af586a51d0fe5d77 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:49.562160Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:49.882339Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 551.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 124.52, #queue-req: 0
+2026-10-29T06:26:50.185529Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 591.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 131.93, #queue-req: 0
+2026-10-29T06:26:50.486031Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 631.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 133.11, #queue-req: 0
+2026-10-29T06:26:50.553158Z  INFO ts_control::output: Req: 85462e6b29d94b0e9b4cff1af8c65945 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:50.561425Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:50.804860Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 542.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 119.19, #queue-req: 0
+2026-10-29T06:26:51.104551Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 582.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 133.47, #queue-req: 0
+2026-10-29T06:26:51.402957Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 622.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 134.05, #queue-req: 0
+2026-10-29T06:26:51.539479Z  INFO ts_control::output: Req: c27632276c0845019fbf6d047bdbc893 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:51.547867Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:51.720801Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 533.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 119.56, #queue-req: 0
+2026-10-29T06:26:52.022861Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 573.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 132.42, #queue-req: 0
+2026-10-29T06:26:52.341738Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 613.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 125.44, #queue-req: 0
+2026-10-29T06:26:52.546549Z  INFO ts_control::output: Req: 505e707ffee3455a928187d6cc03a401 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:52.554723Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:52.672037Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 524.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 115.05, #queue-req: 0
+2026-10-29T06:26:52.974429Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 564.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 132.28, #queue-req: 0
+2026-10-29T06:26:53.285465Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 604.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 128.60, #queue-req: 0
+2026-10-29T06:26:53.560578Z  INFO ts_control::output: Req: 0a8e258bd5094270bdd2181c81b785be Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:53.568132Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:53.615255Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 515.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 115.23, #queue-req: 0
+2026-10-29T06:26:53.914811Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 555.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 133.53, #queue-req: 0
+2026-10-29T06:26:54.212597Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 595.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 134.33, #queue-req: 0
+2026-10-29T06:26:54.510026Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 635.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 134.49, #queue-req: 0
+2026-10-29T06:26:54.547633Z  INFO ts_control::output: Req: ef473b5cccc84bbc89b1772b723c0071 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:54.554852Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:54.825045Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 546.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 120.63, #queue-req: 0
+2026-10-29T06:26:55.120773Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 586.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 135.26, #queue-req: 0
+2026-10-29T06:26:55.426150Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 626.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 130.99, #queue-req: 0
+2026-10-29T06:26:55.533370Z  INFO ts_control::output: Req: d0d052c1f2ec406798997e504d7b7684 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:55.541160Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:55.742184Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 537.0, #pages(active/cached/total): 10/23/44, page ratio: 0.23, gen throughput (token/s): 120.24, #queue-req: 0
+2026-10-29T06:26:56.046179Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 577.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 131.58, #queue-req: 0
+2026-10-29T06:26:56.350231Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 1, avg_seq_len: 617.0, #pages(active/cached/total): 10/22/44, page ratio: 0.23, gen throughput (token/s): 131.56, #queue-req: 0
+2026-10-29T06:26:56.524516Z  INFO ts_control::output: Req: 49b3b72c4d27401d9ff0d18c85cdc6c1 Finish! Accept_num_tokens_avg: 0
+input=512 batch=1: 128.36 tok/s
+2026-10-29T06:26:56.534567Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:56.573139Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 3, #new-token: 1536, #cached-token: 0, #running-req: 3, #queue-req: 0
+2026-10-29T06:26:56.722145Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 526.2, #pages(active/cached/total): 40/4/44, page ratio: 0.91, gen throughput (token/s): 204.35, #queue-req: 0
+2026-10-29T06:26:57.007084Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 566.2, #pages(active/cached/total): 40/4/44, page ratio: 0.91, gen throughput (token/s): 561.52, #queue-req: 0
+2026-10-29T06:26:57.293428Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 606.2, #pages(active/cached/total): 40/4/44, page ratio: 0.91, gen throughput (token/s): 558.77, #queue-req: 0
+2026-10-29T06:26:57.531679Z  INFO ts_control::output: Req: 8c563c938d694596abbb9c1e5b107d7d Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:57.538902Z  INFO ts_control::output: Req: 5aa7a7fb8ebd47e1ab792889d094c246 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:57.538925Z  INFO ts_control::output: Req: 2471453cbb704a798ebba550f580798c Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:57.538941Z  INFO ts_control::output: Req: 9e5c1d00d2094147ad1dbb6484d2eae5 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:57.546531Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 2, #new-token: 1024, #cached-token: 0, #running-req: 2, #queue-req: 0
+2026-10-29T06:26:57.546587Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:57.616983Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:26:57.665178Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 515.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 384.67, #queue-req: 0
+2026-10-29T06:26:57.952315Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 555.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 557.21, #queue-req: 0
+2026-10-29T06:26:58.248062Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 595.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 541.02, #queue-req: 0
+2026-10-29T06:26:58.572293Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 635.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 493.47, #queue-req: 0
+2026-10-29T06:26:58.608453Z  INFO ts_control::output: Req: 8b963bb617394f94ac5f87285b942db4 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:58.608488Z  INFO ts_control::output: Req: ea4314d5db6e4020a8d29cae03293650 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:58.608493Z  INFO ts_control::output: Req: 1c767e86b82442ceac9904e829829395 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:58.608498Z  INFO ts_control::output: Req: 7be8d60bcd664d6083b5d124114a5216 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:58.616291Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 2, #new-token: 1024, #cached-token: 0, #running-req: 2, #queue-req: 0
+2026-10-29T06:26:58.660758Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 2, #new-token: 1024, #cached-token: 0, #running-req: 2, #queue-req: 0
+2026-10-29T06:26:58.918902Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 544.5, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 421.22, #queue-req: 0
+2026-10-29T06:26:59.208381Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 584.5, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 552.72, #queue-req: 0
+2026-10-29T06:26:59.503790Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 624.5, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 541.62, #queue-req: 0
+2026-10-29T06:26:59.611667Z  INFO ts_control::output: Req: 3e84f01c4fc04e09a4fc1a7fcbdc7a95 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:59.611713Z  INFO ts_control::output: Req: 7d0da3dcd3cb4403a621ea0c2f1e9404 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:59.618810Z  INFO ts_control::output: Req: 204c16dc0e704ffea4ec0c2820e93aab Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:59.618862Z  INFO ts_control::output: Req: 72c50e6ef4494f04a4d0b45210cb0554 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:26:59.626039Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 2048, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:26:59.837133Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 535.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 449.99, #queue-req: 0
+2026-10-29T06:27:00.140160Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 575.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 528.00, #queue-req: 0
+2026-10-29T06:27:00.425504Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 615.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 560.73, #queue-req: 0
+2026-10-29T06:27:00.607278Z  INFO ts_control::output: Req: db1347fb8f4f4d8f9b4bedc6153fb65a Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:00.607311Z  INFO ts_control::output: Req: 34d77d5778e74e26ae4d792c0a0a5a49 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:00.607316Z  INFO ts_control::output: Req: 2a39099f3c2f42ba9004a93de97633a0 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:00.607320Z  INFO ts_control::output: Req: 3830faf49c23452a8a6764c9915824fb Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:00.615663Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 2048, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:27:00.764766Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 526.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 448.03, #queue-req: 0
+2026-10-29T06:27:01.047168Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 566.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 566.57, #queue-req: 0
+2026-10-29T06:27:01.333223Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 606.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 559.33, #queue-req: 0
+2026-10-29T06:27:01.580441Z  INFO ts_control::output: Req: 5d7ee0f436184b13ac3da1e5037a83fb Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:01.580483Z  INFO ts_control::output: Req: ea83f04f976c455bb137da9d819c0d0b Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:01.580487Z  INFO ts_control::output: Req: d36a9b85fdfc494e8114d9edb474e5ae Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:01.580491Z  INFO ts_control::output: Req: 93bb2ec567fd4ac6adcbdc243a92a1a3 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:01.588011Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 2048, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:27:01.672027Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 517.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 448.63, #queue-req: 0
+2026-10-29T06:27:01.955054Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 557.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 565.32, #queue-req: 0
+2026-10-29T06:27:02.240805Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 597.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 559.93, #queue-req: 0
+2026-10-29T06:27:02.535405Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 637.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 543.11, #queue-req: 0
+2026-10-29T06:27:02.557050Z  INFO ts_control::output: Req: a92032b3ca4c478fb00ace5f102ba56c Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:02.557104Z  INFO ts_control::output: Req: b19c1baf88af4b42b150d5ee6916f2de Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:02.557111Z  INFO ts_control::output: Req: 13b0095b372b4615a2fbe5934ed8bf67 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:02.557117Z  INFO ts_control::output: Req: 4517476c41404788802900e5d08580e7 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:02.564543Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 1, #new-token: 512, #cached-token: 0, #running-req: 1, #queue-req: 0
+2026-10-29T06:27:02.618173Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 3, #new-token: 1536, #cached-token: 0, #running-req: 3, #queue-req: 0
+2026-10-29T06:27:02.901435Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 546.2, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 396.14, #queue-req: 0
+2026-10-29T06:27:03.193540Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 586.2, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 547.77, #queue-req: 0
+2026-10-29T06:27:03.492687Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 626.2, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 534.84, #queue-req: 0
+2026-10-29T06:27:03.588892Z  INFO ts_control::output: Req: 5aba173fc7454be98c28bbfedf68643b Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:03.596335Z  INFO ts_control::output: Req: 5383c1f982654a87aae79ea64818e50e Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:03.596398Z  INFO ts_control::output: Req: 998f5afe5a204eb4885043c2029e281f Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:03.596413Z  INFO ts_control::output: Req: 85dff40dd13c417f9969347d103754eb Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:03.603871Z  INFO ts_control::batch_log: Prefill batch. #dp-rank: 0, #new-seq: 4, #new-token: 2048, #cached-token: 0, #running-req: 4, #queue-req: 0
+2026-10-29T06:27:03.830043Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 537.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 447.60, #queue-req: 0
+2026-10-29T06:27:04.121285Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 577.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 549.38, #queue-req: 0
+2026-10-29T06:27:04.411761Z  INFO ts_control::batch_log: Decode batch. #dp-rank: 0, #running-req: 4, avg_seq_len: 617.0, #pages(active/cached/total): 40/0/44, page ratio: 0.91, gen throughput (token/s): 550.80, #queue-req: 0
+2026-10-29T06:27:04.578776Z  INFO ts_control::output: Req: 22230ac4b6a148f7b725fcfc1b306f9b Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:04.578841Z  INFO ts_control::output: Req: 15d653e77bb84521bf14f78b498f3cb2 Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:04.578849Z  INFO ts_control::output: Req: 8e30b493bc624a4388dae33951e21cbf Finish! Accept_num_tokens_avg: 0
+2026-10-29T06:27:04.578857Z  INFO ts_control::output: Req: cd4460550205464e8fa7f142e17e7b8c Finish! Accept_num_tokens_avg: 0
+input=512 batch=4: 515.84 tok/s

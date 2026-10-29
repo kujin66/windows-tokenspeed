@@ -1,0 +1,513 @@
+{
+  "status": "complete",
+  "comparison": "independent vLLM versus independent TokenSpeed; no integration toggle",
+  "platform": "windows-arm64",
+  "selected_vllm": {
+    "eager": "windows-vllm-text-eager.json",
+    "graph": "windows-vllm-text-graph.json"
+  },
+  "primary_reports": 6,
+  "measured_sequences": 300,
+  "measured_output_tokens": 38400,
+  "missing": [],
+  "rows": [
+    {
+      "mode": "eager",
+      "backend": "triton",
+      "input_length": 128,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 58.997294881741524,
+      "tokenspeed_tokens_per_second": 58.654062837316715,
+      "tokenspeed_over_vllm_ratio": 0.9941822409804922,
+      "tokenspeed_relative_percent": -0.5817759019507762,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        2.1191001999977743,
+        2.1893658000044525,
+        2.2519945000094594,
+        2.0447483000025386,
+        2.242746200005058
+      ],
+      "tokenspeed_sample_seconds": [
+        2.2188946999958716,
+        2.2160139000043273,
+        2.095055699988734,
+        2.27376959999674,
+        2.1077012000023387
+      ]
+    },
+    {
+      "mode": "eager",
+      "backend": "triton",
+      "input_length": 128,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 228.43611280821838,
+      "tokenspeed_tokens_per_second": 212.93384282784422,
+      "tokenspeed_over_vllm_ratio": 0.9321373937342868,
+      "tokenspeed_relative_percent": -6.786260626571316,
+      "vllm_repeat_consistent": false,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        2.2886994000000414,
+        2.2519848000083584,
+        2.198965899995528,
+        2.3926318000012543,
+        2.0743524999998044
+      ],
+      "tokenspeed_sample_seconds": [
+        2.371450400009053,
+        2.5198282999917865,
+        2.282247199997073,
+        2.4747321999893757,
+        2.3742553999909433
+      ]
+    },
+    {
+      "mode": "eager",
+      "backend": "triton",
+      "input_length": 512,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 61.60171109514899,
+      "tokenspeed_tokens_per_second": 54.822053610071606,
+      "tokenspeed_over_vllm_ratio": 0.889943682333667,
+      "tokenspeed_relative_percent": -11.005631766633295,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        2.131666600005701,
+        2.2934320000058506,
+        1.8613097000052221,
+        2.034347799999523,
+        2.0685657000140054
+      ],
+      "tokenspeed_sample_seconds": [
+        2.337797000000137,
+        2.367951799998991,
+        2.2853383000037866,
+        2.3096828000125242,
+        2.3733640999998897
+      ]
+    },
+    {
+      "mode": "eager",
+      "backend": "triton",
+      "input_length": 512,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 229.21817789331567,
+      "tokenspeed_tokens_per_second": 222.54577325421465,
+      "tokenspeed_over_vllm_ratio": 0.9708905955870283,
+      "tokenspeed_relative_percent": -2.9109404412971718,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        2.2077319999953033,
+        2.1080339000036474,
+        2.1159343000035733,
+        2.378744200002984,
+        2.3579542999941623
+      ],
+      "tokenspeed_sample_seconds": [
+        2.224723199993605,
+        2.1330318999971496,
+        2.2701142999867443,
+        2.2660321000003023,
+        2.6093499999988126
+      ]
+    },
+    {
+      "mode": "eager",
+      "backend": "flashinfer",
+      "input_length": 128,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 58.997294881741524,
+      "tokenspeed_tokens_per_second": 63.01599825536807,
+      "tokenspeed_over_vllm_ratio": 1.06811673961801,
+      "tokenspeed_relative_percent": 6.811673961801001,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        2.1191001999977743,
+        2.1893658000044525,
+        2.2519945000094594,
+        2.0447483000025386,
+        2.242746200005058
+      ],
+      "tokenspeed_sample_seconds": [
+        2.061944900007802,
+        2.0207730999973137,
+        2.1712124000041513,
+        2.0153953000117326,
+        1.8868253999971785
+      ]
+    },
+    {
+      "mode": "eager",
+      "backend": "flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 228.43611280821838,
+      "tokenspeed_tokens_per_second": 260.8842408412455,
+      "tokenspeed_over_vllm_ratio": 1.1420446514963625,
+      "tokenspeed_relative_percent": 14.204465149636247,
+      "vllm_repeat_consistent": false,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        2.2886994000000414,
+        2.2519848000083584,
+        2.198965899995528,
+        2.3926318000012543,
+        2.0743524999998044
+      ],
+      "tokenspeed_sample_seconds": [
+        1.9523685000021942,
+        2.1909067000087816,
+        1.917532300009043,
+        1.89242240000749,
+        1.8595514000044204
+      ]
+    },
+    {
+      "mode": "eager",
+      "backend": "flashinfer",
+      "input_length": 512,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 61.60171109514899,
+      "tokenspeed_tokens_per_second": 67.9045690830838,
+      "tokenspeed_over_vllm_ratio": 1.1023162810883536,
+      "tokenspeed_relative_percent": 10.231628108835356,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        2.131666600005701,
+        2.2934320000058506,
+        1.8613097000052221,
+        2.034347799999523,
+        2.0685657000140054
+      ],
+      "tokenspeed_sample_seconds": [
+        1.8272492999967653,
+        1.971749100004672,
+        1.7405784000002313,
+        1.8552750999951968,
+        2.030139800001052
+      ]
+    },
+    {
+      "mode": "eager",
+      "backend": "flashinfer",
+      "input_length": 512,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 229.21817789331567,
+      "tokenspeed_tokens_per_second": 273.8879976116262,
+      "tokenspeed_over_vllm_ratio": 1.194879045496562,
+      "tokenspeed_relative_percent": 19.48790454965621,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": false,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        2.2077319999953033,
+        2.1080339000036474,
+        2.1159343000035733,
+        2.378744200002984,
+        2.3579542999941623
+      ],
+      "tokenspeed_sample_seconds": [
+        2.058036100002937,
+        1.85210879999795,
+        1.6665585000009742,
+        1.8295504999987315,
+        1.9406325000018114
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "triton",
+      "input_length": 128,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 144.75109788695204,
+      "tokenspeed_tokens_per_second": 144.21992456781754,
+      "tokenspeed_over_vllm_ratio": 0.9963304366813899,
+      "tokenspeed_relative_percent": -0.3669563318610125,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        0.8841515999956755,
+        0.8832859999965876,
+        0.8855233999929624,
+        0.9035104999929899,
+        0.8649111999984598
+      ],
+      "tokenspeed_sample_seconds": [
+        0.8776031000015792,
+        0.89175310000428,
+        0.8798267000092892,
+        0.8754609000025084,
+        0.9130232000024989
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "triton",
+      "input_length": 128,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 582.4456346167667,
+      "tokenspeed_tokens_per_second": 608.8254577327837,
+      "tokenspeed_over_vllm_ratio": 1.0452914770893151,
+      "tokenspeed_relative_percent": 4.5291477089315135,
+      "vllm_repeat_consistent": false,
+      "tokenspeed_repeat_consistent": false,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        0.8708673999935854,
+        0.8830631000018911,
+        0.8513691000116523,
+        0.8791149999888148,
+        0.9108453999942867
+      ],
+      "tokenspeed_sample_seconds": [
+        0.8239147999993293,
+        0.864300799992634,
+        0.8492407000012463,
+        0.8301096000068355,
+        0.8372516999952495
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "triton",
+      "input_length": 512,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 133.66130476062045,
+      "tokenspeed_tokens_per_second": 128.3602558945537,
+      "tokenspeed_over_vllm_ratio": 0.96033968936963,
+      "tokenspeed_relative_percent": -3.966031063037001,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        0.9560368999955244,
+        0.9478431999887107,
+        0.9643959999957588,
+        0.9546319999935804,
+        0.9653139000001829
+      ],
+      "tokenspeed_sample_seconds": [
+        1.0065884999930859,
+        1.0150682999956189,
+        0.9864531000057468,
+        0.9854845999943791,
+        0.9923724999971455
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "triton",
+      "input_length": 512,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 509.5080775156425,
+      "tokenspeed_tokens_per_second": 515.8413882844069,
+      "tokenspeed_over_vllm_ratio": 1.0124302460515358,
+      "tokenspeed_relative_percent": 1.2430246051535754,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        0.9993589999940014,
+        0.9998359000019263,
+        0.991206599996076,
+        1.0193713999906322,
+        1.0146813000028487
+      ],
+      "tokenspeed_sample_seconds": [
+        0.9891814000002341,
+        0.9744296999997459,
+        0.976967099995818,
+        1.0382538999983808,
+        0.9839337000012165
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "flashinfer",
+      "input_length": 128,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 144.75109788695204,
+      "tokenspeed_tokens_per_second": 139.6132568811492,
+      "tokenspeed_over_vllm_ratio": 0.9645056854089259,
+      "tokenspeed_relative_percent": -3.5494314591074105,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        0.8841515999956755,
+        0.8832859999965876,
+        0.8855233999929624,
+        0.9035104999929899,
+        0.8649111999984598
+      ],
+      "tokenspeed_sample_seconds": [
+        0.895686999996542,
+        0.8975742000038736,
+        0.9088462999934563,
+        0.9281487999978708,
+        0.9538355999975465
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 582.4456346167667,
+      "tokenspeed_tokens_per_second": 564.2772888595114,
+      "tokenspeed_over_vllm_ratio": 0.9688067955574778,
+      "tokenspeed_relative_percent": -3.119320444252216,
+      "vllm_repeat_consistent": false,
+      "tokenspeed_repeat_consistent": false,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        0.8708673999935854,
+        0.8830631000018911,
+        0.8513691000116523,
+        0.8791149999888148,
+        0.9108453999942867
+      ],
+      "tokenspeed_sample_seconds": [
+        0.9117559000005713,
+        0.8793241999956081,
+        0.9473069999949075,
+        0.9116898999927798,
+        0.8866995999997016
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "flashinfer",
+      "input_length": 512,
+      "batch_size": 1,
+      "vllm_tokens_per_second": 133.66130476062045,
+      "tokenspeed_tokens_per_second": 125.83753976468478,
+      "tokenspeed_over_vllm_ratio": 0.941465744255994,
+      "tokenspeed_relative_percent": -5.853425574400594,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": true,
+      "vllm_sample_seconds": [
+        0.9560368999955244,
+        0.9478431999887107,
+        0.9643959999957588,
+        0.9546319999935804,
+        0.9653139000001829
+      ],
+      "tokenspeed_sample_seconds": [
+        1.0386542000051122,
+        1.1702897000068333,
+        0.947078999990481,
+        0.9761933999980101,
+        0.9537063999887323
+      ]
+    },
+    {
+      "mode": "graph",
+      "backend": "flashinfer",
+      "input_length": 512,
+      "batch_size": 4,
+      "vllm_tokens_per_second": 509.5080775156425,
+      "tokenspeed_tokens_per_second": 502.6171036978192,
+      "tokenspeed_over_vllm_ratio": 0.9864752412730654,
+      "tokenspeed_relative_percent": -1.3524758726934594,
+      "vllm_repeat_consistent": true,
+      "tokenspeed_repeat_consistent": true,
+      "reference_ids_match": false,
+      "vllm_sample_seconds": [
+        0.9993589999940014,
+        0.9998359000019263,
+        0.991206599996076,
+        1.0193713999906322,
+        1.0146813000028487
+      ],
+      "tokenspeed_sample_seconds": [
+        1.0735455000103684,
+        0.996191700003692,
+        1.0055737999937264,
+        1.0149972000072012,
+        1.0030321999947773
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "report": "windows-vllm-auto-eager-default.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 320.86853490000067,
+      "controller_stop": null,
+      "error": null
+    },
+    {
+      "report": "windows-tokenspeed-triton-eager.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 297.6889669999946,
+      "controller_stop": null,
+      "error": null
+    },
+    {
+      "report": "windows-tokenspeed-flashinfer-eager.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 283.3741574000014,
+      "controller_stop": null,
+      "error": null
+    },
+    {
+      "report": "windows-vllm-auto-graph-default.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 303.16292930000054,
+      "controller_stop": null,
+      "error": null
+    },
+    {
+      "report": "windows-tokenspeed-triton-graph.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 136.921654699996,
+      "controller_stop": null,
+      "error": null
+    },
+    {
+      "report": "windows-tokenspeed-flashinfer-graph.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 120.85093309999502,
+      "controller_stop": null,
+      "error": null
+    },
+    {
+      "report": "windows-vllm-text-eager.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 190.72593450000568,
+      "controller_stop": null,
+      "error": null
+    },
+    {
+      "report": "windows-vllm-text-graph.json",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 172.84619860000385,
+      "controller_stop": null,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "report": "windows-vllm-auto-eager-default.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 320.86853490000067,
+    "controller_stop": null,
+    "error": null
+  },
+  {
+    "report": "windows-tokenspeed-triton-eager.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 297.6889669999946,
+    "controller_stop": null,
+    "error": null
+  },
+  {
+    "report": "windows-tokenspeed-flashinfer-eager.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 283.3741574000014,
+    "controller_stop": null,
+    "error": null
+  },
+  {
+    "report": "windows-vllm-auto-graph-default.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 303.16292930000054,
+    "controller_stop": null,
+    "error": null
+  },
+  {
+    "report": "windows-tokenspeed-triton-graph.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 136.921654699996,
+    "controller_stop": null,
+    "error": null
+  },
+  {
+    "report": "windows-tokenspeed-flashinfer-graph.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 120.85093309999502,
+    "controller_stop": null,
+    "error": null
+  }
+]

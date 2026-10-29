@@ -1,0 +1,4 @@
+{
+  "eager": "windows-vllm-auto-eager-default.json",
+  "graph": "windows-vllm-auto-graph-default.json"
+}

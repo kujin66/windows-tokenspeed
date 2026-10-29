@@ -1,0 +1,18 @@
+[
+  {
+    "report": "windows-vllm-text-eager.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 190.72593450000568,
+    "controller_stop": null,
+    "error": null
+  },
+  {
+    "report": "windows-vllm-text-graph.json",
+    "passed": true,
+    "returncode": 0,
+    "seconds": 172.84619860000385,
+    "controller_stop": null,
+    "error": null
+  }
+]
