@@ -1,7 +1,9 @@
-# Windows ARM64 build and performance: WSL2, FlashInfer, Triton and CUDA Graphs
+# TokenSpeed on Windows ARM64: Engine throughput, WSL2 and kernel backends
 
-On the measured Qwen3-0.6B BF16 workload, the adapted Windows FlashInfer path
-improves eager throughput by **30.75–40.73%** over the Windows Triton control.
+This report measures **TokenSpeed Engine.generate throughput** for Qwen3-0.6B
+BF16 on native Windows ARM64 and WSL2. Within TokenSpeed, the adapted Windows
+FlashInfer path improves eager throughput by **30.75–40.73%** over its Windows
+Triton control.
 With **decode CUDA Graphs enabled**, Windows Triton is faster than Windows
 FlashInfer in all four cases. Windows FlashInfer is within 3.00% of WSL2
 FlashInfer at batch 1 and measures 3.48–9.04% higher throughput at batch 4.
@@ -10,6 +12,63 @@ consistency differences, rather than a claim of operating-system superiority.
 
 This report organizes evidence collected on **2026-10-28**. Publishing it does
 not rerun or increase the historical test counts.
+
+## What is measured: TokenSpeed Engine throughput
+
+**Every row in the final eager/decode-graph tables is a TokenSpeed model-generation
+measurement.** FlashInfer and Triton identify kernel choices inside TokenSpeed,
+not separate inference engines being timed in place of TokenSpeed.
+
+The [actual benchmark source](../validation/windows-flashinfer-0617-20261028/scripts/flashinfer_comparison_bench.py)
+imports `Engine` from `tokenspeed.runtime.entrypoints.engine`, constructs it with
+the Qwen3-0.6B checkpoint, and calls `engine.generate(input_ids=inputs,
+sampling_params=sampling)` for every warmup and measured request. Its timing loop
+is around the local `generate()` helper, which performs that Engine call and
+the immediate output-length/completion-metadata checks:
+
+```python
+from tokenspeed.runtime.entrypoints.engine import Engine
+
+engine = Engine(model=str(model), **engine_config)
+# generate() calls engine.generate(...) and validates returned token IDs.
+start = time.perf_counter()
+ids = generate()
+elapsed = time.perf_counter() - start
+```
+
+The [tested Engine implementation](../../ports/windows-arm64/overlay/python/tokenspeed/runtime/entrypoints/engine.py)
+launches TokenSpeed's runtime processes and routes requests through its frontend,
+IPC, Rust host/C++ scheduler and model execution. The measured call includes
+prefill, autoregressive decode, sampling and output return through this Engine
+path. It excludes model construction/loading and explicit warmup. Inputs are
+already token IDs, so this is not a text-tokenization or HTTP benchmark.
+
+| Benchmark configuration | Inference engine | Selected backend within that engine |
+| --- | --- | --- |
+| TokenSpeed / Windows / Triton | Validated native Windows ARM64 TokenSpeed port | Triton attention, RMSNorm and SwiGLU control |
+| TokenSpeed / Windows / FlashInfer | Same TokenSpeed port, with the documented isolated compatibility overlay | FlashInfer FA2 prefill, TRT-LLM decode, RMSNorm and SwiGLU |
+| TokenSpeed / WSL2 / FlashInfer | Official pinned TokenSpeed Linux ARM64 build, with the same FA2 adapter | Linux FlashInfer attention/norm/activation path |
+
+GEMM, attention prologue and other operations retain the corresponding stack's
+existing implementations. The names do not mean every operator was replaced.
+The [raw graph report](../validation/windows-flashinfer-0617-20261028/windows-flashinfer-graph.json)
+records TokenSpeed Engine arguments including `enforce_eager=false` and
+`attention_backend=flashinfer`; the matching [startup log](../validation/windows-flashinfer-0617-20261028/windows-flashinfer-graph.log)
+records TokenSpeed `ServerArgs`. Eager and other-platform runs retain their own
+configuration, timings and returned token IDs in the same evidence directory.
+
+These measurements establish **TokenSpeed's end-to-end Engine API throughput**
+for the stated workload, and the changes from backend/graph/platform selection.
+For example, +30.75–40.73% means selecting the adapted FlashInfer path improves
+TokenSpeed's Windows eager throughput relative to its Triton control. It is not
+a measured TokenSpeed speedup over another inference engine.
+
+**No non-TokenSpeed baseline was measured.** The report therefore cannot quantify
+TokenSpeed's incremental benefit over Transformers/PyTorch generation, vLLM or
+TensorRT-LLM, or isolate its scheduler's contribution. That would require a
+matched end-to-end comparison against another engine or a controlled ablation.
+The separate operator/synchronization microbenchmarks are diagnostic experiments;
+their timings must not be presented as model-generation throughput.
 
 ## Source revisions and reproduction boundary
 
@@ -169,7 +228,7 @@ benchmarks. All throughput columns are **output tokens/s**. Percentages mean
 
 `enforce_eager=True`; decode and prefill graphs are disabled.
 
-| Input | Batch | Windows Triton | Windows FlashInfer | WSL2 FlashInfer | Win FI vs Triton | Win FI vs WSL2 FI |
+| Input | Batch | TokenSpeed / Windows / Triton | TokenSpeed / Windows / FlashInfer | TokenSpeed / WSL2 / FlashInfer | Win FI vs Triton | Win FI vs WSL2 FI |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 128 | 1 | 49.62 | 64.88 | 73.49 | +30.75% | -11.72% |
 | 128 | 4 | 177.59 | 249.92 | 271.39 | +40.73% | -7.91% |
@@ -183,7 +242,7 @@ benchmarks. All throughput columns are **output tokens/s**. Percentages mean
 These are complete generation timings with graph-enabled decode, not isolated
 replay or fully graphed prefill-and-decode measurements.
 
-| Input | Batch | Windows Triton | Windows FlashInfer | WSL2 FlashInfer | Win FI vs Triton | Win FI vs WSL2 FI | Win Triton vs WSL2 FI |
+| Input | Batch | TokenSpeed / Windows / Triton | TokenSpeed / Windows / FlashInfer | TokenSpeed / WSL2 / FlashInfer | Win FI vs Triton | Win FI vs WSL2 FI | Win Triton vs WSL2 FI |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 128 | 1 | 145.33 | 136.77 | 140.99 | -5.89% | -3.00% | +3.08% |
 | 128 | 4 | 600.93 | 593.53 | 544.32 | -1.23% | +9.04% | +10.40% |
@@ -202,7 +261,7 @@ read these results with the correctness limitations below.
 Each ratio is graph throughput / eager throughput for that same backend in the
 final matrix. Higher ratios indicate greater measured benefit.
 
-| Input | Batch | Windows Triton | Windows FlashInfer | WSL2 FlashInfer |
+| Input | Batch | TokenSpeed / Windows / Triton | TokenSpeed / Windows / FlashInfer | TokenSpeed / WSL2 / FlashInfer |
 | ---: | ---: | ---: | ---: | ---: |
 | 128 | 1 | 2.93x | 2.11x | 1.92x |
 | 128 | 4 | 3.38x | 2.37x | 2.01x |
@@ -240,7 +299,7 @@ used Triton attention, eager execution and ten measured rounds per case.
 Norm/activation defaults differed between platforms. Per platform: 100 measured
 requests and 12,800 output tokens.
 
-| Input | Batch | Windows tokens/s | WSL2 tokens/s | WSL2 relative to Windows |
+| Input | Batch | TokenSpeed / Windows tokens/s | TokenSpeed / WSL2 tokens/s | WSL2 relative to Windows |
 | ---: | ---: | ---: | ---: | ---: |
 | 128 | 1 | 53.19 | 65.01 | +22.22% |
 | 128 | 4 | 215.64 | 244.94 | +13.59% |
