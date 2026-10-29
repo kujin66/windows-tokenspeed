@@ -1,0 +1,20 @@
+python.exe : <projects>\vllm-bench\.venv\Lib\site-packages\setuptools\_distutils\_msvccompiler.py:12:
+UserWarning: _get_vc_env is private; find an alternative (pypa/distutils#340)
+At line:2 char:62
++ ... N=Release'; & .\.venv\Scripts\python.exe .port\run.py .venv\Scripts\p ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<user>.../distutils#340):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  warnings.warn(
+Looking in indexes: <package-index>
+Processing .\tokenspeed-scheduler
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed-scheduler
+  Building wheel for tokenspeed-scheduler (pyproject.toml): started
+  Building wheel for tokenspeed-scheduler (pyproject.toml): still running...
+  Building wheel for tokenspeed-scheduler (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed-scheduler: filename=tokenspeed_scheduler-0.1.42-cp313-cp313-win_arm64.whl size=483313 sha256=7ca49f61772e547f265887cb13bf215d936dbd93e1b49a70531bd84b5de4cd62
+  Stored in directory: <user>\AppData\Local\Temp\pip-ephem-wheel-cache-h2jt4_q7\wheels\08\12\96\d4877e417bea5c9dc5ae6ffcfce6c6570345830e965d2ceeaa
+Successfully built tokenspeed-scheduler

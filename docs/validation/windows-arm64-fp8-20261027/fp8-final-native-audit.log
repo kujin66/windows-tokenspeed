@@ -1,0 +1,1 @@
+PASS: native ARM64 Python without emulation; 4 installed wheels match; all 6 native binaries are ARM64 and linked by MSVC 14.51

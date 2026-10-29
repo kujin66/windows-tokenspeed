@@ -19,11 +19,14 @@ not rerun or increase the historical test counts.
 | Windows port | [jinkun_microsoft/windows-tokenspeed at 9a50ac82b59fc47044090e4441c05c88173715c1](https://github.com/jinkun_microsoft/windows-tokenspeed/tree/9a50ac82b59fc47044090e4441c05c88173715c1) |
 | WSL2 | Official common upstream revision, followed by the documented experimental FlashInfer kernel overlay |
 
-The accompanying build helpers, skill and benchmark scripts target that pinned
-Windows port and its Python `Engine` API. The newer `main` has a different
-launcher API. Check out the tested port before using the helpers, then copy
-this report's updated reproduction files into that checkout. This documentation
-PR does not migrate the Windows port into the newer runtime.
+The PR now includes the complete 66-file Windows source overlay, per-file
+upstream/port blob identities, build requirements, helpers, source tests and
+historical build evidence. Follow the [detailed build guide](windows-arm64-build-details.md)
+to reconstruct a complete checkout from official upstream using only this PR's
+overlay and support files. An external Windows-port clone is not required.
+The code targets the pinned Python `Engine` API. The newer `main` has a different
+launcher API; this is a reproducible versioned port rather than a tested
+integration with that newer runtime. See the [complete source inventory](../../ports/windows-arm64/FILES.md).
 
 ## Hardware and software
 
@@ -256,6 +259,23 @@ preventing quantitative attribution of the unprofiled performance gap.
 
 ## Correctness, validation counts and limits
 
+Output consistency in the final six-run matrix is recorded separately from
+fixed-length throughput completion:
+
+| Mode | Input | Batch | Windows FI repeats | Windows Triton repeats | WSL2 FI repeats | Windows FI/Triton reference IDs | Windows/WSL2 FI reference IDs |
+| --- | ---: | ---: | --- | --- | --- | --- | --- |
+| eager | 128 | 1 | consistent | consistent | consistent | different | different |
+| eager | 128 | 4 | consistent | consistent | consistent | different | different |
+| eager | 512 | 1 | consistent | consistent | consistent | match | match |
+| eager | 512 | 4 | consistent | consistent | consistent | match | match |
+| graph | 128 | 1 | consistent | consistent | consistent | different | different |
+| graph | 128 | 4 | variation | variation | consistent | different | different |
+| graph | 512 | 1 | consistent | consistent | consistent | match | match |
+| graph | 512 | 4 | consistent | consistent | consistent | match | match |
+
+Repeat checks cover three warmups plus five measurements. Reference comparisons
+use the first measured output, not every possible cross-platform output pair.
+
 - Every final request produced 128 output IDs and matching completion metadata.
   Raw JSON preserves IDs for every warmup and measured request.
 - Input 128: reference IDs differed across FlashInfer/Triton and platforms,
@@ -273,6 +293,19 @@ preventing quantitative attribution of the unprofiled performance gap.
   determinism or service stability.
 - Scope: single-GPU dense BF16. HTTP, TTFT/ITL, prefill graphs, FlashInfer
   MoE/NVFP4, multi-GPU and long-duration stress were not measured.
+
+| Boundary | What was established | What remains unresolved |
+| --- | --- | --- |
+| Source and installation | Native ARM64 source port, wheel/install byte comparisons, compiler/linker audits | Latest-main integration; clean-machine dependency resolution; reproducible binary hashes |
+| GPU numerical checks | Specified normalization/activation/attention probes passed; historical FP8/FP4 checks retained | End-to-end numerical equivalence for input 128; source of graph batch-4 repeat variation |
+| Backend performance | Final six configurations measured eager and decode-graph throughput | Equal-version backend comparisons; isolated per-component/OS attribution |
+| Graph scope | Decode capture sizes 1/4; prefill still eager | Prefill graphs, arbitrary capture shapes, full server stability |
+| Statistical scope | Five measured rounds per case; raw durations and IDs retained | Clock-locked, repeated ABBA trials and confidence intervals |
+| Product scope | Dense BF16, one GPU, blocking Engine API | HTTP/TTFT/ITL, multi-GPU, grammar, FlashInfer MoE/NVFP4 and prolonged stress |
+
+Both WSL2 and native Windows use the Windows host GPU driver. The diagnosis
+does not support explaining the difference as native Windows WDDM versus
+bare-Linux TCC, nor as missing NCCL for a world-size-one workload.
 
 ## Evidence index
 
@@ -292,10 +325,16 @@ refer to the tested source revisions.
 
 ## Publication verification
 
-The publication checks separately passed 20 GPU-free tests for performance
+Run these publication checks from the PR checkout. Build and installed-wheel
+validation commands in the detailed guide run from the reconstructed checkout.
+
+The publication checks separately passed 28 GPU-free tests for performance
 aggregation, report compatibility, hash integrity, derived percentages and
 execution-mode labels. They also verified all 152 manifest entries and all
-eight final comparison rows. The historical GPU/model runs above were not
+eight final comparison rows. Source reconstruction also verifies all 66 source
+postimages and 136 additional historical build evidence files. Real local-Git
+tests cover reconstruction, refusal to overwrite, corrupted input rejection
+and unexpected source differences. The historical GPU/model runs above were not
 rerun for this documentation change.
 
 ```bash

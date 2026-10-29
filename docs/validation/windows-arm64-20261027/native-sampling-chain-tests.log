@@ -1,0 +1,10 @@
+python.exe : <projects>\vllm-bench\.venv\Lib\site-packages\setuptools\_distutils\_msvccompiler.py:12:
+UserWarning: _get_vc_env is private; find an alternative (pypa/distutils#340)
+At line:2 char:400
++ ... HONPATH=''; & .venv\Scripts\python.exe tools\windows\run.py .venv\Scr ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<user>.../distutils#340):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  warnings.warn(
+72 native sampling-chain cases passed

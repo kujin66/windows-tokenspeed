@@ -1,0 +1,476 @@
+{
+  "schema": 1,
+  "upstream_base": "864bcdd9ef3c5f1512bbe293d970d73eb29d2c94",
+  "validated_port": "9a50ac82b59fc47044090e4441c05c88173715c1",
+  "source_prefixes": [
+    "python",
+    "tokenspeed-engine",
+    "tokenspeed-kernel",
+    "tokenspeed-scheduler",
+    "test"
+  ],
+  "files": [
+    {
+      "path": "python/pyproject.toml",
+      "status": "M",
+      "base_blob": "b0ab479fa433c17f3772617acc690eabb9564284",
+      "port_blob": "7b7f4c4e3589a94c7e46112a0ef2851bfca2cf79",
+      "sha256": "479923efcb4ffcf802a94ff9d3b155a8697b1b852aeb4145e8699f50f49b5c22"
+    },
+    {
+      "path": "python/tokenspeed/env.py",
+      "status": "M",
+      "base_blob": "739389d1663d23f869637c9fa2cf20cf2fc7d0be",
+      "port_blob": "5ee81d04d55c9e8e17617bf3765608edd7c31e06",
+      "sha256": "1c24e6d4aedd23f99b454cb11d783cb38ad4bcb0d73c3af96a7fd9734c94e55a"
+    },
+    {
+      "path": "python/tokenspeed/runtime/distributed/comm_backend/nccl.py",
+      "status": "M",
+      "base_blob": "81f97d71801e62501030c3a135977ca6ee5d8581",
+      "port_blob": "3cdcf63a1cb82dfd3059a41311a7e30dc40a4f5d",
+      "sha256": "07e60da8796d0626b00df620d904913d143593becc1d2be99a4f5481d6dbf121"
+    },
+    {
+      "path": "python/tokenspeed/runtime/engine/async_llm.py",
+      "status": "M",
+      "base_blob": "ad5f654f7c9a6de4753f6d756e85cd7175fbbe99",
+      "port_blob": "f410acbeb5d5aa7b26534c952964498a79981ecf",
+      "sha256": "730942c48b36f2332127a56d0b5dab1d066c61e3bc39f94628dc765568a074fb"
+    },
+    {
+      "path": "python/tokenspeed/runtime/engine/rust_host.py",
+      "status": "M",
+      "base_blob": "0243e359f0b2cb427bf950d1bb8336435436b53b",
+      "port_blob": "6030bd3d6c2a95afb8c4d9dcd201656857911360",
+      "sha256": "a04f41056cd3de2baad9980452d3deb91da73486e2be16d1ce023efc7a2ef19c"
+    },
+    {
+      "path": "python/tokenspeed/runtime/entrypoints/engine.py",
+      "status": "M",
+      "base_blob": "82b98f25dce4f0d52b49d61eb42c1bacb613b374",
+      "port_blob": "2adb64320222a8d71fde53190039ef260302aac6",
+      "sha256": "6d4a3b0b907cb7b0762becb73ed26a340115ff5f8d24f9bc66ebabb543d43ecc"
+    },
+    {
+      "path": "python/tokenspeed/runtime/execution/distributed_initializer.py",
+      "status": "M",
+      "base_blob": "b44998fdbec0ec311ba70a3bbdae95c9ef5a5b65",
+      "port_blob": "279d7b6dcff2af72ee45b88aca7e367ad24e930f",
+      "sha256": "06f79576b2f550f86bfee7faa537bf2566f6cb28e5b01a0cb4fa1987a77a4824"
+    },
+    {
+      "path": "python/tokenspeed/runtime/execution/drafter/__init__.py",
+      "status": "M",
+      "base_blob": "332ce9516e5b9c9458632edafb1dce559f92a09d",
+      "port_blob": "7766ad010b6e79f4e89043b571684cff90efd1e0",
+      "sha256": "2cea0ba1802230042df2d22d5517fc6c8baeab305cb029bbb9c04d00cfdb73a8"
+    },
+    {
+      "path": "python/tokenspeed/runtime/layers/attention/backends/__init__.py",
+      "status": "M",
+      "base_blob": "cc041a1f76ad896b8b619c6334c1549b8ca39d71",
+      "port_blob": "9d8d9273631bb4a19ba0d00a527b88a4156859df",
+      "sha256": "bf53353a105821539ced47b756aa53391c054d44c14b7540b0e75d91b2a7435f"
+    },
+    {
+      "path": "python/tokenspeed/runtime/layers/attention/registry.py",
+      "status": "M",
+      "base_blob": "b8c98bff60c3a4095f57c73d03c094749133ef89",
+      "port_blob": "cd2f124601ff93c91599efb0be75a6c24f9e4ab7",
+      "sha256": "a29a324201a5c997b1aa74da8061bc80484fef11fb23beb5df0a3ec2196337f1"
+    },
+    {
+      "path": "python/tokenspeed/runtime/layers/quantization/compressed_tensors/compressed_tensors.py",
+      "status": "M",
+      "base_blob": "b1508484cafd6e7f91ff49d9f94dab9787c2aebb",
+      "port_blob": "2fceed183b8da96890677ad00dfbd2a6c5cb9faf",
+      "sha256": "4f59b353b92546d8763c91857715cd2bf4f891fdcd09bc3a8015b51532d1d887"
+    },
+    {
+      "path": "python/tokenspeed/runtime/layers/quantization/compressed_tensors/gptq_marlin_moe.py",
+      "status": "M",
+      "base_blob": "356e4adf8190b9800f052cd9e911c23c3b0067dd",
+      "port_blob": "151376896fec0f92ca402f1d9e89d388259b105a",
+      "sha256": "1d13df05007e18314d47866ddab8b9f316edf9936ce3b1910b14fe4b9f6a0aa5"
+    },
+    {
+      "path": "python/tokenspeed/runtime/layers/quantization/compressed_tensors/schemes/compressed_tensors_w4a4_nvfp4.py",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "cacab7eb51639a11f67c9648432addc5637bf08a",
+      "sha256": "b1af3d147fddd209201613666c70ad39e8da392f849ec2deda25fada5d0c2fba"
+    },
+    {
+      "path": "python/tokenspeed/runtime/models/registry.py",
+      "status": "M",
+      "base_blob": "78c3c9ff048cbfdf47bd31f86ccb62ea73189355",
+      "port_blob": "a4a3bca94b2be0803491e6c414079dcdaf577ad5",
+      "sha256": "183cb2cc94aba503030a624efac9d2cfbf7c1f07dd51f1625ec9853de5a89ca3"
+    },
+    {
+      "path": "python/tokenspeed/runtime/utils/common.py",
+      "status": "M",
+      "base_blob": "0133cee353f37f9540f9ec522659ab8440bf01b5",
+      "port_blob": "45446e5516bc10b430e6f69022e2c024217170bb",
+      "sha256": "611789dbdf4e4acca5ef6c639a4ff6d49e1bf824d318315734ab1a4d3cc52a1b"
+    },
+    {
+      "path": "python/tokenspeed/runtime/utils/process.py",
+      "status": "M",
+      "base_blob": "4617a19ec8734fba136ddd970c3952aed8b266a4",
+      "port_blob": "66a4a910ebe732f37ce892d3b2268df67640bab1",
+      "sha256": "880cb4b59d96200242b4d54ea4648c6d91a29b51d0c0e27f760a024a2e6fbaf9"
+    },
+    {
+      "path": "test/runtime/test_compressed_tensors_fp8.py",
+      "status": "M",
+      "base_blob": "955db7992e640c22b67a9581a66962eef97f1a6c",
+      "port_blob": "a360f2405d248f30ec3ceb5c096813b7647a08d8",
+      "sha256": "9ab1c6b2210f4f035f1e7925bc4902a8c26821115c7394a5e14c1b14cf688de3"
+    },
+    {
+      "path": "test/runtime/test_compressed_tensors_nvfp4.py",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "a5d1084c0d4523861eb84ce0a21bb9e319d43b70",
+      "sha256": "dbcc8bbc433d720ae3e3ad60573f50f633867e71fadd0cd6c132838430b01864"
+    },
+    {
+      "path": "test/runtime/test_runtime_plugins.py",
+      "status": "M",
+      "base_blob": "a6e33d7b6e73841eba27e1e5208a244d649bde04",
+      "port_blob": "4bbd38c9e7c68042f7b39b63f2f3c61fd0a3c959",
+      "sha256": "260c08eb34194a1ba2bf2478ed231edd43516ee63df5d53bb4aefff0ccfac859"
+    },
+    {
+      "path": "test/runtime/test_rust_host.py",
+      "status": "M",
+      "base_blob": "78368b062848baf407ef1c9d447ac3013a1af167",
+      "port_blob": "7d3cc296bbce217a0594abdae45d632bb6a0b9a8",
+      "sha256": "c050102c801c260c61eaa1998cceb1f1ef41efa8ca79ded9efc4fa51600065f2"
+    },
+    {
+      "path": "tokenspeed-engine/crates/ts-grammar/CMakeLists.txt",
+      "status": "M",
+      "base_blob": "825327e985708e37d2907758d3b7ea747f9b9478",
+      "port_blob": "1833c4ca130af45e1ad869eee14929eefa5da0ea",
+      "sha256": "1df9da10cf849ac762a02e0863902c4dacbba6841440c9654326882b9850f8ff"
+    },
+    {
+      "path": "tokenspeed-engine/crates/ts-grammar/build.rs",
+      "status": "M",
+      "base_blob": "d445b70b31b271f461574e63bfcdcbecf6e6ae32",
+      "port_blob": "118030933c796d10817b3c5cd9d34f4239f1c60b",
+      "sha256": "7c905aa5f0e4e4809f0cda7e0bdc1314f4ba5a2f948bd5b41ab8ea721f0fcd70"
+    },
+    {
+      "path": "tokenspeed-engine/crates/ts-host/build.rs",
+      "status": "M",
+      "base_blob": "4bbf1d70f58037b832479056ef7098010b7269af",
+      "port_blob": "81921c5ab99db1ead970ef77d0ede6a16d4ec605",
+      "sha256": "89f98e9ae5da8e90d847898789d1411933e92bc3507dbe65eacbe61565c8849d"
+    },
+    {
+      "path": "tokenspeed-engine/crates/ts-host/src/main.rs",
+      "status": "M",
+      "base_blob": "054f1dbd9673673acfb804921ca72009bd8795b4",
+      "port_blob": "c82a1dcfd6a20876c3c39f663cebf574ddcd9e24",
+      "sha256": "93ca5701cadb26505eedd5750accd6961bcb5998b9f022834210c85b830619d9"
+    },
+    {
+      "path": "tokenspeed-engine/crates/ts-metrics/src/prom.rs",
+      "status": "M",
+      "base_blob": "9cb3dd82a9d33c1d8652d7733856a344b2b8fce7",
+      "port_blob": "491ecd3ac9a63e5b2a02779fa082ad9d3b7dae4b",
+      "sha256": "c24b3f718af46ff97e3b801834cbed20ff90a806a0b21dad579fdbcdcb6ebbc8"
+    },
+    {
+      "path": "tokenspeed-engine/crates/ts-scheduler/CMakeLists.txt",
+      "status": "M",
+      "base_blob": "e049c45ded905ef5b9f0213d806a4682612b245a",
+      "port_blob": "05cac5fb7bfe4aba9f40e808a0924b70128564f6",
+      "sha256": "215212d5d563e6c4198f5228d0f2a07b3a29ba82f987000084e2a93d6fc490df"
+    },
+    {
+      "path": "tokenspeed-engine/crates/ts-scheduler/build.rs",
+      "status": "M",
+      "base_blob": "72ccd194350d070ae3b0520329afc16660a810b7",
+      "port_blob": "c4330850a7329ccc3a8fa8c8ced3d4d50e293d09",
+      "sha256": "f417c6b23226b40798d6bf9a40a6788e52dd4e09287f195c4cb4f754a8a5ef2b"
+    },
+    {
+      "path": "tokenspeed-engine/python/tokenspeed_engine/__init__.py",
+      "status": "M",
+      "base_blob": "673381b8b6695d6935088d9b11fcbcb8682f6773",
+      "port_blob": "53537b1c1fa10a356adcacc8b71ffa481a5eb87a",
+      "sha256": "e0ac359d1d89873f8dbb8557782fd5731141a351e4ff18fc39c503ad52249fb8"
+    },
+    {
+      "path": "tokenspeed-engine/setup.py",
+      "status": "M",
+      "base_blob": "e87d980dbc57d09a891ebebf279e44cc9082411a",
+      "port_blob": "a6f0301d7a385a8a44f5617e13e99125e96b0210",
+      "sha256": "a79792baee3a767db32e90b55ab789056ba7108db056f9f1ca6bfe5d2553e1dc"
+    },
+    {
+      "path": "tokenspeed-kernel/python/requirements/windows-cuda.txt",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "a433fc50d6925200479eb890cd25d8047c54d6d6",
+      "sha256": "db347741fbba8e6b7e96febac1383e3051b76f0782f77b4507316494596ec5d0"
+    },
+    {
+      "path": "tokenspeed-kernel/python/setup.py",
+      "status": "M",
+      "base_blob": "94b9487e93a68a84f27a9e8425de0fcf3e8209e7",
+      "port_blob": "d3aef104c4cb53de3efffb3e54a8193562ba388f",
+      "sha256": "9fd48453f355ae458f0df84b1157d29cd49afe545059ad67902d9fe5d779d699"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/_triton.py",
+      "status": "M",
+      "base_blob": "282bba606d677764bc3b6bfe8739d8e5daabbd9e",
+      "port_blob": "3d6b6da276505bb3d25acc20ce76aa58965abdf2",
+      "sha256": "8d114cc3b732d89610888842d5b36d0527c4154a3b97331a3706efc4e4575f23"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/activation/__init__.py",
+      "status": "M",
+      "base_blob": "3c5c7f0d7d8ec4e86f6b6add1dceb1f83b3b25e3",
+      "port_blob": "530f4827ffa0dca665e7de88d53e5199f65bd7f0",
+      "sha256": "088f4b017ed714fc0c7fb5375a99c8c28f64b513f7749856643e2a6bba15ab99"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/attention/dsv4/cuda.py",
+      "status": "M",
+      "base_blob": "f74d0727a05c0f7a69c9012898f8c15711cf5543",
+      "port_blob": "43faadefa043a1538759b836647ef2f2c660e280",
+      "sha256": "fd0d908ee4be156d8c0e1d5d2729e17b3547ed10a5dfd185e90587ea70383bd2"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/attention/gdn/flashinfer.py",
+      "status": "M",
+      "base_blob": "1af646b5414b6eab659a366fc28ad14ae0772c58",
+      "port_blob": "f597dff226b45ed94451037b402a5b598d6a22b3",
+      "sha256": "ce43e556f6c8c97d7aa7dca662e1ff5abed6493c4005ed55ae5c8ea990c8df6e"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/attention/mha/cuda.py",
+      "status": "M",
+      "base_blob": "6556a34c81b66cd34a9c88e3122c14b8e00a4e6a",
+      "port_blob": "66ddedba94bd59c15f4c90da21ac5b88256f534c",
+      "sha256": "aec87b176481b85773956d0620647e4005997d061d2231640aaf33a574d1992b"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/attention/mla/cuda.py",
+      "status": "M",
+      "base_blob": "28035bf74bb7169714555d1a0f2aa33de0384b2b",
+      "port_blob": "dbc7368d57cce31795eadb6f95c4ebcae604f92b",
+      "sha256": "e20f56e2ce4c71056d9cd64238059117cea961258a5abd8456e69e37effd3a74"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/communication/deep_ep.py",
+      "status": "M",
+      "base_blob": "73eb5e2fbe2cf88ee5983b04fc6c0d7987a040e8",
+      "port_blob": "299825f8fca0460fecdd0c885ea56c99beb8a781",
+      "sha256": "3d65efd4204c12d03d5e55bcce38235a2b48a8bf5fed9837b9515436281af80f"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/README.md",
+      "status": "M",
+      "base_blob": "e90f9685e376dbfbce0871a8b816299127145893",
+      "port_blob": "2edc5de16f18c7cb0c39843663f9f5a371f17df3",
+      "sha256": "24eabf5e292196448b847ad4552da68dbf25e5af61515b30e9c168d1dca59be9"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/__init__.py",
+      "status": "M",
+      "base_blob": "9628539f1cac2e3173408ea3d42f1a2a79d75b32",
+      "port_blob": "20fdc68bb42d782f7116b8582deb41e12c008e18",
+      "sha256": "ca94c849b4dc4201ddf4e16fa60c35a83e5441d64fb9098c0b05ed1682a38aa8"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/_cute_dsl/nvfp4_gemm_swiglu.py",
+      "status": "M",
+      "base_blob": "f20547370ce29e449bb5d21ab815310d7c1c9f39",
+      "port_blob": "40e80502c46cf1a9094d34ac221a52c517fad8da",
+      "sha256": "afd6c5ebcd7132ec08c4f4b9ce75d355ca107063d6202376c44d7abba674024c"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/_flashinfer/fp8_quant.py",
+      "status": "M",
+      "base_blob": "729a35fbdbfccfa66b4d96da71d008f7cafb2ea6",
+      "port_blob": "3c34932195dec65b55e237b2a9988eed718024ea",
+      "sha256": "b4f47576bd7af4a27cfc47e3f7692714cac598e4389aeb490337b45670a82ad2"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/_triton/nvfp4.py",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "bb5facef11e879060893f3b44ff26b3f19654d93",
+      "sha256": "1cadf5d874b4786874e3a9bb7505156622806b4c478ac5d1543619fcb0d26715"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/cublaslt.py",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "5b8b4940d8d6e96e6634360672458b8ec05fa29e",
+      "sha256": "f0aa9f26bec6ba557fbbaec813e00655048c9c6c33322278c8d6a0a59ace0cf6"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/triton.py",
+      "status": "M",
+      "base_blob": "f07a0c861e38be826cea7af43088fa5ea79318f1",
+      "port_blob": "b1de4d0ee61abc1f679eedf0fc9fed2b347755b7",
+      "sha256": "516474d8f5115a3cdb4e713e0838f28a85f659d92516a757b968c40264891e07"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/trtllm.py",
+      "status": "M",
+      "base_blob": "4d97548671b8ce4c523d2599abf03718ab47aeba",
+      "port_blob": "6181c7f1b0da3f31a12161e05fe05657c96cc161",
+      "sha256": "3957263285883bce08d6de1d123bd4fe9ac15bbb6e0fe03f086722f9e561509f"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/layernorm/__init__.py",
+      "status": "M",
+      "base_blob": "f3c2bd9c2e1823d2c293ef70f3541ac660b170a3",
+      "port_blob": "25525a19369e341efc89eb7b0defd7abfd7ea5f6",
+      "sha256": "3fda8ee5279ec09a37ecbe5790e7c48ed9a8902f86b7c6df6e2c5d690dec1224"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/moe/__init__.py",
+      "status": "M",
+      "base_blob": "73a818b79ea843ee02b48a78d58937f3ec6b5dcd",
+      "port_blob": "f0473bf92b890c2f3c5e85c2074670521aff8021",
+      "sha256": "3e5e42441760791689b23523e01300dfcdac861fe4017efcf46c6a55ad86f066"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/moe/deep_gemm.py",
+      "status": "M",
+      "base_blob": "123c9a1f31fe0578fe634fdf9b86e8a7424ebbda",
+      "port_blob": "b0b75b18dac62c807e88a41c03929fff90963c4b",
+      "sha256": "69a4729669ce77a422dd9b04a8f4daf2a623dd893d696a376a91a962bed0d911"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/quantization/triton.py",
+      "status": "M",
+      "base_blob": "2a0e020406217915c8e03335e660aa35aeb84d0b",
+      "port_blob": "ca16663ddff281ea92690458fbf110e8ad97edcc",
+      "sha256": "5ed6b423c8f4a9ddd0f407b8d2dc10703cf60aba316d4eaf447b048390de439e"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/quantization/trtllm.py",
+      "status": "M",
+      "base_blob": "425aa6938d037f525cb9cc22926bc098f438c66d",
+      "port_blob": "6aca7a58c7ef1184c5e30875392159e6462527ea",
+      "sha256": "f84c682a60897c453ce4a5c7f7f2d75cc5ce71594f264103901bf5917c69da16"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/transform/faster_hadamard_transform/__init__.py",
+      "status": "M",
+      "base_blob": "2dda715dd894437160d259b64646dd40847ea471",
+      "port_blob": "76edd7d95ee5bb212fa8951612668e754101c66b",
+      "sha256": "70ce654f1bf92e5f969db3fb09972e3ef9f5d057df49464a593159d1bd0c4351"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/ops/tuning.py",
+      "status": "M",
+      "base_blob": "cd022fad96d045179933fe4f96022c4f8bff8972",
+      "port_blob": "dc335f8c49e3ae26eb587e0d2bad70290bd40bf1",
+      "sha256": "682ee62610c204a65adc329d21f414e0ae3a1ce1e5a7609c2d30b528f8869fe9"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/platform.py",
+      "status": "M",
+      "base_blob": "c5a2b731eb926664f150519da88b81779bcb664f",
+      "port_blob": "59193b009853afcb78882ee6444bbe3cdad27396",
+      "sha256": "982f1045e346bb16b306f4a5bf74c3e8f18cfbd249721b277d7332954572c0c4"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/cublas_fp8_tensor.cu",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "5ff8ef3b41e96b923f62a92f87c8b69ee7d25502",
+      "sha256": "b44969ed5e8645c3271f43ef921a5b5784a74750d8f3ef47c9654b424bf8c350"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include/flashinfer/math.cuh",
+      "status": "M",
+      "base_blob": "27c6351e8ff36cec490fe81ef5463699050c7a0e",
+      "port_blob": "5e9a0c09dc63528cc6baef932fe1a013de677f59",
+      "sha256": "4cd38096cefc06adfc0651b5a12bbf31917249ab0386f668181efdd4321b2552"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include/flashinfer/vec_dtypes.cuh",
+      "status": "M",
+      "base_blob": "68e2b7ed346d9fb661313fef0316bbd8a9d89609",
+      "port_blob": "45ae89eabc14d3886baef8200a648655ab858961",
+      "sha256": "895c95d01d672066e849195b47f9550af30d2986de439bbc970e12af45d446c9"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/cublas_fp8.py",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "cdcaf2dc0b16038ea2dbc7e1076d99862b155697",
+      "sha256": "6c99a0853bbb410c4a95061cb9f29e7bf9ca1088b8682826744be5bd7f27bde6"
+    },
+    {
+      "path": "tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/cuda_ipc.py",
+      "status": "M",
+      "base_blob": "2d112c2c05d81c6303aafa030fa97a9174368d23",
+      "port_blob": "17a86aad3d32e4d9d86af9b086d06de26f049a65",
+      "sha256": "26c9c7114914aa4407a57e0d7a171b8c1f6704a45de899234e9cc26d3b583df1"
+    },
+    {
+      "path": "tokenspeed-kernel/test/nvidia/ops/test_cublas_fp8_tensor.py",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "6017b68ac9c9658756c4310f0e368af4128a2b02",
+      "sha256": "0517a7ee7023f0b203cd54eda2e9057bb494b021ddc219615fb60d44324db66b"
+    },
+    {
+      "path": "tokenspeed-kernel/test/nvidia/ops/test_nvfp4_linear.py",
+      "status": "A",
+      "base_blob": null,
+      "port_blob": "4dc01a5f8ca4d58b58b902f0a84b38e255c1d95c",
+      "sha256": "2a34f940849b70682d2ac3a273b8df9c35ef46ab7344f143f160548465ea633a"
+    },
+    {
+      "path": "tokenspeed-scheduler/CMakeLists.txt",
+      "status": "M",
+      "base_blob": "d0fdf3b6ff19d81c979d3a0790631cf3b81d237b",
+      "port_blob": "ce76a64cc1e6a92099772e648b7c6816235fbaba",
+      "sha256": "b8b15ba8e26497651a71b328ec3d5550fd662a056b8fc85c71c42dc9f0d0c6b9"
+    },
+    {
+      "path": "tokenspeed-scheduler/csrc/cache/prefix/prefix_hasher.h",
+      "status": "M",
+      "base_blob": "743e113ba698b41124026650d9bf8f0366b090fc",
+      "port_blob": "581aacb6ebd24dd0724cb9ee26bd106fc547e1a2",
+      "sha256": "f318d514b0680699b637701e51abf8c2e124cf7613e0c87507ad2e03494a9982"
+    },
+    {
+      "path": "tokenspeed-scheduler/csrc/cache/prefix/prefix_index.h",
+      "status": "M",
+      "base_blob": "7158992f5f2d3868d097357af530d136044cc76a",
+      "port_blob": "7b6b90b36da01230cc3d24b48b80a40aee0d38b6",
+      "sha256": "111b73da9ba86806e059535523a225150347ce0685719e902f37bfad5132eda1"
+    },
+    {
+      "path": "tokenspeed-scheduler/csrc/resource/allocator/req_pool_allocator.cpp",
+      "status": "M",
+      "base_blob": "dca015efe464acebc285b7967341e3330cea2288",
+      "port_blob": "ee7003c872ea884a68cf0cc0548fde6554d82541",
+      "sha256": "9fe748d18016592299842c2abd4c88724648d33f8c8e24cc2a21f8db9ef2d76b"
+    },
+    {
+      "path": "tokenspeed-scheduler/csrc/utils.h",
+      "status": "M",
+      "base_blob": "36f13d974e2643d98801a3f662c7cb9b58d5f8e5",
+      "port_blob": "eff54e0c113aa99b38578b36920e184ebca2d758",
+      "sha256": "ee57eeb53990f5d2fdbe9ca8f324b7a836070e9167af1298d33a5e9e1194ff62"
+    }
+  ]
+}

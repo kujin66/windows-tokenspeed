@@ -71,6 +71,7 @@ Start here:
 
 - [Docs Index](https://lightseek.org/tokenspeed/)
 - [Windows ARM64 build, WSL2, FlashInfer and Triton benchmark report](docs/guides/windows-arm64-performance-report.md)
+- [Complete Windows ARM64 source and native build instructions](docs/guides/windows-arm64-build-details.md)
 - [Getting Started](https://lightseek.org/tokenspeed/guides/getting-started)
 - [Launching a Server](https://lightseek.org/tokenspeed/guides/launching)
 - [Model Recipes](https://lightseek.org/tokenspeed/recipes/models)

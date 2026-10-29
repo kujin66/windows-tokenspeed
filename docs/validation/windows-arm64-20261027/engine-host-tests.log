@@ -1,0 +1,85 @@
+python.exe : <projects>\vllm-bench\.venv\Lib\site-packages\setuptools\_distutils\_msvccompiler.py:12:
+UserWarning: _get_vc_env is private; find an alternative (pypa/distutils#340)
+At line:2 char:349
++ ... mar-0.2.8'; & .venv\Scripts\python.exe .port\run.py cargo test --mani ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<user>.../distutils#340):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  warnings.warn(
+   Compiling futures-util v0.3.34
+   Compiling tokenspeed-grammar v0.1.0
+(<workspace>\tokenspeed-engine\crates\ts-grammar)
+   Compiling tokenspeed-scheduler v0.1.0
+(<workspace>\tokenspeed-engine\crates\ts-scheduler)
+   Compiling futures-executor v0.3.34
+   Compiling futures v0.3.34
+   Compiling asynchronous-codec v0.7.0
+   Compiling zeromq v0.6.0
+   Compiling tokenspeed-metrics v0.1.0
+(<workspace>\tokenspeed-engine\crates\ts-metrics)
+   Compiling tokenspeed-l3 v0.1.0 (<workspace>\tokenspeed-engine\crates\ts-l3)
+   Compiling tokenspeed-pd v0.1.0 (<workspace>\tokenspeed-engine\crates\ts-pd)
+   Compiling tokenspeed-control v0.1.0
+(<workspace>\tokenspeed-engine\crates\ts-control)
+   Compiling tokenspeed-host v0.1.0 (<workspace>\tokenspeed-engine\crates\ts-host)
+    Finished `release` profile [optimized] target(s) in 43.50s
+     Running unittests src\lib.rs (tokenspeed-engine\target\release\deps\ts_grammar-8a5f7899d538faa5.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\grammar.rs (tokenspeed-engine\target\release\deps\grammar-7291dc81c8ad1dc6.exe)
+
+running 4 tests
+test the_c_entries_drive_a_registered_matcher ... ok
+test a_draft_walk_masks_each_position_and_leaves_the_matcher ... ok
+test a_matcher_masks_follows_and_ends_its_grammar ... ok
+test compile_failures_carry_xgrammar_s_reason ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src\main.rs (tokenspeed-engine\target\release\deps\ts_host-8798ad61844dbaeb.exe)
+
+running 3 tests
+test data_plane::tests::the_forward_thread_runs_the_queue_and_the_control_thread_its_queries ... ok
+test data_plane::tests::a_commit_does_not_wait_behind_a_later_launch ... ok
+test data_plane::tests::a_failed_launch_fails_the_commit_waiting_for_it ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.68s
+
+     Running unittests src\lib.rs (tokenspeed-engine\target\release\deps\ts_scheduler-2b8860589ca3e777.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests\scheduler.rs (tokenspeed-engine\target\release\deps\scheduler-ce5d2f0a50ee8cc9.exe)
+
+running 9 tests
+test only_a_scheduler_object_is_accepted ... ok
+test storage_operations_stay_out_of_the_device_cache_ops ... ok
+test an_event_the_state_does_not_allow_is_an_error ... ok
+[2026-10-26 14:35:14.535] [info] [Scheduler] retract: suspended request r1 (12 tokens) with its image
+test a_detached_request_cancels_its_storage_operation ... ok[2026-10-26 14:35:14.536] [info] [Scheduler] restore: request r1 (12 tokens) copies its image back
+
+test a_forced_retraction_stores_and_restores_through_cache_events ... ok
+test a_request_runs_from_prefill_to_finish ... ok
+test a_remote_prefill_carries_what_the_data_plane_reads ... ok
+test a_remote_decode_carries_the_first_token_and_the_prompt_blocks ... ok
+test the_package_imports_the_built_in_module ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+   Doc-tests ts_grammar
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests ts_scheduler
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

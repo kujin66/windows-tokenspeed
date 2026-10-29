@@ -1,0 +1,10 @@
+python.exe : <projects>\vllm-bench\.venv\Lib\site-packages\setuptools\_distutils\_msvccompiler.py:12:
+UserWarning: _get_vc_env is private; find an alternative (pypa/distutils#340)
+At line:3 char:1
++ & .venv/Scripts/python.exe tools/windows/run.py .venv/Scripts/python. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<user>.../distutils#340):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  warnings.warn(
+24 RMSNorm GPU cases passed on NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)

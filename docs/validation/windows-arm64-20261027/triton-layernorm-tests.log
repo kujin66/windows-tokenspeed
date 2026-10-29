@@ -1,0 +1,17 @@
+python.exe : <projects>\vllm-bench\.venv\Lib\site-packages\setuptools\_distutils\_msvccompiler.py:12:
+UserWarning: _get_vc_env is private; find an alternative (pypa/distutils#340)
+At line:2 char:272
++ ... rt\triton'; & .venv\Scripts\python.exe .port\run.py .venv\Scripts\pyt ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<user>.../distutils#340):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  warnings.warn(
+........................................                                 [100%]
+============================== warnings summary ===============================
+tokenspeed-kernel/test/ops/test_layernorm.py: 46 warnings
+  <projects>\vllm-bench\.venv\Lib\site-packages\triton\compiler\code_generator.py:643: DeprecationWarning: AnnAssign.__init__ missing 1 required positional argument: 'simple'. This will become an error in Python 3.15.
+    init_node = ast.AnnAssign(target=st_target, value=default_value, annotation=annotation)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+40 passed, 84 deselected, 46 warnings in 11.87s

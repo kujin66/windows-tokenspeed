@@ -1,0 +1,1336 @@
+python.exe : <projects>\vllm-bench\.venv\Lib\site-packages\setuptools\_distutils\_msvccompiler.py:12:
+UserWarning: _get_vc_env is private; find an alternative (pypa/distutils#340)
+At line:2 char:1
++ & .\.venv\Scripts\python.exe .port\run.py ctest --test-dir .port\sche ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<user>.../distutils#340):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  warnings.warn(
+Test project <workspace>/.port/scheduler-build
+        Start 176: CoordinatorMatchTest.ThreeGroupsCommonIsMinCoverageAcrossAll
+        Start 119: SwaManagerTest.InheritedCacheFullBlocksMakesPagesHittable
+  1/661 Test #176: CoordinatorMatchTest.ThreeGroupsCommonIsMinCoverageAcrossAll ..........................................................................   Passed    0.03 sec
+        Start 175: CoordinatorMatchTest.SwaOnlyConfigKeepsTailRunWithLeadingHoles
+  2/661 Test #119: SwaManagerTest.InheritedCacheFullBlocksMakesPagesHittable .............................................................................   Passed    0.03 sec
+        Start 120: SwaManagerTest.ReclaimExpiredMirrorsVllmBoundarySequence
+  3/661 Test #175: CoordinatorMatchTest.SwaOnlyConfigKeepsTailRunWithLeadingHoles ........................................................................   Passed    0.03 sec
+        Start 637: CapacityModelTest.MatchesTheSchedulerStartupBound
+  4/661 Test #120: SwaManagerTest.ReclaimExpiredMirrorsVllmBoundarySequence ..............................................................................   Passed    0.03 sec
+        Start  39: BlockPoolTest.DestroyWithLiveReferenceReportsFatalInvariant
+  5/661 Test #637: CapacityModelTest.MatchesTheSchedulerStartupBound .....................................................................................   Passed    0.06 sec
+        Start 499: HostHitSuite.AHostTailLoadsIntoPrivatePagesWithoutRepublication
+  6/661 Test  #39: BlockPoolTest.DestroyWithLiveReferenceReportsFatalInvariant ...........................................................................   Passed    0.07 sec
+        Start 500: HostHitSuite.HostHitLoadsBackAfterDeviceEviction
+  7/661 Test #499: HostHitSuite.AHostTailLoadsIntoPrivatePagesWithoutRepublication .......................................................................   Passed    0.03 sec
+        Start 558: DecodeRetractionL2TestSuite.WriteBackAckPublishesTheImagesHostEntries
+  8/661 Test #500: HostHitSuite.HostHitLoadsBackAfterDeviceEviction ......................................................................................   Passed    0.03 sec
+        Start 535: PrefillRoleKvCacheEventTestSuite.AdmissionThatEvictsAndRepublishesABoundaryKeepsItPublished
+  9/661 Test #558: DecodeRetractionL2TestSuite.WriteBackAckPublishesTheImagesHostEntries .................................................................   Passed    0.03 sec
+        Start 539: TokenLevelHitSuite.RandomStreamsResumeAtTheLongestPublishedBoundary
+ 10/661 Test #535: PrefillRoleKvCacheEventTestSuite.AdmissionThatEvictsAndRepublishesABoundaryKeepsItPublished ...........................................   Passed    0.03 sec
+        Start 559: DecodeRetractionNoPrefixCacheTestSuite.RestoreUsesItsOwnImageWithPrefixCachingDisabled
+ 11/661 Test #539: TokenLevelHitSuite.RandomStreamsResumeAtTheLongestPublishedBoundary ...................................................................   Passed    0.04 sec
+        Start 540: TokenLevelHitWithSlidingGroupSuite.ASlidingGroupFollowsTheSameBoundaries
+ 12/661 Test #559: DecodeRetractionNoPrefixCacheTestSuite.RestoreUsesItsOwnImageWithPrefixCachingDisabled ................................................   Passed    0.04 sec
+        Start 124: SwaManagerTest.ReclaimExpiredFreedCachedPageStaysPrefixReusable
+ 13/661 Test #540: TokenLevelHitWithSlidingGroupSuite.ASlidingGroupFollowsTheSameBoundaries ..............................................................   Passed    0.03 sec
+        Start  37: BlockPoolTest.GroupWithoutPlacementReportsFatalInvariant
+ 14/661 Test #124: SwaManagerTest.ReclaimExpiredFreedCachedPageStaysPrefixReusable .......................................................................   Passed    0.03 sec
+        Start 104: FullAttnManagerLcmTest.DuplicateRegistrationUpdatesEpochWithoutReorderingEntries
+ 15/661 Test #104: FullAttnManagerLcmTest.DuplicateRegistrationUpdatesEpochWithoutReorderingEntries ......................................................   Passed    0.03 sec
+        Start 236: CacheCoordinatorHostReplacement.GlobalLruMixesChildAndParentVictimsAcrossBuckets
+ 16/661 Test  #37: BlockPoolTest.GroupWithoutPlacementReportsFatalInvariant ..............................................................................   Passed    0.07 sec
+        Start 487: PrefixHitTightPoolSuite.ProtectedHitAndFreshDemandMustFitTogether
+ 17/661 Test #236: CacheCoordinatorHostReplacement.GlobalLruMixesChildAndParentVictimsAcrossBuckets ......................................................   Passed    0.04 sec
+        Start 566: PdSparseDecodeAdmissionTestSuite.ExactStateHitCanFinishWithoutADecodeForward
+ 18/661 Test #487: PrefixHitTightPoolSuite.ProtectedHitAndFreshDemandMustFitTogether .....................................................................   Passed    0.03 sec
+        Start 486: PrefixHitSmallWindowSuite.SwaGroupHitRespectsWindow
+ 19/661 Test #566: PdSparseDecodeAdmissionTestSuite.ExactStateHitCanFinishWithoutADecodeForward ..........................................................   Passed    0.03 sec
+        Start 585: CacheOperationTest.RetractionStoreSkipsWhenHostHasNoPlacement
+ 20/661 Test #486: PrefixHitSmallWindowSuite.SwaGroupHitRespectsWindow ...................................................................................   Passed    0.02 sec
+        Start 261: SwaRegistrationTest.SwaBoundaryRequiresTrailingWindow
+ 21/661 Test #585: CacheOperationTest.RetractionStoreSkipsWhenHostHasNoPlacement .........................................................................   Passed    0.02 sec
+        Start 536: SkewedGroupPrefillKvCacheEventTestSuite.RepublishedRunEmitsStoredParentFirst
+ 22/661 Test #261: SwaRegistrationTest.SwaBoundaryRequiresTrailingWindow .................................................................................   Passed    0.02 sec
+        Start   1: PageHasherHexTest.AppendHexBytesIsLowercaseTwoCharsPerByte
+ 23/661 Test #536: SkewedGroupPrefillKvCacheEventTestSuite.RepublishedRunEmitsStoredParentFirst ..........................................................   Passed    0.02 sec
+        Start  56: BlockPoolOccupancyIndexTest.AgreesWithAFullScanUnderRandomChurn
+ 24/661 Test   #1: PageHasherHexTest.AppendHexBytesIsLowercaseTwoCharsPerByte ............................................................................   Passed    0.03 sec
+        Start 572: CacheOperationTest.RepeatedTransferWithinOnePlanIsASchedulerBug
+ 25/661 Test  #56: BlockPoolOccupancyIndexTest.AgreesWithAFullScanUnderRandomChurn .......................................................................   Passed    0.04 sec
+        Start 571: CacheOperationTest.WriteBackFlattensOpsInOrderWithPerOpGuard
+ 26/661 Test #572: CacheOperationTest.RepeatedTransferWithinOnePlanIsASchedulerBug .......................................................................   Passed    0.03 sec
+        Start 603: AsyncStorageTailTest.QueryBudgetKeepsTailGroupsTogether
+ 27/661 Test #571: CacheOperationTest.WriteBackFlattensOpsInOrderWithPerOpGuard ..........................................................................   Passed    0.03 sec
+        Start 250: CacheCoordinatorHostExtension.FullGapCapsExtension
+ 28/661 Test #603: AsyncStorageTailTest.QueryBudgetKeepsTailGroupsTogether ...............................................................................   Passed    0.03 sec
+        Start 643: KeyBudgets/StorageQueryHighestTest.RestoresTheHighestCheckpointWithinTheActualKeyBudget/40
+ 29/661 Test #250: CacheCoordinatorHostExtension.FullGapCapsExtension ....................................................................................   Passed    0.03 sec
+        Start 237: CacheCoordinatorHostReplacement.GlobalLruRefreshesParentScratchBetweenBatches
+ 30/661 Test #643: KeyBudgets/StorageQueryHighestTest.RestoresTheHighestCheckpointWithinTheActualKeyBudget/40 ............................................   Passed    0.03 sec
+        Start 213: CoordinatorStepTest.AcquireKeepsGroupsAligned
+ 31/661 Test #237: CacheCoordinatorHostReplacement.GlobalLruRefreshesParentScratchBetweenBatches .........................................................   Passed    0.03 sec
+        Start 608: AsyncStorageTailTest.KnownTailBelowTheRequestBoundCanBeRestored
+ 32/661 Test #213: CoordinatorStepTest.AcquireKeepsGroupsAligned .........................................................................................   Passed    0.03 sec
+        Start 262: SwaRegistrationTest.UnalignedEndpointPublishesTrailingFullPages
+ 33/661 Test #608: AsyncStorageTailTest.KnownTailBelowTheRequestBoundCanBeRestored .......................................................................   Passed    0.02 sec
+        Start 380: ForwardBatch.ScalarFieldsTrackPerRequestRows
+ 34/661 Test #262: SwaRegistrationTest.UnalignedEndpointPublishesTrailingFullPages .......................................................................   Passed    0.03 sec
+        Start 633: AsyncStorageTransactionTest.MalformedObjectFactsCannotCompleteOrReleaseRead
+ 35/661 Test #380: ForwardBatch.ScalarFieldsTrackPerRequestRows ..........................................................................................   Passed    0.03 sec
+        Start 593: CacheOperationTest.L3StorageAcceptsHostCache
+ 36/661 Test #633: AsyncStorageTransactionTest.MalformedObjectFactsCannotCompleteOrReleaseRead ...........................................................   Passed    0.03 sec
+        Start 199: CacheCoordinatorAdmissionTest.RetriesWithFreshCursorsAfterPinnedAdmissionFails
+ 37/661 Test #593: CacheOperationTest.L3StorageAcceptsHostCache ..........................................................................................   Passed    0.03 sec
+        Start 584: CacheOperationTest.HostDestinationCannotBeReusedBeforeWriteBackAck
+ 38/661 Test #199: CacheCoordinatorAdmissionTest.RetriesWithFreshCursorsAfterPinnedAdmissionFails ........................................................   Passed    0.03 sec
+        Start 337: ForwardCacheOpsDecode.AdmissionWithEmptyHashesOnlySlidesAndAllocates
+ 39/661 Test #584: CacheOperationTest.HostDestinationCannotBeReusedBeforeWriteBackAck ....................................................................   Passed    0.03 sec
+        Start 592: CacheOperationTest.L3StorageRequiresHostCache
+ 40/661 Test #337: ForwardCacheOpsDecode.AdmissionWithEmptyHashesOnlySlidesAndAllocates ..................................................................   Passed    0.02 sec
+        Start 604: AsyncStorageTailTest.QueryBudgetPrioritizesTheCompleteTail
+ 41/661 Test #592: CacheOperationTest.L3StorageRequiresHostCache .........................................................................................   Passed    0.02 sec
+        Start 251: CacheCoordinatorHostExtension.EmptyStoreZeroExtension
+ 42/661 Test #604: AsyncStorageTailTest.QueryBudgetPrioritizesTheCompleteTail ............................................................................   Passed    0.02 sec
+        Start 317: StateCheckpointInForwardTightPoolSuite.AChunkEndsAtTheBoundaryWhenTheCheckpointBlockDoesNotFit
+ 43/661 Test #251: CacheCoordinatorHostExtension.EmptyStoreZeroExtension .................................................................................   Passed    0.02 sec
+        Start 139: FullAttnMatcherTest.ProbeRequiresExplicitL3HitSet
+ 44/661 Test #317: StateCheckpointInForwardTightPoolSuite.AChunkEndsAtTheBoundaryWhenTheCheckpointBlockDoesNotFit ........................................   Passed    0.02 sec
+        Start  57: BlockPoolOccupancyIndexTest.FreeSlotsAreScopedToTheOwningGroup
+ 45/661 Test #139: FullAttnMatcherTest.ProbeRequiresExplicitL3HitSet .....................................................................................   Passed    0.02 sec
+        Start 316: StateCheckpointInForwardMixedSuite.AJunctionBeforeTheBoundaryLeavesTheChunksBeforeItWhole
+ 46/661 Test  #57: BlockPoolOccupancyIndexTest.FreeSlotsAreScopedToTheOwningGroup ........................................................................   Passed    0.02 sec
+        Start 565: PdSparseDecodeAdmissionTestSuite.AnExactPromptEndStateHitSkipsTheStateTransfer
+ 47/661 Test #316: StateCheckpointInForwardMixedSuite.AJunctionBeforeTheBoundaryLeavesTheChunksBeforeItWhole .............................................   Passed    0.02 sec
+        Start 100: FullAttnManagerLcmTest.RequestOnlyUniqueChildIsNotCacheEvictable
+ 48/661 Test #565: PdSparseDecodeAdmissionTestSuite.AnExactPromptEndStateHitSkipsTheStateTransfer ........................................................   Passed    0.02 sec
+        Start  55: BlockPoolOccupancyIndexTest.PlacementFillsTheDensestParentThenTheLowestId
+ 49/661 Test #100: FullAttnManagerLcmTest.RequestOnlyUniqueChildIsNotCacheEvictable ......................................................................   Passed    0.02 sec
+        Start 567: PdSparseDecodeAdmissionTestSuite.ReusesHistoryPrefixAndClaimsAPageAlignedPromptEndState
+ 50/661 Test  #55: BlockPoolOccupancyIndexTest.PlacementFillsTheDensestParentThenTheLowestId .............................................................   Passed    0.02 sec
+        Start 352: SchedulerConfigValidateTest.ReplayableRequiresASlidingWindowGroup
+ 51/661 Test #567: PdSparseDecodeAdmissionTestSuite.ReusesHistoryPrefixAndClaimsAPageAlignedPromptEndState ...............................................   Passed    0.02 sec
+        Start 123: SwaManagerTest.ReclaimExpiredReleasesEverySlidOutBlock
+ 52/661 Test #352: SchedulerConfigValidateTest.ReplayableRequiresASlidingWindowGroup .....................................................................   Passed    0.02 sec
+        Start 103: FullAttnManagerLcmTest.CrossGroupRebindRequiresErasingEveryChildEntry
+ 53/661 Test #123: SwaManagerTest.ReclaimExpiredReleasesEverySlidOutBlock ................................................................................   Passed    0.02 sec
+        Start 117: SwaManagerTest.ClaimHitBlocksSkipsNullHoles
+ 54/661 Test #103: FullAttnManagerLcmTest.CrossGroupRebindRequiresErasingEveryChildEntry .................................................................   Passed    0.02 sec
+        Start 544: ExecutionEventTest.StoresConcreteEventsInInsertionOrder
+ 55/661 Test #117: SwaManagerTest.ClaimHitBlocksSkipsNullHoles ...........................................................................................   Passed    0.02 sec
+        Start 607: AsyncStorageTailTest.DetachedGetNeverPublishesTail
+ 56/661 Test #544: ExecutionEventTest.StoresConcreteEventsInInsertionOrder ...............................................................................   Passed    0.03 sec
+        Start 367: ChunkKeepingFinalWindowTest.NeverLeavesAShortFinalChunk
+ 57/661 Test #607: AsyncStorageTailTest.DetachedGetNeverPublishesTail ....................................................................................   Passed    0.03 sec
+        Start 543: ExemptOwnersFillThePoolSuite.FirstDecodesProceedWithoutTheirCopyIn
+ 58/661 Test #367: ChunkKeepingFinalWindowTest.NeverLeavesAShortFinalChunk ...............................................................................   Passed    0.03 sec
+        Start 541: GptOssShapeSuite.APromptOneTokenShorterThanAFinishedOneResumesAtItsLastPage
+ 59/661 Test #543: ExemptOwnersFillThePoolSuite.FirstDecodesProceedWithoutTheirCopyIn ....................................................................   Passed    0.03 sec
+        Start 645: WindowSizes/StorageQueryWindowTest.AShorterCheckpointQueriesItsOwnSlidingWindow/4
+ 60/661 Test #541: GptOssShapeSuite.APromptOneTokenShorterThanAFinishedOneResumesAtItsLastPage ...........................................................   Passed    0.03 sec
+        Start 635: ReqPoolAllocatorTest.MoveAssignmentReleasesPreviouslyOwnedSlot
+ 61/661 Test #645: WindowSizes/StorageQueryWindowTest.AShorterCheckpointQueriesItsOwnSlidingWindow/4 .....................................................   Passed    0.03 sec
+        Start 489: DecodeCachingSuite.MultiTurnConversationReusesResponsePages
+ 62/661 Test #635: ReqPoolAllocatorTest.MoveAssignmentReleasesPreviouslyOwnedSlot ........................................................................   Passed    0.04 sec
+        Start 542: GptOssShapeWithWholePagesSuite.APromptOneTokenShorterThanAFinishedOneResumesAtItsLastPage
+ 63/661 Test #489: DecodeCachingSuite.MultiTurnConversationReusesResponsePages ...........................................................................   Passed    0.04 sec
+        Start 488: DecodeCachingSuite.DecodeFilledPageBecomesHittable
+ 64/661 Test #542: GptOssShapeWithWholePagesSuite.APromptOneTokenShorterThanAFinishedOneResumesAtItsLastPage .............................................   Passed    0.03 sec
+        Start  73: FullAttnManagerTest.ConstructsWithBlockGranularity
+ 65/661 Test #488: DecodeCachingSuite.DecodeFilledPageBecomesHittable ....................................................................................   Passed    0.05 sec
+        Start 634: ReqPoolAllocatorTest.RAIIReleasesSlotOnDestruction
+ 66/661 Test  #73: FullAttnManagerTest.ConstructsWithBlockGranularity ....................................................................................   Passed    0.05 sec
+        Start 606: AsyncStorageTailTest.PartialGetCannotResumeWithoutItsExactState
+ 67/661 Test #634: ReqPoolAllocatorTest.RAIIReleasesSlotOnDestruction ....................................................................................   Passed    0.03 sec
+        Start 639: CapacityModelTest.ConcurrentDemandByKind
+ 68/661 Test #606: AsyncStorageTailTest.PartialGetCannotResumeWithoutItsExactState .......................................................................   Passed    0.02 sec
+        Start 600: CacheOperationTest.StorageReservationPinsAllWarmHitsBeforeEviction
+ 69/661 Test #639: CapacityModelTest.ConcurrentDemandByKind ..............................................................................................   Passed    0.03 sec
+        Start 498: StreamingSinkSuite.DuplicateWriteBackDoneIsIgnored
+ 70/661 Test #600: CacheOperationTest.StorageReservationPinsAllWarmHitsBeforeEviction ....................................................................   Passed    0.02 sec
+        Start  52: BlockPoolLcmPlacementTest.FillsMostOccupiedPartialParentBeforeFreeParent
+ 71/661 Test #498: StreamingSinkSuite.DuplicateWriteBackDoneIsIgnored ....................................................................................   Passed    0.02 sec
+        Start 414: FusedRetractionL2TestSuite.TheImageWaitsForAnEarlierStoreThatCarriesOneOfItsKeys
+ 72/661 Test  #52: BlockPoolLcmPlacementTest.FillsMostOccupiedPartialParentBeforeFreeParent ..............................................................   Passed    0.02 sec
+        Start 557: DecodeRetractionL2TestSuite.PrefillDoneRunsBeforeRetractedRecovery
+ 73/661 Test #414: FusedRetractionL2TestSuite.TheImageWaitsForAnEarlierStoreThatCarriesOneOfItsKeys ......................................................   Passed    0.02 sec
+        Start 368: CoordinatorReplayTest.WindowIsTheLargestDeclaredAndAHitReplaysAtMostAWindow
+ 74/661 Test #557: DecodeRetractionL2TestSuite.PrefillDoneRunsBeforeRetractedRecovery ....................................................................   Passed    0.02 sec
+        Start 273: RetractionImageTest.ShardedImageKeepsEveryCopyInItsBucket
+ 75/661 Test #368: CoordinatorReplayTest.WindowIsTheLargestDeclaredAndAHitReplaysAtMostAWindow ...........................................................   Passed    0.02 sec
+        Start 228: CacheCoordinatorHostReplacement.CrossGroupUsesMostRecentChildAccess
+ 76/661 Test #273: RetractionImageTest.ShardedImageKeepsEveryCopyInItsBucket .............................................................................   Passed    0.02 sec
+        Start 415: FusedRetractionL2TestSuite.FinishWhileRetractedReleasesTheImage
+ 77/661 Test #228: CacheCoordinatorHostReplacement.CrossGroupUsesMostRecentChildAccess ...................................................................   Passed    0.02 sec
+        Start 185: CacheCoordinatorAdmissionTest.UsesPoolAllocationOrderForEmptyParents
+ 78/661 Test #415: FusedRetractionL2TestSuite.FinishWhileRetractedReleasesTheImage .......................................................................   Passed    0.02 sec
+        Start 379: ForwardBatch.GroupKeyUnionAcrossRequestsPadsMissingGroup
+ 79/661 Test #185: CacheCoordinatorAdmissionTest.UsesPoolAllocationOrderForEmptyParents ..................................................................   Passed    0.02 sec
+        Start 573: CacheOperationTest.OpWithoutTransfersIsASchedulerBug
+ 80/661 Test #379: ForwardBatch.GroupKeyUnionAcrossRequestsPadsMissingGroup ..............................................................................   Passed    0.03 sec
+        Start 601: AsyncStorageTailTest.RetiredGetPublishesTailForOrdinaryMatching
+ 81/661 Test #573: CacheOperationTest.OpWithoutTransfersIsASchedulerBug ..................................................................................   Passed    0.03 sec
+        Start  51: BlockPoolLcmPlacementTest.ReleasingOneChildKeepsSiblingAndReusesOnlyItsSlot
+ 82/661 Test #601: AsyncStorageTailTest.RetiredGetPublishesTailForOrdinaryMatching .......................................................................   Passed    0.03 sec
+        Start 534: SubpageKvCacheEventTestSuite.PublishesRemovalWhenAnyChildBlockIsEvicted
+ 83/661 Test  #51: BlockPoolLcmPlacementTest.ReleasingOneChildKeepsSiblingAndReusesOnlyItsSlot ...........................................................   Passed    0.04 sec
+        Start 349: SchedulerConfigValidateTest.RejectsWindowOnNonSlidingGroupWithGroupId
+ 84/661 Test #534: SubpageKvCacheEventTestSuite.PublishesRemovalWhenAnyChildBlockIsEvicted ...............................................................   Passed    0.04 sec
+        Start  16: HashPrefixPageTest.FramingDisambiguatesTokensFromExtraKeys
+ 85/661 Test #349: SchedulerConfigValidateTest.RejectsWindowOnNonSlidingGroupWithGroupId .................................................................   Passed    0.03 sec
+        Start 291: TailPublicationTest.CapDropsTheLeastRecentlyUsedTailUnderOnePriorWithItsBlocks
+ 86/661 Test  #16: HashPrefixPageTest.FramingDisambiguatesTokensFromExtraKeys ............................................................................   Passed    0.03 sec
+        Start 611: AsyncStorageTransactionTest.ReadReservesHostWithoutDeviceAllocation
+ 87/661 Test #291: TailPublicationTest.CapDropsTheLeastRecentlyUsedTailUnderOnePriorWithItsBlocks ........................................................   Passed    0.03 sec
+        Start 418: ImageFollowsCanonicalHostEntrySuite.ARedirectedStoreAckRePointsTheImageToTheCanonicalEntry
+ 88/661 Test #611: AsyncStorageTransactionTest.ReadReservesHostWithoutDeviceAllocation ...................................................................   Passed    0.03 sec
+        Start  54: BlockPoolBucketTest.InterleavedLifetimesMatchExhaustivePlacementOracle
+ 89/661 Test #418: ImageFollowsCanonicalHostEntrySuite.ARedirectedStoreAckRePointsTheImageToTheCanonicalEntry ............................................   Passed    0.03 sec
+        Start 602: AsyncStorageTailTest.FirstPageTailNeedsNoFullPageHash
+ 90/661 Test  #54: BlockPoolBucketTest.InterleavedLifetimesMatchExhaustivePlacementOracle ................................................................   Passed    0.04 sec
+        Start  13: HashPrefixPageTest.FramingDisambiguatesKeySplits
+ 91/661 Test #602: AsyncStorageTailTest.FirstPageTailNeedsNoFullPageHash .................................................................................   Passed    0.04 sec
+        Start 594: CacheOperationTest.HostHitsLoadWithoutKeys
+ 92/661 Test  #13: HashPrefixPageTest.FramingDisambiguatesKeySplits ......................................................................................   Passed    0.03 sec
+        Start 335: ForwardCacheOpsDecode.StepAcquiresAndSlidesSwaWindow
+ 93/661 Test #594: CacheOperationTest.HostHitsLoadWithoutKeys ............................................................................................   Passed    0.03 sec
+        Start   9: HashPrefixPageTest.PriorHashChangesOutput
+ 94/661 Test #335: ForwardCacheOpsDecode.StepAcquiresAndSlidesSwaWindow ..................................................................................   Passed    0.04 sec
+        Start 413: FusedRetractionL2TestSuite.ADecodingVictimResumesDecodingWithoutRecomputing
+ 95/661 Test   #9: HashPrefixPageTest.PriorHashChangesOutput .............................................................................................   Passed    0.04 sec
+        Start 432: SlotPinKnobSuite.AnAbortWhileRetractedKeepsTheBlobSlotUntilTheStoreAck
+ 96/661 Test #413: FusedRetractionL2TestSuite.ADecodingVictimResumesDecodingWithoutRecomputing ...........................................................   Passed    0.03 sec
+        Start 477: PrefixReplaySuite.FullHitReplaysPrivateTailPages
+ 97/661 Test #432: SlotPinKnobSuite.AnAbortWhileRetractedKeepsTheBlobSlotUntilTheStoreAck ................................................................   Passed    0.03 sec
+        Start 336: ForwardCacheOpsDecode.DecodeStepRegistersFilledPages
+ 98/661 Test #477: PrefixReplaySuite.FullHitReplaysPrivateTailPages ......................................................................................   Passed    0.03 sec
+        Start 412: FusedRetractionL2TestSuite.AReadmissionThatDoesNotFitWaitsWithoutRetracting
+ 99/661 Test #336: ForwardCacheOpsDecode.DecodeStepRegistersFilledPages ..................................................................................   Passed    0.03 sec
+        Start 280: ShardedTailCopyPackingFourTest.OwnerCopyInIsNotFundedByEvictingTheTailItDedupesOnto
+100/661 Test #412: FusedRetractionL2TestSuite.AReadmissionThatDoesNotFitWaitsWithoutRetracting ...........................................................   Passed    0.02 sec
+        Start 116: SwaManagerTest.MatchPinsUntilResultDies
+101/661 Test #280: ShardedTailCopyPackingFourTest.OwnerCopyInIsNotFundedByEvictingTheTailItDedupesOnto ...................................................   Passed    0.02 sec
+        Start 636: CapacityModelTest.L3SizingDoesNotRequireHostPagesBeforeAllocation
+102/661 Test #116: SwaManagerTest.MatchPinsUntilResultDies ...............................................................................................   Passed    0.02 sec
+        Start 163: CoordinatorMatchTest.SwaRunCutByFullBoundDropsToNoValidMatch
+103/661 Test #636: CapacityModelTest.L3SizingDoesNotRequireHostPagesBeforeAllocation .....................................................................   Passed    0.02 sec
+        Start 591: CacheOperationTest.HostRestoredStateCheckpointRemainsCachedAfterLoadAckAndWorkingRelease
+104/661 Test #163: CoordinatorMatchTest.SwaRunCutByFullBoundDropsToNoValidMatch ..........................................................................   Passed    0.02 sec
+        Start 111: SwaManagerTest.MatchTrimsTailAfterWindow
+105/661 Test #591: CacheOperationTest.HostRestoredStateCheckpointRemainsCachedAfterLoadAckAndWorkingRelease ..............................................   Passed    0.02 sec
+        Start 118: SwaManagerTest.InheritedAcquireAndFreeWork
+106/661 Test #111: SwaManagerTest.MatchTrimsTailAfterWindow ..............................................................................................   Passed    0.03 sec
+        Start 353: SchedulerConfigValidateTest.ReplayNeedsBudgetForAWindowOnEveryRole
+107/661 Test #118: SwaManagerTest.InheritedAcquireAndFreeWork ............................................................................................   Passed    0.03 sec
+        Start 290: TailPublicationTest.ASlidingGroupMissingThePageLookbackStillResumesAtTheTail
+108/661 Test #353: SchedulerConfigValidateTest.ReplayNeedsBudgetForAWindowOnEveryRole ....................................................................   Passed    0.03 sec
+        Start 366: ForwardCacheOpsBuildBlockTables.ResolvesEachGroupsPackingRecipe
+109/661 Test #290: TailPublicationTest.ASlidingGroupMissingThePageLookbackStillResumesAtTheTail ..........................................................   Passed    0.03 sec
+        Start 595: CacheOperationTest.ExpandPrefixKeysCoversGroupsAndOffsets
+110/661 Test #366: ForwardCacheOpsBuildBlockTables.ResolvesEachGroupsPackingRecipe .......................................................................   Passed    0.03 sec
+        Start 471: PrefixHitSuite.ClearL1CacheRemovesAnIdlePrefix
+111/661 Test #595: CacheOperationTest.ExpandPrefixKeysCoversGroupsAndOffsets .............................................................................   Passed    0.03 sec
+        Start 289: TailPublicationTest.EvictingOneTailBlockTakesItsCompanionsAndPrunesTheTable
+112/661 Test #471: PrefixHitSuite.ClearL1CacheRemovesAnIdlePrefix ........................................................................................   Passed    0.04 sec
+        Start 243: CacheCoordinatorHostReplacement.BatchRebindsParentsOnceAcrossMixedGroups
+113/661 Test #289: TailPublicationTest.EvictingOneTailBlockTakesItsCompanionsAndPrunesTheTable ...........................................................   Passed    0.03 sec
+        Start 490: DecodeCachingSuite.PoolBalanceAcrossDecodeCaching
+114/661 Test #243: CacheCoordinatorHostReplacement.BatchRebindsParentsOnceAcrossMixedGroups ..............................................................   Passed    0.02 sec
+        Start 381: ForwardBatch.EqualLengthRowsUnchanged
+115/661 Test #490: DecodeCachingSuite.PoolBalanceAcrossDecodeCaching .....................................................................................   Passed    0.03 sec
+        Start  69: CacheBlockRefTest.SwapExchangesOwnershipWithoutChangingCounts
+116/661 Test #381: ForwardBatch.EqualLengthRowsUnchanged .................................................................................................   Passed    0.03 sec
+        Start 242: CacheCoordinatorHostReplacement.BatchGivesInterleavedGroupsFreeCapacityInCandidateOrder
+117/661 Test  #69: CacheBlockRefTest.SwapExchangesOwnershipWithoutChangingCounts .........................................................................   Passed    0.02 sec
+        Start 292: SlidingWindowOracleTest.AHitterHoldsEveryBlockOfTheWindowBehindAnUnalignedBoundary
+118/661 Test #242: CacheCoordinatorHostReplacement.BatchGivesInterleavedGroupsFreeCapacityInCandidateOrder ...............................................   Passed    0.02 sec
+        Start 341: MakeSpecsFromConfigTest.PreservesPerGroupCachePageTokens
+119/661 Test #292: SlidingWindowOracleTest.AHitterHoldsEveryBlockOfTheWindowBehindAnUnalignedBoundary ....................................................   Passed    0.03 sec
+        Start  50: BlockPoolLcmPlacementTest.IndependentChildrenShareOneParent
+120/661 Test #341: MakeSpecsFromConfigTest.PreservesPerGroupCachePageTokens ..............................................................................   Passed    0.02 sec
+        Start  98: FullAttnManagerTest.ChainedPriorPreventsSecondPageCollision
+121/661 Test  #50: BlockPoolLcmPlacementTest.IndependentChildrenShareOneParent ...........................................................................   Passed    0.02 sec
+        Start  99: FullAttnManagerLcmTest.ManagerOnlyCacheOwnerRetainsChild
+122/661 Test  #98: FullAttnManagerTest.ChainedPriorPreventsSecondPageCollision ...........................................................................   Passed    0.02 sec
+        Start 605: AsyncStorageTailTest.HostBudgetRetriesTheImmediatelyPrecedingAlignedBoundary
+123/661 Test  #99: FullAttnManagerLcmTest.ManagerOnlyCacheOwnerRetainsChild ..............................................................................   Passed    0.02 sec
+        Start 626: AsyncStorageTransactionTest.PressureDoesNotRetireActiveReadOrPreventItsPublication
+124/661 Test #605: AsyncStorageTailTest.HostBudgetRetriesTheImmediatelyPrecedingAlignedBoundary ..........................................................   Passed    0.03 sec
+        Start 209: CoordinatorAllocTest.ColdStartAllocatesAlignedPages
+125/661 Test #626: AsyncStorageTransactionTest.PressureDoesNotRetireActiveReadOrPreventItsPublication ....................................................   Passed    0.02 sec
+        Start 625: AsyncStorageTransactionTest.QueuedBytesAndStalledNativeWorkCanClosePressureGate
+126/661 Test #209: CoordinatorAllocTest.ColdStartAllocatesAlignedPages ...................................................................................   Passed    0.02 sec
+        Start 143: MakeCoordinatorTest.Qwen35UsesUniformLogicalPWithDifferentPacking
+127/661 Test #625: AsyncStorageTransactionTest.QueuedBytesAndStalledNativeWorkCanClosePressureGate .......................................................   Passed    0.02 sec
+        Start 127: SwaManagerTest.AcquireAdvancePairingKeepsPhysicalPagesBounded
+128/661 Test #143: MakeCoordinatorTest.Qwen35UsesUniformLogicalPWithDifferentPacking .....................................................................   Passed    0.02 sec
+        Start 644: KeyBudgets/StorageQueryHighestTest.RestoresTheHighestCheckpointWithinTheActualKeyBudget/256
+129/661 Test #127: SwaManagerTest.AcquireAdvancePairingKeepsPhysicalPagesBounded .........................................................................   Passed    0.03 sec
+        Start 183: CacheCoordinatorAdmissionTest.FullEvictionIsSuffixFirstWithinOneAccessEpoch
+130/661 Test #644: KeyBudgets/StorageQueryHighestTest.RestoresTheHighestCheckpointWithinTheActualKeyBudget/256 ...........................................   Passed    0.03 sec
+        Start 516: BoundedReplayPrefillRoleSuite.LocalHitReplaysAndTheTailIsWhatTransfers
+131/661 Test #183: CacheCoordinatorAdmissionTest.FullEvictionIsSuffixFirstWithinOneAccessEpoch ...........................................................   Passed    0.03 sec
+        Start 310: StateCheckpointInForwardSuite.ALongPromptWritesItsCheckpointInsideTheForwardThatSpansIt
+132/661 Test #516: BoundedReplayPrefillRoleSuite.LocalHitReplaysAndTheTailIsWhatTransfers ................................................................   Passed    0.03 sec
+        Start 421: L3PrefetchWindowSuite.TheLookaheadStopsAtMaxPrefetchTokensPastTheLocalHit
+133/661 Test #310: StateCheckpointInForwardSuite.ALongPromptWritesItsCheckpointInsideTheForwardThatSpansIt ...............................................   Passed    0.03 sec
+        Start 279: ShardedTailCopyPackingFourTest.OwnerCopyInWithoutAHoleInItsBucketPublishesNoTail
+134/661 Test #421: L3PrefetchWindowSuite.TheLookaheadStopsAtMaxPrefetchTokensPastTheLocalHit .............................................................   Passed    0.04 sec
+        Start 231: CacheCoordinatorHostReplacement.GlobalLruComparesRefreshedParentsWithSameGroupChildren
+135/661 Test #279: ShardedTailCopyPackingFourTest.OwnerCopyInWithoutAHoleInItsBucketPublishesNoTail ......................................................   Passed    0.04 sec
+        Start 309: StateCheckpointSuite.AHostCheckpointLoadsIntoSlotZero
+136/661 Test #231: CacheCoordinatorHostReplacement.GlobalLruComparesRefreshedParentsWithSameGroupChildren ................................................   Passed    0.04 sec
+        Start  76: FullAttnManagerTest.ProbeAcceptsTypedCacheKeys
+137/661 Test #309: StateCheckpointSuite.AHostCheckpointLoadsIntoSlotZero .................................................................................   Passed    0.03 sec
+        Start 646: WindowSizes/StorageQueryWindowTest.AShorterCheckpointQueriesItsOwnSlidingWindow/8
+138/661 Test  #76: FullAttnManagerTest.ProbeAcceptsTypedCacheKeys ........................................................................................   Passed    0.03 sec
+        Start 358: SchedulerConfigValidateTest.L3StorageAcceptsCyclicOwnerGroups
+139/661 Test #646: WindowSizes/StorageQueryWindowTest.AShorterCheckpointQueriesItsOwnSlidingWindow/8 .....................................................   Passed    0.03 sec
+        Start 298: StorageQueryTest.EvictedWarmObjectsCannotBeAssumedPresentByTheReadReservation
+140/661 Test #358: SchedulerConfigValidateTest.L3StorageAcceptsCyclicOwnerGroups .........................................................................   Passed    0.03 sec
+        Start 453: AdmissionHeadroomPrefillRoleSuite.ThePrefillRoleDoesNotPrepayDecodeHeadroom
+141/661 Test #298: StorageQueryTest.EvictedWarmObjectsCannotBeAssumedPresentByTheReadReservation .........................................................   Passed    0.03 sec
+        Start 609: AsyncStorageTailTest.DifferentTokensUnderTheSamePriorDoNotQueryTheKnownTail
+142/661 Test #453: AdmissionHeadroomPrefillRoleSuite.ThePrefillRoleDoesNotPrepayDecodeHeadroom ...........................................................   Passed    0.03 sec
+        Start 522: SchedulerTestSuite.SubmitRequestsRejectsEmptyTokens
+143/661 Test #609: AsyncStorageTailTest.DifferentTokensUnderTheSamePriorDoNotQueryTheKnownTail ...........................................................   Passed    0.03 sec
+        Start 232: CacheCoordinatorHostReplacement.GlobalLruProtectsAParentWithARecentSibling
+144/661 Test #522: SchedulerTestSuite.SubmitRequestsRejectsEmptyTokens ...................................................................................   Passed    0.03 sec
+        Start 182: CacheCoordinatorAdmissionTest.FullEvictionPrefersOlderRequestBeforePosition
+145/661 Test #232: CacheCoordinatorHostReplacement.GlobalLruProtectsAParentWithARecentSibling ............................................................   Passed    0.03 sec
+        Start 266: BoundedReplayCoordinator.ReplayableGroupNeverPublishesOrStreams
+146/661 Test #182: CacheCoordinatorAdmissionTest.FullEvictionPrefersOlderRequestBeforePosition ...........................................................   Passed    0.03 sec
+        Start 125: SwaManagerTest.DroppingAnExtraPinMakesSlidCachedPageReclaimable
+147/661 Test #266: BoundedReplayCoordinator.ReplayableGroupNeverPublishesOrStreams .......................................................................   Passed    0.05 sec
+        Start 162: CoordinatorMatchTest.SwaMissForcesZeroCommon
+148/661 Test #125: SwaManagerTest.DroppingAnExtraPinMakesSlidCachedPageReclaimable .......................................................................   Passed    0.04 sec
+        Start 260: CompletedBoundaryTest.PublicationWithoutCompletedPagesIsRejected
+149/661 Test #162: CoordinatorMatchTest.SwaMissForcesZeroCommon ..........................................................................................   Passed    0.04 sec
+        Start 220: CoordinatorStepTest.CacheFullBlocksRejectsOutOfRangeFirstSlot
+150/661 Test #260: CompletedBoundaryTest.PublicationWithoutCompletedPagesIsRejected ......................................................................   Passed    0.03 sec
+        Start 515: BoundedReplayMixedSuite.DecodeBatchLeavesRoomForTheReplayWindow
+151/661 Test #220: CoordinatorStepTest.CacheFullBlocksRejectsOutOfRangeFirstSlot .........................................................................   Passed    0.02 sec
+        Start 212: CoordinatorAllocTest.RejectedAdmissionLeavesCachedPrefixUnclaimed
+152/661 Test #515: BoundedReplayMixedSuite.DecodeBatchLeavesRoomForTheReplayWindow .......................................................................   Passed    0.02 sec
+        Start 140: CacheGroupTest.HoldsSpecGroupIdManager
+153/661 Test #212: CoordinatorAllocTest.RejectedAdmissionLeavesCachedPrefixUnclaimed .....................................................................   Passed    0.02 sec
+        Start 545: FinishOnlyWriteBackTestSuite.PrefillStreamsMlaPagesDecodeDefersUntilFinish
+154/661 Test #140: CacheGroupTest.HoldsSpecGroupIdManager ................................................................................................   Passed    0.02 sec
+        Start 128: BlockTableTest.EvictToNullReturnsOldBlockAndPunchesHole
+155/661 Test #545: FinishOnlyWriteBackTestSuite.PrefillStreamsMlaPagesDecodeDefersUntilFinish ............................................................   Passed    0.03 sec
+        Start 375: ForwardBatch.EmptyOpsProducesEmpty
+156/661 Test #128: BlockTableTest.EvictToNullReturnsOldBlockAndPunchesHole ...............................................................................   Passed    0.03 sec
+        Start 485: PrefixHitDisabledSuite.DisablePrefixCacheSkipsMatch
+157/661 Test #375: ForwardBatch.EmptyOpsProducesEmpty ....................................................................................................   Passed    0.03 sec
+        Start 417: FusedRetractionKvEventsSuite.RetractionAndRestorePublishWithTheirDescriptorsRegistered
+158/661 Test #485: PrefixHitDisabledSuite.DisablePrefixCacheSkipsMatch ...................................................................................   Passed    0.02 sec
+        Start 491: DecodeCachingSmallWindowSuite.SwaPunchedDecodePageStillHittable
+159/661 Test #417: FusedRetractionKvEventsSuite.RetractionAndRestorePublishWithTheirDescriptorsRegistered ................................................   Passed    0.02 sec
+        Start 208: CacheCoordinatorAdmissionTest.RejectsProspectiveVictimWithAnExtraOwner
+160/661 Test #491: DecodeCachingSmallWindowSuite.SwaPunchedDecodePageStillHittable .......................................................................   Passed    0.03 sec
+        Start 445: ExtendResultEvent.AwaitingResultAbsorbsEmptyIntermediateResults
+161/661 Test #208: CacheCoordinatorAdmissionTest.RejectsProspectiveVictimWithAnExtraOwner ................................................................   Passed    0.03 sec
+        Start 203: CacheCoordinatorAdmissionTest.UsesLocalSlotAfterEvictingAnotherWholeParent
+162/661 Test #445: ExtendResultEvent.AwaitingResultAbsorbsEmptyIntermediateResults .......................................................................   Passed    0.03 sec
+        Start 214: CoordinatorStepTest.AcquireShortfallAllocatesNothing
+163/661 Test #203: CacheCoordinatorAdmissionTest.UsesLocalSlotAfterEvictingAnotherWholeParent ............................................................   Passed    0.03 sec
+        Start 126: SwaManagerTest.ReclaimExpiredLeavesAvailableCapacityUnchanged
+164/661 Test #214: CoordinatorStepTest.AcquireShortfallAllocatesNothing ..................................................................................   Passed    0.03 sec
+        Start  77: FullAttnManagerTest.MatchStopsAtFirstMiss
+165/661 Test #126: SwaManagerTest.ReclaimExpiredLeavesAvailableCapacityUnchanged .........................................................................   Passed    0.03 sec
+        Start 420: L3DecodeRoleSuite.AClosedPressureGateIsNotADecodeBypass
+166/661 Test  #77: FullAttnManagerTest.MatchStopsAtFirstMiss .............................................................................................   Passed    0.03 sec
+        Start 425: RetractSuite.DecodingVictimResumesDecodingWithTheSameTokens
+167/661 Test #420: L3DecodeRoleSuite.AClosedPressureGateIsNotADecodeBypass ...............................................................................   Passed    0.02 sec
+        Start 642: TailHandoverBoundSuite.AnUnalignedPromptAtTheBoundReachesItsFirstDecode
+168/661 Test #425: RetractSuite.DecodingVictimResumesDecodingWithTheSameTokens ...........................................................................   Passed    0.03 sec
+        Start 184: CacheCoordinatorAdmissionTest.RejectedCachedHitDoesNotRefreshAccessEpoch
+169/661 Test #642: TailHandoverBoundSuite.AnUnalignedPromptAtTheBoundReachesItsFirstDecode ...............................................................   Passed    0.04 sec
+        Start 241: CacheCoordinatorHostReplacement.BatchGivesScarceFreeCapacityToFirstCandidateGroup
+170/661 Test #184: CacheCoordinatorAdmissionTest.RejectedCachedHitDoesNotRefreshAccessEpoch ..............................................................   Passed    0.02 sec
+        Start 419: L3DecodeRoleSuite.TheDecodeRoleNeverPreparesStorage
+171/661 Test #241: CacheCoordinatorHostReplacement.BatchGivesScarceFreeCapacityToFirstCandidateGroup .....................................................   Passed    0.02 sec
+        Start 382: ForwardBatch.CarriesExtendReplayLensParallelToPrefixLens
+172/661 Test #419: L3DecodeRoleSuite.TheDecodeRoleNeverPreparesStorage ...................................................................................   Passed    0.02 sec
+        Start 200: CacheCoordinatorAdmissionTest.SkipsProtectedOldestEpochAndEvictsLaterEpochs
+173/661 Test #382: ForwardBatch.CarriesExtendReplayLensParallelToPrefixLens ..............................................................................   Passed    0.03 sec
+        Start 101: FullAttnManagerLcmTest.ChildEvictionLeavesSiblingLocationValid
+174/661 Test #200: CacheCoordinatorAdmissionTest.SkipsProtectedOldestEpochAndEvictsLaterEpochs ...........................................................   Passed    0.03 sec
+        Start 207: CacheCoordinatorAdmissionTest.EvictsProspectiveVictimCachedDuringCommit
+175/661 Test #101: FullAttnManagerLcmTest.ChildEvictionLeavesSiblingLocationValid ........................................................................   Passed    0.02 sec
+        Start  70: CacheBlockRefTest.SelfAssignmentKeepsOwnership
+176/661 Test #207: CacheCoordinatorAdmissionTest.EvictsProspectiveVictimCachedDuringCommit ...............................................................   Passed    0.03 sec
+        Start 359: SchedulerConfigValidateTest.CacheGroupConfigRejectsNonPositivePacking
+177/661 Test  #70: CacheBlockRefTest.SelfAssignmentKeepsOwnership ........................................................................................   Passed    0.03 sec
+        Start 342: SchedulerConfigValidateTest.AcceptsAValidConfig
+178/661 Test #359: SchedulerConfigValidateTest.CacheGroupConfigRejectsNonPositivePacking .................................................................   Passed    0.02 sec
+        Start 615: AsyncStorageTransactionTest.HostPublicationDoesNotProveRemoteExistence
+179/661 Test #342: SchedulerConfigValidateTest.AcceptsAValidConfig .......................................................................................   Passed    0.02 sec
+        Start 106: FullAttnManagerLcmTest.LocationBasedEvictionIsScopedToItsPool
+180/661 Test #615: AsyncStorageTransactionTest.HostPublicationDoesNotProveRemoteExistence ................................................................   Passed    0.02 sec
+        Start 369: PrefillChunkTokensTest.DebitsTheHitReplayAndKeepsTheFinalWindow
+181/661 Test #106: FullAttnManagerLcmTest.LocationBasedEvictionIsScopedToItsPool .........................................................................   Passed    0.03 sec
+        Start 538: SchedulerConstructionTest.ValidatesConfigBeforeBuildingPools
+182/661 Test #369: PrefillChunkTokensTest.DebitsTheHitReplayAndKeepsTheFinalWindow .......................................................................   Passed    0.03 sec
+        Start  53: BlockPoolLcmPlacementTest.LastReleaseImmediatelyClearsParentBinding
+183/661 Test #538: SchedulerConstructionTest.ValidatesConfigBeforeBuildingPools ..........................................................................   Passed    0.02 sec
+        Start 210: CoordinatorAllocTest.ClaimsCommonPrefixThenAllocatesRemainder
+184/661 Test  #53: BlockPoolLcmPlacementTest.LastReleaseImmediatelyClearsParentBinding ...................................................................   Passed    0.03 sec
+        Start 229: CacheCoordinatorHostReplacement.EqualEpochDoesNotProtectPreviouslyAcquiredEntry
+185/661 Test #210: CoordinatorAllocTest.ClaimsCommonPrefixThenAllocatesRemainder .........................................................................   Passed    0.02 sec
+        Start  17: ComputePrefixHashesTest.MatchesManualRollingChain
+186/661 Test #229: CacheCoordinatorHostReplacement.EqualEpochDoesNotProtectPreviouslyAcquiredEntry .......................................................   Passed    0.02 sec
+        Start 614: AsyncStorageTransactionTest.CancellationBeforeDispatchReleasesReservation
+187/661 Test  #17: ComputePrefixHashesTest.MatchesManualRollingChain .....................................................................................   Passed    0.02 sec
+        Start 308: StateCheckpointSuite.AStateCheckpointLeavesWithItsKvTail
+188/661 Test #614: AsyncStorageTransactionTest.CancellationBeforeDispatchReleasesReservation .............................................................   Passed    0.02 sec
+        Start  21: ComputePrefixHashesTest.AdvancePrefixHashesReturnsOnlyNewPages
+189/661 Test #308: StateCheckpointSuite.AStateCheckpointLeavesWithItsKvTail ..............................................................................   Passed    0.02 sec
+        Start 330: ForwardCacheOpsPrefill.FirstChunkAcquiresPagesForTokens
+190/661 Test  #21: ComputePrefixHashesTest.AdvancePrefixHashesReturnsOnlyNewPages ........................................................................   Passed    0.04 sec
+        Start 610: AsyncStorageTailTest.UnknownRetirementDoesNotPublishTailMetadata
+191/661 Test #330: ForwardCacheOpsPrefill.FirstChunkAcquiresPagesForTokens ...............................................................................   Passed    0.04 sec
+        Start 429: RetractSuite.AbortWhileRestoringFreesPagesOnceTheCopyIsAcknowledged
+192/661 Test #610: AsyncStorageTailTest.UnknownRetirementDoesNotPublishTailMetadata ......................................................................   Passed    0.02 sec
+        Start 338: MakeSpecsFromConfigTest.TranslatesCacheGroups
+193/661 Test #429: RetractSuite.AbortWhileRestoringFreesPagesOnceTheCopyIsAcknowledged ...................................................................   Passed    0.03 sec
+        Start 136: HostTierMatchTest.SwaBeginAboveZeroInteriorBoundary
+194/661 Test #338: MakeSpecsFromConfigTest.TranslatesCacheGroups .........................................................................................   Passed    0.03 sec
+        Start 105: FullAttnManagerLcmTest.NamespaceIsPartOfPrefixIndex
+195/661 Test #136: HostTierMatchTest.SwaBeginAboveZeroInteriorBoundary ...................................................................................   Passed    0.03 sec
+        Start 144: MakeCoordinatorTest.ManagersMayUseSmallerPagesThanTheCoordinatorDomain
+196/661 Test #105: FullAttnManagerLcmTest.NamespaceIsPartOfPrefixIndex ...................................................................................   Passed    0.03 sec
+        Start 502: HostHitSuite.AbandonedAdmissionUnpins
+197/661 Test #144: MakeCoordinatorTest.ManagersMayUseSmallerPagesThanTheCoordinatorDomain ................................................................   Passed    0.04 sec
+        Start 281: ShardedTailCopyPackingSixTest.OwnerCopyInIsCountedInTheBucketOfTheBlockItDedupesOnto
+198/661 Test #502: HostHitSuite.AbandonedAdmissionUnpins .................................................................................................   Passed    0.03 sec
+        Start 628: AsyncStorageTransactionTest.HostCreditExhaustionRejectsQueryBeforeBackendWork
+199/661 Test #281: ShardedTailCopyPackingSixTest.OwnerCopyInIsCountedInTheBucketOfTheBlockItDedupesOnto ..................................................   Passed    0.02 sec
+        Start 198: CacheCoordinatorAdmissionTest.MixedGroupTieEvictsNonClosedBeforeFullHistory
+200/661 Test #628: AsyncStorageTransactionTest.HostCreditExhaustionRejectsQueryBeforeBackendWork .........................................................   Passed    0.03 sec
+        Start 230: CacheCoordinatorHostReplacement.GlobalLruAllowsStateCheckpointCapacityToGrow
+201/661 Test #198: CacheCoordinatorAdmissionTest.MixedGroupTieEvictsNonClosedBeforeFullHistory ...........................................................   Passed    0.03 sec
+        Start 265: BoundedReplayCoordinator.AdmitMaterializesReplayableSuffixFromWindowBegin
+202/661 Test #230: CacheCoordinatorHostReplacement.GlobalLruAllowsStateCheckpointCapacityToGrow ..........................................................   Passed    0.03 sec
+        Start 331: ForwardCacheOpsPrefill.FirstChunkClaimsHitThenAcquiresOnlyRemainder
+203/661 Test #265: BoundedReplayCoordinator.AdmitMaterializesReplayableSuffixFromWindowBegin .............................................................   Passed    0.03 sec
+        Start 428: RetractSuite.AbortWhileRetractedReleasesTheImage
+204/661 Test #331: ForwardCacheOpsPrefill.FirstChunkClaimsHitThenAcquiresOnlyRemainder ...................................................................   Passed    0.03 sec
+        Start 305: StateCheckpointSuite.AnAbortWhileFinishingPublishesNothing
+205/661 Test #428: RetractSuite.AbortWhileRetractedReleasesTheImage ......................................................................................   Passed    0.03 sec
+        Start 596: CacheOperationTest.WriteBackBatchCarriesStorageKeys
+206/661 Test #305: StateCheckpointSuite.AnAbortWhileFinishingPublishesNothing ............................................................................   Passed    0.03 sec
+        Start 444: PrefillHeadOfLineSuite.BlockedLaterChunkDoesNotStartSubmittedRequest
+207/661 Test #596: CacheOperationTest.WriteBackBatchCarriesStorageKeys ...................................................................................   Passed    0.02 sec
+        Start 276: ShardedTailCopyPackingFourTest.HitterCopyWaitsForAHoleInTheSourceBucket
+208/661 Test #444: PrefillHeadOfLineSuite.BlockedLaterChunkDoesNotStartSubmittedRequest ..................................................................   Passed    0.03 sec
+        Start 501: HostHitSuite.EmptyHostIndexEmitsNoLoadBack
+209/661 Test #276: ShardedTailCopyPackingFourTest.HitterCopyWaitsForAHoleInTheSourceBucket ...............................................................   Passed    0.03 sec
+        Start 416: ForcedRetractionL2TailSuite.AVictimsPartialPageIsPublishedAndRestoredAsAPrivateCopy
+210/661 Test #501: HostHitSuite.EmptyHostIndexEmitsNoLoadBack ............................................................................................   Passed    0.02 sec
+        Start 202: CacheCoordinatorAdmissionTest.RebindsOnlyAfterEvictingWholeForeignParent
+211/661 Test #416: ForcedRetractionL2TailSuite.AVictimsPartialPageIsPublishedAndRestoredAsAPrivateCopy ...................................................   Passed    0.02 sec
+        Start  78: FullAttnManagerTest.MatchPinsUntilResultDies
+212/661 Test #202: CacheCoordinatorAdmissionTest.RebindsOnlyAfterEvictingWholeForeignParent ..............................................................   Passed    0.03 sec
+        Start 345: SchedulerConfigValidateTest.RejectsNonPositiveBlockGranularity
+213/661 Test  #78: FullAttnManagerTest.MatchPinsUntilResultDies ..........................................................................................   Passed    0.03 sec
+        Start 632: AsyncStorageTransactionTest.OnlyConfirmedObjectFailuresEnterNegativeCache
+214/661 Test #345: SchedulerConfigValidateTest.RejectsNonPositiveBlockGranularity ........................................................................   Passed    0.03 sec
+        Start 344: SchedulerConfigValidateTest.RejectsNonPositivePerGroupPacking
+215/661 Test #632: AsyncStorageTransactionTest.OnlyConfirmedObjectFailuresEnterNegativeCache .............................................................   Passed    0.03 sec
+        Start 357: SchedulerConfigValidateTest.RetractionDiagnosticsNameTheServerArgs
+216/661 Test #344: SchedulerConfigValidateTest.RejectsNonPositivePerGroupPacking .........................................................................   Passed    0.03 sec
+        Start 422: L3PrefetchWindowSuite.AGapBelowMinPrefetchTokensStartsNoQuery
+217/661 Test #357: SchedulerConfigValidateTest.RetractionDiagnosticsNameTheServerArgs ....................................................................   Passed    0.04 sec
+        Start 452: RetractionHeadroom.AnUndeclaredGenerationBudgetDemandsNone
+218/661 Test #422: L3PrefetchWindowSuite.AGapBelowMinPrefetchTokensStartsNoQuery .........................................................................   Passed    0.03 sec
+        Start 575: CacheOperationTest.SnapshotRestoreRowsNameTheirSourceTierAndCarryL2Keys
+219/661 Test #452: RetractionHeadroom.AnUndeclaredGenerationBudgetDemandsNone ............................................................................   Passed    0.03 sec
+        Start 407: PrefillPlateauSuite.SwaWorkingSetPlateausWhileFullGrowsToPromptLength
+220/661 Test #575: CacheOperationTest.SnapshotRestoreRowsNameTheirSourceTierAndCarryL2Keys ...............................................................   Passed    0.03 sec
+        Start 390: ChunkedPrefillSuite.MultiChunkPrefillGrowsFullTableThenDecodes
+221/661 Test #407: PrefillPlateauSuite.SwaWorkingSetPlateausWhileFullGrowsToPromptLength .................................................................   Passed    0.03 sec
+        Start  48: BlockPoolLcmPlacementTest.ReleasedParentsRestoreBatchCapacity
+222/661 Test #390: ChunkedPrefillSuite.MultiChunkPrefillGrowsFullTableThenDecodes ........................................................................   Passed    0.03 sec
+        Start  20: ComputePrefixHashesTest.IncrementalChainEqualsOneShot
+223/661 Test  #48: BlockPoolLcmPlacementTest.ReleasedParentsRestoreBatchCapacity .........................................................................   Passed    0.03 sec
+        Start 494: StreamingSinkSuite.HostPoolExhaustionSkipsSilently
+224/661 Test  #20: ComputePrefixHashesTest.IncrementalChainEqualsOneShot .................................................................................   Passed    0.03 sec
+        Start 361: ForwardCacheOpsBuildBlockTables.SwaRowGetsNullHoleAfterAdvance
+225/661 Test #494: StreamingSinkSuite.HostPoolExhaustionSkipsSilently ....................................................................................   Passed    0.03 sec
+        Start 493: StreamingSinkSuite.DuplicateRegistrationsAreDroppedAtDrain
+226/661 Test #361: ForwardCacheOpsBuildBlockTables.SwaRowGetsNullHoleAfterAdvance ........................................................................   Passed    0.03 sec
+        Start 470: PrefixHitSuite.FinishPublishesPagesFromLastForward
+227/661 Test #493: StreamingSinkSuite.DuplicateRegistrationsAreDroppedAtDrain ............................................................................   Passed    0.03 sec
+        Start 385: KvCacheLifecycleTestSuite.AvailableLcmBlocksReportsSharedPool
+228/661 Test #470: PrefixHitSuite.FinishPublishesPagesFromLastForward ....................................................................................   Passed    0.03 sec
+        Start 472: PrefixHitSuite.ClearL1CacheRejectsAnActiveRequestAndPreservesItsPrefix
+229/661 Test #385: KvCacheLifecycleTestSuite.AvailableLcmBlocksReportsSharedPool .........................................................................   Passed    0.03 sec
+        Start 332: ForwardCacheOpsPrefill.ChunkAcquiresAndCachesFullBlocks
+230/661 Test #472: PrefixHitSuite.ClearL1CacheRejectsAnActiveRequestAndPreservesItsPrefix ................................................................   Passed    0.03 sec
+        Start 151: CacheCoordinatorTest.RejectsManagerGroupIdThatDiffersFromItsIndex
+231/661 Test #332: ForwardCacheOpsPrefill.ChunkAcquiresAndCachesFullBlocks ...............................................................................   Passed    0.02 sec
+        Start 574: CacheOperationTest.SnapshotStoreMayCarryNoPageRowsButNeverADuplicate
+232/661 Test #151: CacheCoordinatorTest.RejectsManagerGroupIdThatDiffersFromItsIndex .....................................................................   Passed    0.03 sec
+        Start 497: StreamingSinkSuite.MidDrainPoolFillEmitsPartialOp
+233/661 Test #574: CacheOperationTest.SnapshotStoreMayCarryNoPageRowsButNeverADuplicate ..................................................................   Passed    0.03 sec
+        Start 442: PrefillHeadOfLineSuite.AnIncompletePrefillGivesWayBeforeACompletedOne
+234/661 Test #497: StreamingSinkSuite.MidDrainPoolFillEmitsPartialOp .....................................................................................   Passed    0.03 sec
+        Start 223: CacheCoordinatorStoreCandidates.DisabledByDefaultCollectsNothing
+235/661 Test #442: PrefillHeadOfLineSuite.AnIncompletePrefillGivesWayBeforeACompletedOne .................................................................   Passed    0.03 sec
+        Start 433: SmallerCandidateFitsSuite.ACandidateWhoseImageFitsIsRetractedInsteadOfAbortingTheNewest
+236/661 Test #223: CacheCoordinatorStoreCandidates.DisabledByDefaultCollectsNothing ......................................................................   Passed    0.03 sec
+        Start 597: CacheOperationTest.AdmissionLoadPairsKeepHostPinnedAfterTableFree
+237/661 Test #433: SmallerCandidateFitsSuite.ACandidateWhoseImageFitsIsRetractedInsteadOfAbortingTheNewest ...............................................   Passed    0.03 sec
+        Start  49: BlockPoolLcmPlacementTest.ReleasedParentsAreReusedInReleaseOrder
+238/661 Test #597: CacheOperationTest.AdmissionLoadPairsKeepHostPinnedAfterTableFree .....................................................................   Passed    0.02 sec
+        Start 514: BoundedReplayWithDSparkCapSuite.DSparkCapComposesWithBoundedReplay
+239/661 Test  #49: BlockPoolLcmPlacementTest.ReleasedParentsAreReusedInReleaseOrder ......................................................................   Passed    0.02 sec
+        Start 399: AllFullTwoGroupSuite.BothFullGroupsKeepHistoryNoHoles
+240/661 Test #514: BoundedReplayWithDSparkCapSuite.DSparkCapComposesWithBoundedReplay ....................................................................   Passed    0.02 sec
+        Start 129: BlockTableTest.EvictToNullIsIdempotentOnNullSlot
+241/661 Test #399: AllFullTwoGroupSuite.BothFullGroupsKeepHistoryNoHoles .................................................................................   Passed    0.03 sec
+        Start 138: HostTierMatchTest.SwaZeroNeededWindowAcceptsAllAsHoles
+242/661 Test #129: BlockTableTest.EvictToNullIsIdempotentOnNullSlot ......................................................................................   Passed    0.03 sec
+        Start 350: SchedulerConfigValidateTest.StateGroupHasNoTokenSpanAndNoChunkAlignmentRule
+243/661 Test #138: HostTierMatchTest.SwaZeroNeededWindowAcceptsAllAsHoles ................................................................................   Passed    0.03 sec
+        Start 107: SwaManagerTest.ConstructsWithWindow
+244/661 Test #350: SchedulerConfigValidateTest.StateGroupHasNoTokenSpanAndNoChunkAlignmentRule ...........................................................   Passed    0.03 sec
+        Start 431: SlotPinSuite.AnAbortWhileRestoringKeepsTheRowAndSlotUntilTheAck
+245/661 Test #107: SwaManagerTest.ConstructsWithWindow ...................................................................................................   Passed    0.03 sec
+        Start 424: ForcedRetractionSuite.EveryThirdPlanRetractsTheOldestQuiescentDecodingRequest
+246/661 Test #431: SlotPinSuite.AnAbortWhileRestoringKeepsTheRowAndSlotUntilTheAck .......................................................................   Passed    0.03 sec
+        Start 537: HybridJunctionCutTestSuite.ThirdRequestResumesFromTheJunctionCheckpoint
+247/661 Test #424: ForcedRetractionSuite.EveryThirdPlanRetractsTheOldestQuiescentDecodingRequest .........................................................   Passed    0.03 sec
+        Start 147: CacheCoordinatorCapacityTest.EmptyParentsExcludeCacheOnlyParents
+248/661 Test #537: HybridJunctionCutTestSuite.ThirdRequestResumesFromTheJunctionCheckpoint ...............................................................   Passed    0.03 sec
+        Start 244: CacheCoordinatorHostReplacement.BatchCrossGroupRebindingDoesNotRescanPlacementPoolPerVictim
+249/661 Test #147: CacheCoordinatorCapacityTest.EmptyParentsExcludeCacheOnlyParents ......................................................................   Passed    0.03 sec
+        Start 533: SubpageKvCacheEventTestSuite.PublishesOneEventAfterAllChildBlocksCacheBoundary
+250/661 Test #244: CacheCoordinatorHostReplacement.BatchCrossGroupRebindingDoesNotRescanPlacementPoolPerVictim ...........................................   Passed    0.03 sec
+        Start 307: StateCheckpointSuite.SpeculativeDecodeWritesTheLiveSlotInPlace
+251/661 Test #533: SubpageKvCacheEventTestSuite.PublishesOneEventAfterAllChildBlocksCacheBoundary ........................................................   Passed    0.03 sec
+        Start 299: StorageQueryTest.APartialHostBoundaryUsesAlignedQueryFloorAndDeviceReservationFloor
+252/661 Test #307: StateCheckpointSuite.SpeculativeDecodeWritesTheLiveSlotInPlace ........................................................................   Passed    0.04 sec
+        Start 247: CacheCoordinatorHostExtension.PreservesAllNullWindowExtensionSlots
+253/661 Test #299: StorageQueryTest.APartialHostBoundaryUsesAlignedQueryFloorAndDeviceReservationFloor ...................................................   Passed    0.04 sec
+        Start 629: AsyncStorageTransactionTest.NegativeMetadataRemainsBoundedAfterRetirement
+254/661 Test #247: CacheCoordinatorHostExtension.PreservesAllNullWindowExtensionSlots ....................................................................   Passed    0.04 sec
+        Start 492: StreamingSinkSuite.RegisteredPagesEmitWriteBackAndIndexOnDone
+255/661 Test #629: AsyncStorageTransactionTest.NegativeMetadataRemainsBoundedAfterRetirement .............................................................   Passed    0.03 sec
+        Start 263: BoundedReplayCoordinator.MakeCoordinatorRejectsReplayOnFullOrStateGroups
+256/661 Test #492: StreamingSinkSuite.RegisteredPagesEmitWriteBackAndIndexOnDone .........................................................................   Passed    0.03 sec
+        Start 206: CacheCoordinatorAdmissionTest.ReclaimsTableOwnerBeforeEvictingProspectiveVictim
+257/661 Test #263: BoundedReplayCoordinator.MakeCoordinatorRejectsReplayOnFullOrStateGroups ..............................................................   Passed    0.03 sec
+        Start  58: BlockPoolBucketAcquireTest.ParentsNeededSharesOpenedParentsAcrossBuckets
+258/661 Test #206: CacheCoordinatorAdmissionTest.ReclaimsTableOwnerBeforeEvictingProspectiveVictim .......................................................   Passed    0.03 sec
+        Start 356: SchedulerConfigValidateTest.ForcedRetractionRequiresASnapshotPool
+259/661 Test  #58: BlockPoolBucketAcquireTest.ParentsNeededSharesOpenedParentsAcrossBuckets ..............................................................   Passed    0.03 sec
+        Start  14: HashPrefixPageTest.FramingDisambiguatesKeyCount
+260/661 Test #356: SchedulerConfigValidateTest.ForcedRetractionRequiresASnapshotPool .....................................................................   Passed    0.03 sec
+        Start 430: RetractSuite.AFreshAdmissionPrepaysItsGenerationBudget
+261/661 Test  #14: HashPrefixPageTest.FramingDisambiguatesKeyCount .......................................................................................   Passed    0.03 sec
+        Start 360: ForwardCacheOpsBuildBlockTables.TwoGroupsRowsAndIds
+262/661 Test #430: RetractSuite.AFreshAdmissionPrepaysItsGenerationBudget ................................................................................   Passed    0.03 sec
+        Start 362: ForwardCacheOpsBuildBlockTables.FreshTablesProduceEmptyRows
+263/661 Test #360: ForwardCacheOpsBuildBlockTables.TwoGroupsRowsAndIds ...................................................................................   Passed    0.03 sec
+        Start 503: HostHitSuite.AbortDuringLoadKeepsPagesPinned
+264/661 Test #362: ForwardCacheOpsBuildBlockTables.FreshTablesProduceEmptyRows ...........................................................................   Passed    0.03 sec
+        Start  72: CacheBlockRefTest.LastOwnerDestroysDynamicBlockAndReleasesExactSlot
+265/661 Test #503: HostHitSuite.AbortDuringLoadKeepsPagesPinned ..........................................................................................   Passed    0.03 sec
+        Start 188: CacheCoordinatorAdmissionTest.ReservedCapacityLivesInBlockTableUntilConsumed
+266/661 Test  #72: CacheBlockRefTest.LastOwnerDestroysDynamicBlockAndReleasesExactSlot ...................................................................   Passed    0.03 sec
+        Start 443: PrefillHeadOfLineSuite.AnIncompletePrefillIsNotRetractedWhileItsChunkIsInFlight
+267/661 Test #188: CacheCoordinatorAdmissionTest.ReservedCapacityLivesInBlockTableUntilConsumed ..........................................................   Passed    0.02 sec
+        Start   8: HashPrefixPageTest.TokenOrderMatters
+268/661 Test #443: PrefillHeadOfLineSuite.AnIncompletePrefillIsNotRetractedWhileItsChunkIsInFlight .......................................................   Passed    0.02 sec
+        Start 351: SchedulerConfigValidateTest.RejectsPdTransferPolicyMismatch
+269/661 Test   #8: HashPrefixPageTest.TokenOrderMatters ..................................................................................................   Passed    0.03 sec
+        Start 411: FusedRetractionL2TestSuite.RetractionStoresTheLatestCompletedBoundary
+270/661 Test #351: SchedulerConfigValidateTest.RejectsPdTransferPolicyMismatch ...........................................................................   Passed    0.03 sec
+        Start 451: RetractionHeadroom.SpendingTheWindowNeverMakesItCoverTheRemainder
+271/661 Test #411: FusedRetractionL2TestSuite.RetractionStoresTheLatestCompletedBoundary .................................................................   Passed    0.03 sec
+        Start 370: PrefillStateCheckpointTest.LongPromptsLeaveAReusablePageBeforeTheirReplayTail
+272/661 Test #451: RetractionHeadroom.SpendingTheWindowNeverMakesItCoverTheRemainder .....................................................................   Passed    0.03 sec
+        Start 560: DecodeRetractionMixedTestSuite.ARestoreRidesBesideTheDecodeBatchAndARemoteAdmission
+273/661 Test #370: PrefillStateCheckpointTest.LongPromptsLeaveAReusablePageBeforeTheirReplayTail .........................................................   Passed    0.04 sec
+        Start 297: StorageQueryTest.AnOversizedMiddleFallbackDoesNotHideASmallerCompleteOne
+274/661 Test #560: DecodeRetractionMixedTestSuite.ARestoreRidesBesideTheDecodeBatchAndARemoteAdmission ...................................................   Passed    0.04 sec
+        Start 142: MakeCoordinatorTest.UsesOneCacheBlockPerLcmBlockByDefault
+275/661 Test #297: StorageQueryTest.AnOversizedMiddleFallbackDoesNotHideASmallerCompleteOne ..............................................................   Passed    0.03 sec
+        Start 233: CacheCoordinatorHostReplacement.GlobalLruPrefersOneChildWhenAccessEpochsTie
+276/661 Test #142: MakeCoordinatorTest.UsesOneCacheBlockPerLcmBlockByDefault .............................................................................   Passed    0.03 sec
+        Start 282: ShardedTailCopyPackingSixTest.OwnerCopyInKeepsTheBlockItDedupesOnto
+277/661 Test #233: CacheCoordinatorHostReplacement.GlobalLruPrefersOneChildWhenAccessEpochsTie ...........................................................   Passed    0.03 sec
+        Start 135: HostTierMatchTest.SwaShortRunAtBottomSuffices
+278/661 Test #282: ShardedTailCopyPackingSixTest.OwnerCopyInKeepsTheBlockItDedupesOnto ...................................................................   Passed    0.03 sec
+        Start 348: SchedulerConfigValidateTest.RejectsNonPositiveSlidingWindowWithGroupId
+279/661 Test #135: HostTierMatchTest.SwaShortRunAtBottomSuffices .........................................................................................   Passed    0.02 sec
+        Start 455: RetractExactFitSuite.ReportsCapacityUsingEachGroupsBlockGranularity
+280/661 Test #348: SchedulerConfigValidateTest.RejectsNonPositiveSlidingWindowWithGroupId ................................................................   Passed    0.02 sec
+        Start 283: ShardedTailCopyPackingSixTest.OwnerCopyInMayEvictTheTailItDedupesOntoInItsOwnBucket
+281/661 Test #455: RetractExactFitSuite.ReportsCapacityUsingEachGroupsBlockGranularity ...................................................................   Passed    0.02 sec
+        Start 446: ExtendResultEvent.AwaitingResultCarriesForwardsInFlightIntoPrefillDone
+282/661 Test #283: ShardedTailCopyPackingSixTest.OwnerCopyInMayEvictTheTailItDedupesOntoInItsOwnBucket ...................................................   Passed    0.02 sec
+        Start 454: RetractExactFitSuite.ReportsSingleRequestTokenCapacity
+283/661 Test #446: ExtendResultEvent.AwaitingResultCarriesForwardsInFlightIntoPrefillDone ................................................................   Passed    0.03 sec
+        Start 423: SharedImagePagesSuite.VictimsPinAnInFlightStoresBlocksAndWaitForItsAck
+284/661 Test #454: RetractExactFitSuite.ReportsSingleRequestTokenCapacity ................................................................................   Passed    0.03 sec
+        Start 473: PrefixHitSuite.FullHitCapsAtLastToken
+285/661 Test #423: SharedImagePagesSuite.VictimsPinAnInFlightStoresBlocksAndWaitForItsAck ................................................................   Passed    0.03 sec
+        Start 599: CacheOperationTest.ShardedL3ReservationRespectsBucketPressureAndExistingHostPrefix
+286/661 Test #473: PrefixHitSuite.FullHitCapsAtLastToken .................................................................................................   Passed    0.03 sec
+        Start  10: HashPrefixPageTest.TailHashesAreDistinctFromThePageAndFromEachOther
+287/661 Test #599: CacheOperationTest.ShardedL3ReservationRespectsBucketPressureAndExistingHostPrefix ....................................................   Passed    0.03 sec
+        Start 562: PdSlidingWindowTailTestSuite.AnUnalignedHitLandsTheWindowBehindThePrivatizedTail
+288/661 Test  #10: HashPrefixPageTest.TailHashesAreDistinctFromThePageAndFromEachOther ...................................................................   Passed    0.03 sec
+        Start 211: CoordinatorAllocTest.CrossGroupShortfallAllocatesNothing
+289/661 Test #562: PdSlidingWindowTailTestSuite.AnUnalignedHitLandsTheWindowBehindThePrivatizedTail ......................................................   Passed    0.03 sec
+        Start 426: RetractSuite.ARestoreWaitsForBothStoreAcksAndNeverRunsAPrefill
+290/661 Test #211: CoordinatorAllocTest.CrossGroupShortfallAllocatesNothing ..............................................................................   Passed    0.03 sec
+        Start 355: SchedulerConfigValidateTest.SnapshotPoolAndRetractedSlotsAreStatedTogether
+291/661 Test #426: RetractSuite.ARestoreWaitsForBothStoreAcksAndNeverRunsAPrefill ........................................................................   Passed    0.03 sec
+        Start 221: CacheCoordinatorReclaimExpired.OnlySlidingWindowGroupEvicts
+292/661 Test #355: SchedulerConfigValidateTest.SnapshotPoolAndRetractedSlotsAreStatedTogether ............................................................   Passed    0.03 sec
+        Start 222: CacheCoordinatorStoreCandidates.CollectsKeysWithoutPinningDeviceBlocks
+293/661 Test #221: CacheCoordinatorReclaimExpired.OnlySlidingWindowGroupEvicts ...........................................................................   Passed    0.02 sec
+        Start 343: SchedulerConfigValidateTest.RejectsNonPositiveGlobalP
+294/661 Test #222: CacheCoordinatorStoreCandidates.CollectsKeysWithoutPinningDeviceBlocks ................................................................   Passed    0.02 sec
+        Start 285: ShardedTailCopyPastAPageTest.OwnerCopyInKeepsTheCanonicalBlockOfAnotherBucketThanItsTailSlot
+295/661 Test #343: SchedulerConfigValidateTest.RejectsNonPositiveGlobalP .................................................................................   Passed    0.02 sec
+        Start 246: CacheCoordinatorHostReplacement.BatchDoesNotRebindPinnedParent
+296/661 Test #285: ShardedTailCopyPastAPageTest.OwnerCopyInKeepsTheCanonicalBlockOfAnotherBucketThanItsTailSlot ..........................................   Passed    0.02 sec
+        Start  12: HashPrefixPageTest.ExtraKeysChangeOutput
+297/661 Test #246: CacheCoordinatorHostReplacement.BatchDoesNotRebindPinnedParent ........................................................................   Passed    0.02 sec
+        Start 556: DecodeRetractionL2TestSuite.RemotePrefillInFlightStallsAdditionalAdmission
+298/661 Test  #12: HashPrefixPageTest.ExtraKeysChangeOutput ..............................................................................................   Passed    0.02 sec
+        Start 167: CoordinatorMatchTest.TwoSwaGroupsCascadingShrinkConverges
+299/661 Test #556: DecodeRetractionL2TestSuite.RemotePrefillInFlightStallsAdditionalAdmission ............................................................   Passed    0.02 sec
+        Start 227: CacheCoordinatorHostReplacement.SameGroupUsesLastAccessAfterPrefixHits
+300/661 Test #167: CoordinatorMatchTest.TwoSwaGroupsCascadingShrinkConverges .............................................................................   Passed    0.02 sec
+        Start 484: PrefixReplayConfigTest.RejectsNegativeReplayTokens
+301/661 Test #227: CacheCoordinatorHostReplacement.SameGroupUsesLastAccessAfterPrefixHits ................................................................   Passed    0.02 sec
+        Start 483: ProbeBoundReadmissionSuite.APrefillVictimResumesAfterItsComputedChunksWithoutProbing
+302/661 Test #484: PrefixReplayConfigTest.RejectsNegativeReplayTokens ....................................................................................   Passed    0.02 sec
+        Start 168: CoordinatorMatchTest.SwaGroupOrderDoesNotChangeConvergedCommon
+303/661 Test #483: ProbeBoundReadmissionSuite.APrefillVictimResumesAfterItsComputedChunksWithoutProbing ..................................................   Passed    0.02 sec
+        Start 590: CacheOperationTest.StateCheckpointStreamsOnlyWhenPublished
+304/661 Test #168: CoordinatorMatchTest.SwaGroupOrderDoesNotChangeConvergedCommon ........................................................................   Passed    0.03 sec
+        Start 284: ShardedTailCopyPastAPageTest.OwnerCopyInReadsTheCanonicalBlockAtEachPageOffset
+305/661 Test #590: CacheOperationTest.StateCheckpointStreamsOnlyWhenPublished ............................................................................   Passed    0.03 sec
+        Start 554: DecodeRetractionL2TestSuite.AnAbortedVictimStopsQualifyingForReadmission
+306/661 Test #284: ShardedTailCopyPastAPageTest.OwnerCopyInReadsTheCanonicalBlockAtEachPageOffset ........................................................   Passed    0.02 sec
+        Start 456: RetractExactFitSuite.IncludesOverlapDecodeReserveInTokenCapacity
+307/661 Test #554: DecodeRetractionL2TestSuite.AnAbortedVictimStopsQualifyingForReadmission ..............................................................   Passed    0.03 sec
+        Start 402: MixedBatchSuite.PerRequestSwaHoleAtDifferentDecodeDepths
+308/661 Test #456: RetractExactFitSuite.IncludesOverlapDecodeReserveInTokenCapacity ......................................................................   Passed    0.03 sec
+        Start 363: ForwardCacheOpsBuildBlockTables.SingleGroupRowMatchesSource
+309/661 Test #402: MixedBatchSuite.PerRequestSwaHoleAtDifferentDecodeDepths ..............................................................................   Passed    0.03 sec
+        Start   2: PageHasherHexTest.HexToBytesIsInverseOfAppend
+310/661 Test #363: ForwardCacheOpsBuildBlockTables.SingleGroupRowMatchesSource ...........................................................................   Passed    0.03 sec
+        Start 180: CacheCoordinatorAdmissionTest.LaterChunksReuseRequestAccessEpoch
+311/661 Test   #2: PageHasherHexTest.HexToBytesIsInverseOfAppend .........................................................................................   Passed    0.03 sec
+        Start 304: StateCheckpointSuite.AQuiescentFinishSettlesWithTheFinishEvent
+312/661 Test #180: CacheCoordinatorAdmissionTest.LaterChunksReuseRequestAccessEpoch ......................................................................   Passed    0.03 sec
+        Start 249: CacheCoordinatorHostExtension.SwaTailMissShrinksBoundary
+313/661 Test #304: StateCheckpointSuite.AQuiescentFinishSettlesWithTheFinishEvent ........................................................................   Passed    0.03 sec
+        Start 219: CoordinatorStepTest.CacheFullBlocksAtOffsetSkipsSwaHoles
+314/661 Test #249: CacheCoordinatorHostExtension.SwaTailMissShrinksBoundary ..............................................................................   Passed    0.02 sec
+        Start 286: UnshardedTailCopyTest.OwnerCopyInMayEvictTheTailItDedupesOnto
+315/661 Test #219: CoordinatorStepTest.CacheFullBlocksAtOffsetSkipsSwaHoles ..............................................................................   Passed    0.02 sec
+        Start 141: MakeCoordinatorTest.BuildsOneGroupPerSpec
+316/661 Test #286: UnshardedTailCopyTest.OwnerCopyInMayEvictTheTailItDedupesOnto .........................................................................   Passed    0.02 sec
+        Start 181: CacheCoordinatorAdmissionTest.ProbeAndRejectedAdmissionDoNotAdvanceAccessEpoch
+317/661 Test #141: MakeCoordinatorTest.BuildsOneGroupPerSpec .............................................................................................   Passed    0.02 sec
+        Start  91: FullAttnManagerTest.FreeReturnsPagesAndClearsTable
+318/661 Test #181: CacheCoordinatorAdmissionTest.ProbeAndRejectedAdmissionDoNotAdvanceAccessEpoch ........................................................   Passed    0.03 sec
+        Start 277: ShardedTailCopyPackingFourTest.HitterCopyIsFundedByAnEvictionInTheSourceBucket
+319/661 Test  #91: FullAttnManagerTest.FreeReturnsPagesAndClearsTable ....................................................................................   Passed    0.03 sec
+        Start 201: CacheCoordinatorAdmissionTest.ProspectiveUncachedReclaimDoesNotEvictCachedBlock
+320/661 Test #277: ShardedTailCopyPackingFourTest.HitterCopyIsFundedByAnEvictionInTheSourceBucket ........................................................   Passed    0.02 sec
+        Start  97: FullAttnManagerTest.ClaimHitBlocksOnNonEmptyTableAsserts
+321/661 Test #201: CacheCoordinatorAdmissionTest.ProspectiveUncachedReclaimDoesNotEvictCachedBlock .......................................................   Passed    0.03 sec
+        Start 177: CoordinatorMatchTest.ThreeGroupsOneAllMissForcesZeroCommon
+322/661 Test  #97: FullAttnManagerTest.ClaimHitBlocksOnNonEmptyTableAsserts ..............................................................................   Passed    0.03 sec
+        Start 146: MakeCoordinatorTest.UsesOneLogicalGranularityAcrossGroups
+323/661 Test #177: CoordinatorMatchTest.ThreeGroupsOneAllMissForcesZeroCommon ............................................................................   Passed    0.02 sec
+        Start 365: ForwardCacheOpsBuildBlockTables.ChildSlotsWithinOneParentHaveDistinctKernelPageIds
+324/661 Test #146: MakeCoordinatorTest.UsesOneLogicalGranularityAcrossGroups .............................................................................   Passed    0.03 sec
+        Start 150: CacheCoordinatorTest.RejectsManagerGeometryThatDiffersFromDomainOrSpec
+325/661 Test #365: ForwardCacheOpsBuildBlockTables.ChildSlotsWithinOneParentHaveDistinctKernelPageIds ....................................................   Passed    0.03 sec
+        Start 401: MixedBatchSuite.PrefillAndDecodeShareOnePlan
+326/661 Test #150: CacheCoordinatorTest.RejectsManagerGeometryThatDiffersFromDomainOrSpec ................................................................   Passed    0.02 sec
+        Start 235: CacheCoordinatorHostReplacement.GlobalLruBatchSkipsReboundEntriesAndProtectsNewAllocations
+327/661 Test #401: MixedBatchSuite.PrefillAndDecodeShareOnePlan ..........................................................................................   Passed    0.03 sec
+        Start 334: ForwardCacheOpsPrefill.ChunkSlidesSwaWindowBeforeAcquire
+328/661 Test #235: CacheCoordinatorHostReplacement.GlobalLruBatchSkipsReboundEntriesAndProtectsNewAllocations ............................................   Passed    0.03 sec
+        Start 627: AsyncStorageTransactionTest.PressureRecoveryCannotClearQuarantine
+329/661 Test #334: ForwardCacheOpsPrefill.ChunkSlidesSwaWindowBeforeAcquire ..............................................................................   Passed    0.02 sec
+        Start 311: StateCheckpointInForwardSuite.ABoundaryAtAChunkEndIsPublishedFromTheLiveSlot
+330/661 Test #627: AsyncStorageTransactionTest.PressureRecoveryCannotClearQuarantine .....................................................................   Passed    0.02 sec
+        Start 372: MakeGroupDemandsTest.HistoryGroupsTakeThePrototypeAndStateGroupsTheStep
+331/661 Test #311: StateCheckpointInForwardSuite.ABoundaryAtAChunkEndIsPublishedFromTheLiveSlot ..........................................................   Passed    0.02 sec
+        Start  22: PrefixCacheIndexEvictionOrderTest.DeliversTheOldestAccessEpochFirst
+332/661 Test #372: MakeGroupDemandsTest.HistoryGroupsTakeThePrototypeAndStateGroupsTheStep ...............................................................   Passed    0.02 sec
+        Start 205: CacheCoordinatorAdmissionTest.ProspectiveHitParentCannotBecomeVictim
+333/661 Test  #22: PrefixCacheIndexEvictionOrderTest.DeliversTheOldestAccessEpochFirst ...................................................................   Passed    0.02 sec
+        Start 306: StateCheckpointSuite.AbortReleasesBothSlotsAndPublishesNothing
+334/661 Test #205: CacheCoordinatorAdmissionTest.ProspectiveHitParentCannotBecomeVictim ..................................................................   Passed    0.02 sec
+        Start 137: HostTierMatchTest.SwaAllMissReturnsEmpty
+335/661 Test #306: StateCheckpointSuite.AbortReleasesBothSlotsAndPublishesNothing ........................................................................   Passed    0.02 sec
+        Start 561: DecodeRetractionWithoutL2TestSuite.WithoutHostCacheTheWholeImageRidesTheSnapshotPool
+336/661 Test #137: HostTierMatchTest.SwaAllMissReturnsEmpty ..............................................................................................   Passed    0.02 sec
+        Start  15: HashPrefixPageTest.FramingDisambiguatesEmptyPriorFromChainedPage
+337/661 Test #561: DecodeRetractionWithoutL2TestSuite.WithoutHostCacheTheWholeImageRidesTheSnapshotPool ..................................................   Passed    0.02 sec
+        Start 391: ChunkedPrefillSuite.FirstChunkPrepaysPromptHeadroomOnlyInFullHistoryGroup
+338/661 Test  #15: HashPrefixPageTest.FramingDisambiguatesEmptyPriorFromChainedPage ......................................................................   Passed    0.02 sec
+        Start 354: SchedulerConfigValidateTest.StateCheckpointInForwardRequiresPrefixCaching
+339/661 Test #391: ChunkedPrefillSuite.FirstChunkPrepaysPromptHeadroomOnlyInFullHistoryGroup .............................................................   Passed    0.02 sec
+        Start 288: TailPublicationTest.AnAlignedFrontierPublishesNoTail
+340/661 Test #354: SchedulerConfigValidateTest.StateCheckpointInForwardRequiresPrefixCaching .............................................................   Passed    0.02 sec
+        Start 264: BoundedReplayCoordinator.ReplayableGroupNeverConstrainsTheCommonBoundary
+341/661 Test #288: TailPublicationTest.AnAlignedFrontierPublishesNoTail ..................................................................................   Passed    0.03 sec
+        Start 278: ShardedTailCopyPackingFourTest.HitterCopyIsNotFundedByAnEvictionInAnotherBucket
+342/661 Test #264: BoundedReplayCoordinator.ReplayableGroupNeverConstrainsTheCommonBoundary ..............................................................   Passed    0.03 sec
+        Start 329: ForwardCacheOpsFree.ReturnsAllPagesToPool
+343/661 Test #278: ShardedTailCopyPackingFourTest.HitterCopyIsNotFundedByAnEvictionInAnotherBucket .......................................................   Passed    0.03 sec
+        Start 408: CapacityBlockPrefixCacheSuite.FailedAdmissionLeavesCacheProgressUncommitted
+344/661 Test #329: ForwardCacheOpsFree.ReturnsAllPagesToPool .............................................................................................   Passed    0.04 sec
+        Start 552: DecodeRetractionCapacityTestSuite.AdmissionDoesNotReserveFutureRetractionCapacity
+345/661 Test #408: CapacityBlockPrefixCacheSuite.FailedAdmissionLeavesCacheProgressUncommitted ...........................................................   Passed    0.03 sec
+        Start  74: FullAttnManagerTest.MatchEmptyListReturnsNoHit
+346/661 Test #552: DecodeRetractionCapacityTestSuite.AdmissionDoesNotReserveFutureRetractionCapacity .....................................................   Passed    0.03 sec
+        Start 376: ForwardBatch.MultiRequestPadsRaggedRowsWithMinusOne
+347/661 Test  #74: FullAttnManagerTest.MatchEmptyListReturnsNoHit ........................................................................................   Passed    0.05 sec
+        Start 384: KvCacheLifecycleTestSuite.SingleRequest_PrefillDecodeFinish
+348/661 Test #376: ForwardBatch.MultiRequestPadsRaggedRowsWithMinusOne ...................................................................................   Passed    0.05 sec
+        Start 564: PdSparseDecodeAdmissionTestSuite.LandsThePromptEndStateInSlotOneAndDecodesInPlace
+349/661 Test #384: KvCacheLifecycleTestSuite.SingleRequest_PrefillDecodeFinish ...........................................................................   Passed    0.03 sec
+        Start 245: CacheCoordinatorHostReplacement.BatchCrossGroupRebindingChoosesLowestCacheValueParent
+350/661 Test #564: PdSparseDecodeAdmissionTestSuite.LandsThePromptEndStateInSlotOneAndDecodesInPlace .....................................................   Passed    0.04 sec
+        Start 295: StorageQueryTest.MissingHighestStateFallsBackToTheNextCompleteCheckpoint
+351/661 Test #245: CacheCoordinatorHostReplacement.BatchCrossGroupRebindingChoosesLowestCacheValueParent .................................................   Passed    0.04 sec
+        Start 427: RetractSuite.AFlushIsRefusedWhileARequestIsSuspendedWithASnapshotOnlyImage
+352/661 Test #295: StorageQueryTest.MissingHighestStateFallsBackToTheNextCompleteCheckpoint ..............................................................   Passed    0.04 sec
+        Start 238: CacheCoordinatorHostReplacement.GlobalLruComparesOnlyChildrenInTheRequestedBucket
+353/661 Test #427: RetractSuite.AFlushIsRefusedWhileARequestIsSuspendedWithASnapshotOnlyImage ............................................................   Passed    0.03 sec
+        Start  75: FullAttnManagerTest.MatchAllMissReturnsNoHitAndDoesNotChangeRefs
+354/661 Test #238: CacheCoordinatorHostReplacement.GlobalLruComparesOnlyChildrenInTheRequestedBucket .....................................................   Passed    0.03 sec
+        Start 398: SubPageWindowSuite.StraddlingWindowHoldsPreviousPage
+355/661 Test  #75: FullAttnManagerTest.MatchAllMissReturnsNoHitAndDoesNotChangeRefs ......................................................................   Passed    0.02 sec
+        Start 624: AsyncStorageTransactionTest.PressureGateDropsBackupsAndRequiresAllLowWatermarks
+356/661 Test #398: SubPageWindowSuite.StraddlingWindowHoldsPreviousPage ..................................................................................   Passed    0.02 sec
+        Start  79: FullAttnManagerTest.ClaimHitBlocksClaimsAndAppends
+357/661 Test #624: AsyncStorageTransactionTest.PressureGateDropsBackupsAndRequiresAllLowWatermarks .......................................................   Passed    0.03 sec
+        Start 371: MinPrefillChunkTokensTest.ReservesReplayPlusAWindowOrPage
+358/661 Test  #79: FullAttnManagerTest.ClaimHitBlocksClaimsAndAppends ....................................................................................   Passed    0.02 sec
+        Start 523: SchedulerTestSuite.SubmitRequestsValidatesWholeBatchBeforeInsertion
+359/661 Test #371: MinPrefillChunkTokensTest.ReservesReplayPlusAWindowOrPage .............................................................................   Passed    0.02 sec
+        Start 293: StoragePrefixReservationTest.DistributesRestoredPagesAcrossCyclicOwners
+360/661 Test #523: SchedulerTestSuite.SubmitRequestsValidatesWholeBatchBeforeInsertion ...................................................................   Passed    0.02 sec
+        Start 189: CacheCoordinatorAdmissionTest.HeterogeneousGroupsSharePartialAndEmptyParents
+361/661 Test #293: StoragePrefixReservationTest.DistributesRestoredPagesAcrossCyclicOwners ...............................................................   Passed    0.02 sec
+        Start 406: PrefillSlideAdmissionSuite.InFlightStorePinsItsSourcesUntilAck
+362/661 Test #189: CacheCoordinatorAdmissionTest.HeterogeneousGroupsSharePartialAndEmptyParents ..........................................................   Passed    0.02 sec
+        Start 224: CacheCoordinatorStoreCandidates.SlideCreditExcludesUncachedOnlyWhenCollecting
+363/661 Test #406: PrefillSlideAdmissionSuite.InFlightStorePinsItsSourcesUntilAck ........................................................................   Passed    0.03 sec
+        Start  47: BlockPoolLcmPlacementTest.ParentRebindsOnlyAfterLastChildReleases
+364/661 Test #224: CacheCoordinatorStoreCandidates.SlideCreditExcludesUncachedOnlyWhenCollecting .........................................................   Passed    0.04 sec
+        Start 112: SwaManagerTest.MatchAcceptsRunShorterThanContiguousNeeded
+365/661 Test  #47: BlockPoolLcmPlacementTest.ParentRebindsOnlyAfterLastChildReleases .....................................................................   Passed    0.04 sec
+        Start 178: CacheCoordinatorAdmissionTest.ReportsOnlyFreshlyAllocatedKernelPageIds
+366/661 Test #112: SwaManagerTest.MatchAcceptsRunShorterThanContiguousNeeded .............................................................................   Passed    0.03 sec
+        Start 576: CacheOperationTest.EveryTierTransferPairsBlocksOfEqualResidue
+367/661 Test #178: CacheCoordinatorAdmissionTest.ReportsOnlyFreshlyAllocatedKernelPageIds ................................................................   Passed    0.03 sec
+        Start 551: DisaggDecodePriorityTestSuite.PrefillDoneDoesNotMixWithAnotherSubmittedRequest
+368/661 Test #576: CacheOperationTest.EveryTierTransferPairsBlocksOfEqualResidue .........................................................................   Passed    0.03 sec
+        Start 612: AsyncStorageTransactionTest.PartialGetPublishesOnlyCompleteObjects
+369/661 Test #551: DisaggDecodePriorityTestSuite.PrefillDoneDoesNotMixWithAnotherSubmittedRequest ........................................................   Passed    0.03 sec
+        Start 476: PrefixHitSuite.PartialHit
+370/661 Test #612: AsyncStorageTransactionTest.PartialGetPublishesOnlyCompleteObjects ....................................................................   Passed    0.04 sec
+        Start 441: PrefillHeadOfLineSuite.RetractingAnIncompletePrefillPublishesOnlyComputedPagesAndResumesAfterThem
+371/661 Test #476: PrefixHitSuite.PartialHit .............................................................................................................   Passed    0.03 sec
+        Start  19: ComputePrefixHashesTest.MissingExtraKeysPerPageTreatedAsEmpty
+372/661 Test #441: PrefillHeadOfLineSuite.RetractingAnIncompletePrefillPublishesOnlyComputedPagesAndResumesAfterThem .....................................   Passed    0.03 sec
+        Start 374: ReservePrefillDemandsTest.SlidingWindowPrepaysUnrecycledGrowthUpToItsLookback
+373/661 Test  #19: ComputePrefixHashesTest.MissingExtraKeysPerPageTreatedAsEmpty .........................................................................   Passed    0.04 sec
+        Start 387: KvCacheLifecycleTestSuite.TwoRequestsBatchBlockTables
+374/661 Test #374: ReservePrefillDemandsTest.SlidingWindowPrepaysUnrecycledGrowthUpToItsLookback .........................................................   Passed    0.04 sec
+        Start 546: FinishOnlyWriteBackTestSuite.FinishStoresTheTailOfAOneTokenPrompt
+375/661 Test #387: KvCacheLifecycleTestSuite.TwoRequestsBatchBlockTables .................................................................................   Passed    0.03 sec
+        Start 507: ChunkedHostHitSuite.ChunkedPrefillAfterHostHit
+376/661 Test #546: FinishOnlyWriteBackTestSuite.FinishStoresTheTailOfAOneTokenPrompt .....................................................................   Passed    0.02 sec
+        Start  68: CacheBlockRefTest.EmptyRefHasSharedPtrNullSemantics
+377/661 Test #507: ChunkedHostHitSuite.ChunkedPrefillAfterHostHit ........................................................................................   Passed    0.02 sec
+        Start 110: SwaManagerTest.BoundedMatchEnforcesRunAgainstBoundedEnd
+378/661 Test  #68: CacheBlockRefTest.EmptyRefHasSharedPtrNullSemantics ...................................................................................   Passed    0.02 sec
+        Start 186: CacheCoordinatorAdmissionTest.PacksSlotsFromOneNewParentTogether
+379/661 Test #110: SwaManagerTest.BoundedMatchEnforcesRunAgainstBoundedEnd ...............................................................................   Passed    0.03 sec
+        Start 287: TailPublicationTest.PublishesThePartialPageUnderHashAtT
+380/661 Test #186: CacheCoordinatorAdmissionTest.PacksSlotsFromOneNewParentTogether ......................................................................   Passed    0.03 sec
+        Start 296: StorageQueryTest.OversizedHighestCandidateStillAllowsACompleteLowerBoundary
+381/661 Test #287: TailPublicationTest.PublishesThePartialPageUnderHashAtT ...............................................................................   Passed    0.02 sec
+        Start 400: PoolAccountingSuite.ThreeRequestsOutOfOrderFinishReclaimExactly
+382/661 Test #296: StorageQueryTest.OversizedHighestCandidateStillAllowsACompleteLowerBoundary ...........................................................   Passed    0.03 sec
+        Start 638: CapacityModelTest.ConcurrentDemandCoversEveryAdmissibleSingleRequest
+383/661 Test #400: PoolAccountingSuite.ThreeRequestsOutOfOrderFinishReclaimExactly .......................................................................   Passed    0.03 sec
+        Start 248: CacheCoordinatorHostExtension.BothGroupsFullyPresent
+384/661 Test #638: CapacityModelTest.ConcurrentDemandCoversEveryAdmissibleSingleRequest ..................................................................   Passed    0.03 sec
+        Start 450: RetractionHeadroom.ReservesOnlyTheRemainingGenerationBudget
+385/661 Test #248: CacheCoordinatorHostExtension.BothGroupsFullyPresent ..................................................................................   Passed    0.03 sec
+        Start 179: CacheCoordinatorAdmissionTest.AcquireMatchedFullPrefixUsesOneAccessEpoch
+386/661 Test #450: RetractionHeadroom.ReservesOnlyTheRemainingGenerationBudget ...........................................................................   Passed    0.03 sec
+        Start 148: CacheCoordinatorCapacityTest.GroupAvailablePagesTracksLocalSlotsAndEmptyParents
+387/661 Test #179: CacheCoordinatorAdmissionTest.AcquireMatchedFullPrefixUsesOneAccessEpoch ..............................................................   Passed    0.03 sec
+        Start 553: DecodeRetractionL2TestSuite.InitialAdmissionAndDecodeDoNotUsePrefixL2
+388/661 Test #148: CacheCoordinatorCapacityTest.GroupAvailablePagesTracksLocalSlotsAndEmptyParents .......................................................   Passed    0.04 sec
+        Start 149: CacheCoordinatorTest.ExpandsOneLogicalHashIntoPerGroupCacheBlocks
+389/661 Test #553: DecodeRetractionL2TestSuite.InitialAdmissionAndDecodeDoNotUsePrefixL2 .................................................................   Passed    0.03 sec
+        Start 373: ReservePrefillDemandsTest.EachKindHoldsItsOwnShareOfTheRound
+390/661 Test #149: CacheCoordinatorTest.ExpandsOneLogicalHashIntoPerGroupCacheBlocks .....................................................................   Passed    0.03 sec
+        Start 364: ForwardCacheOpsBuildBlockTables.KeyMatchesSuppliedGroupIdStrings
+391/661 Test #373: ReservePrefillDemandsTest.EachKindHoldsItsOwnShareOfTheRound ..........................................................................   Passed    0.04 sec
+        Start 598: CacheOperationTest.ShardedL3PartialReadUsesOrdinaryOwnerPreservingAdmission
+392/661 Test #364: ForwardCacheOpsBuildBlockTables.KeyMatchesSuppliedGroupIdStrings ......................................................................   Passed    0.03 sec
+        Start 333: ForwardCacheOpsPrefill.ChunkSlidesSwaWindowAndKeepsPunchedPageHashes
+393/661 Test #598: CacheOperationTest.ShardedL3PartialReadUsesOrdinaryOwnerPreservingAdmission ...........................................................   Passed    0.03 sec
+        Start  71: CacheBlockRefTest.VectorCopiesKeepBlockPinnedUntilLastCopyDies
+394/661 Test #333: ForwardCacheOpsPrefill.ChunkSlidesSwaWindowAndKeepsPunchedPageHashes ..................................................................   Passed    0.03 sec
+        Start 240: CacheCoordinatorHostReplacement.BatchPreservesEmptyRefForPinnedShortfall
+395/661 Test  #71: CacheBlockRefTest.VectorCopiesKeepBlockPinnedUntilLastCopyDies ........................................................................   Passed    0.03 sec
+        Start 187: CacheCoordinatorAdmissionTest.FreeCachedHitCostsNoAdditionalPlacement
+396/661 Test #240: CacheCoordinatorHostReplacement.BatchPreservesEmptyRefForPinnedShortfall ..............................................................   Passed    0.02 sec
+        Start 340: MakeSpecsFromConfigTest.Qwen35Fp8UsesOneLogicalPAndPerGroupPacking
+397/661 Test #187: CacheCoordinatorAdmissionTest.FreeCachedHitCostsNoAdditionalPlacement .................................................................   Passed    0.03 sec
+        Start 513: BoundedReplaySuite.ReplayRowsDebitTokenBudget
+398/661 Test #340: MakeSpecsFromConfigTest.Qwen35Fp8UsesOneLogicalPAndPerGroupPacking ....................................................................   Passed    0.03 sec
+        Start  90: FullAttnManagerTest.CacheFullBlocksIsIdempotentAcrossCalls
+399/661 Test #513: BoundedReplaySuite.ReplayRowsDebitTokenBudget .........................................................................................   Passed    0.02 sec
+        Start 130: HostTierMatchTest.FullWalksContiguousRunFromBegin
+400/661 Test  #90: FullAttnManagerTest.CacheFullBlocksIsIdempotentAcrossCalls ............................................................................   Passed    0.02 sec
+        Start 346: SchedulerConfigValidateTest.RejectsBlockGranularityThatDoesNotDivideP
+401/661 Test #130: HostTierMatchTest.FullWalksContiguousRunFromBegin .....................................................................................   Passed    0.03 sec
+        Start 324: StateCheckpointInForwardRetractionPoolSuite.ADecodingVictimHoldsNoDeviceBlockWhileRetracted
+402/661 Test #346: SchedulerConfigValidateTest.RejectsBlockGranularityThatDoesNotDivideP .................................................................   Passed    0.03 sec
+        Start 616: AsyncStorageTransactionTest.PutPinsOnlyAtDispatchAndFailureKeepsL2
+403/661 Test #324: StateCheckpointInForwardRetractionPoolSuite.ADecodingVictimHoldsNoDeviceBlockWhileRetracted ...........................................   Passed    0.04 sec
+        Start 508: BoundedReplaySuite.FirstChunkAfterHitReplaysWindow
+404/661 Test #616: AsyncStorageTransactionTest.PutPinsOnlyAtDispatchAndFailureKeepsL2 ....................................................................   Passed    0.04 sec
+        Start 482: PrefixReplayHeterogeneousSuite.ReplayTailIsPrivateAcrossPackedGroups
+405/661 Test #508: BoundedReplaySuite.FirstChunkAfterHitReplaysWindow ....................................................................................   Passed    0.04 sec
+        Start 613: AsyncStorageTransactionTest.UnknownRetirementKeepsTargetsQuarantined
+406/661 Test #482: PrefixReplayHeterogeneousSuite.ReplayTailIsPrivateAcrossPackedGroups ..................................................................   Passed    0.04 sec
+        Start  87: FullAttnManagerTest.AcquireAllOrNothingOnShortage
+407/661 Test #613: AsyncStorageTransactionTest.UnknownRetirementKeepsTargetsQuarantined ..................................................................   Passed    0.05 sec
+        Start  44: BlockPoolLcmPlacementTest.EmptyParentBindsToGroupOnFirstChild
+408/661 Test  #87: FullAttnManagerTest.AcquireAllOrNothingOnShortage .....................................................................................   Passed    0.04 sec
+        Start 294: StoragePrefixReservationTest.QueryBudgetIncludesPromptEndStateBeforeHistoricalCheckpoints
+409/661 Test  #44: BlockPoolLcmPlacementTest.EmptyParentBindsToGroupOnFirstChild .........................................................................   Passed    0.03 sec
+        Start 657: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <00-00 00-00>)
+410/661 Test #294: StoragePrefixReservationTest.QueryBudgetIncludesPromptEndStateBeforeHistoricalCheckpoints .............................................   Passed    0.03 sec
+        Start 658: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <01-00 00-00>)
+411/661 Test #657: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <00-00 00-00>) ...   Passed    0.02 sec
+        Start 270: RetractionImageTest.SnapshotIsRefusedWithoutASnapshotPool
+412/661 Test #658: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <01-00 00-00>) ...   Passed    0.02 sec
+        Start 164: CoordinatorMatchTest.FullShorterThanSwaBoundsSwaWithRunIntact
+413/661 Test #270: RetractionImageTest.SnapshotIsRefusedWithoutASnapshotPool .............................................................................   Passed    0.02 sec
+        Start  43: BlockPoolTest.ExactAcquireBlocksRemainsAllOrNothing
+414/661 Test #164: CoordinatorMatchTest.FullShorterThanSwaBoundsSwaWithRunIntact .........................................................................   Passed    0.02 sec
+        Start 389: KimiFourGroupSuite.FinishAndAbortRestoreAllUsablePages
+415/661 Test  #43: BlockPoolTest.ExactAcquireBlocksRemainsAllOrNothing ...................................................................................   Passed    0.02 sec
+        Start 647: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <00-00 00-00>)
+416/661 Test #389: KimiFourGroupSuite.FinishAndAbortRestoreAllUsablePages ................................................................................   Passed    0.02 sec
+        Start  18: ComputePrefixHashesTest.SamePageDifferentPrefixDiffers
+417/661 Test #647: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <00-00 00-00>) ...   Passed    0.02 sec
+        Start  59: BlockPoolBucketAcquireTest.PlacementIsDeterministicAndOpensOneParentForBothBuckets
+418/661 Test  #18: ComputePrefixHashesTest.SamePageDifferentPrefixDiffers ................................................................................   Passed    0.02 sec
+        Start 173: CoordinatorMatchTest.AllFullGroupsMinTruncationUnchanged
+419/661 Test  #59: BlockPoolBucketAcquireTest.PlacementIsDeterministicAndOpensOneParentForBothBuckets ....................................................   Passed    0.02 sec
+        Start 517: BoundedReplayDecodeRoleSuite.RemoteAdmissionLandsTheRetainedTailAndReplaysNothing
+420/661 Test #173: CoordinatorMatchTest.AllFullGroupsMinTruncationUnchanged ..............................................................................   Passed    0.02 sec
+        Start 563: PdDecodeCapacityTestSuite.SingleRequestCapacityChargesTheLandingShapeOnly
+421/661 Test #517: BoundedReplayDecodeRoleSuite.RemoteAdmissionLandsTheRetainedTailAndReplaysNothing .....................................................   Passed    0.02 sec
+        Start 462: CacheProgressTest.RemotePrefillPreservesDecodeReserve
+422/661 Test #563: PdDecodeCapacityTestSuite.SingleRequestCapacityChargesTheLandingShapeOnly .............................................................   Passed    0.02 sec
+        Start 521: SchedulerTestSuite.NoCacheOps_PlainRequestNoCacheHit
+423/661 Test #462: CacheProgressTest.RemotePrefillPreservesDecodeReserve .................................................................................   Passed    0.02 sec
+        Start 457: RetractExactFitSuite.ReserveRefundBalances
+424/661 Test #521: SchedulerTestSuite.NoCacheOps_PlainRequestNoCacheHit ..................................................................................   Passed    0.02 sec
+        Start 121: SwaManagerTest.ReclaimExpiredEarlyReturnInsideWindow
+425/661 Test #457: RetractExactFitSuite.ReserveRefundBalances ............................................................................................   Passed    0.03 sec
+        Start 161: CoordinatorMatchTest.ProbeDoesNotRefreshAccessEpoch
+426/661 Test #121: SwaManagerTest.ReclaimExpiredEarlyReturnInsideWindow ..................................................................................   Passed    0.03 sec
+        Start 397: SubPageWindowSuite.SubPageWindowsPlateauAtTwoRealPages
+427/661 Test #161: CoordinatorMatchTest.ProbeDoesNotRefreshAccessEpoch ...................................................................................   Passed    0.03 sec
+        Start 152: CacheCoordinatorTest.ClearDeviceCacheLeavesHostCacheUntouched
+428/661 Test #397: SubPageWindowSuite.SubPageWindowsPlateauAtTwoRealPages ................................................................................   Passed    0.04 sec
+        Start 403: PrefixGranularityOneSuite.TokenGranularPagesSlideAndReclaim
+429/661 Test #152: CacheCoordinatorTest.ClearDeviceCacheLeavesHostCacheUntouched .........................................................................   Passed    0.04 sec
+        Start 259: CompletedBoundaryTest.RejectsCompletedPagesWithoutComputedProgress
+430/661 Test #403: PrefixGranularityOneSuite.TokenGranularPagesSlideAndReclaim ...........................................................................   Passed    0.04 sec
+        Start 461: CacheProgressTest.JunctionSurvivesPrefillRounds
+431/661 Test #259: CompletedBoundaryTest.RejectsCompletedPagesWithoutComputedProgress ....................................................................   Passed    0.03 sec
+        Start 388: KimiFourGroupSuite.FourTablesUseDisjointGlobalPages
+432/661 Test #461: CacheProgressTest.JunctionSurvivesPrefillRounds .......................................................................................   Passed    0.03 sec
+        Start 267: BoundedReplayCoordinator.RetentionStillReclaimsReplayablePages
+433/661 Test #388: KimiFourGroupSuite.FourTablesUseDisjointGlobalPages ...................................................................................   Passed    0.03 sec
+        Start 631: AsyncStorageTransactionTest.RejectedReadDoesNotPoisonObjectsAndCanRetry
+434/661 Test #267: BoundedReplayCoordinator.RetentionStillReclaimsReplayablePages ........................................................................   Passed    0.04 sec
+        Start 586: CacheOperationTest.PendingStoresAllocateInCandidateOrderAcrossGroups
+435/661 Test #631: AsyncStorageTransactionTest.RejectedReadDoesNotPoisonObjectsAndCanRetry ...............................................................   Passed    0.04 sec
+        Start 190: CacheCoordinatorAdmissionTest.PacksDemandBeforeConsumingAnotherGroupsOnlyParent
+436/661 Test #586: CacheOperationTest.PendingStoresAllocateInCandidateOrderAcrossGroups ..................................................................   Passed    0.03 sec
+        Start 386: KvCacheLifecycleTestSuite.EmptyAndActiveLcmBlocksPartitionThePool
+437/661 Test #190: CacheCoordinatorAdmissionTest.PacksDemandBeforeConsumingAnotherGroupsOnlyParent .......................................................   Passed    0.04 sec
+        Start 439: ReadmissionScanSuite.ASmallerLandedImageRestoresBehindALargeOneThatDoesNotFit
+438/661 Test #386: KvCacheLifecycleTestSuite.EmptyAndActiveLcmBlocksPartitionThePool .....................................................................   Passed    0.04 sec
+        Start 496: StreamingSinkSuite.SameRoundDuplicateKeysDedupeAtDrain
+439/661 Test #439: ReadmissionScanSuite.ASmallerLandedImageRestoresBehindALargeOneThatDoesNotFit .........................................................   Passed    0.04 sec
+        Start 145: MakeCoordinatorTest.RejectsNonPositiveLogicalPOrPacking
+440/661 Test #496: StreamingSinkSuite.SameRoundDuplicateKeysDedupeAtDrain ................................................................................   Passed    0.03 sec
+        Start  92: FullAttnManagerTest.FreedCachedPageStaysPrefixReusable
+441/661 Test #145: MakeCoordinatorTest.RejectsNonPositiveLogicalPOrPacking ...............................................................................   Passed    0.03 sec
+        Start 440: RetractMidPrefillSuite.MidPrefillVictimResumesItsNextChunk
+442/661 Test  #92: FullAttnManagerTest.FreedCachedPageStaysPrefixReusable ................................................................................   Passed    0.04 sec
+        Start 383: KvCacheLifecycleTestSuite.Construct_AndSubmit_Waiting
+443/661 Test #440: RetractMidPrefillSuite.MidPrefillVictimResumesItsNextChunk ............................................................................   Passed    0.04 sec
+        Start 122: SwaManagerTest.ReclaimExpiredCapsToAllocatedBlocks
+444/661 Test #383: KvCacheLifecycleTestSuite.Construct_AndSubmit_Waiting .................................................................................   Passed    0.03 sec
+        Start 115: SwaManagerTest.MatchWindowOneCoversAllAsHoles
+445/661 Test #122: SwaManagerTest.ReclaimExpiredCapsToAllocatedBlocks ....................................................................................   Passed    0.03 sec
+        Start 495: StreamingSinkSuite.CommittedColdEntriesAreReplacedWhenHostPoolIsFull
+446/661 Test #115: SwaManagerTest.MatchWindowOneCoversAllAsHoles .........................................................................................   Passed    0.04 sec
+        Start 347: SchedulerConfigValidateTest.RejectsMissingSlidingWindowWithGroupId
+447/661 Test #495: StreamingSinkSuite.CommittedColdEntriesAreReplacedWhenHostPoolIsFull ..................................................................   Passed    0.04 sec
+        Start 437: L2LegFallbackSuite.AnL2LegThatFallsBackToATooSmallPoolAbortsTheChosenVictim
+448/661 Test #347: SchedulerConfigValidateTest.RejectsMissingSlidingWindowWithGroupId ....................................................................   Passed    0.03 sec
+        Start 505: HostHitSuite.DuplicateLoadBackDoneIsIgnored
+449/661 Test #437: L2LegFallbackSuite.AnL2LegThatFallsBackToATooSmallPoolAbortsTheChosenVictim ...........................................................   Passed    0.03 sec
+        Start 460: RetractStateGroupSuite.StateGroupRequestRetractsCleanly
+450/661 Test #505: HostHitSuite.DuplicateLoadBackDoneIsIgnored ...........................................................................................   Passed    0.03 sec
+        Start 328: JointMatchInvariantsTest.DraftOnlyGroupJoinsConvergenceAsOrdinaryGroup
+451/661 Test #460: RetractStateGroupSuite.StateGroupRequestRetractsCleanly ...............................................................................   Passed    0.03 sec
+        Start 436: L2TailOnlyPoolSuite.AnUnhashedCompletedPageRidesL2AndTheVictimIsRetractedNotAborted
+452/661 Test #328: JointMatchInvariantsTest.DraftOnlyGroupJoinsConvergenceAsOrdinaryGroup ................................................................   Passed    0.03 sec
+        Start 648: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <01-00 00-00>)
+453/661 Test #436: L2TailOnlyPoolSuite.AnUnhashedCompletedPageRidesL2AndTheVictimIsRetractedNotAborted ...................................................   Passed    0.03 sec
+        Start 434: NoImageFitsSuite.WhenNoImageFitsTheNewestResidentIsAbortedAndTheGrantProceeds
+454/661 Test #648: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <01-00 00-00>) ...   Passed    0.03 sec
+        Start 275: RetractionImageTest.HostAllocationFollowsTheSourceBucket
+455/661 Test #434: NoImageFitsSuite.WhenNoImageFitsTheNewestResidentIsAbortedAndTheGrantProceeds .........................................................   Passed    0.03 sec
+        Start 271: RetractionImageTest.RestoreEvictsCacheOnlyBlocksAndFailsCleanlyWhenPinned
+456/661 Test #275: RetractionImageTest.HostAllocationFollowsTheSourceBucket ..............................................................................   Passed    0.03 sec
+        Start 532: MultiGroupKvCacheEventTestSuite.PublishesOneEventAfterAllGroupsCacheBoundary
+457/661 Test #271: RetractionImageTest.RestoreEvictsCacheOnlyBlocksAndFailsCleanlyWhenPinned .............................................................   Passed    0.03 sec
+        Start 174: CoordinatorMatchTest.SingleFullGroupUnchanged
+458/661 Test #532: MultiGroupKvCacheEventTestSuite.PublishesOneEventAfterAllGroupsCacheBoundary ..........................................................   Passed    0.04 sec
+        Start 378: ForwardBatch.PrefillBeforeDecodeKeepsRowsAlignedWithRequests
+459/661 Test #174: CoordinatorMatchTest.SingleFullGroupUnchanged .........................................................................................   Passed    0.04 sec
+        Start 153: CacheCoordinatorTest.ClearCacheRemovesDeviceAndHostEntries
+460/661 Test #378: ForwardBatch.PrefillBeforeDecodeKeepsRowsAlignedWithRequests ..........................................................................   Passed    0.04 sec
+        Start 475: PrefixHitSuite.MaxCachedPrefixTokensDefaultLeavesTheProbeUnbounded
+461/661 Test #153: CacheCoordinatorTest.ClearCacheRemovesDeviceAndHostEntries ............................................................................   Passed    0.03 sec
+        Start 478: PrefixReplaySuite.ExistingUncachedSuffixSatisfiesReplayRequirement
+462/661 Test #475: PrefixHitSuite.MaxCachedPrefixTokensDefaultLeavesTheProbeUnbounded ....................................................................   Passed    0.03 sec
+        Start 504: HostHitSuite.CapacityBlockWaitsForInFlightLoads
+463/661 Test #478: PrefixReplaySuite.ExistingUncachedSuffixSatisfiesReplayRequirement ....................................................................   Passed    0.03 sec
+        Start  93: FullAttnManagerTest.EndToEndTwoRequestsSharePrefix
+464/661 Test #504: HostHitSuite.CapacityBlockWaitsForInFlightLoads .......................................................................................   Passed    0.04 sec
+        Start 312: StateCheckpointInForwardSuite.EachTurnResumesAtThePreviousPromptsLastFullPage
+465/661 Test  #93: FullAttnManagerTest.EndToEndTwoRequestsSharePrefix ....................................................................................   Passed    0.03 sec
+        Start  11: HashPrefixPageTest.EmptyExtraKeysEqualsTwoArgForm
+466/661 Test #312: StateCheckpointInForwardSuite.EachTurnResumesAtThePreviousPromptsLastFullPage .........................................................   Passed    0.03 sec
+        Start 618: AsyncStorageTransactionTest.TemporaryWriteCreditExhaustionRetainsResidentCandidates
+467/661 Test  #11: HashPrefixPageTest.EmptyExtraKeysEqualsTwoArgForm .....................................................................................   Passed    0.04 sec
+        Start 435: NoImageFitsSuite.TheDebugKnobNeverAborts
+468/661 Test #618: AsyncStorageTransactionTest.TemporaryWriteCreditExhaustionRetainsResidentCandidates ...................................................   Passed    0.04 sec
+        Start   7: HashPrefixPageTest.DifferentTokensDifferentHash
+469/661 Test #435: NoImageFitsSuite.TheDebugKnobNeverAborts ..............................................................................................   Passed    0.03 sec
+        Start 318: StateCheckpointInForwardRetractionSuite.ARetractionPublishesTheCheckpointAndHoldsNoDeviceBlock
+470/661 Test   #7: HashPrefixPageTest.DifferentTokensDifferentHash .......................................................................................   Passed    0.04 sec
+        Start  60: BlockPoolBucketAcquireTest.FailedAcquisitionLeavesIndicesUntouched
+471/661 Test #318: StateCheckpointInForwardRetractionSuite.ARetractionPublishesTheCheckpointAndHoldsNoDeviceBlock ........................................   Passed    0.05 sec
+        Start 641: CapacityModelTest.ReadsNoPageCounts
+472/661 Test  #60: BlockPoolBucketAcquireTest.FailedAcquisitionLeavesIndicesUntouched ....................................................................   Passed    0.03 sec
+        Start 653: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <01-00 00-00>)
+473/661 Test #641: CapacityModelTest.ReadsNoPageCounts ...................................................................................................   Passed    0.03 sec
+        Start 300: StorageQuerySwaFloorTest.QuerySkipsBelowHostFloorAndWarmPinsEndWithReservation
+474/661 Test #653: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <01-00 00-00>) ...   Passed    0.03 sec
+        Start 155: GroupAllocatorTest.ResolvesAffineKernelPageIdsAndRejectsInvalidLocations
+475/661 Test #300: StorageQuerySwaFloorTest.QuerySkipsBelowHostFloorAndWarmPinsEndWithReservation ........................................................   Passed    0.03 sec
+        Start 131: HostTierMatchTest.FullStopsAtFirstMiss
+476/661 Test #155: GroupAllocatorTest.ResolvesAffineKernelPageIdsAndRejectsInvalidLocations ..............................................................   Passed    0.03 sec
+        Start 325: StateCheckpointInForwardRetractionPoolSuite.ARetractedVictimIsRestoredInTheSmallestPoolThatAdmitsIt
+477/661 Test #131: HostTierMatchTest.FullStopsAtFirstMiss ................................................................................................   Passed    0.04 sec
+        Start 459: RetractTrioSuite.TwoCapacityBlocksRetractDifferentRequestsAndTheRestoreWaits
+478/661 Test #325: StateCheckpointInForwardRetractionPoolSuite.ARetractedVictimIsRestoredInTheSmallestPoolThatAdmitsIt ...................................   Passed    0.04 sec
+        Start 326: JointMatchInvariantsTest.HitImpliesWarmUnderRandomCacheEvictSequences
+479/661 Test #459: RetractTrioSuite.TwoCapacityBlocksRetractDifferentRequestsAndTheRestoreWaits ..........................................................   Passed    0.03 sec
+        Start 108: SwaManagerTest.MatchAllMissReturnsEmpty
+480/661 Test #326: JointMatchInvariantsTest.HitImpliesWarmUnderRandomCacheEvictSequences .................................................................   Passed    0.03 sec
+        Start  61: BlockPoolBucketAcquireTest.ReleaseRestoresPerBucketHolesAndUnbindsWholeParents
+481/661 Test #108: SwaManagerTest.MatchAllMissReturnsEmpty ...............................................................................................   Passed    0.03 sec
+        Start 134: HostTierMatchTest.SwaInteriorBoundaryShrink
+482/661 Test  #61: BlockPoolBucketAcquireTest.ReleaseRestoresPerBucketHolesAndUnbindsWholeParents ........................................................   Passed    0.03 sec
+        Start 617: AsyncStorageTransactionTest.SlowBackupsLeaveHostCreditsForAnUnrelatedRead
+483/661 Test #134: HostTierMatchTest.SwaInteriorBoundaryShrink ...........................................................................................   Passed    0.03 sec
+        Start 322: StateRestoreClaimSuite.TheRestoreClaimsTheCheckpointBeforeEvictingItsTailCompanions
+484/661 Test #617: AsyncStorageTransactionTest.SlowBackupsLeaveHostCreditsForAnUnrelatedRead .............................................................   Passed    0.04 sec
+        Start  86: FullAttnManagerTest.AcquireZeroTokensIsNoOp
+485/661 Test #322: StateRestoreClaimSuite.TheRestoreClaimsTheCheckpointBeforeEvictingItsTailCompanions ...................................................   Passed    0.03 sec
+        Start 652: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <00-00 00-00>)
+486/661 Test  #86: FullAttnManagerTest.AcquireZeroTokensIsNoOp ...........................................................................................   Passed    0.03 sec
+        Start 582: CacheOperationTest.StreamOrderedStorePinsNoDeviceSource
+487/661 Test #652: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <00-00 00-00>) ...   Passed    0.03 sec
+        Start 321: StateRetractionSuite.TheImageCarriesBothSlotsAndRestoresTheLiveOneAsACopy
+488/661 Test #582: CacheOperationTest.StreamOrderedStorePinsNoDeviceSource ...............................................................................   Passed    0.03 sec
+        Start 640: CapacityModelTest.FoldsGroupPagesIntoLcmBlocksByPacking
+489/661 Test #321: StateRetractionSuite.TheImageCarriesBothSlotsAndRestoresTheLiveOneAsACopy .............................................................   Passed    0.02 sec
+        Start 303: StateCheckpointSuite.FinishWithAForwardInFlightSettlesAtTheFrontierThatForwardLands
+490/661 Test #640: CapacityModelTest.FoldsGroupPagesIntoLcmBlocksByPacking ...............................................................................   Passed    0.02 sec
+        Start  80: FullAttnManagerTest.ClaimNoHitsIsNoOp
+491/661 Test #303: StateCheckpointSuite.FinishWithAForwardInFlightSettlesAtTheFrontierThatForwardLands ...................................................   Passed    0.02 sec
+        Start 319: StateOnlySuite.NoKvGroupMeansNoJunctionCut
+492/661 Test  #80: FullAttnManagerTest.ClaimNoHitsIsNoOp .................................................................................................   Passed    0.02 sec
+        Start 568: PdSlidingSparseDecodeAdmissionTestSuite.KeepsCachedPrefixIslandWhileMaterializingRemoteTail
+493/661 Test #319: StateOnlySuite.NoKvGroupMeansNoJunctionCut ............................................................................................   Passed    0.02 sec
+        Start 651: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <04-00 00-00>)
+494/661 Test #568: PdSlidingSparseDecodeAdmissionTestSuite.KeepsCachedPrefixIslandWhileMaterializingRemoteTail ...........................................   Passed    0.02 sec
+        Start 239: CacheCoordinatorHostReplacement.SingleGroupBatchUsesChildrenWithoutParentCandidates
+495/661 Test #651: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <04-00 00-00>) ...   Passed    0.02 sec
+        Start 154: CacheCoordinatorTest.ClearDeviceCacheRejectsPinnedEntryWithoutPartialMutation
+496/661 Test #239: CacheCoordinatorHostReplacement.SingleGroupBatchUsesChildrenWithoutParentCandidates ...................................................   Passed    0.02 sec
+        Start 623: AsyncStorageTransactionTest.EitherZeroWriteBudgetRejectsCandidatesImmediately
+497/661 Test #154: CacheCoordinatorTest.ClearDeviceCacheRejectsPinnedEntryWithoutPartialMutation .........................................................   Passed    0.02 sec
+        Start 458: PdSlidingCapacityTest.CountsPrefixIslandPhasePageAndGroupPacking
+498/661 Test #623: AsyncStorageTransactionTest.EitherZeroWriteBudgetRejectsCandidatesImmediately .........................................................   Passed    0.03 sec
+        Start 410: ConsumedHeadroomRetractionSuite.ConsumedPartialHeadroomDoesNotDisableRetraction
+499/661 Test #458: PdSlidingCapacityTest.CountsPrefixIslandPhasePageAndGroupPacking ......................................................................   Passed    0.03 sec
+        Start 659: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <02-00 00-00>)
+500/661 Test #410: ConsumedHeadroomRetractionSuite.ConsumedPartialHeadroomDoesNotDisableRetraction .......................................................   Passed    0.03 sec
+        Start 622: AsyncStorageTransactionTest.AOneCreditBudgetStillAllowsReads
+501/661 Test #659: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <02-00 00-00>) ...   Passed    0.03 sec
+        Start 234: CacheCoordinatorHostReplacement.GlobalLruSkipsPinnedParentsWithoutFallingBackToSameGroup
+502/661 Test #622: AsyncStorageTransactionTest.AOneCreditBudgetStillAllowsReads ..........................................................................   Passed    0.03 sec
+        Start 204: CacheCoordinatorAdmissionTest.RestoresOlderSiblingWhenMiddleCandidateFreesRequiredParent
+503/661 Test #234: CacheCoordinatorHostReplacement.GlobalLruSkipsPinnedParentsWithoutFallingBackToSameGroup ..............................................   Passed    0.03 sec
+        Start 197: CacheCoordinatorAdmissionTest.OrdinarySwaKeepsLongerUnhitFrontier
+504/661 Test #204: CacheCoordinatorAdmissionTest.RestoresOlderSiblingWhenMiddleCandidateFreesRequiredParent ..............................................   Passed    0.02 sec
+        Start 409: CapacityBlockSuite.RetractsLargestRunningRequestImmediately
+505/661 Test #197: CacheCoordinatorAdmissionTest.OrdinarySwaKeepsLongerUnhitFrontier .....................................................................   Passed    0.03 sec
+        Start 302: StateCheckpointSuite.FinishRightAfterPrefillPublishesThePrefillsLiveSlotInPlace
+506/661 Test #409: CapacityBlockSuite.RetractsLargestRunningRequestImmediately ...........................................................................   Passed    0.04 sec
+        Start 192: CacheCoordinatorAdmissionTest.KeepsCachedChildrenWhenUnpackedPlacementFits
+507/661 Test #302: StateCheckpointSuite.FinishRightAfterPrefillPublishesThePrefillsLiveSlotInPlace .......................................................   Passed    0.04 sec
+        Start 193: CacheCoordinatorAdmissionTest.UsesEmptyParentBeforeEvictingCachedChild
+508/661 Test #192: CacheCoordinatorAdmissionTest.KeepsCachedChildrenWhenUnpackedPlacementFits ............................................................   Passed    0.03 sec
+        Start 404: TinyPoolSuite.ExhaustedPoolDefersSecondRequestUntilFirstFinishes
+509/661 Test #193: CacheCoordinatorAdmissionTest.UsesEmptyParentBeforeEvictingCachedChild ................................................................   Passed    0.03 sec
+        Start 519: SchedulerTestSuite.LoadBack_NotTriggeredWithoutHostCacheHit
+510/661 Test #404: TinyPoolSuite.ExhaustedPoolDefersSecondRequestUntilFirstFinishes ......................................................................   Passed    0.03 sec
+        Start  96: FullAttnManagerTest.CacheFullBlocksZeroIsNoOp
+511/661 Test #519: SchedulerTestSuite.LoadBack_NotTriggeredWithoutHostCacheHit ...........................................................................   Passed    0.05 sec
+        Start 650: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <03-00 00-00>)
+512/661 Test  #96: FullAttnManagerTest.CacheFullBlocksZeroIsNoOp .........................................................................................   Passed    0.04 sec
+        Start   6: HashPrefixPageTest.Deterministic
+513/661 Test #650: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <03-00 00-00>) ...   Passed    0.03 sec
+        Start 506: HostTailBelowWindowSuite.ATailBlockBelowTheWindowStaysAHoleAndCostsNothing
+514/661 Test   #6: HashPrefixPageTest.Deterministic ......................................................................................................   Passed    0.02 sec
+        Start 518: LoadBackViaCacheTestSuite.LoadBack_TriggeredAfterPrefetchPopulatesHostCache
+515/661 Test #506: HostTailBelowWindowSuite.ATailBlockBelowTheWindowStaysAHoleAndCostsNothing ............................................................   Passed    0.05 sec
+        Start 474: PrefixHitSuite.MaxCachedPrefixTokensCapsTheProbe
+516/661 Test #518: LoadBackViaCacheTestSuite.LoadBack_TriggeredAfterPrefetchPopulatesHostCache ...........................................................   Passed    0.06 sec
+        Start 253: CacheCoordinatorHostExtension.MatchPinsPagesUntilResultDies
+517/661 Test #474: PrefixHitSuite.MaxCachedPrefixTokensCapsTheProbe ......................................................................................   Passed    0.03 sec
+        Start 468: PhysicalReserveSuite.AbortWithOutstandingReservationLeavesNoPhantom
+518/661 Test #253: CacheCoordinatorHostExtension.MatchPinsPagesUntilResultDies ...........................................................................   Passed    0.04 sec
+        Start 520: SchedulerTestSuite.NoCacheOps_WhenNoRequests
+519/661 Test #468: PhysicalReserveSuite.AbortWithOutstandingReservationLeavesNoPhantom ...................................................................   Passed    0.04 sec
+        Start 621: AsyncStorageTransactionTest.SlowBackupsLeaveOperationCreditsForQueries
+520/661 Test #520: SchedulerTestSuite.NoCacheOps_WhenNoRequests ..........................................................................................   Passed    0.03 sec
+        Start 620: AsyncStorageTransactionTest.BackupQueueIsBoundedAndCleanupCountsOnlyQueuedCandidates
+521/661 Test #621: AsyncStorageTransactionTest.SlowBackupsLeaveOperationCreditsForQueries ................................................................   Passed    0.03 sec
+        Start 619: AsyncStorageTransactionTest.ReadCreditsDelayBackupsWithoutDroppingCandidates
+522/661 Test #620: AsyncStorageTransactionTest.BackupQueueIsBoundedAndCleanupCountsOnlyQueuedCandidates ..................................................   Passed    0.03 sec
+        Start 169: CoordinatorMatchTest.MultiWindowThreeGroupsSharedBoundary
+523/661 Test #619: AsyncStorageTransactionTest.ReadCreditsDelayBackupsWithoutDroppingCandidates ..........................................................   Passed    0.03 sec
+        Start 215: CoordinatorStepTest.CacheFullBlocksThenMatchHits
+524/661 Test #169: CoordinatorMatchTest.MultiWindowThreeGroupsSharedBoundary .............................................................................   Passed    0.03 sec
+        Start 555: DecodeRetractionL2TestSuite.RetractionLetsBlockedAdmissionRunAndRestoresTheVictimLater
+525/661 Test #215: CoordinatorStepTest.CacheFullBlocksThenMatchHits ......................................................................................   Passed    0.03 sec
+        Start 469: PrefixHitSuite.TwoRequestsSharePrefixReusePages
+526/661 Test #555: DecodeRetractionL2TestSuite.RetractionLetsBlockedAdmissionRunAndRestoresTheVictimLater ................................................   Passed    0.02 sec
+        Start 589: CacheOperationTest.PrefillAcceptsPromptThatFitsWithoutReservingDecodeTokens
+527/661 Test #469: PrefixHitSuite.TwoRequestsSharePrefixReusePages .......................................................................................   Passed    0.03 sec
+        Start 512: BoundedReplaySuite.FinalChunkAlreadyAtLeastTheWindowIsUnchanged
+528/661 Test #589: CacheOperationTest.PrefillAcceptsPromptThatFitsWithoutReservingDecodeTokens ...........................................................   Passed    0.04 sec
+        Start 254: CacheCoordinatorHostExtension.DeepCascadeConverges
+529/661 Test #512: BoundedReplaySuite.FinalChunkAlreadyAtLeastTheWindowIsUnchanged .......................................................................   Passed    0.03 sec
+        Start 438: NoPoolSuite.WithoutAPoolACapacityBlockAbortsAndNamesThePoolKnobNotTheSlots
+530/661 Test #254: CacheCoordinatorHostExtension.DeepCascadeConverges ....................................................................................   Passed    0.03 sec
+        Start  85: FullAttnManagerTest.AcquireSpillsAcrossMultiplePages
+531/661 Test #438: NoPoolSuite.WithoutAPoolACapacityBlockAbortsAndNamesThePoolKnobNotTheSlots ............................................................   Passed    0.03 sec
+        Start  23: PrefixCacheIndexEvictionOrderTest.DeliversOneEpochPerBatchSortedByLocation
+532/661 Test  #85: FullAttnManagerTest.AcquireSpillsAcrossMultiplePages ..................................................................................   Passed    0.03 sec
+        Start  81: FullAttnManagerTest.AcquireFillsTailBeforeAllocating
+533/661 Test  #23: PrefixCacheIndexEvictionOrderTest.DeliversOneEpochPerBatchSortedByLocation ............................................................   Passed    0.03 sec
+        Start 252: CacheCoordinatorHostExtension.DeviceBoundaryRespected
+534/661 Test  #81: FullAttnManagerTest.AcquireFillsTailBeforeAllocating ..................................................................................   Passed    0.03 sec
+        Start 327: JointMatchInvariantsTest.ReplayableGroupIsNotPartOfTheJointInvariant
+535/661 Test #252: CacheCoordinatorHostExtension.DeviceBoundaryRespected .................................................................................   Passed    0.03 sec
+        Start  84: FullAttnManagerTest.AcquireUsesTailRoomWithoutNewPage
+536/661 Test #327: JointMatchInvariantsTest.ReplayableGroupIsNotPartOfTheJointInvariant ..................................................................   Passed    0.03 sec
+        Start 649: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <02-00 00-00>)
+537/661 Test  #84: FullAttnManagerTest.AcquireUsesTailRoomWithoutNewPage .................................................................................   Passed    0.03 sec
+        Start  88: FullAttnManagerTest.CacheFullBlocksMakesPagesPrefixHittable
+538/661 Test #649: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(0, 4-byte object <02-00 00-00>) ...   Passed    0.02 sec
+        Start 315: StateCheckpointInForwardMixedSuite.ChunksNearTheBoundaryEndOnAPageUnderABudgetCutShort
+539/661 Test  #88: FullAttnManagerTest.CacheFullBlocksMakesPagesPrefixHittable ...........................................................................   Passed    0.02 sec
+        Start 547: FinishOnlyWriteBackTestSuite.AbortEmitsNoStore
+540/661 Test #315: StateCheckpointInForwardMixedSuite.ChunksNearTheBoundaryEndOnAPageUnderABudgetCutShort ................................................   Passed    0.02 sec
+        Start 526: StableCandidateOrderingSuite.ForwardOperationsFollowSubmissionOrder
+541/661 Test #547: FinishOnlyWriteBackTestSuite.AbortEmitsNoStore ........................................................................................   Passed    0.02 sec
+        Start 549: LoadBackDoneTestSuite.LoadBackDonePrefixLenChangesInForward
+542/661 Test #526: StableCandidateOrderingSuite.ForwardOperationsFollowSubmissionOrder ...................................................................   Passed    0.02 sec
+        Start 301: StateCheckpointSuite.TwoSlotsRotateThroughChunksTheFirstDecodeAndLaterDecodes
+543/661 Test #549: LoadBackDoneTestSuite.LoadBackDonePrefixLenChangesInForward ...........................................................................   Passed    0.03 sec
+        Start 132: HostTierMatchTest.FullEmptyOnBeginMissOrEmptyRange
+544/661 Test #301: StateCheckpointSuite.TwoSlotsRotateThroughChunksTheFirstDecodeAndLaterDecodes .........................................................   Passed    0.03 sec
+        Start 630: AsyncStorageTransactionTest.AnIndependentPutStillProtectsAWarmGetDependency
+545/661 Test #132: HostTierMatchTest.FullEmptyOnBeginMissOrEmptyRange ....................................................................................   Passed    0.03 sec
+        Start 191: CacheCoordinatorAdmissionTest.RetriesWithCompactPackingWhenGreedyFreeSlotsWouldReject
+546/661 Test #630: AsyncStorageTransactionTest.AnIndependentPutStillProtectsAWarmGetDependency ...........................................................   Passed    0.02 sec
+        Start   5: HashPrefixPageTest.OutputIs64HexChars
+547/661 Test #191: CacheCoordinatorAdmissionTest.RetriesWithCompactPackingWhenGreedyFreeSlotsWouldReject .................................................   Passed    0.02 sec
+        Start 225: CacheCoordinatorHostReplacement.ReusesOneColdChildBeforeRebindingAParent
+548/661 Test   #5: HashPrefixPageTest.OutputIs64HexChars .................................................................................................   Passed    0.02 sec
+        Start 159: CoordinatorMatchTest.CommonIsMinCoverageFullDeeperThanSwa
+549/661 Test #225: CacheCoordinatorHostReplacement.ReusesOneColdChildBeforeRebindingAParent ..............................................................   Passed    0.02 sec
+        Start 660: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <03-00 00-00>)
+550/661 Test #159: CoordinatorMatchTest.CommonIsMinCoverageFullDeeperThanSwa .............................................................................   Passed    0.02 sec
+        Start 661: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <04-00 00-00>)
+551/661 Test #660: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <03-00 00-00>) ...   Passed    0.03 sec
+        Start 447: SnapshotRetractEvent.StampsResumePriorityAndKeepsTheResumePoint
+552/661 Test #661: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(2, 4-byte object <04-00 00-00>) ...   Passed    0.04 sec
+        Start  42: BlockPoolTest.AcquireUpToBlocksWithPackingOneReturnsPartialCapacity
+553/661 Test #447: SnapshotRetractEvent.StampsResumePriorityAndKeepsTheResumePoint .......................................................................   Passed    0.03 sec
+        Start 102: FullAttnManagerLcmTest.PinnedChildBlocksWholeParentEviction
+554/661 Test  #42: BlockPoolTest.AcquireUpToBlocksWithPackingOneReturnsPartialCapacity ...................................................................   Passed    0.03 sec
+        Start 323: StateCheckpointInForwardRetractionPoolSuite.APrefillingVictimHoldsNoDeviceBlockWhileRetracted
+555/661 Test #102: FullAttnManagerLcmTest.PinnedChildBlocksWholeParentEviction ...........................................................................   Passed    0.04 sec
+        Start 529: SchedulerKvCacheEventTestSuite.PublishesRemovalWhenAdmissionEvictsBlock
+556/661 Test #323: StateCheckpointInForwardRetractionPoolSuite.APrefillingVictimHoldsNoDeviceBlockWhileRetracted .........................................   Passed    0.03 sec
+        Start 396: ThreeGroupSuite.TwoRequestsBatchedAcrossThreeGroupsNoCollision
+557/661 Test #529: SchedulerKvCacheEventTestSuite.PublishesRemovalWhenAdmissionEvictsBlock ...............................................................   Passed    0.03 sec
+        Start 392: ChunkedPrefillSuite.ChunkedPrefillThenSwaSlidesToNullHole
+558/661 Test #396: ThreeGroupSuite.TwoRequestsBatchedAcrossThreeGroupsNoCollision ........................................................................   Passed    0.03 sec
+        Start 172: CoordinatorMatchTest.MultiWindowSlideCreditSumsPerWindow
+559/661 Test #392: ChunkedPrefillSuite.ChunkedPrefillThenSwaSlidesToNullHole .............................................................................   Passed    0.03 sec
+        Start  94: FullAttnManagerTest.RejectsKeyForAnotherGroup
+560/661 Test #172: CoordinatorMatchTest.MultiWindowSlideCreditSumsPerWindow ..............................................................................   Passed    0.03 sec
+        Start 320: StateCapacitySuite.PromptsFillingThePoolNeverWedgeAtTheirFirstDecode
+561/661 Test  #94: FullAttnManagerTest.RejectsKeyForAnotherGroup .........................................................................................   Passed    0.03 sec
+        Start 583: CacheOperationTest.PinnedStoreHoldsDeviceSourceUntilAck
+562/661 Test #320: StateCapacitySuite.PromptsFillingThePoolNeverWedgeAtTheirFirstDecode ..................................................................   Passed    0.03 sec
+        Start 218: CoordinatorStepTest.CacheFullBlocksAtSlotOffsetExtendsPrefix
+563/661 Test #583: CacheOperationTest.PinnedStoreHoldsDeviceSourceUntilAck ...............................................................................   Passed    0.03 sec
+        Start 480: PrefixReplayLargerThanPromptSuite.FallsBackToFullPromptPrefill
+564/661 Test #218: CoordinatorStepTest.CacheFullBlocksAtSlotOffsetExtendsPrefix ..........................................................................   Passed    0.03 sec
+        Start 479: PrefixReplaySuite.ReplayedPagesArePublishedForTheNextRequest
+565/661 Test #480: PrefixReplayLargerThanPromptSuite.FallsBackToFullPromptPrefill ........................................................................   Passed    0.03 sec
+        Start  31: TailTableTest.RecordsTailsUnderTheirPriorInPublicationOrder
+566/661 Test #479: PrefixReplaySuite.ReplayedPagesArePublishedForTheNextRequest ..........................................................................   Passed    0.03 sec
+        Start 588: CacheOperationTest.DecodeRejectsRequestWhoseMaximumExtentCannotFitDevice
+567/661 Test  #31: TailTableTest.RecordsTailsUnderTheirPriorInPublicationOrder ...........................................................................   Passed    0.02 sec
+        Start 465: EventFailurePath.ReqPoolExhaustionAtFirstChunkLeavesPoolBalanced
+568/661 Test #588: CacheOperationTest.DecodeRejectsRequestWhoseMaximumExtentCannotFitDevice ..............................................................   Passed    0.02 sec
+        Start 313: StateCheckpointInForwardSuite.AChunkSpanningTheBoundaryFromInsideAPageEndsAtIt
+569/661 Test #465: EventFailurePath.ReqPoolExhaustionAtFirstChunkLeavesPoolBalanced ......................................................................   Passed    0.02 sec
+        Start 550: DisaggDecodeAdmissionTestSuite.ReservesWholeDestinationAndSurvivesRemoteCompletion
+570/661 Test #313: StateCheckpointInForwardSuite.AChunkSpanningTheBoundaryFromInsideAPageEndsAtIt ........................................................   Passed    0.02 sec
+        Start 656: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <04-00 00-00>)
+571/661 Test #550: DisaggDecodeAdmissionTestSuite.ReservesWholeDestinationAndSurvivesRemoteCompletion ....................................................   Passed    0.02 sec
+        Start 156: CacheKeyTest.NamespaceGroupAndOffsetArePartOfIdentity
+572/661 Test #656: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <04-00 00-00>) ...   Passed    0.03 sec
+        Start  82: FullAttnManagerTest.AcquirePartialPageLeavesTailRoom
+573/661 Test #156: CacheKeyTest.NamespaceGroupAndOffsetArePartOfIdentity .................................................................................   Passed    0.03 sec
+        Start 525: DisablePrefixCacheTestSuite.SamePromptDoesNotReuseDevicePrefix
+574/661 Test  #82: FullAttnManagerTest.AcquirePartialPageLeavesTailRoom ..................................................................................   Passed    0.03 sec
+        Start  36: BlockPoolTest.ConstructsExactlyRequestedLcmBlocks
+575/661 Test #525: DisablePrefixCacheTestSuite.SamePromptDoesNotReuseDevicePrefix ........................................................................   Passed    0.03 sec
+        Start 449: RetractionHeadroom.EscalatesPerRetractionAndStopsAtTheGenerationBudget
+576/661 Test  #36: BlockPoolTest.ConstructsExactlyRequestedLcmBlocks .....................................................................................   Passed    0.03 sec
+        Start 394: ChunkedPrefillSuite.AbortDuringDecodeRestoresPoolBaseline
+577/661 Test #449: RetractionHeadroom.EscalatesPerRetractionAndStopsAtTheGenerationBudget ................................................................   Passed    0.03 sec
+        Start 226: CacheCoordinatorHostReplacement.RebindsACompleteEvictableParentAcrossGroups
+578/661 Test #394: ChunkedPrefillSuite.AbortDuringDecodeRestoresPoolBaseline .............................................................................   Passed    0.04 sec
+        Start 160: CoordinatorMatchTest.TrimmedFullHitsDoNotRefreshAccessEpoch
+579/661 Test #226: CacheCoordinatorHostReplacement.RebindsACompleteEvictableParentAcrossGroups ...........................................................   Passed    0.03 sec
+        Start  67: CacheBlockRefTest.MoveAssignmentReleasesPreviousBlock
+580/661 Test #160: CoordinatorMatchTest.TrimmedFullHitsDoNotRefreshAccessEpoch ...........................................................................   Passed    0.03 sec
+        Start 581: CacheOperationTest.DeviceRequestLimitDoesNotDependOnHostCapacity
+581/661 Test  #67: CacheBlockRefTest.MoveAssignmentReleasesPreviousBlock .................................................................................   Passed    0.03 sec
+        Start 654: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <02-00 00-00>)
+582/661 Test #581: CacheOperationTest.DeviceRequestLimitDoesNotDependOnHostCapacity ......................................................................   Passed    0.03 sec
+        Start 170: CoordinatorMatchTest.MultiWindowCascadeToZero
+583/661 Test #654: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <02-00 00-00>) ...   Passed    0.03 sec
+        Start 510: BoundedReplaySuite.NoHitNoReplay
+584/661 Test #170: CoordinatorMatchTest.MultiWindowCascadeToZero .........................................................................................   Passed    0.03 sec
+        Start  62: BlockPoolBucketAcquireTest.OneBucketIsOrdinaryPlacement
+585/661 Test #510: BoundedReplaySuite.NoHitNoReplay ......................................................................................................   Passed    0.03 sec
+        Start  26: PrefixCacheIndexEvictionOrderTest.ExhaustsTheMaximumEpochWithoutWrapping
+586/661 Test  #62: BlockPoolBucketAcquireTest.OneBucketIsOrdinaryPlacement ...............................................................................   Passed    0.03 sec
+        Start 216: CoordinatorStepTest.FreeReturnsAllGroups
+587/661 Test  #26: PrefixCacheIndexEvictionOrderTest.ExhaustsTheMaximumEpochWithoutWrapping ..............................................................   Passed    0.02 sec
+        Start 587: CacheOperationTest.RetractionReleaseEstimateExcludesBlocksOwnedByAnotherRequest
+588/661 Test #216: CoordinatorStepTest.FreeReturnsAllGroups ..............................................................................................   Passed    0.02 sec
+        Start 377: ForwardBatch.NullHoleZeroDistinctFromPadMinusOne
+589/661 Test #587: CacheOperationTest.RetractionReleaseEstimateExcludesBlocksOwnedByAnotherRequest .......................................................   Passed    0.02 sec
+        Start 528: SchedulerKvCacheEventTestSuite.PublishesStoredBlockAndDrainsItOnce
+590/661 Test #377: ForwardBatch.NullHoleZeroDistinctFromPadMinusOne ......................................................................................   Passed    0.02 sec
+        Start 578: CacheOperationTest.LoadBackPreservesTransferOrder
+591/661 Test #528: SchedulerKvCacheEventTestSuite.PublishesStoredBlockAndDrainsItOnce ....................................................................   Passed    0.02 sec
+        Start 481: PrefixReplayDisabledSuite.DisabledPrefixCacheStillPrefillsTheFullPrompt
+592/661 Test #578: CacheOperationTest.LoadBackPreservesTransferOrder .....................................................................................   Passed    0.02 sec
+        Start 577: CacheOperationTest.SamePagesInDifferentGroupsAreDistinctTransfers
+593/661 Test #481: PrefixReplayDisabledSuite.DisabledPrefixCacheStillPrefillsTheFullPrompt ...............................................................   Passed    0.02 sec
+        Start  35: TailTableTest.CapKeepsTheNewestEightPerPriorAndReportsTheDropped
+594/661 Test #577: CacheOperationTest.SamePagesInDifferentGroupsAreDistinctTransfers .....................................................................   Passed    0.02 sec
+        Start 166: CoordinatorMatchTest.TwoSwaGroupsSharedBoundaryMatches
+595/661 Test  #35: TailTableTest.CapKeepsTheNewestEightPerPriorAndReportsTheDropped ......................................................................   Passed    0.03 sec
+        Start 570: PdSparseDecodeNoPrefixCacheTestSuite.DecodeStepsWriteTheLandedStateInPlace
+596/661 Test #166: CoordinatorMatchTest.TwoSwaGroupsSharedBoundaryMatches ................................................................................   Passed    0.03 sec
+        Start  40: BlockPoolTest.KOneBatchAcquireIsAllOrNothing
+597/661 Test #570: PdSparseDecodeNoPrefixCacheTestSuite.DecodeStepsWriteTheLandedStateInPlace ............................................................   Passed    0.03 sec
+        Start  30: PrefixCacheIndexEvictionOrderTest.MatchesTheEvictableSetSeenByAFullScan
+598/661 Test  #40: BlockPoolTest.KOneBatchAcquireIsAllOrNothing ..........................................................................................   Passed    0.02 sec
+        Start 405: PrefillSlideAdmissionSuite.LongPromptAdmittedOnlyBecausePrefillSlides
+599/661 Test  #30: PrefixCacheIndexEvictionOrderTest.MatchesTheEvictableSetSeenByAFullScan ...............................................................   Passed    0.02 sec
+        Start 509: BoundedReplaySuite.HitShorterThanWindowReplaysWholePrefix
+600/661 Test #405: PrefillSlideAdmissionSuite.LongPromptAdmittedOnlyBecausePrefillSlides .................................................................   Passed    0.02 sec
+        Start 511: BoundedReplaySuite.FinalChunkKeepsAtLeastTheWindow
+601/661 Test #509: BoundedReplaySuite.HitShorterThanWindowReplaysWholePrefix .............................................................................   Passed    0.02 sec
+        Start  45: BlockPoolLcmPlacementTest.RejectsInvalidPackingAtConstruction
+602/661 Test #511: BoundedReplaySuite.FinalChunkKeepsAtLeastTheWindow ....................................................................................   Passed    0.02 sec
+        Start  66: CacheBlockRefTest.MoveTransfersWithoutChangingCount
+603/661 Test  #45: BlockPoolLcmPlacementTest.RejectsInvalidPackingAtConstruction .........................................................................   Passed    0.04 sec
+        Start   4: HashPrefixPageTest.EmptyPageMatchesKnownSha256
+604/661 Test  #66: CacheBlockRefTest.MoveTransfersWithoutChangingCount ...................................................................................   Passed    0.04 sec
+        Start 314: StateCheckpointInForwardPrefillRoleSuite.TheNextPromptResumesAtTheCheckpointTheRemoteDecodePublished
+605/661 Test   #4: HashPrefixPageTest.EmptyPageMatchesKnownSha256 ........................................................................................   Passed    0.04 sec
+        Start 158: CoordinatorMatchTest.BothGroupsAllMiss
+606/661 Test #314: StateCheckpointInForwardPrefillRoleSuite.TheNextPromptResumesAtTheCheckpointTheRemoteDecodePublished ..................................   Passed    0.04 sec
+        Start 524: CopySourceRegrantSuite.ACopySourceEvictedInTheSameRoundIsBothCopiedAndZeroed
+607/661 Test #158: CoordinatorMatchTest.BothGroupsAllMiss ................................................................................................   Passed    0.03 sec
+        Start  89: FullAttnManagerTest.CacheFullBlocksSkipsTailPage
+608/661 Test #524: CopySourceRegrantSuite.ACopySourceEvictedInTheSameRoundIsBothCopiedAndZeroed ..........................................................   Passed    0.03 sec
+        Start 548: FinishOnlyHybridWriteBackTestSuite.FinishStoresDecodeMlaPagesAndTheFinalKdaStates
+609/661 Test  #89: FullAttnManagerTest.CacheFullBlocksSkipsTailPage ......................................................................................   Passed    0.03 sec
+        Start  83: FullAttnManagerTest.AcquireCanReserveFutureTokens
+610/661 Test #548: FinishOnlyHybridWriteBackTestSuite.FinishStoresDecodeMlaPagesAndTheFinalKdaStates .....................................................   Passed    0.03 sec
+        Start 256: CacheCoordinatorHostExtension.MultiWindowCascadeConvergesToZeroExtension
+611/661 Test  #83: FullAttnManagerTest.AcquireCanReserveFutureTokens .....................................................................................   Passed    0.03 sec
+        Start 133: HostTierMatchTest.SwaTrailingRunAtEnd
+612/661 Test #256: CacheCoordinatorHostExtension.MultiWindowCascadeConvergesToZeroExtension ..............................................................   Passed    0.03 sec
+        Start 579: CacheOperationTest.HostCacheAndContinuousStreamingAreSeparatePolicies
+613/661 Test #133: HostTierMatchTest.SwaTrailingRunAtEnd .................................................................................................   Passed    0.03 sec
+        Start 217: CoordinatorStepTest.EndToEndTwoRequestsSharePrefix
+614/661 Test #579: CacheOperationTest.HostCacheAndContinuousStreamingAreSeparatePolicies .................................................................   Passed    0.03 sec
+        Start 255: CacheCoordinatorHostExtension.MultiWindowGroupsExtendTogether
+615/661 Test #217: CoordinatorStepTest.EndToEndTwoRequestsSharePrefix ....................................................................................   Passed    0.03 sec
+        Start 257: CompletedBoundaryTest.HistoricalHashesWithoutBoundaryAreNotPublished
+616/661 Test #255: CacheCoordinatorHostExtension.MultiWindowGroupsExtendTogether .........................................................................   Passed    0.03 sec
+        Start 157: CacheKeyTest.HashPreservesNamespaceGroupAndContentIdentity
+617/661 Test #257: CompletedBoundaryTest.HistoricalHashesWithoutBoundaryAreNotPublished ..................................................................   Passed    0.03 sec
+        Start 395: ThreeGroupSuite.ThreeGroupsEachEmitARowAndReclaim
+618/661 Test #157: CacheKeyTest.HashPreservesNamespaceGroupAndContentIdentity ............................................................................   Passed    0.04 sec
+        Start 464: RetractionStateFsmTest.ADecodingVictimSuspendsAndResumesDecodingWithTheSameTokens
+619/661 Test #395: ThreeGroupSuite.ThreeGroupsEachEmitARowAndReclaim .....................................................................................   Passed    0.04 sec
+        Start 463: JunctionCutSuite.CutsTheFirstChunkAtTheJunctionAndPublishesTheCheckpointThere
+620/661 Test #464: RetractionStateFsmTest.ADecodingVictimSuspendsAndResumesDecodingWithTheSameTokens .....................................................   Passed    0.03 sec
+        Start  27: PrefixCacheIndexEvictionOrderTest.ReRegisteringAtAnOlderEpochMovesTheEntryEarlier
+621/661 Test #463: JunctionCutSuite.CutsTheFirstChunkAtTheJunctionAndPublishesTheCheckpointThere .........................................................   Passed    0.03 sec
+        Start  95: FullAttnManagerTest.ClaimThenAcquireStartsFreshPage
+622/661 Test  #27: PrefixCacheIndexEvictionOrderTest.ReRegisteringAtAnOlderEpochMovesTheEntryEarlier .....................................................   Passed    0.04 sec
+        Start 196: CacheCoordinatorAdmissionTest.FullEvictionUsesAccessEpochInsteadOfPermanentHitClass
+623/661 Test  #95: FullAttnManagerTest.ClaimThenAcquireStartsFreshPage ...................................................................................   Passed    0.03 sec
+        Start 171: CoordinatorMatchTest.DeepCascadeRequiresSecondConvergeSweep
+624/661 Test #196: CacheCoordinatorAdmissionTest.FullEvictionUsesAccessEpochInsteadOfPermanentHitClass ...................................................   Passed    0.03 sec
+        Start 393: ChunkedPrefillSuite.AbortMidPrefillRestoresPoolBaseline
+625/661 Test #171: CoordinatorMatchTest.DeepCascadeRequiresSecondConvergeSweep ...........................................................................   Passed    0.03 sec
+        Start 339: MakeSpecsFromConfigTest.StateGroupCarriesNoSpan
+626/661 Test #393: ChunkedPrefillSuite.AbortMidPrefillRestoresPoolBaseline ...............................................................................   Passed    0.02 sec
+        Start 527: StableCandidateOrderingSuite.ForwardBatchIsReproducibleAcrossMirroredSchedulers
+627/661 Test #339: MakeSpecsFromConfigTest.StateGroupCarriesNoSpan .......................................................................................   Passed    0.02 sec
+        Start 467: PhysicalReserveSuite.LaterRequestCannotStealReservedDecodeHeadroom
+628/661 Test #527: StableCandidateOrderingSuite.ForwardBatchIsReproducibleAcrossMirroredSchedulers .......................................................   Passed    0.02 sec
+        Start  38: BlockPoolTest.MaintainsFreeSlotsAcrossOccupancyTransitions
+629/661 Test #467: PhysicalReserveSuite.LaterRequestCannotStealReservedDecodeHeadroom ....................................................................   Passed    0.02 sec
+        Start  46: BlockPoolLcmPlacementTest.NormalCapacityShortfallDoesNotMutatePartialParent
+630/661 Test  #38: BlockPoolTest.MaintainsFreeSlotsAcrossOccupancyTransitions ............................................................................   Passed    0.02 sec
+        Start   3: PageHasherHexTest.HexToBytesAcceptsUppercase
+631/661 Test  #46: BlockPoolLcmPlacementTest.NormalCapacityShortfallDoesNotMutatePartialParent ...........................................................   Passed    0.02 sec
+        Start 569: PdSlidingPageBlockDecodeAdmissionTestSuite.ATailHitInsideThePromptsLastBlockLandsNoSuffix
+632/661 Test   #3: PageHasherHexTest.HexToBytesAcceptsUppercase ..........................................................................................   Passed    0.03 sec
+        Start 269: RetractionImageTest.SnapshotRefusesWithoutMutationWhenThePoolCannotHoldTheImage
+633/661 Test #569: PdSlidingPageBlockDecodeAdmissionTestSuite.ATailHitInsideThePromptsLastBlockLandsNoSuffix .............................................   Passed    0.03 sec
+        Start  65: CacheBlockRefTest.CopyAssignmentReleasesPreviousBlock
+634/661 Test #269: RetractionImageTest.SnapshotRefusesWithoutMutationWhenThePoolCannotHoldTheImage .......................................................   Passed    0.02 sec
+        Start 466: SwaWindowBoundary.DecodeStepKeepsOldestInWindowPageAtPageBoundary
+635/661 Test  #65: CacheBlockRefTest.CopyAssignmentReleasesPreviousBlock .................................................................................   Passed    0.02 sec
+        Start  28: PrefixCacheIndexEvictionOrderTest.AcquiringAMatchMovesTheEntryToTheRequestEpoch
+636/661 Test #466: SwaWindowBoundary.DecodeStepKeepsOldestInWindowPageAtPageBoundary .....................................................................   Passed    0.02 sec
+        Start 109: SwaManagerTest.MatchStopsAfterContiguousNeededFromRight
+637/661 Test  #28: PrefixCacheIndexEvictionOrderTest.AcquiringAMatchMovesTheEntryToTheRequestEpoch .......................................................   Passed    0.02 sec
+        Start  24: PrefixCacheIndexEvictionOrderTest.SkipsPinnedEntriesWithoutLosingTheRest
+638/661 Test #109: SwaManagerTest.MatchStopsAfterContiguousNeededFromRight ...............................................................................   Passed    0.02 sec
+        Start 268: RetractionImageTest.PublishedSlotsRideHostCacheAndRestoreAsKeyedLoads
+639/661 Test  #24: PrefixCacheIndexEvictionOrderTest.SkipsPinnedEntriesWithoutLosingTheRest ..............................................................   Passed    0.03 sec
+        Start  29: PrefixCacheIndexEvictionOrderTest.EvictedEntriesLeaveTheOrder
+640/661 Test #268: RetractionImageTest.PublishedSlotsRideHostCacheAndRestoreAsKeyedLoads .................................................................   Passed    0.03 sec
+        Start  34: TailTableTest.RemoveForgetsTheHashAndEmptiesThePrior
+641/661 Test  #29: PrefixCacheIndexEvictionOrderTest.EvictedEntriesLeaveTheOrder .........................................................................   Passed    0.03 sec
+        Start  33: TailTableTest.AHitOrARepublicationOutlivesEightNewerTails
+642/661 Test  #34: TailTableTest.RemoveForgetsTheHashAndEmptiesThePrior ..................................................................................   Passed    0.03 sec
+        Start 113: SwaManagerTest.MatchRequiresContiguityNotAnyHit
+643/661 Test  #33: TailTableTest.AHitOrARepublicationOutlivesEightNewerTails .............................................................................   Passed    0.05 sec
+        Start 580: CacheOperationTest.DecodeCanStartWithoutHostL2
+644/661 Test #113: SwaManagerTest.MatchRequiresContiguityNotAnyHit .......................................................................................   Passed    0.05 sec
+        Start  32: TailTableTest.SameOffsetDifferentTokensAreTwoTails
+645/661 Test #580: CacheOperationTest.DecodeCanStartWithoutHostL2 ........................................................................................   Passed    0.04 sec
+        Start 272: RetractionImageTest.RestoreClaimsStillCachedDeviceBlocksInsteadOfCopying
+646/661 Test  #32: TailTableTest.SameOffsetDifferentTokensAreTwoTails ....................................................................................   Passed    0.04 sec
+        Start 195: CacheCoordinatorAdmissionTest.EvictsOldestCachedChildNeededForCapacity
+647/661 Test #272: RetractionImageTest.RestoreClaimsStillCachedDeviceBlocksInsteadOfCopying ..............................................................   Passed    0.03 sec
+        Start 194: CacheCoordinatorAdmissionTest.DoesNotShareFreeSlotsFromBoundForeignParent
+648/661 Test #195: CacheCoordinatorAdmissionTest.EvictsOldestCachedChildNeededForCapacity ................................................................   Passed    0.04 sec
+        Start  25: PrefixCacheIndexEvictionOrderTest.SkipsPinnedEpochsAndReturnsTheWholeNextEpoch
+649/661 Test #194: CacheCoordinatorAdmissionTest.DoesNotShareFreeSlotsFromBoundForeignParent .............................................................   Passed    0.04 sec
+        Start 258: CompletedBoundaryTest.RejectsEmptyCompletedPageRange
+650/661 Test  #25: PrefixCacheIndexEvictionOrderTest.SkipsPinnedEpochsAndReturnsTheWholeNextEpoch ........................................................   Passed    0.03 sec
+        Start  64: CacheBlockRefTest.CopySharesControlAndLastOwnerReturnsBlock
+651/661 Test #258: CompletedBoundaryTest.RejectsEmptyCompletedPageRange ..................................................................................   Passed    0.02 sec
+        Start 448: SnapshotRetractEvent.APrefillDoneVictimResumesAsPrefillDone
+652/661 Test  #64: CacheBlockRefTest.CopySharesControlAndLastOwnerReturnsBlock ...........................................................................   Passed    0.02 sec
+        Start 655: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <03-00 00-00>)
+653/661 Test #448: SnapshotRetractEvent.APrefillDoneVictimResumesAsPrefillDone ...........................................................................   Passed    0.02 sec
+        Start 165: CoordinatorMatchTest.SwaShorterThanFullTruncatesFull
+654/661 Test #655: FullStateAndWindow/StorageWarmLifetimeTest.ExistingDependenciesRemainEvictableAcrossTheGetLifetime/(1, 4-byte object <03-00 00-00>) ...   Passed    0.03 sec
+        Start 114: SwaManagerTest.SpeculativeHitsDoNotRefreshAccessEpoch
+655/661 Test #165: CoordinatorMatchTest.SwaShorterThanFullTruncatesFull ..................................................................................   Passed    0.04 sec
+        Start 530: SchedulerKvCacheEventTestSuite.PublishesATailDescriptorAtAnUnalignedFinish
+656/661 Test #114: SwaManagerTest.SpeculativeHitsDoNotRefreshAccessEpoch .................................................................................   Passed    0.03 sec
+        Start 274: RetractionImageTest.BucketConstrainedRestoreFailsCleanlyWhileOtherBucketsHaveRoom
+657/661 Test #530: SchedulerKvCacheEventTestSuite.PublishesATailDescriptorAtAnUnalignedFinish ............................................................   Passed    0.03 sec
+        Start 531: HybridKvCacheEventTestSuite.DrainsATailBoundaryAlongsideAStateGroup
+658/661 Test #274: RetractionImageTest.BucketConstrainedRestoreFailsCleanlyWhileOtherBucketsHaveRoom .....................................................   Passed    0.03 sec
+        Start  63: CacheBlockRefTest.AcquireReturnsUniqueOwningHandle
+659/661 Test #531: HybridKvCacheEventTestSuite.DrainsATailBoundaryAlongsideAStateGroup ...................................................................   Passed    0.03 sec
+        Start  41: BlockPoolTest.AcquireUpToBlocksReturnsAvailableCompatiblePlacements
+660/661 Test  #63: CacheBlockRefTest.AcquireReturnsUniqueOwningHandle ....................................................................................   Passed    0.02 sec
+661/661 Test  #41: BlockPoolTest.AcquireUpToBlocksReturnsAvailableCompatiblePlacements ...................................................................   Passed    0.02 sec
+
+100% tests passed out of 661
+
+Total Test time (real) =  10.25 sec

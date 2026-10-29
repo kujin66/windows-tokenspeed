@@ -1,0 +1,117 @@
+{
+  "passed": true,
+  "wheel": "tokenspeed_kernel-0.1.4.dev20261027+git864bcdd9-cp313-cp313-win_arm64.whl",
+  "sha256": "dd7c9b2197584143b69d8b754877ad8f6eb40c43596438ac149d90d0e9befeec",
+  "native_libraries": [
+    {
+      "filename": "tokenspeed_kernel/thirdparty/cuda/objs/rmsnorm_fused_parallel/rmsnorm_fused_parallel.so",
+      "pe_machine": "0xaa64",
+      "sha256": "0c0378b63c148b60dbba8fbb9a1a5da2d72890472375785a2a748d3b8b42f4ba",
+      "installed_matches_wheel": true
+    },
+    {
+      "filename": "tokenspeed_kernel/thirdparty/cuda/objs/sampling_chain/sampling_chain.so",
+      "pe_machine": "0xaa64",
+      "sha256": "048a02872da9ee3c788d2c0436902f6d65ade0d81ad84948c25588f0c0bcf519",
+      "installed_matches_wheel": true
+    }
+  ],
+  "cuda_build_identities": [
+    {
+      "compile_flags": [
+        "-std=c++17",
+        "-O3",
+        "-DNDEBUG",
+        "-use_fast_math",
+        "--expt-relaxed-constexpr",
+        "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor",
+        "-DFLASHINFER_ENABLE_BF16",
+        "-DFLASHINFER_ENABLE_F16",
+        "-DENABLE_BF16",
+        "-DENABLE_FP8",
+        "-gencode=arch=compute_121a,code=sm_121a",
+        "--use-local-env"
+      ],
+      "cuda_frontend_ccbin": null,
+      "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+      "cuda_version": [
+        13,
+        4
+      ],
+      "cxx": "<workspace>\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\cl.exe",
+      "extra_cflags": [],
+      "extra_ldflags": [],
+      "format": 1,
+      "host_compiler_version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for ARM64\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\nusage: cl [ option... ] filename... [ /link linkoption... ]\n",
+      "include_dirs": [
+        "<workspace>\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc\\include",
+        "<workspace>\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc",
+        "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include",
+        "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cccl",
+        "<projects>\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\cutlass\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\spdlog\\include"
+      ],
+      "link_flags": [
+        "/DLL",
+        "/LIBPATH:C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64",
+        "cudart.lib",
+        "cuda.lib",
+        "<projects>\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\lib\\tvm_ffi.lib"
+      ],
+      "nvcc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\nvcc.exe",
+      "precise_math": false
+    },
+    {
+      "compile_flags": [
+        "-std=c++17",
+        "-O3",
+        "-DNDEBUG",
+        "-use_fast_math",
+        "--expt-relaxed-constexpr",
+        "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor",
+        "-DFLASHINFER_ENABLE_BF16",
+        "-DFLASHINFER_ENABLE_F16",
+        "-DENABLE_BF16",
+        "-DENABLE_FP8",
+        "-gencode=arch=compute_121a,code=sm_121a",
+        "--use-local-env"
+      ],
+      "cuda_frontend_ccbin": null,
+      "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+      "cuda_version": [
+        13,
+        4
+      ],
+      "cxx": "<workspace>\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\cl.exe",
+      "extra_cflags": [],
+      "extra_ldflags": [],
+      "format": 1,
+      "host_compiler_version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for ARM64\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\nusage: cl [ option... ] filename... [ /link linkoption... ]\n",
+      "include_dirs": [
+        "<workspace>\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc\\include",
+        "<workspace>\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc",
+        "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include",
+        "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cccl",
+        "<projects>\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\cutlass\\include",
+        "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\spdlog\\include"
+      ],
+      "link_flags": [
+        "/DLL",
+        "/LIBPATH:C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64",
+        "cudart.lib",
+        "cuda.lib",
+        "<projects>\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\lib\\tvm_ffi.lib"
+      ],
+      "nvcc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\nvcc.exe",
+      "precise_math": false
+    }
+  ]
+}

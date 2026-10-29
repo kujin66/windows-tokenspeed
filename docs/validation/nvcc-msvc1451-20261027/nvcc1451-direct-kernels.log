@@ -1,0 +1,204 @@
+python.exe : <projects>\vllm-bench\.venv\Lib\site-packages\setuptools\_distutils\_msvccompiler.py:12:
+UserWarning: _get_vc_env is private; find an alternative (pypa/distutils#340)
+At line:2 char:120
++ ... ARCH='121'; & .venv\Scripts\python.exe tools\windows\run.py .venv\Scr ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (<user>.../distutils#340):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+  warnings.warn(
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=16U, DETERMINISTIC=true, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=16U, DETERMINISTIC=false, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=8U, DETERMINISTIC=true, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=8U, DETERMINISTIC=false, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=4U, DETERMINISTIC=true, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=4U, DETERMINISTIC=false, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=2U, DETERMINISTIC=true, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=2U, DETERMINISTIC=false, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=1U, DETERMINISTIC=true, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+<workspace>/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/csrc/include\flashinfer/sampling.cuh(2207): warning #177-D: variable "rejected_id" was declared but never referenced
+    IdType rejected_id = IdType(-1);
+           ^
+          detected during:
+            instantiation of "void flashinfer::sampling::ChainSpeculativeSamplingKernelTargetOnlyFastPath<BLOCK_THREADS,SCAN_ALGORITHM,REDUCE_ALGORITHM,VEC_SIZE,DETERMINISTIC,USE_DRAFT_PROB,DType,IdType>(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, DType, DType, DType) [with BLOCK_THREADS=1024U, SCAN_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_SCAN_WARP_SCANS, REDUCE_ALGORITHM=cub::_V_300401_SM_1210::BLOCK_REDUCE_WARP_REDUCTIONS, VEC_SIZE=1U, DETERMINISTIC=false, USE_DRAFT_PROB=true, DType=float, IdType=int32_t]" at line 2417
+            instantiation of "cudaError_t flashinfer::sampling::ChainSpeculativeSamplingTargetOnly(IdType *, IdType *, IdType *, IdType *, DType *, DType *, DType *, DType *, uint32_t, uint32_t, uint32_t, __nv_bool, DType, DType, DType, __nv_bool, __nv_bool, cudaStream_t) [with DType=float, IdType=int32_t]" at line 122 of <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\csrc\sampling_chain.cu
+
+sampling_chain.cu
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+flashinfer_sampling_chain_binding.cu
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+rmsnorm_fused_parallel.cu
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/error.h(131): warning #1388-D: base class dllexport/dllimport specification differs from that of the derived class
+  class __declspec(dllimport) Error : public ObjectRef, public std::exception {
+                                                               ^
+
+<projects>/vllm-bench/.venv/Lib/site-packages/tvm_ffi/include\tvm/ffi/dtype.h(115): warning #940-D: missing return statement at end of non-void function "tvm::ffi::details::DLDataTypeCodeAsCStr"
+  }
+  ^
+
+flashinfer_rmsnorm_fused_parallel_binding.cu
+Microsoft (R) Incremental Linker Version 14.51.36260.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\objs\sampling_chain\sampling_chain.lib and object <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\objs\sampling_chain\sampling_chain.exp
+Microsoft (R) Incremental Linker Version 14.51.36260.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\objs\rmsnorm_fused_parallel\rmsnorm_fused_parallel.lib and object <workspace>\tokenspeed-kernel\python\tokenspeed_kernel\thirdparty\cuda\objs\rmsnorm_fused_parallel\rmsnorm_fused_parallel.exp
+Building 2/2 kernel group(s) (4/4 files, 1 parallel jobs)...

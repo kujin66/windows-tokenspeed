@@ -1,0 +1,190 @@
+{
+  "model": "<workspace>\\.port\\models\\Qwen3-0.6B",
+  "quantization_format": null,
+  "dtype": "bfloat16",
+  "sequential": [
+    {
+      "text": "1, 2, 3, 4, 5, 6",
+      "output_ids": [
+        16,
+        11,
+        220,
+        17,
+        11,
+        220,
+        18,
+        11,
+        220,
+        19,
+        11,
+        220,
+        20,
+        11,
+        220,
+        21
+      ],
+      "meta_info": {
+        "id": "2081ff214f6e4d4a84c01d144c8a3c0f",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.6601321697235107
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    },
+    {
+      "text": "1, 2, 3, 4, 5, 6",
+      "output_ids": [
+        16,
+        11,
+        220,
+        17,
+        11,
+        220,
+        18,
+        11,
+        220,
+        19,
+        11,
+        220,
+        20,
+        11,
+        220,
+        21
+      ],
+      "meta_info": {
+        "id": "b2cfe0a8879e43ffad2f697a627aa20b",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.24822211265563965
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    },
+    {
+      "text": "1, 2, 3, 4, 5, 6",
+      "output_ids": [
+        16,
+        11,
+        220,
+        17,
+        11,
+        220,
+        18,
+        11,
+        220,
+        19,
+        11,
+        220,
+        20,
+        11,
+        220,
+        21
+      ],
+      "meta_info": {
+        "id": "6c7028f9f3584ea3898958971d70914b",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.29256677627563477
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    }
+  ],
+  "batch2": [
+    {
+      "text": "1, 2, 3, 4, 5, 6",
+      "output_ids": [
+        16,
+        11,
+        220,
+        17,
+        11,
+        220,
+        18,
+        11,
+        220,
+        19,
+        11,
+        220,
+        20,
+        11,
+        220,
+        21
+      ],
+      "meta_info": {
+        "id": "01b8ea5c87f547c09e4f92eefda20926",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.31003355979919434
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    },
+    {
+      "text": "1, 2, 3, 4, 5, 6",
+      "output_ids": [
+        16,
+        11,
+        220,
+        17,
+        11,
+        220,
+        18,
+        11,
+        220,
+        19,
+        11,
+        220,
+        20,
+        11,
+        220,
+        21
+      ],
+      "meta_info": {
+        "id": "37f2c8b54b824418acbd6dd2d2146ffa",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.3094031810760498
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,21 @@
+{
+  "captured_at": "2026-10-29T02:43:18.871406+00:00",
+  "status": "passed",
+  "upstream_base": "864bcdd9ef3c5f1512bbe293d970d73eb29d2c94",
+  "validated_port": "9a50ac82b59fc47044090e4441c05c88173715c1",
+  "source_files": 66,
+  "source_inventory_matches_complete_git_diff": true,
+  "source_postimages_match_validated_git_blobs": true,
+  "reconstructed_checkout_source_verified": true,
+  "historical_evidence_hashes": 136,
+  "previous_evidence_hashes": 152,
+  "final_comparison_rows": 8,
+  "source_manifest_sha256": "fe5d6c6ca71da1a6bfc4908507d92a434ff8188069f13765f646593cddd4f63a",
+  "source_verifier_sha256": "3269e44ed51a2a349fe87c0e6c57c463bcb56c8bda582d4076220ba8e90cd18a",
+  "gpu_builds_or_measurements_rerun": false,
+  "tests": {
+    "passed": 28,
+    "failed": 0,
+    "scope": "GPU-free source reconstruction, performance tools and evidence verification"
+  }
+}

@@ -1,0 +1,9 @@
+# Native ARM64 PyTorch and TVM FFI wheels must be supplied by the install recipe.
+torch>=2.14.0a0
+numpy
+packaging
+psutil
+apache-tvm-ffi==0.1.13.post3
+triton-windows==3.8.0.post29
+flashinfer-python==0.7.2
+nvidia-ml-py

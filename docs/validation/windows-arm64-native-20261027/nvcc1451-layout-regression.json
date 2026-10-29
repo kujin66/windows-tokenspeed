@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "missing_layout_exit_code": 1,
+  "missing_layout_error": "Host compiler targets unsupported OS",
+  "automatic_layout_repair_passed": true,
+  "direct_nvcc_exit_code": 0,
+  "vcvarsall_sha256": "ee67e4181ae2578b7842f9f1549a7f66e2166638fa544ce6838d9e9033a02275",
+  "gpu": {
+    "passed": true,
+    "elements": 4097,
+    "msc_ver": 1951,
+    "msc_full_ver": 195136260,
+    "cuda_runtime_version": 13040
+  }
+}

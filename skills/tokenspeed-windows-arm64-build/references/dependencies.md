@@ -20,8 +20,8 @@
 | GoogleTest | v1.14.0，.port/googletest | 仅 scheduler C++ 测试需要 |
 
 完整 Python 快照（219 个实际解析到的 distribution，包括共享环境中的其他工具）
-见 [版本文本](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.txt)
-和 [路径、wheel tag、Requires-Dist 元数据](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.json)。
+见 [版本文本](../../../docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.txt)
+和 [路径、wheel tag、Requires-Dist 元数据](../../../docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.json)。
 它是观测快照，不是应直接 pip install 的最小 lock 文件。
 
 ## Python 构建与运行依赖
@@ -81,7 +81,7 @@ wheel tag 与构建身份均需核对。不要把整个观测快照作为新机�
 
 MSVC 官方入口为 https://aka.ms/vs/18/stable/channel 。历史选择的 package URL、
 版本和 SHA256 位于
-[MSVC payload 清单](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-20261026/msvc-packages.json)。
+[MSVC payload 清单](../../../docs/validation/windows-arm64-20261026/msvc-packages.json)。
 将 VSIX 作为 ZIP 解压到 .port/msvc，保留 Contents/VC/... 布局，合并编译器、
 CRT ARM64 Desktop、CRT Headers 和语言资源；Store payload 不是 Desktop 构建必需。
 工具目录名不能替代编译器版本检查。raw VSIX 不包含 nvcc 需要的 Auxiliary
@@ -96,7 +96,7 @@ tokenspeed-engine/crates/ts-grammar/CMakeLists.txt 的 FetchContent 声明管理
 预解压到 .port/xgrammar-0.2.8 后设置 FETCHCONTENT_SOURCE_DIR_XGRAMMAR 可离线复用。
 Cargo 首次 fetch 和 CMake 首次 FetchContent 需要网络或完整缓存。
 
-[下载缓存审计](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/download-cache-audit.json)
+[下载缓存审计](../../../docs/validation/windows-arm64-fp8-20261027/inventory/download-cache-audit.json)
 记录当前八个归档的 URL、实际哈希和预期哈希；本轮全部匹配。新下载仍需重新
 校验，不能从一个编译成功的 cl.exe 反推所有归档都可信。CUDA 的 13.4.92
 探测归档、.port/cuda-patch* 和旧 14.44 frontend helper 均不是最终构建输入。

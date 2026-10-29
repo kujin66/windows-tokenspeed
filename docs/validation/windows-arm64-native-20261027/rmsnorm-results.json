@@ -1,0 +1,299 @@
+{
+  "library": "<workspace>\\.venv\\Lib\\site-packages\\tokenspeed_kernel\\thirdparty\\cuda\\objs\\rmsnorm_fused_parallel\\rmsnorm_fused_parallel.so",
+  "device": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+  "capability": [
+    12,
+    1
+  ],
+  "cuda": "13.4",
+  "build_identity": {
+    "compile_flags": [
+      "-std=c++17",
+      "-O3",
+      "-DNDEBUG",
+      "-use_fast_math",
+      "--expt-relaxed-constexpr",
+      "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor",
+      "-DFLASHINFER_ENABLE_BF16",
+      "-DFLASHINFER_ENABLE_F16",
+      "-DENABLE_BF16",
+      "-DENABLE_FP8",
+      "-gencode=arch=compute_121a,code=sm_121a",
+      "--use-local-env"
+    ],
+    "cuda_frontend_ccbin": null,
+    "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+    "cuda_version": [
+      13,
+      4
+    ],
+    "cxx": "<workspace>\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\cl.exe",
+    "extra_cflags": [],
+    "extra_ldflags": [],
+    "format": 1,
+    "host_compiler_version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for ARM64\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\nusage: cl [ option... ] filename... [ /link linkoption... ]\n",
+    "include_dirs": [
+      "<workspace>\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc\\include",
+      "<workspace>\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include",
+      "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cccl",
+      "<projects>\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\include",
+      "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal",
+      "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal\\include",
+      "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\include",
+      "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\cutlass\\include",
+      "<workspace>\\.venv\\Lib\\site-packages\\flashinfer\\data\\spdlog\\include"
+    ],
+    "link_flags": [
+      "/DLL",
+      "/LIBPATH:C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64",
+      "cudart.lib",
+      "cuda.lib",
+      "<projects>\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\lib\\tvm_ffi.lib"
+    ],
+    "nvcc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\nvcc.exe",
+    "precise_math": false
+  },
+  "cases": [
+    {
+      "dtype": "torch.float16",
+      "batch": 1,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 1,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 1,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 1,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 7,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 7,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 7,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 7,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 32,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 32,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 32,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.float16",
+      "batch": 32,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 1,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 1,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 1,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 1,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 7,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 7,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 7,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 7,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 32,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 32,
+      "dims": [
+        128,
+        256
+      ],
+      "pdl": true,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 32,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": false,
+      "passed": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "batch": 32,
+      "dims": [
+        1024,
+        2048
+      ],
+      "pdl": true,
+      "passed": true
+    }
+  ]
+}

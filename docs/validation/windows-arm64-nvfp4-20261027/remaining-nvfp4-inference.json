@@ -1,0 +1,190 @@
+{
+  "model": "<projects>\\vllm-bench\\models\\Qwen3-0.6B-NVFP4",
+  "quantization_format": "nvfp4-pack-quantized",
+  "dtype": "bfloat16",
+  "sequential": [
+    {
+      "text": "12345\n\nThe number after 12345 is",
+      "output_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        271,
+        785,
+        1372,
+        1283,
+        220,
+        16,
+        17,
+        18,
+        19,
+        20,
+        374
+      ],
+      "meta_info": {
+        "id": "84b40087c4fe445cb9fc3e4f80eec52c",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 1.100332260131836
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    },
+    {
+      "text": "12345\n\nThe number after 12345 is",
+      "output_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        271,
+        785,
+        1372,
+        1283,
+        220,
+        16,
+        17,
+        18,
+        19,
+        20,
+        374
+      ],
+      "meta_info": {
+        "id": "91efedfbebea4e7a8c951d7be6a701f7",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.8931918144226074
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    },
+    {
+      "text": "12345\n\nThe number after 12345 is",
+      "output_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        271,
+        785,
+        1372,
+        1283,
+        220,
+        16,
+        17,
+        18,
+        19,
+        20,
+        374
+      ],
+      "meta_info": {
+        "id": "c27e4c45824c491a8c938b9f866ffdd2",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.7255938053131104
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    }
+  ],
+  "batch2": [
+    {
+      "text": "12345\n\nThe number after 12345 is",
+      "output_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        271,
+        785,
+        1372,
+        1283,
+        220,
+        16,
+        17,
+        18,
+        19,
+        20,
+        374
+      ],
+      "meta_info": {
+        "id": "901c6c46a5d7481c8bd2482515e2e51e",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.7548894882202148
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    },
+    {
+      "text": "12345\n\nThe number after 12345 is",
+      "output_ids": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        271,
+        785,
+        1372,
+        1283,
+        220,
+        16,
+        17,
+        18,
+        19,
+        20,
+        374
+      ],
+      "meta_info": {
+        "id": "9a632d9368f64c8b85ba9b678fca627f",
+        "finish_reason": {
+          "type": "length",
+          "length": 16
+        },
+        "prompt_tokens": 8,
+        "weight_version": "default",
+        "completion_tokens": 16,
+        "cached_tokens": 0,
+        "e2e_latency": 0.7548248767852783
+      },
+      "output_extra_info": {
+        "decode_prefix_len": 0
+      }
+    }
+  ],
+  "passed": true
+}

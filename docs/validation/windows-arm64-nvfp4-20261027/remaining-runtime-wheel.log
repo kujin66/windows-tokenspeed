@@ -1,0 +1,20 @@
+Looking in indexes: <package-index>
+Processing .\python
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed
+  Building wheel for tokenspeed (pyproject.toml): started
+  Building wheel for tokenspeed (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed: filename=tokenspeed-0.1.1-py3-none-any.whl size=2405652 sha256=eb3801db695525d89ee737ffaf26f857db629afcde40c2ab40742efecb587f77
+  Stored in directory: <user>\AppData\Local\Temp\pip-ephem-wheel-cache-aab_yquw\wheels\b4\1f\cc\36351f944e82b807de3052072b5e8f9917bc92dff3f0bad34a
+Successfully built tokenspeed
+python.exe :
+At line:2 char:1
++ & .venv/Scripts/python.exe tools/windows/run.py .venv/Scripts/python. ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: <workspace>\.venv\Scripts\python.exe -m pip install --upgrade
+pip

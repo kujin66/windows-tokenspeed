@@ -1,0 +1,818 @@
+[
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/README.md",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "f2a22bba3f997b95577ea47a75643b6fe04f78e3b720233a7e7793836cc70537",
+    "published_sha256": "f2a22bba3f997b95577ea47a75643b6fe04f78e3b720233a7e7793836cc70537"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/direct-kernel-wheel-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "cc760a64d6dfbbd82c338a6046a1ec62eeba9cfbbcf0b4faa8c7d56f9ab8dedd",
+    "published_sha256": "cc760a64d6dfbbd82c338a6046a1ec62eeba9cfbbcf0b4faa8c7d56f9ab8dedd"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/direct-kernel-wheel-install.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "fb8b3b4070095682f1e56071f1474c8dd3e6673572dc1abfed424965b6029c5a",
+    "published_sha256": "fb8b3b4070095682f1e56071f1474c8dd3e6673572dc1abfed424965b6029c5a"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/direct-rmsnorm-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "757d8ea07150e82510164a4f46e5c91d937cc739fb208e1428818a7156f007c2",
+    "published_sha256": "757d8ea07150e82510164a4f46e5c91d937cc739fb208e1428818a7156f007c2"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/direct-sampling-chain-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "a639b6ebbf14ee6eda5526c59c7418e43cf01821fe0c16dde012372fefdd1628",
+    "published_sha256": "a639b6ebbf14ee6eda5526c59c7418e43cf01821fe0c16dde012372fefdd1628"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/direct-wheel-inference-host.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "0fb7286b5fb6e16f54ec0a027d561c6bf5624141f6e7edfec10b1dd34221b9ab",
+    "published_sha256": "0fb7286b5fb6e16f54ec0a027d561c6bf5624141f6e7edfec10b1dd34221b9ab"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/direct-wheel-provenance.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "759fa117df0253014d3860a7c42edaea0dd87c477a1808607561226b0dfe4f9c",
+    "published_sha256": "759fa117df0253014d3860a7c42edaea0dd87c477a1808607561226b0dfe4f9c"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/inference-validation.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "2cb642279194be9961bbfaa51606b0b6d10d39271031ceeee47783682f80678b",
+    "published_sha256": "2cb642279194be9961bbfaa51606b0b6d10d39271031ceeee47783682f80678b"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-activated-smoke-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "986a3dc5eb9d2598345a89de26bdc94133cc8181dd5e6116ba5fd4fa0f29df2f",
+    "published_sha256": "986a3dc5eb9d2598345a89de26bdc94133cc8181dd5e6116ba5fd4fa0f29df2f"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-activated-smoke-result.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a",
+    "published_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-cmd-smoke-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "008dfcbacfc18ff9cae26ede98ca28805756d24a2644dd229c5fd3fbedb9f03f",
+    "published_sha256": "008dfcbacfc18ff9cae26ede98ca28805756d24a2644dd229c5fd3fbedb9f03f"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-cmd-smoke-result.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a",
+    "published_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-cuda-smoke-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "dc8bd278aa183fb0cb00d69387a570a4537887c819792b0bbd340a07c263a30a",
+    "published_sha256": "dc8bd278aa183fb0cb00d69387a570a4537887c819792b0bbd340a07c263a30a"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-cuda-smoke-result.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "960b55260f79f838dbe8b42b634b07cdd23cf9865fc79c79bcc5614e3b9a02ed",
+    "published_sha256": "960b55260f79f838dbe8b42b634b07cdd23cf9865fc79c79bcc5614e3b9a02ed"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-cuda-smoke-run.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a",
+    "published_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-direct-kernels.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "36999153d0ed7e46201c25e82024fa513a1334e69c33cff65c0ebde59d0160b8",
+    "published_sha256": "36999153d0ed7e46201c25e82024fa513a1334e69c33cff65c0ebde59d0160b8"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-layout-negative.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "83119075173d4cab409dba5aa5d2533df041a1cf26bc4e73cc91fc2d13b37b72",
+    "published_sha256": "83119075173d4cab409dba5aa5d2533df041a1cf26bc4e73cc91fc2d13b37b72"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-layout-regression-run.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "555a847e96904b4912106f356b06a325c74a1f928741862f9f6dd3ae2b1bcea0",
+    "published_sha256": "555a847e96904b4912106f356b06a325c74a1f928741862f9f6dd3ae2b1bcea0"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/nvcc1451-layout-regression.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "3a409960b64d7ab21b3351d721f25f7c2f62ab574f96aacd6568d5d35cd0b4de",
+    "published_sha256": "3a409960b64d7ab21b3351d721f25f7c2f62ab574f96aacd6568d5d35cd0b4de"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "7fa99529810de9bbd47565627dbbeb810400457f2818c4d1c681c9ab6587d88d",
+    "published_sha256": "7fa99529810de9bbd47565627dbbeb810400457f2818c4d1c681c9ab6587d88d"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/rmsnorm-results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "6d2dd77277c83b97324cfab8fd68ca436ff18cebd376d699da3c290a4f196b88",
+    "published_sha256": "6d2dd77277c83b97324cfab8fd68ca436ff18cebd376d699da3c290a4f196b88"
+  },
+  {
+    "file": "docs/validation/nvcc-msvc1451-20261027/sampling-chain-results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "233b3e3ae295c539bc55e5b7e5b4f895b0e6ff924fbaacc440c8e50f1fdb1f90",
+    "published_sha256": "233b3e3ae295c539bc55e5b7e5b4f895b0e6ff924fbaacc440c8e50f1fdb1f90"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/cuda-probe-1444.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "2824f6b93633f6306549cec9db4317bd45d5015fd0320e5658c53a032757b5fd",
+    "published_sha256": "2824f6b93633f6306549cec9db4317bd45d5015fd0320e5658c53a032757b5fd"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/cuda-probe-1451.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "dd9e86362ba001aeb61ee369e5f6420ce60f24628a771a15fde56642316c8984",
+    "published_sha256": "dd9e86362ba001aeb61ee369e5f6420ce60f24628a771a15fde56642316c8984"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/msvc-packages.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "0655ee8b6b7ec912ede1301b019494d85d3484d418bbe2c21d49bc621be912dc",
+    "published_sha256": "0655ee8b6b7ec912ede1301b019494d85d3484d418bbe2c21d49bc621be912dc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "6bc3ae4bc334875f261d2db486f670ecb839fcb808b2035d8584cb9ddcaaa0f2",
+    "published_sha256": "6bc3ae4bc334875f261d2db486f670ecb839fcb808b2035d8584cb9ddcaaa0f2"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/rmsnorm-results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "c19b1ea3bda3483decd20e1645d80ed61fe1b6a939bfef237d108d2900086907",
+    "published_sha256": "c19b1ea3bda3483decd20e1645d80ed61fe1b6a939bfef237d108d2900086907"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/scheduler-build-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "b2f9ea4a3868b53ad4cba973e3f9940fba6b8f7f1d09a441fd9b10632cd6e13f",
+    "published_sha256": "b2f9ea4a3868b53ad4cba973e3f9940fba6b8f7f1d09a441fd9b10632cd6e13f"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/scheduler-python-tests-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "30b71e292abe9b098e6a37d0d87761f3d3d54f33346f8c4e15b05f38c658967c",
+    "published_sha256": "7fc2ffebf74cd90a43d9f1204dc5b2a6c4bdf4b2abc32370e79a038a1c5db7a7"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/scheduler-python-tests-final.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "f3371aa413625aaf41b720b6313704b1157f513c263c3e904b460a3b38e7da1f",
+    "published_sha256": "6adafa57fe1838013d4ae3e17e80a346cab056cba4bcac3cfe16ae043d237f3a"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/scheduler-tests-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "a91c5607c714d81d97eeb4e5ebbca2dc9eb776cbb5513a976fd877401e4b640e",
+    "published_sha256": "a91c5607c714d81d97eeb4e5ebbca2dc9eb776cbb5513a976fd877401e4b640e"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/scheduler-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "0c3027023bcafc96e9006ac8dcadf7895d3addfe3cb4cef5a55a7e66208605a7",
+    "published_sha256": "0c3027023bcafc96e9006ac8dcadf7895d3addfe3cb4cef5a55a7e66208605a7"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261026/scheduler-wheel-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d453ffba1118d4fd8dbfb6b230732d67439a0eb4f9ec044658780ce7c77e136d",
+    "published_sha256": "d453ffba1118d4fd8dbfb6b230732d67439a0eb4f9ec044658780ce7c77e136d"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/activation-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "bdea4fbb1bc1d10b954572ecc8922c7635869596519ac885d5ffc2cc79545842",
+    "published_sha256": "bdea4fbb1bc1d10b954572ecc8922c7635869596519ac885d5ffc2cc79545842"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/cuda-patch-probe.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "dff8d53a76adbdb758c7aba0ac871ab62bb3c6f2d7fc01156d9a85b1e7ecf13c",
+    "published_sha256": "dff8d53a76adbdb758c7aba0ac871ab62bb3c6f2d7fc01156d9a85b1e7ecf13c"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/cuda-probe-1451.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "dd9e86362ba001aeb61ee369e5f6420ce60f24628a771a15fde56642316c8984",
+    "published_sha256": "dd9e86362ba001aeb61ee369e5f6420ce60f24628a771a15fde56642316c8984"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/cuda-version.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "770f7db2d3258f189548c79b8caa6767176b27a4137aca17c830edf7c192df53",
+    "published_sha256": "770f7db2d3258f189548c79b8caa6767176b27a4137aca17c830edf7c192df53"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/cuda-x64host-probe.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "010c81b108d59d54f582f031192a45f5667663c2264c36e522989ea96a54523b",
+    "published_sha256": "010c81b108d59d54f582f031192a45f5667663c2264c36e522989ea96a54523b"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/engine-component-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "5c5d2d6dceb312abd093da7a1d49afbc164b1c84f230fc54f22472b21d501d77",
+    "published_sha256": "5c5d2d6dceb312abd093da7a1d49afbc164b1c84f230fc54f22472b21d501d77"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/engine-host-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "704bec1dfe425ba936bf652702ad12d32e61ae99093aa355b58879d0fab676a8",
+    "published_sha256": "704bec1dfe425ba936bf652702ad12d32e61ae99093aa355b58879d0fab676a8"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/engine-wheel-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "6c1853540b3ae4c909e7303e2c4df5d08283409dcfd2b3dc9b6a0a24d91bf679",
+    "published_sha256": "6c1853540b3ae4c909e7303e2c4df5d08283409dcfd2b3dc9b6a0a24d91bf679"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/environment-freeze.txt",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "f50e4c4f3d9dc05cbf1b48093023add702b2e62c3cee1177360ae4ff1823251d",
+    "published_sha256": "f50e4c4f3d9dc05cbf1b48093023add702b2e62c3cee1177360ae4ff1823251d"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/final-wheel-inference.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "c85dc2de42622553533ad1c364cf76437d5a6351145ab87d11d5a1c5b1c8fe0d",
+    "published_sha256": "c85dc2de42622553533ad1c364cf76437d5a6351145ab87d11d5a1c5b1c8fe0d"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/greedy-chain-split-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d2e2bc85375def0534f2afa1655c9c2bed5db97c666b9c31813cbf36adafa0e8",
+    "published_sha256": "d2e2bc85375def0534f2afa1655c9c2bed5db97c666b9c31813cbf36adafa0e8"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/inference-validation.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "636492d5ff951db13c346a7c4f90ede29935ffdc0dd3c0f3e33b06aa1ae76272",
+    "published_sha256": "636492d5ff951db13c346a7c4f90ede29935ffdc0dd3c0f3e33b06aa1ae76272"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/installed-wheel-inference.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "97496430cb3c1e0d2fdbb0a0de5c4ac334d704ecd767344b69bd30f2d3ed79f5",
+    "published_sha256": "97496430cb3c1e0d2fdbb0a0de5c4ac334d704ecd767344b69bd30f2d3ed79f5"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/kernel-wheel-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d24f11286544d5b43b1abff12a1e0d80c484e9470704cd9ce081705c207ba41f",
+    "published_sha256": "d24f11286544d5b43b1abff12a1e0d80c484e9470704cd9ce081705c207ba41f"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/model-registry-final-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "f572f01e4948f559a2d11c1b3dcffb3cff82b427577b1a125a4f269f964b576b",
+    "published_sha256": "f572f01e4948f559a2d11c1b3dcffb3cff82b427577b1a125a4f269f964b576b"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/native-sampling-chain-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "b1a043ffdad43658f9255aace9f5373671b758286170dfe2199a5e754f19c7f7",
+    "published_sha256": "b1a043ffdad43658f9255aace9f5373671b758286170dfe2199a5e754f19c7f7"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "cf63710c254f58fb025dd2f8a24340f1ec0034d01d9d45b4f219d8f4961a8971",
+    "published_sha256": "cf63710c254f58fb025dd2f8a24340f1ec0034d01d9d45b4f219d8f4961a8971"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/runtime-wheel.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "3560020517c661ec21898acdad993dec2d20db598864541fd1ff0dfe46894fb2",
+    "published_sha256": "3560020517c661ec21898acdad993dec2d20db598864541fd1ff0dfe46894fb2"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/rust-host-all-tests3.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "4c821a17f8241f9433f3ca690e88d0c9763d2166d09a73ba7e49d2c97199ba7d",
+    "published_sha256": "4c821a17f8241f9433f3ca690e88d0c9763d2166d09a73ba7e49d2c97199ba7d"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/sampling-chain-results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "233b3e3ae295c539bc55e5b7e5b4f895b0e6ff924fbaacc440c8e50f1fdb1f90",
+    "published_sha256": "233b3e3ae295c539bc55e5b7e5b4f895b0e6ff924fbaacc440c8e50f1fdb1f90"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/scheduler-python-tests-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "7fc2ffebf74cd90a43d9f1204dc5b2a6c4bdf4b2abc32370e79a038a1c5db7a7",
+    "published_sha256": "7fc2ffebf74cd90a43d9f1204dc5b2a6c4bdf4b2abc32370e79a038a1c5db7a7"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/scheduler-tests-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "a91c5607c714d81d97eeb4e5ebbca2dc9eb776cbb5513a976fd877401e4b640e",
+    "published_sha256": "a91c5607c714d81d97eeb4e5ebbca2dc9eb776cbb5513a976fd877401e4b640e"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/split-rmsnorm-results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "a18fac37c0b20457f54b55f9dc0493f248e5b1b6ca48a0eaefe06cd84fee9d6d",
+    "published_sha256": "a18fac37c0b20457f54b55f9dc0493f248e5b1b6ca48a0eaefe06cd84fee9d6d"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/triton-layernorm-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "9b0780b8493635b2b21b9e2f7c31e4b1f8cdbf5c7a4b9e277219842356bdc8e1",
+    "published_sha256": "9b0780b8493635b2b21b9e2f7c31e4b1f8cdbf5c7a4b9e277219842356bdc8e1"
+  },
+  {
+    "file": "docs/validation/windows-arm64-20261027/tuning-tests-final.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "35d8a859126003831d7a283722fe2e13a829cfa1cda5d09e09b40ba38249091b",
+    "published_sha256": "35d8a859126003831d7a283722fe2e13a829cfa1cda5d09e09b40ba38249091b"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/README.md",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "08b0709c5a6778a98b87306b72ca74aa88f37802c7ff1aa037663cb43cf62ada",
+    "published_sha256": "08b0709c5a6778a98b87306b72ca74aa88f37802c7ff1aa037663cb43cf62ada"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/cublas-fp8-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "71d667c55c5856aa20068b39b5b7b291f338ffd92d4057dc9ca8a56f0160628c",
+    "published_sha256": "71d667c55c5856aa20068b39b5b7b291f338ffd92d4057dc9ca8a56f0160628c"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/cublas-fp8-gpu.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "acced28a78cc03b8846b2227cb67d7a455ce80868067b8014acc61c99e6a021e",
+    "published_sha256": "acced28a78cc03b8846b2227cb67d7a455ce80868067b8014acc61c99e6a021e"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/cublas-fp8-gpu.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "2d3fcaecfd5654979310bb1713e17e664c906a10a0166566c03ea2cb86e42ca8",
+    "published_sha256": "2d3fcaecfd5654979310bb1713e17e664c906a10a0166566c03ea2cb86e42ca8"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-final-bf16-inference.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "4bf15ac1074d49f8b0ad2740d0804fadae1f7c8f4c210af1c2424a107cc81cc6",
+    "published_sha256": "4bf15ac1074d49f8b0ad2740d0804fadae1f7c8f4c210af1c2424a107cc81cc6"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-final-bf16-inference.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "676869ae8615cbf28b6b26017392bd0d6b4e4f7c223ebfbf1d8cf471b7fb0561",
+    "published_sha256": "676869ae8615cbf28b6b26017392bd0d6b4e4f7c223ebfbf1d8cf471b7fb0561"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-final-native-audit.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "9cb9892b1dbeb9ff67abf08ac83f42962b4b5cec152ae61e1053247cfee67c3a",
+    "published_sha256": "9cb9892b1dbeb9ff67abf08ac83f42962b4b5cec152ae61e1053247cfee67c3a"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-final-nvfp4-inference.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "7a55c36e06f25f28f9adb1166da7ab02083ad6aab9f41f84c8ec3bec3ebf58fb",
+    "published_sha256": "7a55c36e06f25f28f9adb1166da7ab02083ad6aab9f41f84c8ec3bec3ebf58fb"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-final-nvfp4-inference.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "bab46d92d5a637fadd67294427574b33611bbf20bda28442157eacdf52486ba1",
+    "published_sha256": "bab46d92d5a637fadd67294427574b33611bbf20bda28442157eacdf52486ba1"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-final-wheel-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "527219d29bf2f0629756fc1eadc913b3714b93ef507f1d35ad843cb9dcf9bf5c",
+    "published_sha256": "527219d29bf2f0629756fc1eadc913b3714b93ef507f1d35ad843cb9dcf9bf5c"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-final-wheel-install.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "fb8b3b4070095682f1e56071f1474c8dd3e6673572dc1abfed424965b6029c5a",
+    "published_sha256": "fb8b3b4070095682f1e56071f1474c8dd3e6673572dc1abfed424965b6029c5a"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-full-source.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d0c28e6929dd3322e31a5463db698fec1c5ab000436aab6f70ccabbb7eb8af18",
+    "published_sha256": "d0c28e6929dd3322e31a5463db698fec1c5ab000436aab6f70ccabbb7eb8af18"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-full-source.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "fd1ea1574a13357d09462f58b75ab8ae2d9ef1b2850f4dd7ac04ec95484d5f3f",
+    "published_sha256": "fd1ea1574a13357d09462f58b75ab8ae2d9ef1b2850f4dd7ac04ec95484d5f3f"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-installed-gpu.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "6a9549cb06591a57fd71fdc9df5d7cd61e50a5d7e7bb84cb118df9d55b3b15c4",
+    "published_sha256": "6a9549cb06591a57fd71fdc9df5d7cd61e50a5d7e7bb84cb118df9d55b3b15c4"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-installed-gpu.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "39085a271482d51796e9f6924f8cf753035585cc2478279f3af44c8c0a417356",
+    "published_sha256": "39085a271482d51796e9f6924f8cf753035585cc2478279f3af44c8c0a417356"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-installed-regression.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "9bde2ff095cb47bfe354a2fc9a1b3275b78c4134e22dfbc1776a71b8731760cc",
+    "published_sha256": "9bde2ff095cb47bfe354a2fc9a1b3275b78c4134e22dfbc1776a71b8731760cc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/fp8-installed-regression.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d5258eddafa03b04d56a13fa3f698b20d0e229dd6b85d065098e1ce6ae5ec945",
+    "published_sha256": "d5258eddafa03b04d56a13fa3f698b20d0e229dd6b85d065098e1ce6ae5ec945"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/inventory/artifacts.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "0c22ff8ff76a58e4f6248d7f6e7470cd91607eccb78036c7b5143090139f8e37",
+    "published_sha256": "0c22ff8ff76a58e4f6248d7f6e7470cd91607eccb78036c7b5143090139f8e37"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/inventory/download-cache-audit.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "41647a23c3da922b0c5ef88b4cda42e68d91b9ebdaf4a9b183da3ed3ac85f0c1",
+    "published_sha256": "41647a23c3da922b0c5ef88b4cda42e68d91b9ebdaf4a9b183da3ed3ac85f0c1"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d5ca4d63553b6db8def0e289669dc951f18ba4df8836cee43513c40788204dcc",
+    "published_sha256": "d5ca4d63553b6db8def0e289669dc951f18ba4df8836cee43513c40788204dcc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.txt",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d002ae79cb5f0196faf52d6251c530f209d1a1336bf5c4b62a5c0a992fe7a861",
+    "published_sha256": "d002ae79cb5f0196faf52d6251c530f209d1a1336bf5c4b62a5c0a992fe7a861"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/inventory/source-inputs-before-formatting.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "1ae4c336ce597a139eaaa777a1521fdde302e36b6cc17b30becaafcf5a41de8d",
+    "published_sha256": "1ae4c336ce597a139eaaa777a1521fdde302e36b6cc17b30becaafcf5a41de8d"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/inventory/source-inputs.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d034a23c8aae0c3addcc4296842f9370ec4faeade90d6c654fb18046afeb9018",
+    "published_sha256": "d034a23c8aae0c3addcc4296842f9370ec4faeade90d6c654fb18046afeb9018"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/native-artifacts-verification.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "31dada93de96fdf5306dbe4bf015fe5fcfc6a1abb733a9b87ebc1287f22d1431",
+    "published_sha256": "31dada93de96fdf5306dbe4bf015fe5fcfc6a1abb733a9b87ebc1287f22d1431"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/README.md",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "15f8232e98f67c0e0e70e960e4e1bb40cb91fc5a97e560af2bea51158d13a566",
+    "published_sha256": "15f8232e98f67c0e0e70e960e4e1bb40cb91fc5a97e560af2bea51158d13a566"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/native-artifacts-verification.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "31dada93de96fdf5306dbe4bf015fe5fcfc6a1abb733a9b87ebc1287f22d1431",
+    "published_sha256": "31dada93de96fdf5306dbe4bf015fe5fcfc6a1abb733a9b87ebc1287f22d1431"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-cuda-smoke-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "c614e6e82187bd3cd44196fc6c95de3eeca2184da8ac7ce4fde1696f4d2a860f",
+    "published_sha256": "c614e6e82187bd3cd44196fc6c95de3eeca2184da8ac7ce4fde1696f4d2a860f"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-cuda-smoke-result.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "960b55260f79f838dbe8b42b634b07cdd23cf9865fc79c79bcc5614e3b9a02ed",
+    "published_sha256": "960b55260f79f838dbe8b42b634b07cdd23cf9865fc79c79bcc5614e3b9a02ed"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-cuda-smoke-run.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a",
+    "published_sha256": "73ba68546661f4ce53128cb2faa7608d76089b8ab5a155fd510916be2474019a"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-layout-negative.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "cfadfaa85322bc5422d55fd0e2f77aadb23efc4edca6c72dc7e39800b14b4f6e",
+    "published_sha256": "cfadfaa85322bc5422d55fd0e2f77aadb23efc4edca6c72dc7e39800b14b4f6e"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-layout-regression.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "3a409960b64d7ab21b3351d721f25f7c2f62ab574f96aacd6568d5d35cd0b4de",
+    "published_sha256": "3a409960b64d7ab21b3351d721f25f7c2f62ab574f96aacd6568d5d35cd0b4de"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-bf16-inference.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "32d35434cd5cb058dc720391fd317784de5a196adf0286f5f7fdd73c76a1a3aa",
+    "published_sha256": "32d35434cd5cb058dc720391fd317784de5a196adf0286f5f7fdd73c76a1a3aa"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-bf16-inference.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "843911748b1803904c35f5bc8eb03ed3dfc1761bf849fa3400ddc2be6dfe3639",
+    "published_sha256": "843911748b1803904c35f5bc8eb03ed3dfc1761bf849fa3400ddc2be6dfe3639"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-gpu.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "1bab7d7bc1b23d52e4cd2aa2750ba7388566fbbd9c2ff40b7af94883175cddb9",
+    "published_sha256": "1bab7d7bc1b23d52e4cd2aa2750ba7388566fbbd9c2ff40b7af94883175cddb9"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-gpu.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "7d5eb96545ea6a407f28a11adbff76482610dd2ff9719619b89915cface9166f",
+    "published_sha256": "7d5eb96545ea6a407f28a11adbff76482610dd2ff9719619b89915cface9166f"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-runtime.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "c227596085eb7279bb927414b18d0c8144bc49ceafc7c23cee0e32bb2709bdb6",
+    "published_sha256": "c227596085eb7279bb927414b18d0c8144bc49ceafc7c23cee0e32bb2709bdb6"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-runtime.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "2465e90d5a537f3f4ddbb97008918f07409aba0f57e4821a5104be4a873fb900",
+    "published_sha256": "2465e90d5a537f3f4ddbb97008918f07409aba0f57e4821a5104be4a873fb900"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-nvfp4-inference.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "2df20ce94ddd5b213b7a4326dd643143ac5e60c542c8f17d9c3237d5c9e21877",
+    "published_sha256": "2df20ce94ddd5b213b7a4326dd643143ac5e60c542c8f17d9c3237d5c9e21877"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-nvfp4-inference.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "0135ac1ebf713097a3d1f8e98865873f31993b58c1fa050992c97ff19e939c4f",
+    "published_sha256": "0135ac1ebf713097a3d1f8e98865873f31993b58c1fa050992c97ff19e939c4f"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/reconfirmation/results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "95ec64f88d87e75a3ecefe870f2c531b830f71126eae010189fb974a270402e8",
+    "published_sha256": "95ec64f88d87e75a3ecefe870f2c531b830f71126eae010189fb974a270402e8"
+  },
+  {
+    "file": "docs/validation/windows-arm64-fp8-20261027/results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "13f634ec6867ade8cacd2a014ea549a03d29982c8c8cc61ec52cc30daba27f83",
+    "published_sha256": "13f634ec6867ade8cacd2a014ea549a03d29982c8c8cc61ec52cc30daba27f83"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/README.md",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "7a49057758ca044a0d9fe62f68397037358b56f69ee4dfce62dd2a9803855127",
+    "published_sha256": "7a49057758ca044a0d9fe62f68397037358b56f69ee4dfce62dd2a9803855127"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/inference-validation.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "2cb642279194be9961bbfaa51606b0b6d10d39271031ceeee47783682f80678b",
+    "published_sha256": "2cb642279194be9961bbfaa51606b0b6d10d39271031ceeee47783682f80678b"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/native-artifacts-verification.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "7f0531cf9ddea9740d5966a9775d5d9aec46d1180bb605ae735773e6247fd29c",
+    "published_sha256": "7f0531cf9ddea9740d5966a9775d5d9aec46d1180bb605ae735773e6247fd29c"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/nvcc1451-cuda-smoke-build.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "dc8bd278aa183fb0cb00d69387a570a4537887c819792b0bbd340a07c263a30a",
+    "published_sha256": "dc8bd278aa183fb0cb00d69387a570a4537887c819792b0bbd340a07c263a30a"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/nvcc1451-cuda-smoke-result.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "960b55260f79f838dbe8b42b634b07cdd23cf9865fc79c79bcc5614e3b9a02ed",
+    "published_sha256": "960b55260f79f838dbe8b42b634b07cdd23cf9865fc79c79bcc5614e3b9a02ed"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/nvcc1451-layout-regression.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "3a409960b64d7ab21b3351d721f25f7c2f62ab574f96aacd6568d5d35cd0b4de",
+    "published_sha256": "3a409960b64d7ab21b3351d721f25f7c2f62ab574f96aacd6568d5d35cd0b4de"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "e2c682c537468d0dcefee4587f2b2379593f32629ba6e788a5814224852ef122",
+    "published_sha256": "e2c682c537468d0dcefee4587f2b2379593f32629ba6e788a5814224852ef122"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/rmsnorm-results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "6d2dd77277c83b97324cfab8fd68ca436ff18cebd376d699da3c290a4f196b88",
+    "published_sha256": "6d2dd77277c83b97324cfab8fd68ca436ff18cebd376d699da3c290a4f196b88"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/sampling-chain-results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "233b3e3ae295c539bc55e5b7e5b4f895b0e6ff924fbaacc440c8e50f1fdb1f90",
+    "published_sha256": "233b3e3ae295c539bc55e5b7e5b4f895b0e6ff924fbaacc440c8e50f1fdb1f90"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/scheduler-wheel-msvc1451.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "11e53df10a7b7fe1e08149fd993345a435eba8a81a147ca24efa8ed3fb673fd7",
+    "published_sha256": "11e53df10a7b7fe1e08149fd993345a435eba8a81a147ca24efa8ed3fb673fd7"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-cuda-toolchain.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "1a2acf06a8faf4f588a5a85ba28e07fdbc92fb894fce928846d0205490b80d3b",
+    "published_sha256": "1a2acf06a8faf4f588a5a85ba28e07fdbc92fb894fce928846d0205490b80d3b"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-host.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "566e575ba64083dda8b8f6abbc29e8777ae9720845fcc3a5decca53a77733e55",
+    "published_sha256": "566e575ba64083dda8b8f6abbc29e8777ae9720845fcc3a5decca53a77733e55"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-installed-chain.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "0466629544789672afcb15144a2bb20008c49cdc5dd70ae7d764970925b653a7",
+    "published_sha256": "0466629544789672afcb15144a2bb20008c49cdc5dd70ae7d764970925b653a7"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-installed-rmsnorm.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "572807034d03612ed65f81b7333e9e2951aa83aad8cbfe3fb8b02d5902eeb54c",
+    "published_sha256": "572807034d03612ed65f81b7333e9e2951aa83aad8cbfe3fb8b02d5902eeb54c"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-installed-tuning.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "c529f472f5f1e3265ec47cac58d1c058676aec1ef928de8794f7b2d392dca8cf",
+    "published_sha256": "c529f472f5f1e3265ec47cac58d1c058676aec1ef928de8794f7b2d392dca8cf"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-installed-wheel-inference.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "66080dd40472293b0e8b47fcf3271b9f11039bfabb6173ba2d77b14dcea93b77",
+    "published_sha256": "66080dd40472293b0e8b47fcf3271b9f11039bfabb6173ba2d77b14dcea93b77"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-native-artifacts.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "242fcc8a66e344f426e7f3c34a185fb030b43e46aa4e7c9949b2635641ca9dfc",
+    "published_sha256": "242fcc8a66e344f426e7f3c34a185fb030b43e46aa4e7c9949b2635641ca9dfc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-scheduler-compiler.txt",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "03733cfcfa053d019fe77681c5d5ab2810584f0b92d2ba98c2c1917effdef490",
+    "published_sha256": "03733cfcfa053d019fe77681c5d5ab2810584f0b92d2ba98c2c1917effdef490"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-scheduler-cpp.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "c1e5d78eef06310e3b977b5a54896cc2eb94ca8f4282a5731a1434fea993c1cc",
+    "published_sha256": "c1e5d78eef06310e3b977b5a54896cc2eb94ca8f4282a5731a1434fea993c1cc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-scheduler-install.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "82057259abaccdb201f60267896279618a96362eeea25263f672403a46b7dbb6",
+    "published_sha256": "82057259abaccdb201f60267896279618a96362eeea25263f672403a46b7dbb6"
+  },
+  {
+    "file": "docs/validation/windows-arm64-native-20261027/verify-scheduler-python.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "aded4203bca2964bf7f423a6973b4affe018427336d6e06baf91cfd4136a3577",
+    "published_sha256": "aded4203bca2964bf7f423a6973b4affe018427336d6e06baf91cfd4136a3577"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/README.md",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "5a9bc731d274f7b6e0d3199df060c5827cb8d2be803df3215a4e3683f3e3c287",
+    "published_sha256": "5a9bc731d274f7b6e0d3199df060c5827cb8d2be803df3215a4e3683f3e3c287"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/native-artifacts-verification.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "a001c36f74371c1f915faf0ed036abc05c64f73b89f3a76c08c90e4ad73c5355",
+    "published_sha256": "a001c36f74371c1f915faf0ed036abc05c64f73b89f3a76c08c90e4ad73c5355"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/native-nvfp4-mm.ptx",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "673fca0e7c32a21149d5f16e6ad4e8b9ff9627e38b8fd45539dcfe4721f73685",
+    "published_sha256": "673fca0e7c32a21149d5f16e6ad4e8b9ff9627e38b8fd45539dcfe4721f73685"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/nvfp4-no-recompile.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "13bca62673148710b531a24ec87c2103ff741d3bd74fed53ae70dac529468609",
+    "published_sha256": "13bca62673148710b531a24ec87c2103ff741d3bd74fed53ae70dac529468609"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-bf16-inference.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "7ec2a68cdeba67980ca78eaebc1e55fe3d84e4a18e4d54746a9892e62d1cc405",
+    "published_sha256": "7ec2a68cdeba67980ca78eaebc1e55fe3d84e4a18e4d54746a9892e62d1cc405"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-fixes-regression.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "39c124bd8ae88dc3d7de338b22d5c23aa42cbcf972c94b5b7b56152a18ec0c64",
+    "published_sha256": "39c124bd8ae88dc3d7de338b22d5c23aa42cbcf972c94b5b7b56152a18ec0c64"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-installed-bf16.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "78a42ed9c819922bee23482c21eed844690dcf68fac43de92f18b1421f2a72ef",
+    "published_sha256": "78a42ed9c819922bee23482c21eed844690dcf68fac43de92f18b1421f2a72ef"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-installed-nvfp4.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "749042a4bfbcb9e70cd4590636d2b75d105114d14fe7603f949a4e8f94612909",
+    "published_sha256": "749042a4bfbcb9e70cd4590636d2b75d105114d14fe7603f949a4e8f94612909"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-installed-tests.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "d57803cf7081c12611e5d9e34f9e8de36ed67bf0e687d87b5fbd592f1d33f45f",
+    "published_sha256": "d57803cf7081c12611e5d9e34f9e8de36ed67bf0e687d87b5fbd592f1d33f45f"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-installed-tests.xml",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "572015b80089440a65a1cd90b2e0551dffdd9903a8b9e1fc1d10acff0ea93978",
+    "published_sha256": "f4acde9fc8b3ca79cc0e1a95a3729154f2643af1221aee46fcf85cc87d13c9b8"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-kernel-wheel.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "102d7bb2a0a7fa044942090500c11e9bda6e1b4ee18ac32d9c2410b81f71422a",
+    "published_sha256": "102d7bb2a0a7fa044942090500c11e9bda6e1b4ee18ac32d9c2410b81f71422a"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-native-artifacts.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "242fcc8a66e344f426e7f3c34a185fb030b43e46aa4e7c9949b2635641ca9dfc",
+    "published_sha256": "242fcc8a66e344f426e7f3c34a185fb030b43e46aa4e7c9949b2635641ca9dfc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-nvfp4-inference.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "07b009e14562d8939cbb3513a46b6a49d93c0889ea85f6921de4b4ec95ae3200",
+    "published_sha256": "07b009e14562d8939cbb3513a46b6a49d93c0889ea85f6921de4b4ec95ae3200"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-runtime-wheel.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "b56c834eafa566fc5f137238fb061ed57cb566ae1a9783c2bc2e4e6e3c34d21e",
+    "published_sha256": "b56c834eafa566fc5f137238fb061ed57cb566ae1a9783c2bc2e4e6e3c34d21e"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/remaining-wheel-install.log",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "51ebbbbb628dab927edd34af30dd9d0dbc16460162c42a67dfb0fc2896dc69be",
+    "published_sha256": "51ebbbbb628dab927edd34af30dd9d0dbc16460162c42a67dfb0fc2896dc69be"
+  },
+  {
+    "file": "docs/validation/windows-arm64-nvfp4-20261027/results.json",
+    "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "original_sha256": "6ce7ee7deceaa3699deafada484aecb4556144b247bf34b9146f9b423c741320",
+    "published_sha256": "6ce7ee7deceaa3699deafada484aecb4556144b247bf34b9146f9b423c741320"
+  }
+]

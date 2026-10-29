@@ -62,7 +62,7 @@ setuptools=80.10.2，而主包 build-system 声明 83.0.0；--no-build-isolation
 | &lt;repo&gt;/docs/validation/windows-arm64-fp8-20261027 | 最后修复与当前独立复验的公开证据 |
 
 路径与实际安装关系的完整清单见
-[artifacts.json](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/artifacts.json)。
+[artifacts.json](../validation/windows-arm64-fp8-20261027/inventory/artifacts.json)。
 不要将 .port 中的 cuda-patch、旧 14.44 库、split 构建实验或旧 kernel wheel
 误作最终产物。当前方案直接使用真实 14.51 frontend 与 CUDA 13.4.46 nvcc。
 
@@ -112,21 +112,21 @@ cuBLASLt fast accumulation。完整 flags、headers 和 lib 搜索路径见身�
 
 | 本次独立复验 | 结果 | 证据 |
 | --- | --- | --- |
-| Python native / 四个 wheel / 六个 PE | 全通过，无 WOW64 | [架构与安装审计](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/native-artifacts-verification.json) |
-| 缺 VS 布局负探测及自动修复后实编译 | 预期失败可复现，修复后编译及执行成功 | [工具链回归](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-layout-regression.json) |
-| 新编译 CUDA 向量加法 | 4097 元素正确，真实 1951 / runtime13040 | [GPU smoke](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-cuda-smoke-result.json) |
-| 安装包运行时回归 | 160 通过，0 失败/错误/跳过 | [JUnit](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-runtime.xml) |
-| 安装包 GPU / 缓存回归 | 26 通过，0 失败/错误/跳过 | [JUnit](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-gpu.xml) |
+| Python native / 四个 wheel / 六个 PE | 全通过，无 WOW64 | [架构与安装审计](../validation/windows-arm64-fp8-20261027/reconfirmation/native-artifacts-verification.json) |
+| 缺 VS 布局负探测及自动修复后实编译 | 预期失败可复现，修复后编译及执行成功 | [工具链回归](../validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-layout-regression.json) |
+| 新编译 CUDA 向量加法 | 4097 元素正确，真实 1951 / runtime13040 | [GPU smoke](../validation/windows-arm64-fp8-20261027/reconfirmation/nvcc1451-cuda-smoke-result.json) |
+| 安装包运行时回归 | 160 通过，0 失败/错误/跳过 | [JUnit](../validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-runtime.xml) |
+| 安装包 GPU / 缓存回归 | 26 通过，0 失败/错误/跳过 | [JUnit](../validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-installed-gpu.xml) |
 | BF16 / NVFP4 真实推理 | 各五次通过，各请求 16 token，基线 token ID 不变 | 下节两个报告 |
 
 186 项不同安装包测试由 FP8 80、NVFP4 25、插件 34、dummy drafter 2、host 19
 和物理 GPU/cache 26 组成；不将源码与安装包重复执行、旧组件测试或 smoke
 重复累计。原 46 项 FP8/MLA 失败均有对应通过 ID，见
-[修复结果](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/results.json)。
+[修复结果](../validation/windows-arm64-fp8-20261027/results.json)。
 
 历史单组件 14.51 验证还包括 scheduler C++ 661、scheduler Python 280、原生
 RMSNorm 24 和 chain 72 项通过。它们保留在
-[此前组件验证](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-native-20261027/README.md)，不代表
+[此前组件验证](../validation/windows-arm64-native-20261027/README.md)，不代表
 最新 wheel 的所有功能又重新跑了一遍。旧报告的失败数和哈希属于当时状态；
 当前产物以本表及最新复验为准。
 
@@ -141,7 +141,7 @@ RMSNorm 24 和 chain 72 项通过。它们保留在
 | 权重格式 | BF16 | nvfp4-pack-quantized，16 元素分组 |
 | 请求 | 三次顺序、两次批量请求 | 三次顺序、两次批量请求 |
 | 输出例子 | 1, 2, 3, 4, 5, 6 | 12345，随后解释下一个数字 |
-| 完整响应/token ID | [BF16 JSON](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-bf16-inference.json) | [NVFP4 JSON](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-nvfp4-inference.json) |
+| 完整响应/token ID | [BF16 JSON](../validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-bf16-inference.json) | [NVFP4 JSON](../validation/windows-arm64-fp8-20261027/reconfirmation/reconfirm-nvfp4-inference.json) |
 
 脚本为 tools/windows/validate_inference.py，采用单 GPU、eager、Triton attention、
 greedy，context512、max_num_seqs=2、max_total_tokens=512、显存比例0.25。
@@ -153,13 +153,13 @@ greedy，context512、max_num_seqs=2、max_total_tokens=512、显存比例0.25�
 
 | 文件 | 内容 |
 | --- | --- |
-| [最新复验 results.json](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/reconfirmation/results.json) | 测试统计、时间、工具链、产物及证据 SHA256 |
-| [inventory/artifacts.json](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/artifacts.json) | 四个 wheel 和六个原生文件的路径、字节数、哈希及编译身份 |
-| [inventory/python-environment.json](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.json) | 219 个实际解析到的 distribution 的版本、位置、tag、Requires-Dist |
-| [inventory/python-environment.txt](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/python-environment.txt) | 便于阅读的观测版本快照，不是安装 lock |
-| [inventory/download-cache-audit.json](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/download-cache-audit.json) | 八个归档的公开来源、预期/实际 SHA256，本轮全部匹配 |
-| [inventory/source-inputs.json](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/source-inputs.json) | 关键构建配置、Cargo.lock 和验证脚本的 SHA256 |
-| [格式化前源码快照](https://github.com/jinkun_microsoft/windows-tokenspeed/blob/9a50ac82b59fc47044090e4441c05c88173715c1/docs/validation/windows-arm64-fp8-20261027/inventory/source-inputs-before-formatting.json) | 保留提交检查之前的源码身份，与上传时的格式化后快照区分 |
+| [最新复验 results.json](../validation/windows-arm64-fp8-20261027/reconfirmation/results.json) | 测试统计、时间、工具链、产物及证据 SHA256 |
+| [inventory/artifacts.json](../validation/windows-arm64-fp8-20261027/inventory/artifacts.json) | 四个 wheel 和六个原生文件的路径、字节数、哈希及编译身份 |
+| [inventory/python-environment.json](../validation/windows-arm64-fp8-20261027/inventory/python-environment.json) | 219 个实际解析到的 distribution 的版本、位置、tag、Requires-Dist |
+| [inventory/python-environment.txt](../validation/windows-arm64-fp8-20261027/inventory/python-environment.txt) | 便于阅读的观测版本快照，不是安装 lock |
+| [inventory/download-cache-audit.json](../validation/windows-arm64-fp8-20261027/inventory/download-cache-audit.json) | 八个归档的公开来源、预期/实际 SHA256，本轮全部匹配 |
+| [inventory/source-inputs.json](../validation/windows-arm64-fp8-20261027/inventory/source-inputs.json) | 关键构建配置、Cargo.lock 和验证脚本的 SHA256 |
+| [格式化前源码快照](../validation/windows-arm64-fp8-20261027/inventory/source-inputs-before-formatting.json) | 保留提交检查之前的源码身份，与上传时的格式化后快照区分 |
 
 上传前按 AGENTS.md 执行完整 pre-commit 检查，规范了源码格式及证据副本的
 空白/文件结尾。证据 SHA256 已按公开副本更新；测试执行时间和原 wheel 字节

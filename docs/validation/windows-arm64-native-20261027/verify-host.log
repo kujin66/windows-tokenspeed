@@ -1,0 +1,157 @@
+..................................F.................F                    [100%]
+================================== FAILURES ===================================
+______ test_register_drafter_scopes_an_in_tree_algorithm_by_model_class _______
+
+    def test_register_drafter_scopes_an_in_tree_algorithm_by_model_class() -> None:
+        from tokenspeed.runtime.execution import drafter
+        from tokenspeed.runtime.execution.drafter.eagle import Eagle
+
+        registry.register_drafter("MTP", _FixtureDrafter, model_cls=_FixtureNextN)
+        try:
+            assert drafter.get_drafter_impl("MTP", _FixtureNextN()) is _FixtureDrafter
+            # Other draft models keep the in-tree resolution.
+>           assert drafter.get_drafter_impl("MTP", torch.nn.Module()) is Eagle
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+test\runtime\test_runtime_plugins.py:449:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\tokenspeed\runtime\execution\drafter\__init__.py:231: in get_drafter_impl
+    from tokenspeed.runtime.models.inkling_nextn import (
+.venv\Lib\site-packages\tokenspeed\runtime\models\inkling_nextn.py:67: in <module>
+    from tokenspeed.runtime.models.inkling import (
+.venv\Lib\site-packages\tokenspeed\runtime\models\inkling.py:127: in <module>
+    from tokenspeed.runtime.models.deepseek_v3 import MoEGate as _DSV3MoEGate
+.venv\Lib\site-packages\tokenspeed\runtime\models\deepseek_v3.py:36: in <module>
+    from tokenspeed_kernel.ops.attention.mla import (
+.venv\Lib\site-packages\tokenspeed_kernel\ops\attention\mla\__init__.py:1409: in <module>
+    import tokenspeed_kernel.ops.attention.mla.cuda  # noqa: E402,F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    # Copyright (c) 2026 LightSeek Foundation
+    #
+    # Permission is hereby granted, free of charge, to any person obtaining a copy
+    # of this software and associated documentation files (the "Software"), to deal
+    # in the Software without restriction, including without limitation the rights
+    # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    # copies of the Software, and to permit persons to whom the Software is
+    # furnished to do so, subject to the following conditions:
+    #
+    # The above copyright notice and this permission notice shall be included in
+    # all copies or substantial portions of the Software.
+    #
+    # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    # SOFTWARE.
+
+    from tokenspeed_kernel.platform import current_platform
+
+    if current_platform().is_hopper_plus:
+>       from flash_mla import (
+            flash_mla_sparse_fwd,
+            flash_mla_with_kvcache,
+            get_mla_metadata,
+        )
+E       ModuleNotFoundError: No module named 'flash_mla'
+
+.venv\Lib\site-packages\tokenspeed_kernel\ops\attention\mla\cuda.py:24: ModuleNotFoundError
+------------------------------ Captured log call ------------------------------
+WARNING  tokenspeed_kernel.ops.moe._cute_dsl.routed_norm:routed_norm.py:83 Routed normalization cluster kernel unavailable; using Triton: No module named 'cutlass'
+___________________ test_mla_dcp_checks_backend_capability ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000024E046FB070>
+
+    def test_mla_dcp_checks_backend_capability(monkeypatch) -> None:
+        from tokenspeed.runtime.layers.attention.backends.base import AttentionBackend
+
+        kernel = Mock(side_effect=AssertionError("capability checks must not run kernels"))
+        vendor_exports = {
+            "tokenspeed_kernel.ops.attention.mha.cuda": {
+                "flash_attn_varlen_func": kernel,
+            },
+            "tokenspeed_kernel.ops.attention.mha.flashinfer": {
+                "BatchMLAPagedAttentionWrapper": kernel,
+                "BatchPrefillWithRaggedKVCacheWrapper": kernel,
+            },
+            "tokenspeed_kernel.ops.attention.mla.cuda": {
+                "flash_mla_with_kvcache": kernel,
+                "get_mla_metadata": kernel,
+            },
+        }
+        path = os.path.join(
+            os.path.dirname(attention_registry.__file__), "backends/paged/flashmla.py"
+        )
+        spec = util.spec_from_file_location("_runtime_plugins_flashmla", path)
+        module = util.module_from_spec(spec)
+        with monkeypatch.context() as isolated:
+            for name, exports in vendor_exports.items():
+                vendor = ModuleType(name)
+                vendor.__dict__.update(exports)
+                isolated.setitem(sys.modules, name, vendor)
+            isolated.setitem(sys.modules, spec.name, module)
+            isolated.setattr(attention_registry, "register_backend", Mock())
+>           spec.loader.exec_module(module)
+
+test\runtime\test_runtime_plugins.py:835:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<frozen importlib._bootstrap_external>:1027: in exec_module
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+.venv\Lib\site-packages\tokenspeed\runtime\layers\attention\backends\paged\flashmla.py:28: in <module>
+    from tokenspeed_kernel.ops.attention.dsv4._triton.dcp import normalize_dcp_partials
+.venv\Lib\site-packages\tokenspeed_kernel\ops\attention\dsv4\__init__.py:675: in <module>
+    import tokenspeed_kernel.ops.attention.dsv4.cuda  # noqa: E402,F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    # Copyright (c) 2026 LightSeek Foundation
+    #
+    # Permission is hereby granted, free of charge, to any person obtaining a copy
+    # of this software and associated documentation files (the "Software"), to deal
+    # in the Software without restriction, including without limitation the rights
+    # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    # copies of the Software, and to permit persons to whom the Software is
+    # furnished to do so, subject to the following conditions:
+    #
+    # The above copyright notice and this permission notice shall be included in
+    # all copies or substantial portions of the Software.
+    #
+    # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    # SOFTWARE.
+
+    """CUDA DeepSeek V4 attention kernels."""
+
+    import torch
+    from tokenspeed_kernel.platform import (
+        ArchVersion,
+        CapabilityRequirement,
+        current_platform,
+    )
+    from tokenspeed_kernel.registry import Priority, error_fn, register_kernel
+    from tokenspeed_kernel.signature import dense_tensor_format, format_signature
+
+    platform = current_platform()
+
+    if platform.is_hopper_plus:
+>       from tokenspeed_kernel.ops.attention.mla.cuda import (
+            flash_mla_sparse_fwd,
+            flash_mla_with_kvcache,
+            get_mla_metadata,
+        )
+E       ImportError: cannot import name 'flash_mla_sparse_fwd' from 'tokenspeed_kernel.ops.attention.mla.cuda' (unknown location)
+
+.venv\Lib\site-packages\tokenspeed_kernel\ops\attention\dsv4\cuda.py:35: ImportError
+=========================== short test summary info ===========================
+FAILED test/runtime/test_runtime_plugins.py::test_register_drafter_scopes_an_in_tree_algorithm_by_model_class
+FAILED test/runtime/test_runtime_plugins.py::test_mla_dcp_checks_backend_capability
+2 failed, 51 passed in 92.26s (0:01:32)
