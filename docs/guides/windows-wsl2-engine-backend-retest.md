@@ -1,31 +1,18 @@
-# Fresh Windows ARM64 and WSL2 inference comparison
+# Windows ARM64 and WSL2 non-eager inference comparison
 
-This reruns the non-eager workload referenced by
-[PR #2](https://github.com/kujin66/windows-tokenspeed/pull/2): vLLM versus
-TokenSpeed, and TokenSpeed Triton versus FlashInfer, on each platform.
+This compares independent vLLM and TokenSpeed engines, and TokenSpeed's
+Triton and FlashInfer backends, on the same RTX Spark N1X (SM12.1, 40 SMs).
+The model is dense Qwen3-0.6B BF16. The measured vLLM installation has no
+TokenSpeed plugin or enable/disable switch.
 
-The main tables use the latest pooled FlashInfer measurements from the
-[focused confirmation](#focused-flashinfer-confirmation-2026-10-29). The four
-Windows/WSL2 FlashInfer cases each combine two independent process runs
-(ten measured calls per case/platform); vLLM and Triton retain their earlier
-measurements. Ratios involving FlashInfer are recomputed from these values.
-This is a summary across cohorts, not a new simultaneous six-configuration run.
+The tables report the latest available non-eager measurement for each
+configuration. FlashInfer combines two independent engine-process repetitions
+per platform (ten measured calls per case); vLLM and Triton each use five
+measured calls per case. These measurements come from separate cohorts with
+verified per-platform environments. They are a cross-cohort summary, rather
+than a single paired six-configuration experiment.
 
-## Latest optimization and measured runtime
-
-At the time of this cohort, the [CuTe DSL AOT experiment](windows-arm64-cutedsl-aot.md)
-ran an exported BF16 MoE-router kernel on Windows without engine registration.
-The [subsequent Windows-local compiler and opt-in router integration](windows-arm64-cutedsl-local-compiler.md)
-does not change these measurements. Dense Qwen3-0.6B has no matching 7168-to-896 MoE-router
-projection. All fresh reports record aot_router.active=false. These reruns
-cannot establish a model-level benefit from that isolated kernel optimization.
-
-The complete Windows runtime remains the validated port from 9a50ac82; WSL2
-TokenSpeed remains based on official upstream 864bcdd9, with isolated backend
-adapters. PR #2's afb6e89b-based current-main change is compilation-only.
-These are not full-engine throughput measurements of that compilation unit.
-
-## Latest non-eager results
+## Non-eager results
 
 | Input / batch | Win vLLM | Win TS Triton | Win TS FI | WSL2 vLLM | WSL2 TS Triton | WSL2 TS FI |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -34,13 +21,12 @@ These are not full-engine throughput measurements of that compilation unit.
 | 512 / 1 | 134.78 | 130.01 | 130.94 | 134.46 | 125.93 | 132.60 |
 | 512 / 4 | 509.22 | 522.49 | 490.88 | 496.45 | 499.86 | 501.26 |
 
-All throughput values are aggregate output tokens/s. FI means FlashInfer.
+All throughput values are aggregate output tokens/s. TS means TokenSpeed;
+FI means FlashInfer. Win means native Windows ARM64. Ratios above 1 favor
+the numerator. FlashInfer throughput combines both repetitions using total
+output tokens divided by total measured seconds.
 
-FlashInfer values above pool total measured output tokens over total elapsed
-time from both confirmation runs. Per-run results and unchanged environment
-checks appear in the confirmation section.
-
-Ratios within each operating environment:
+Within each operating environment:
 
 | Platform | Input / batch | TS Triton / vLLM | TS FI / vLLM | FI / Triton |
 | --- | --- | --- | --- | --- |
@@ -53,7 +39,7 @@ Ratios within each operating environment:
 | windows | 512 / 4 | 1.026x | 0.964x | 0.940x |
 | wsl2 | 512 / 4 | 1.007x | 1.010x | 1.003x |
 
-Native Windows / WSL2 ratios for each engine/backend:
+Native Windows / WSL2:
 
 | Input / batch | vLLM Win / WSL2 | TS Triton Win / WSL2 | TS FI Win / WSL2 |
 | --- | --- | --- | --- |
@@ -62,29 +48,50 @@ Native Windows / WSL2 ratios for each engine/backend:
 | 512 / 1 | 1.002x | 1.032x | 0.987x |
 | 512 / 4 | 1.026x | 1.045x | 0.979x |
 
-<!-- flashinfer-confirmation:start -->
-## Focused FlashInfer confirmation (2026-10-29)
+## FlashInfer measurement details
 
-The earlier short-input Windows slowdown did not reproduce in either confirmation pair.
-For input 128 / batch 1, the new Windows/WSL2 ratios are 1.054 / 0.988x; pooling all ten measured calls per platform gives 1.020x (141.63 versus 138.85 output tokens/s).
+Each numbered test below is an independent repetition in a fresh engine
+process, using the same WSL2 installation and the same per-platform software
+environment. The numbers identify test repetitions, not WSL versions.
+Throughput columns are aggregate output tokens/s.
 
-| Input / batch | Windows R1 / R2 (tokens/s) | WSL2 R1 / R2 (tokens/s) | Win / WSL2 R1 / R2 | Pooled Win / WSL2 |
-| --- | --- | --- | --- | --- |
-| 128 / 1 | 145.12 / 138.30 | 137.70 / 140.03 | 1.054 / 0.988 | 1.020x |
-| 128 / 4 | 566.84 / 572.39 | 550.64 / 579.07 | 1.029 / 0.988 | 1.009x |
-| 512 / 1 | 134.09 / 127.93 | 132.93 / 132.27 | 1.009 / 0.967 | 0.987x |
-| 512 / 4 | 493.76 / 488.03 | 501.07 / 501.46 | 0.985 / 0.973 | 0.979x |
+| Input / batch | Win test 1 | Win test 2 | WSL2 test 1 | WSL2 test 2 | Win / WSL2 |
+| --- | --- | --- | --- | --- | --- |
+| 128 / 1 | 145.12 | 138.30 | 137.70 | 140.03 | 1.020x |
+| 128 / 4 | 566.84 | 572.39 | 550.64 | 579.07 | 1.009x |
+| 512 / 1 | 134.09 | 127.93 | 132.93 | 132.27 | 0.987x |
+| 512 / 4 | 493.76 | 488.03 | 501.07 | 501.46 | 0.979x |
 
-R1 and R2 are independent engine-process repetitions. Execution order was Windows R1, WSL2 R1, WSL2 R2, Windows R2, with no overlapping GPU benchmarks. Each process reran all four original cases in the same case order, with three warmups and five measured calls per case. Pooling divides all measured output tokens by all measured seconds; it does not average individual rates or discard slow calls.
+Win / WSL2 divides the combined Windows throughput by the combined WSL2
+throughput. Each platform's combined throughput is total output tokens across
+both tests divided by total measured seconds; individual rates are not
+averaged and no slow sample is discarded.
 
-Exact per-platform checks match the earlier benchmark SHA256, package versions, recorded module paths/hashes, model hashes, prompts, sampling, graph policy, GPU and engine settings. Windows still uses the guarded FlashInfer 0.6.17 overlay; WSL2 still uses FlashInfer 0.7.2. No dependency upgrade, engine patch, AOT enablement, clock lock or application shutdown was applied for this confirmation. These remain comparisons of different platform software stacks, rather than an isolated operating-system experiment.
+Execution order was Windows test 1, WSL2 test 1, WSL2 test 2, Windows test 2.
+GPU benchmarks did not overlap. Every process executed all four cases in the
+same case order, with three warmups and five measured calls per case.
+All four processes and output-count checks passed: 16 case/process
+combinations, 80 measured generate calls and 48 warmup calls.
 
-The superseded short-input Windows run included two slower 1.5171/1.9140-second calls. Its complete original data remains archived in the earlier evidence directory. The new Windows calls span 0.8725–0.9479 seconds across both repetitions; the WSL2 calls span 0.8962–0.9413 seconds. This identifies the contribution of the old slow calls to the reported ratio, but does not establish their underlying cause. The evidence cannot distinguish CPU scheduling, GPU clocks, driver scheduling or other transient interference; no such explanation is asserted as a finding.
+Per-platform checks verify benchmark SHA256, package versions, recorded module
+paths/hashes, model hashes, prompts, sampling, graph policy, GPU and engine
+settings. Windows uses guarded FlashInfer 0.6.17+g2ea3c24b5dac; WSL2 uses
+FlashInfer 0.7.2. Dependencies and engine settings were fixed for the two
+repetitions. Clocks were unlocked and unrelated applications remained running.
+GPU telemetry was queried before/after each process, outside generation timing;
+lightweight CPU samples accompany the logs.
 
-All four processes and all output-count checks passed (16 case/process combinations, 80 measured generate calls, plus 48 warmup calls). Small differences across these two repeats do not establish a stable ranking. 2 case/process combinations had repeated greedy-ID variation; 4 of eight paired case comparisons had matching first-warmup IDs. Completion/count checks are not a quality evaluation or a proof of output equivalence.
+At input 128 / batch 1, Windows calls span 0.8725–0.9479 seconds and WSL2
+calls span 0.8962–0.9413 seconds. Two repetitions do not establish a stable
+small-percentage performance ranking or isolate an operating-system effect.
 
-The [confirmation evidence](../validation/flashinfer-paired-retest-20261029/) contains all four raw reports/logs, command order, exact-version guards, pre/post GPU snapshots, lightweight CPU samples, source snapshots, recomputed comparisons and checksums. GPU telemetry was queried only before/after each process, outside generation timing. The main tables now use the pooled FlashInfer values from this confirmation and recompute every dependent ratio. Their vLLM/Triton values remain from the earlier cohort; the tables are explicitly a summary across these runs. Superseded raw measurements remain archived rather than contributing to the current pooled FlashInfer values.
-<!-- flashinfer-confirmation:end -->
+Two case/process combinations show repeated greedy-ID variation; four of
+eight cross-platform case comparisons match first-warmup IDs. Completion
+and token-count checks do not establish output equivalence or answer quality.
+
+The [measurement evidence](../validation/flashinfer-paired-retest-20261029/)
+contains the four reports/logs, command order, exact-version guards, GPU/CPU
+samples, source snapshots, recomputed comparisons and checksums.
 
 ## Method
 
@@ -93,7 +100,8 @@ safetensors bytes, verified by SHA256. Inputs are deterministic token IDs:
 seed 20261028 + input_length * 100 + batch_size, drawn from [1000,32000).
 Input lengths are 128/512; batches are 1/4. Each request generates exactly 128
 tokens with temperature zero and ignore_eos true. Each case has three warmups
-and five measured calls. Model loading, compilation, capture and warmups are
+and five measured calls per engine process. FlashInfer has two independent
+process repetitions per platform, as detailed above. Model loading, compilation, capture and warmups are
 excluded. Timings include prefill, decode, engine IPC, normal text-output
 processing and immediate returned-ID/count checks. There is no HTTP or input
 tokenization overhead. Throughput is total measured output tokens divided by
@@ -119,23 +127,15 @@ max_model_len 704, max_num_seqs 4, max_num_batched_tokens 2816, explicit
 335544320-byte KV capacity, prefix caching disabled, chunked prefill enabled,
 automatic attention selection, and graph capture sizes [1,4]. Its resolved
 compilation/attention/graph configuration is stored in each report. Graph policy
-is not forced to equal TokenSpeed's decode-only policy: the old PR used vLLM's
-default Inductor plus FULL_AND_PIECEWISE capture. The independent vLLM process
+uses vLLM's default Inductor plus FULL_AND_PIECEWISE capture; it differs
+from TokenSpeed's decode-only policy. The independent vLLM process
 is checked not to import the TokenSpeed engine.
 
-GPU workloads run sequentially. Two preliminary native attempts are rejected:
-the restricted process could not read the intended FlashInfer overlay and
-loaded global FlashInfer 0.7.2 instead, with unreadable version metadata. The
-first also encountered a safetensors-loading access violation while dependency
-installation was running; the second failed in the unintended 0.7.2 JIT's
-Windows Ninja file. Neither is counted as a FlashInfer 0.6.17 measurement.
-Final native measurements run under the authorized account after WSL2 testing,
-with a fail-fast check of the actual FlashInfer import path and exact 0.6.17
-version for both TokenSpeed configurations. No directory ACL or global package
-is changed. The preliminary logs and reports are retained. Clocks remain
-unlocked and configuration order is fixed; five rounds do not establish a
-stable small performance ranking. No unrelated application or distribution
-is stopped.
+GPU workloads run sequentially. Native processes verify the actual FlashInfer
+import path and exact 0.6.17 version before testing. Clocks remain unlocked;
+configuration order is fixed. No unrelated application or distribution is
+stopped. These measurements include scheduling effects and do not isolate
+the contribution of a single kernel, compiler or operating system.
 
 ## Environments
 
@@ -149,72 +149,57 @@ is stopped.
 | TokenSpeed Triton | not installed | not installed | 3.9.10.post20261008 | 3.9.10.post20261028 |
 | vLLM | 0.26.0+cu134 | 0.26.0+cu134 | not installed | 0.26.0 |
 
-WSL2 initially had no vLLM installation. Official vLLM 0.26.0 and its supported
-dependencies are installed into a separate venv, without replacing TokenSpeed's
+Official vLLM 0.26.0 and its supported dependencies are installed into a separate venv, without replacing TokenSpeed's
 Torch/CUDA/FlashInfer packages. Linux vLLM pins Torch 2.11.0 and FlashInfer
 0.6.14, whereas native Windows uses the local Torch/CUDA port. Dependency and
 graph-policy differences mean cross-platform ratios compare software stacks,
 not the operating system in isolation.
 
-Default WSL2 vLLM V2 startup initially failed with "UVA is not available".
-The upstream VLLM_WSL2_ENABLE_PIN_MEMORY=1 option is used after a real hardware
-check: an int32 pinned CPU buffer shaped [4,704] is read by a CUDA pointwise
-kernel, then by three CUDA graph replays with changed CPU values. All reads
-must match exactly. This enables vLLM's supported opt-in without patching its
-UVA checks, changing its runner, or falling back to eager execution. The probe,
-flag, initial failure and selected retry are included in the evidence.
+WSL2 vLLM uses VLLM_WSL2_ENABLE_PIN_MEMORY=1 after a hardware check:
+an int32 pinned CPU buffer shaped [4,704] is read by a CUDA pointwise kernel,
+then by three CUDA graph replays with changed CPU values. All reads must match
+exactly. The supported opt-in enables the V2 runner without patching UVA
+checks, changing its runner or falling back to eager execution. The probe,
+flag and resolved runtime configuration are included in the evidence.
 
-## Output consistency and historical PR comparison
+## Tested runtime and CuTe scope
 
-The unchanged vLLM/Triton reports and the two FlashInfer repetitions retain
-separate output-consistency diagnostics. The latest FlashInfer diagnostics
-are reported in the confirmation section; earlier six-configuration ID-match
-counts do not describe the updated summary tables. Inspect the raw reports
-for each cohort rather than inferring output equivalence from throughput.
+Native Windows uses the validated complete TokenSpeed port at 9a50ac82.
+WSL2 uses official upstream 864bcdd9 with recorded backend adapters. The
+[build guide](windows-arm64-build-details.md) and
+[source inventory](../../ports/windows-arm64/FILES.md) identify all source
+and dependency inputs needed to reconstruct the measured runtime. The
+compilation-only current-main change is a different integration boundary;
+these measurements do not establish its complete-engine throughput.
 
-Returned token counts and completion metadata are validated. This is not a
-quality evaluation. Raw input/output IDs, repeated-output flags, pairwise
-matching positions and common-prefix lengths are retained; throughput does
-not establish output equivalence.
+The [Windows-local CuTe native-host implementation](windows-arm64-cutedsl-native-host.md)
+passes its combined 33-test validation suite, including automatic router
+dispatch. Dense Qwen3-0.6B has no matching 7168-to-896 MoE-router projection:
+all model reports record aot_router.active=false. No model-throughput gain
+is attributed to the CuTe router. The compiler runs as x64 under Windows
+emulation; the generated host DLLs and execution Python are native ARM64.
 
-| Stack | Input / batch | Old tokens/s | Latest tokens/s | Latest vs old |
-| --- | --- | --- | --- | --- |
-| windows-vllm-auto | 128 / 1 | 144.75 | 137.79 | -4.81% |
-| windows-tokenspeed-triton | 128 / 1 | 144.22 | 143.62 | -0.41% |
-| windows-tokenspeed-flashinfer | 128 / 1 | 139.61 | 141.63 | +1.45% |
-| wsl2-tokenspeed-flashinfer | 128 / 1 | 140.99 | 138.85 | -1.52% |
-| windows-vllm-auto | 128 / 4 | 582.45 | 585.17 | +0.47% |
-| windows-tokenspeed-triton | 128 / 4 | 608.83 | 597.74 | -1.82% |
-| windows-tokenspeed-flashinfer | 128 / 4 | 564.28 | 569.60 | +0.94% |
-| wsl2-tokenspeed-flashinfer | 128 / 4 | 544.32 | 564.50 | +3.71% |
-| windows-vllm-auto | 512 / 1 | 133.66 | 134.78 | +0.84% |
-| windows-tokenspeed-triton | 512 / 1 | 128.36 | 130.01 | +1.28% |
-| windows-tokenspeed-flashinfer | 512 / 1 | 125.84 | 130.94 | +4.05% |
-| wsl2-tokenspeed-flashinfer | 512 / 1 | 128.32 | 132.60 | +3.33% |
-| windows-vllm-auto | 512 / 4 | 509.51 | 509.22 | -0.06% |
-| windows-tokenspeed-triton | 512 / 4 | 515.84 | 522.49 | +1.29% |
-| windows-tokenspeed-flashinfer | 512 / 4 | 502.62 | 490.88 | -2.34% |
-| wsl2-tokenspeed-flashinfer | 512 / 4 | 477.95 | 501.26 | +4.88% |
+## Limitations and reproduction
 
-The old native vLLM/TokenSpeed values are PR #2's 2026-10-29 cohort. Its old
-WSL2 FlashInfer values are the separate 2026-10-28 cohort. PR #2 provides no
-old WSL2 vLLM or WSL2 Triton result for this matrix. Latest-versus-old changes
-use pooled confirmation values for FlashInfer and earlier values for vLLM/Triton.
-They are observational, not an isolated optimization effect.
+Raw reports retain input/output IDs, repeated-output flags, matching positions
+and common-prefix lengths. These fixed-length single-GPU measurements do not
+evaluate answer quality, HTTP serving, TTFT/ITL, continuous/variable-length
+traffic, full-model MoE, quantized inference, multi-GPU operation or prolonged
+stability. Software versions, attention implementations and graph policies
+differ across stacks; the results do not isolate an OS-only speedup.
 
-## Reproduce and inspect
-
-The [benchmark](../../tools/perf/benchmark_engine_matrix.py) runs both engines
-with explicit platform/backend/mode arguments. The
-[comparison validator](../../tools/perf/compare_engine_matrix.py) rejects
-incomplete rounds, different weights/prompts/workloads, wrong output counts
-and mismatched benchmark/GPU identities before deriving ratios.
-
-The [evidence directory](../validation/engine-matrix-retest-20261029/) contains
-the original six raw reports, logs, exact command/environment overrides, source
-snapshots, dependency pins, preliminary failures and derived comparisons.
+The [benchmark](../../tools/perf/benchmark_engine_matrix.py) uses explicit
+platform/backend/mode arguments. The
+[comparison validator](../../tools/perf/compare_engine_matrix.py) checks
+weights, prompts, workload, counts, timing rounds and GPU/script identities.
+The [summary validator](../../tools/perf/summarize_engine_retest.py) verifies
+the evidence and recomputes the displayed throughput and ratios.
+The [engine measurement evidence](../validation/engine-matrix-retest-20261029/)
+provides vLLM/Triton reports, exact commands, environment overrides, dependency
+pins and source snapshots; FlashInfer's measurement evidence is linked above.
 Controller snapshots resolve paths relative to .port; restore them there or
-adjust root paths on another machine. Existing native/WSL2 TokenSpeed build
-preparation is in the [versioned build report](windows-arm64-build-details.md).
-Do not substitute compile-only current-main wheels for the historical complete
-runtime without the separate runtime integration work.
+adjust root paths when reproducing on another machine.
+
+```bash
+python -m tools.perf.summarize_engine_retest --root . --report latest-engine-summary.json
+```
