@@ -1,0 +1,114 @@
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 5375.76it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Passing `generation_config` together with generation-related arguments=({'do_sample', 'eos_token_id'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.
+generate input=128 batch=1: 22.36 tok/s consistent=True
+USDT:2026-10-29 13:14:47 44984:43444 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 13:14:55 44984:43444 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+Starting graph KV-content/counter audit
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:  10%|█         | 32/311 [00:00<00:00, 312.97it/s]
+Loading weights:  26%|██▌       | 81/311 [00:00<00:00, 411.86it/s]
+Loading weights:  45%|████▌     | 141/311 [00:00<00:00, 494.67it/s]
+Loading weights:  61%|██████▏   | 191/311 [00:00<00:00, 464.71it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 706.84it/s]
+{
+  "throughput_samples": false,
+  "torch": "2.14.0a0+git20b0f57",
+  "torch_cuda": "13.4",
+  "gpu": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+  "baseline_source_sha256": "539bdd34b8d29361f3b2407309e31036c7114b777bb1363e013d20203a4acacd",
+  "script_sha256": "f8a46a00299212fc9065ba4066df984a246f4c43b658c88f5761176e94109daa",
+  "cases": [
+    {
+      "normalization": "torch",
+      "input_length": 512,
+      "batch_size": 4,
+      "capacity": 704,
+      "math_reduction": false,
+      "output_ids_match": true,
+      "graph_cache_lengths": [
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639
+      ],
+      "graph_position": 639,
+      "graph_output_index": 128,
+      "max_key_abs_error": 0.0,
+      "max_value_abs_error": 0.0,
+      "kv_numerical_check_passed": true
+    },
+    {
+      "normalization": "flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "capacity": 256,
+      "math_reduction": true,
+      "output_ids_match": true,
+      "graph_cache_lengths": [
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255
+      ],
+      "graph_position": 255,
+      "graph_output_index": 128,
+      "max_key_abs_error": 0.0,
+      "max_value_abs_error": 0.0,
+      "kv_numerical_check_passed": true
+    }
+  ],
+  "passed": true,
+  "tokenspeed_modules_loaded": []
+}

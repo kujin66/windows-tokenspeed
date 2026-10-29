@@ -1,0 +1,149 @@
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 3141.70it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Passing `generation_config` together with generation-related arguments=({'do_sample', 'eos_token_id'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.
+generate input=128 batch=1: 34.16 tok/s consistent=True
+USDT:2026-10-29 13:06:51 5816:5816 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 13:06:57 5816:5816 SyncActivityProfilerHandler.cpp:46] profiler_stop
+Starting graph KV-content/counter audit
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:   5%|▍         | 15/311 [00:00<00:03, 97.99it/s]
+Loading weights:   8%|▊         | 25/311 [00:01<00:26, 10.72it/s]
+Loading weights:  10%|▉         | 30/311 [00:02<00:27, 10.33it/s]
+Loading weights:  11%|█▏        | 35/311 [00:02<00:23, 11.94it/s]
+Loading weights:  12%|█▏        | 38/311 [00:04<00:50,  5.37it/s]
+Loading weights:  20%|█▉        | 62/311 [00:05<00:17, 14.04it/s]
+Loading weights:  21%|██        | 66/311 [00:05<00:16, 14.47it/s]
+Loading weights:  23%|██▎       | 70/311 [00:06<00:21, 11.01it/s]
+Loading weights:  25%|██▌       | 78/311 [00:06<00:16, 13.71it/s]
+Loading weights:  30%|██▉       | 92/311 [00:06<00:10, 20.87it/s]
+Loading weights:  31%|███       | 96/311 [00:06<00:10, 21.37it/s]
+Loading weights:  32%|███▏      | 100/311 [00:07<00:11, 17.99it/s]
+Loading weights:  33%|███▎      | 103/311 [00:07<00:11, 18.84it/s]
+Loading weights:  34%|███▍      | 107/311 [00:07<00:13, 14.65it/s]
+Loading weights:  36%|███▌      | 112/311 [00:08<00:14, 13.52it/s]
+Loading weights:  37%|███▋      | 115/311 [00:08<00:13, 14.40it/s]
+Loading weights:  39%|███▉      | 122/311 [00:08<00:09, 19.22it/s]
+Loading weights:  40%|████      | 125/311 [00:08<00:11, 15.87it/s]
+Loading weights:  41%|████      | 127/311 [00:09<00:16, 11.18it/s]
+Loading weights:  42%|████▏     | 131/311 [00:09<00:15, 11.36it/s]
+Loading weights:  43%|████▎     | 133/311 [00:09<00:14, 11.92it/s]
+Loading weights:  44%|████▎     | 136/311 [00:10<00:20,  8.58it/s]
+Loading weights:  44%|████▍     | 138/311 [00:10<00:21,  8.09it/s]
+Loading weights:  45%|████▌     | 140/311 [00:10<00:20,  8.27it/s]
+Loading weights:  46%|████▌     | 142/311 [00:11<00:22,  7.68it/s]
+Loading weights:  46%|████▌     | 143/311 [00:12<00:51,  3.28it/s]
+Loading weights:  47%|████▋     | 147/311 [00:12<00:35,  4.65it/s]
+Loading weights:  48%|████▊     | 148/311 [00:14<01:00,  2.68it/s]
+Loading weights:  49%|████▊     | 151/311 [00:14<00:40,  3.95it/s]
+Loading weights:  49%|████▉     | 152/311 [00:14<00:43,  3.64it/s]
+Loading weights:  52%|█████▏    | 163/311 [00:14<00:13, 11.15it/s]
+Loading weights:  55%|█████▍    | 171/311 [00:15<00:07, 17.52it/s]
+Loading weights:  57%|█████▋    | 176/311 [00:16<00:17,  7.87it/s]
+Loading weights:  60%|██████    | 188/311 [00:16<00:08, 14.37it/s]
+Loading weights:  62%|██████▏   | 194/311 [00:17<00:10, 11.44it/s]
+Loading weights:  64%|██████▍   | 199/311 [00:18<00:14,  7.81it/s]
+Loading weights:  67%|██████▋   | 209/311 [00:19<00:08, 11.60it/s]
+Loading weights:  69%|██████▉   | 216/311 [00:19<00:07, 13.53it/s]
+Loading weights:  71%|███████▏  | 222/311 [00:19<00:06, 13.27it/s]
+Loading weights: 100%|██████████| 311/311 [00:19<00:00, 15.65it/s]
+{
+  "throughput_samples": false,
+  "torch": "2.14.0+cu130",
+  "torch_cuda": "13.0",
+  "gpu": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+  "baseline_source_sha256": "539bdd34b8d29361f3b2407309e31036c7114b777bb1363e013d20203a4acacd",
+  "script_sha256": "f8a46a00299212fc9065ba4066df984a246f4c43b658c88f5761176e94109daa",
+  "cases": [
+    {
+      "normalization": "torch",
+      "input_length": 512,
+      "batch_size": 4,
+      "capacity": 704,
+      "math_reduction": false,
+      "output_ids_match": true,
+      "graph_cache_lengths": [
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639
+      ],
+      "graph_position": 639,
+      "graph_output_index": 128,
+      "max_key_abs_error": 0.0,
+      "max_value_abs_error": 0.0,
+      "kv_numerical_check_passed": true
+    },
+    {
+      "normalization": "flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "capacity": 256,
+      "math_reduction": true,
+      "output_ids_match": true,
+      "graph_cache_lengths": [
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255
+      ],
+      "graph_position": 255,
+      "graph_output_index": 128,
+      "max_key_abs_error": 0.0,
+      "max_value_abs_error": 0.0,
+      "kv_numerical_check_passed": true
+    }
+  ],
+  "passed": true,
+  "tokenspeed_modules_loaded": []
+}

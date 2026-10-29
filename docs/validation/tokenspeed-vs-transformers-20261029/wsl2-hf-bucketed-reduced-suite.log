@@ -1,0 +1,16 @@
+Starting bucketed graph wsl2, input=128, capacity=256, RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:  48%|████▊     | 148/311 [00:00<00:00, 1471.38it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2677.88it/s]
+loop-static-graph input=128 batch=1: 126.93 tok/s consistent=True
+loop-static-graph input=128 batch=4: 396.61 tok/s consistent=True
+Completed wsl2-hf-loop-static-graph-bucketed-flashinfer-reduced-in128.json
+Starting bucketed graph wsl2, input=512, capacity=640, RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:  40%|███▉      | 123/311 [00:00<00:00, 1220.74it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2436.06it/s]
+loop-static-graph input=512 batch=1: 110.20 tok/s consistent=True
+loop-static-graph input=512 batch=4: 283.24 tok/s consistent=True
+Completed wsl2-hf-loop-static-graph-bucketed-flashinfer-reduced-in512.json

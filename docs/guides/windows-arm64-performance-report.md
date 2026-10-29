@@ -13,6 +13,23 @@ consistency differences, rather than a claim of operating-system superiority.
 This report organizes evidence collected on **2026-10-28**. Publishing it does
 not rerun or increase the historical test counts.
 
+A separate **2026-10-29** experiment now measures the incremental benefit
+against actual Transformers/PyTorch generation **without importing TokenSpeed**.
+See [TokenSpeed versus Transformers](tokenspeed-vs-transformers.md) for fresh
+eager and decode-graph comparisons, optimized no-TokenSpeed controls, dispatch
+diagnostics, consistency checks and limitations. Its ratios use newly rerun
+TokenSpeed measurements; they do not combine this historical cohort with the
+new baseline.
+
+In that fresh study, TokenSpeed FlashInfer eager is **2.99–3.32x stock HF
+generate on Windows** and **1.76–2.19x on WSL2**. Against a stronger
+no-TokenSpeed **decode graph with request-sized KV and raw FI RMSNorm**, its
+graph throughput advantage narrows to **1.14–1.80x on Windows** and
+**1.11–1.65x on WSL2**. The controls demonstrate graph and fused-normalization
+benefits available without TokenSpeed; remaining engine/kernel differences
+are not a separately measured scheduler contribution. Fresh cross-engine
+token-ID differences and some TokenSpeed repeat variation remain unresolved.
+
 ## What is measured: TokenSpeed Engine throughput
 
 **Every row in the final eager/decode-graph tables is a TokenSpeed model-generation
@@ -63,10 +80,11 @@ For example, +30.75–40.73% means selecting the adapted FlashInfer path improve
 TokenSpeed's Windows eager throughput relative to its Triton control. It is not
 a measured TokenSpeed speedup over another inference engine.
 
-**No non-TokenSpeed baseline was measured.** The report therefore cannot quantify
-TokenSpeed's incremental benefit over Transformers/PyTorch generation, vLLM or
-TensorRT-LLM, or isolate its scheduler's contribution. That would require a
-matched end-to-end comparison against another engine or a controlled ablation.
+**This historical 2026-10-28 matrix contains no non-TokenSpeed baseline.** The
+new [matched 2026-10-29 study](tokenspeed-vs-transformers.md) supplies real
+Transformers/PyTorch controls and graph/RMSNorm/cache/dispatcher ablations.
+Neither study measures an independent scheduler-only contribution or compares
+against vLLM or TensorRT-LLM.
 The separate operator/synchronization microbenchmarks are diagnostic experiments;
 their timings must not be presented as model-generation throughput.
 
@@ -374,6 +392,7 @@ bare-Linux TCC, nor as missing NCCL for a world-size-one workload.
 | [WSL2 paired baseline](../validation/windows-wsl2-perf-20261028-after-reboot/README.md) | Linux builds/fixes, native audit, paired ten-round raw data |
 | [Investigation](../validation/windows-wsl2-diagnosis-20261028/README.md) | Microbenchmarks, synchronization tests, profiler summaries, earlier graph experiments |
 | [Final matrix](../validation/windows-flashinfer-0617-20261028/README.md) | Six raw runs, eight comparison rows, output IDs, probes, patches, source snapshots |
+| [Fresh no-TokenSpeed comparison](../validation/tokenspeed-vs-transformers-20261029/README.md) | Fresh paired engine runs; HF eager/graph, fusion/cache controls, backend and graph-state probes, source snapshots and comparison validator |
 
 Each record has an `evidence-sha256.json` manifest with original/public hashes.
 Public copies redact local user paths, hostnames and internal domains. The
@@ -387,9 +406,10 @@ refer to the tested source revisions.
 Run these publication checks from the PR checkout. Build and installed-wheel
 validation commands in the detailed guide run from the reconstructed checkout.
 
-The publication checks separately passed 28 GPU-free tests for performance
+The current publication checks passed 44 GPU-free tests for performance
 aggregation, report compatibility, hash integrity, derived percentages and
-execution-mode labels. They also verified all 152 manifest entries and all
+execution-mode labels, including 16 added matched-comparison checks. The
+historical evidence verifier also verified all 152 manifest entries and all
 eight final comparison rows. Source reconstruction also verifies all 66 source
 postimages and 136 additional historical build evidence files. Real local-Git
 tests cover reconstruction, refusal to overwrite, corrupted input rejection

@@ -1,0 +1,784 @@
+{
+  "throughput_samples": false,
+  "torch": "2.14.0+cu130",
+  "torch_cuda": "13.0",
+  "gpu": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+  "baseline_source_sha256": "539bdd34b8d29361f3b2407309e31036c7114b777bb1363e013d20203a4acacd",
+  "script_sha256": "f8a46a00299212fc9065ba4066df984a246f4c43b658c88f5761176e94109daa",
+  "cases": [
+    {
+      "normalization": "torch",
+      "input_length": 512,
+      "batch_size": 4,
+      "capacity": 704,
+      "math_reduction": false,
+      "output_ids_match": true,
+      "graph_cache_lengths": [
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639,
+        639
+      ],
+      "graph_position": 639,
+      "graph_output_index": 128,
+      "max_key_abs_error": 0.0,
+      "max_value_abs_error": 0.0,
+      "kv_numerical_check_passed": true
+    },
+    {
+      "normalization": "flashinfer",
+      "input_length": 128,
+      "batch_size": 4,
+      "capacity": 256,
+      "math_reduction": true,
+      "output_ids_match": true,
+      "graph_cache_lengths": [
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255,
+        255
+      ],
+      "graph_position": 255,
+      "graph_output_index": 128,
+      "max_key_abs_error": 0.0,
+      "max_value_abs_error": 0.0,
+      "kv_numerical_check_passed": true
+    }
+  ],
+  "passed": true,
+  "rmsnorm_ablation": {
+    "flashinfer_version": "0.7.2",
+    "flashinfer_module": "/opt/tokenspeed-work/venv/lib/python3.13/site-packages/flashinfer/__init__.py",
+    "module_count": 113,
+    "modules": [
+      {
+        "name": "model.layers.0.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.0.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.5
+      },
+      {
+        "name": "model.layers.0.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.0.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0078125
+      },
+      {
+        "name": "model.layers.1.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.1.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.1.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0078125
+      },
+      {
+        "name": "model.layers.1.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.2.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.2.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.2.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.00390625
+      },
+      {
+        "name": "model.layers.2.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.3.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.3.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.3.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.3.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.4.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.4.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.4.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0078125
+      },
+      {
+        "name": "model.layers.4.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.5.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.5.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.5.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.5.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.6.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.6.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.25
+      },
+      {
+        "name": "model.layers.6.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.6.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.7.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.7.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.7.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.7.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.8.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.8.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.8.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.8.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.9.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.9.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.9.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.9.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.10.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.10.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.10.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.10.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.11.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.11.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.11.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.11.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.12.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.12.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.12.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.12.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.13.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.13.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.13.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.13.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.14.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.14.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.14.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.14.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.15.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.15.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.15.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.15.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.16.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.16.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.16.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.16.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.17.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.17.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.17.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.25
+      },
+      {
+        "name": "model.layers.17.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.18.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.18.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.18.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.18.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.19.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.19.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.19.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.19.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.20.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.20.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.20.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.20.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.21.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.21.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.21.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.25
+      },
+      {
+        "name": "model.layers.21.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.22.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.22.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.22.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.25
+      },
+      {
+        "name": "model.layers.22.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.23.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.015625
+      },
+      {
+        "name": "model.layers.23.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.23.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.25
+      },
+      {
+        "name": "model.layers.23.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.24.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.24.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.24.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.5
+      },
+      {
+        "name": "model.layers.24.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.25.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.25.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.25.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 1.0
+      },
+      {
+        "name": "model.layers.25.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.26.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.26.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.03125
+      },
+      {
+        "name": "model.layers.26.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.5
+      },
+      {
+        "name": "model.layers.26.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.27.self_attn.q_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.0625
+      },
+      {
+        "name": "model.layers.27.self_attn.k_norm",
+        "width": 128,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      },
+      {
+        "name": "model.layers.27.input_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.25
+      },
+      {
+        "name": "model.layers.27.post_attention_layernorm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 1.0
+      },
+      {
+        "name": "model.norm",
+        "width": 1024,
+        "fp32_max_abs_error": 0.0,
+        "original_hf_max_abs_difference": 0.125
+      }
+    ],
+    "scope": "Only Qwen3 RMSNorm replaced; attention remains PyTorch SDPA; MLP and weights unchanged"
+  },
+  "tokenspeed_modules_loaded": []
+}

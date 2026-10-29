@@ -1,0 +1,37 @@
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Memory efficient kernel not used because: (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1189.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Memory Efficient attention has been runtime disabled. (Triggered internally at <pytorch-build>/aten\src\ATen/native/transformers/sdp_utils_cpp.h:571.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Flash attention kernel not used because: (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1191.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Torch was not compiled with flash attention. (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1006.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: cuDNN attention kernel not used because: (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1193.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: cuDNN attention has been runtime disabled. (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:902.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: For dense input, both fused kernels require query, key and value to have the same num_heads. Query.sizes(): [1, 16, 128, 128], Key sizes(): [1, 8, 128, 128], Value sizes(): [1, 8, 128, 128] instead. To broadcast dense inputs, try using unsqueeze and expand_to before passing them into the kernel. (Triggered internally at <pytorch-build>/aten\src\ATen/native/transformers/sdp_utils_cpp.h:445.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+USDT:2026-10-29 12:26:39 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:26:39 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Memory efficient kernel not used because: (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1189.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Memory Efficient attention has been runtime disabled. (Triggered internally at <pytorch-build>/aten\src\ATen/native/transformers/sdp_utils_cpp.h:571.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Flash attention kernel not used because: (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1191.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: Torch was not compiled with flash attention. (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1006.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: cuDNN attention kernel not used because: (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:1193.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: cuDNN attention has been runtime disabled. (Triggered internally at <pytorch-build>/aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:902.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+C:\Users\user\projects\official-repos\windows-tokenspeed-pr\tools\perf\probe_sdpa_backends.py:62: UserWarning: For dense input, both fused kernels require query, key and value to have the same num_heads. Query.sizes(): [1, 16, 1, 128], Key sizes(): [1, 8, 192, 128], Value sizes(): [1, 8, 192, 128] instead. To broadcast dense inputs, try using unsqueeze and expand_to before passing them into the kernel. (Triggered internally at <pytorch-build>/aten\src\ATen/native/transformers/sdp_utils_cpp.h:445.)
+  actual = functional.scaled_dot_product_attention(q, k, v, **kwargs)
+USDT:2026-10-29 12:26:40 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:26:40 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-10-29 12:26:41 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:26:41 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-10-29 12:26:42 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:26:42 49672:24028 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+{"torch": "2.14.0a0+git20b0f57", "cuda": "13.4", "gpu": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)", "flash_compiled": false, "enabled": {"flash": true, "memory_efficient": true, "cudnn": true, "math": true, "math_reduction": false}, "throughput_samples": false, "tokenspeed_modules_loaded": []}

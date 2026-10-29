@@ -1,0 +1,185 @@
+{
+  "torch": "2.14.0+cu130",
+  "cuda": "13.0",
+  "gpu": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+  "flash_compiled": true,
+  "enabled": {
+    "flash": true,
+    "memory_efficient": true,
+    "cudnn": true,
+    "math": true,
+    "math_reduction": false
+  },
+  "cases": [
+    {
+      "name": "dynamic-prefill",
+      "q_shape": [
+        1,
+        16,
+        128,
+        128
+      ],
+      "kv_shape": [
+        1,
+        8,
+        128,
+        128
+      ],
+      "mask": false,
+      "backends": {
+        "flash": {
+          "passed": true,
+          "fp32_max_abs_error": 0.008151769638061523
+        },
+        "efficient": {
+          "passed": true,
+          "fp32_max_abs_error": 0.008151769638061523
+        },
+        "cudnn": {
+          "passed": true,
+          "fp32_max_abs_error": 0.008151769638061523
+        },
+        "math": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0074732303619384766
+        },
+        "math_reduced": {
+          "passed": true,
+          "fp32_max_abs_error": 0.01434636116027832
+        }
+      },
+      "auto_cpu_operator_names": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ]
+    },
+    {
+      "name": "dynamic-decode",
+      "q_shape": [
+        1,
+        16,
+        1,
+        128
+      ],
+      "kv_shape": [
+        1,
+        8,
+        192,
+        128
+      ],
+      "mask": false,
+      "backends": {
+        "flash": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0011120736598968506
+        },
+        "efficient": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0011120736598968506
+        },
+        "cudnn": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0011120736598968506
+        },
+        "math": {
+          "passed": true,
+          "fp32_max_abs_error": 0.000952988862991333
+        },
+        "math_reduced": {
+          "passed": true,
+          "fp32_max_abs_error": 0.002310127019882202
+        }
+      },
+      "auto_cpu_operator_names": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_flash_attention"
+      ]
+    },
+    {
+      "name": "static-decode-704",
+      "q_shape": [
+        1,
+        16,
+        1,
+        128
+      ],
+      "kv_shape": [
+        1,
+        16,
+        704,
+        128
+      ],
+      "mask": true,
+      "backends": {
+        "flash": {
+          "passed": false,
+          "error": "RuntimeError: No available kernel. Aborting execution."
+        },
+        "efficient": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0011120140552520752
+        },
+        "cudnn": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0011120140552520752
+        },
+        "math": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0009669065475463867
+        },
+        "math_reduced": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0028358623385429382
+        }
+      },
+      "auto_cpu_operator_names": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ]
+    },
+    {
+      "name": "static-decode-256",
+      "q_shape": [
+        1,
+        16,
+        1,
+        128
+      ],
+      "kv_shape": [
+        1,
+        16,
+        256,
+        128
+      ],
+      "mask": true,
+      "backends": {
+        "flash": {
+          "passed": false,
+          "error": "RuntimeError: No available kernel. Aborting execution."
+        },
+        "efficient": {
+          "passed": true,
+          "fp32_max_abs_error": 0.001251310110092163
+        },
+        "cudnn": {
+          "passed": true,
+          "fp32_max_abs_error": 0.001251310110092163
+        },
+        "math": {
+          "passed": true,
+          "fp32_max_abs_error": 0.0009673237800598145
+        },
+        "math_reduced": {
+          "passed": true,
+          "fp32_max_abs_error": 0.001911938190460205
+        }
+      },
+      "auto_cpu_operator_names": [
+        "aten::scaled_dot_product_attention",
+        "aten::_scaled_dot_product_efficient_attention"
+      ]
+    }
+  ],
+  "throughput_samples": false,
+  "tokenspeed_modules_loaded": []
+}

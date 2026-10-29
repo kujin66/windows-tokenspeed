@@ -1,0 +1,362 @@
+[
+  {
+    "file": "windows-hf-generate-torch.json",
+    "original_sha256": "58bd88d0cde87acaaf2dc0e9fafe2f2caa9a7abb8e94e3453c1263f56eca2333",
+    "published_sha256": "c087f67c0bab2270222be9711862212dc690eb2cf427dab747fa43748779a8be"
+  },
+  {
+    "file": "windows-hf-loop-dynamic-torch.json",
+    "original_sha256": "3bf92012029fa9b964ae53f5968d5268ba99fb1b6e561838254e18720fdec014",
+    "published_sha256": "3d16e3c72c05232ec3833e4c4705b2929ea21c48a17517efdcd76832e535fb36"
+  },
+  {
+    "file": "windows-hf-loop-static-eager-torch.json",
+    "original_sha256": "7530a8aadfa5f9e31f7eeddc3b21bb657173a78a77a31f430115b873880e4e25",
+    "published_sha256": "c0e9c118fa4c9b32511d6931e8ac7875d55767b7a938e24910113cb6404894dc"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-torch.json",
+    "original_sha256": "5ed850710ffc0b413b9b568ffa2ee3ba8bc40bf91445638b789af4a2a061dcac",
+    "published_sha256": "bdaad917c7b2ef0f161c0769e8da4eacba06501137f913e7b12b1e3cce4d5987"
+  },
+  {
+    "file": "windows-hf-loop-static-eager-flashinfer.json",
+    "original_sha256": "209bd3bd7718298ffd78346c86f0481ca28806dfd4c223ba367498c537f5ff2e",
+    "published_sha256": "fa9d3477599c9b261ffb226e53b0f76f415b90048454d587736735df13811a5d"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-flashinfer.json",
+    "original_sha256": "13420afc85eca74444da8365d95c70432414bd066bc493f6c0e882a7740608ca",
+    "published_sha256": "0b8e2b977e586e75bb08cfd8829378a3318f3c843662db6149d9ec14e48393e5"
+  },
+  {
+    "file": "wsl2-hf-generate-torch.json",
+    "original_sha256": "31ce7facd7e4245abd5c9151ccf6e183b140f6d2b68ba771ffd25fcf19f64512",
+    "published_sha256": "31ce7facd7e4245abd5c9151ccf6e183b140f6d2b68ba771ffd25fcf19f64512"
+  },
+  {
+    "file": "wsl2-hf-loop-dynamic-torch.json",
+    "original_sha256": "4d5f020ce6dedaf2f04e39c433a3eb6ce0fb37450dfb1cd7f3f42bb6ea298004",
+    "published_sha256": "4d5f020ce6dedaf2f04e39c433a3eb6ce0fb37450dfb1cd7f3f42bb6ea298004"
+  },
+  {
+    "file": "wsl2-hf-loop-static-eager-torch.json",
+    "original_sha256": "02092e0730eb23cb10bd7d68ecaeb4c8dcb0baa172eba69a26026f6cda7c8b97",
+    "published_sha256": "02092e0730eb23cb10bd7d68ecaeb4c8dcb0baa172eba69a26026f6cda7c8b97"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-torch.json",
+    "original_sha256": "f275b15810c9c663fed61f0e1b077f943a1c286fb382826de0da3e330b4a38c4",
+    "published_sha256": "f275b15810c9c663fed61f0e1b077f943a1c286fb382826de0da3e330b4a38c4"
+  },
+  {
+    "file": "wsl2-hf-loop-static-eager-flashinfer.json",
+    "original_sha256": "546f1813d3d045552e26489ca25015a00e2c4bfef0efafa91923f7a90754835b",
+    "published_sha256": "546f1813d3d045552e26489ca25015a00e2c4bfef0efafa91923f7a90754835b"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-flashinfer.json",
+    "original_sha256": "4b5814cab255bac060cd7783280e39cc00bbaffa8b42ad65ea302567a5a76287",
+    "published_sha256": "4b5814cab255bac060cd7783280e39cc00bbaffa8b42ad65ea302567a5a76287"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-bucketed-torch-in128.json",
+    "original_sha256": "237fea50adaa59c08bfc11192d8629f473858a40719c69abb45787e28e564c79",
+    "published_sha256": "d008b423b839305a76f5878565abff5ace4973a5563464e881382cccc92faecb"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-bucketed-torch-in512.json",
+    "original_sha256": "ed297d8c820bd53fdac7ed383bffe97dabb82fcd3eb238333711ff6060c98b2c",
+    "published_sha256": "9c5760200c849c78e6b8cc9359bad7188716e511a5fffe0a5d487151eca0c55c"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-bucketed-flashinfer-in128.json",
+    "original_sha256": "311b851328d850e20e42395ad78927bbb707ee174e7a3247406725f5054858c4",
+    "published_sha256": "be4e542964b7384fa59350ffb4f334ec09479fd35c3771430dd9e1dceef7b3cc"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-bucketed-flashinfer-in512.json",
+    "original_sha256": "b4e8ea1021170ae30947c048ed26aad65e447e4d7456d2ce572bb08c0cc8caad",
+    "published_sha256": "ed6d75f4f042ad40b66ee3ec2e89b7dda17bd7848b64a26490c96b5bd867ed21"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-bucketed-flashinfer-reduced-in128.json",
+    "original_sha256": "154fa42422f33883e83953a6233e2154610036dd3dac58e7e42be43575f0c8e7",
+    "published_sha256": "b4cc625e47a136071861cfa7a2b1eada2210f38c1c395b4b46ab17d22356f793"
+  },
+  {
+    "file": "windows-hf-loop-static-graph-bucketed-flashinfer-reduced-in512.json",
+    "original_sha256": "f5e6fc035a571eb982c8b8a99b85e46b21d3b87f1d5cb5e7d90c19c36b983b6d",
+    "published_sha256": "3c1f2a305c17b67020045aa62a26fd58952103eda546aef6d3648b158ebb584e"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-bucketed-torch-in128.json",
+    "original_sha256": "74cf78ade0474842123f40376013117ec221d987f9574155d8cbad43d56e3109",
+    "published_sha256": "74cf78ade0474842123f40376013117ec221d987f9574155d8cbad43d56e3109"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-bucketed-torch-in512.json",
+    "original_sha256": "b0ba9677b3d64394c630c8c867e087f69266f2a31d2588df1c70a045daf01100",
+    "published_sha256": "b0ba9677b3d64394c630c8c867e087f69266f2a31d2588df1c70a045daf01100"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-bucketed-flashinfer-in128.json",
+    "original_sha256": "48d4303a944db3c9df4c87254cc85fa3d34f7d388f5fc69e6449e056ee4f1be5",
+    "published_sha256": "48d4303a944db3c9df4c87254cc85fa3d34f7d388f5fc69e6449e056ee4f1be5"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-bucketed-flashinfer-in512.json",
+    "original_sha256": "9e51c6c7f146ba7e07bea97b22f102b2d30bf99de50b0b844153ee81c4387913",
+    "published_sha256": "9e51c6c7f146ba7e07bea97b22f102b2d30bf99de50b0b844153ee81c4387913"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-bucketed-flashinfer-reduced-in128.json",
+    "original_sha256": "ef8b7c6967b9cad184f7e8d11dfef6c4695020df44d61b8cfb3e61fa9b3dee37",
+    "published_sha256": "ef8b7c6967b9cad184f7e8d11dfef6c4695020df44d61b8cfb3e61fa9b3dee37"
+  },
+  {
+    "file": "wsl2-hf-loop-static-graph-bucketed-flashinfer-reduced-in512.json",
+    "original_sha256": "6091502c9cfa32d7a6581676838c07619ce7dbb2917dfcc3d6d3bf491a09bcb1",
+    "published_sha256": "6091502c9cfa32d7a6581676838c07619ce7dbb2917dfcc3d6d3bf491a09bcb1"
+  },
+  {
+    "file": "windows-tokenspeed-triton-eager.json",
+    "original_sha256": "c49e8201e6a24192743542a444da53896defb00147078d1c8466cd00a03165a9",
+    "published_sha256": "b390a99edd5c71999e52c69a583226fa9dcdccefd2d4dfbc945db983df61a063"
+  },
+  {
+    "file": "windows-tokenspeed-triton-graph.json",
+    "original_sha256": "a1e8d7ba226421ee4c76793dd3ed626ad3fa73420ce4ab24c657e6ea2f0fb3f7",
+    "published_sha256": "2202692d440bf8191b50574499d018362467702b1598c1745cfcd602b8cbaff8"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-eager.json",
+    "original_sha256": "f49757d83d5b0e015598be2c07d998fe3173843b8a3993a8ec20f7e58944fee1",
+    "published_sha256": "f3addfde2d7ee55f229f45140c1d78654218c96194f810402c225c7b03a294d6"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-graph.json",
+    "original_sha256": "ee6c5a366782fa08f678a6501814dac15d8648081a40d78ab23140fe5142b45f",
+    "published_sha256": "170be2bec1d2e5da074c962327069eb1ef6b133f0a25fc8271a4b94779f3a501"
+  },
+  {
+    "file": "wsl2-tokenspeed-flashinfer-eager.json",
+    "original_sha256": "dec5f02608a48420ea7d787d4d020267845ee4ab25501e532bda994e0c778937",
+    "published_sha256": "dec5f02608a48420ea7d787d4d020267845ee4ab25501e532bda994e0c778937"
+  },
+  {
+    "file": "wsl2-tokenspeed-flashinfer-graph.json",
+    "original_sha256": "5a2eef6d4e8dbbd135fdaa5da0e4241440979523ae1e937e66258864ba4ca3d4",
+    "published_sha256": "5a2eef6d4e8dbbd135fdaa5da0e4241440979523ae1e937e66258864ba4ca3d4"
+  },
+  {
+    "file": "windows-tokenspeed-triton-eager.log",
+    "original_sha256": "ab93ba6443cfe37e9978714a8583a9000d45423b23563a9dec0a216928c7d660",
+    "published_sha256": "10995cd968812db6c564eb04d0c5e195fabe650d74d8bc7e7e5c22e9b326ec5c"
+  },
+  {
+    "file": "windows-tokenspeed-triton-graph.log",
+    "original_sha256": "618a45044a12f316ca5a5e3cf22175a0a16432b1cdeb406381e6063309e568a5",
+    "published_sha256": "226668ad6b28876b69797488088d0f7afa49263b25aefd8fe7d86974dbc6fb00"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-eager.log",
+    "original_sha256": "e611993d62662c0c2e039f61e3df95012a4c76af4471c112ba8140c4ca6719e2",
+    "published_sha256": "0855f6039373b89e77ae4326a557f9b755c55388ba33e3a5cbe0a3c3b49206ba"
+  },
+  {
+    "file": "windows-tokenspeed-flashinfer-graph.log",
+    "original_sha256": "96a55a223d27835548f61c42518afd7a1fcb455e2e698a70f2cd9e863ae38b5c",
+    "published_sha256": "bbfa1c9e580ff95ea32470a07101960fc14319b356c2eec617d38123748e85b0"
+  },
+  {
+    "file": "wsl2-tokenspeed-flashinfer-eager.log",
+    "original_sha256": "4a788850f5d153d74552ba2cf2518dfc48fa9ed88571c39fbb65b258a00a9242",
+    "published_sha256": "49ce41c9713995badc1fd5fe8ca9c11d182f204dcb44ddc53ea7da566e1763e5"
+  },
+  {
+    "file": "wsl2-tokenspeed-flashinfer-graph.log",
+    "original_sha256": "b38223262d70b91d9e7b5e4ab67a7543e0c695e30fdcd25c5c141e72598032fa",
+    "published_sha256": "5876fff7b62984f981e4d634bbc0f20e6fff4adef25617fc468a10ec4c921456"
+  },
+  {
+    "file": "windows-hf-suite.log",
+    "original_sha256": "95168ff814dd4115206aae6a3b37fd20f0559a90d50c6565efb4f1dd5f015e20",
+    "published_sha256": "a336e39bb39650867ab81151d7379ec60dbe9153ecaa74f6c9ad65518499da1c"
+  },
+  {
+    "file": "windows-hf-bucketed-suite.log",
+    "original_sha256": "52c30f857b629d4c9977187b5bd01aab6f7a7136ba0caf3e70ac4a08c94daea5",
+    "published_sha256": "121dd865a93b15917a2b7bb60606e70f7abbabc1def9cc6e4afdb911602bfd88"
+  },
+  {
+    "file": "windows-hf-bucketed-reduced-suite.log",
+    "original_sha256": "117aea4506f4c9468b8da771ada33fa6919f546b99e583ddc4732042164a06bd",
+    "published_sha256": "d0c16953f79df2e37d7d788562bbb206b706bd2563d8c23129f856f3f7a4743d"
+  },
+  {
+    "file": "windows-sdpa-backends.json",
+    "original_sha256": "492f34a0bc1839814dae68693dd8251e6eac87dccb4d5198b98cf5c5c6a20ad0",
+    "published_sha256": "ea9958edc0d5384ca3cdf199394942baa99b955806a7b06567c40632c4c3915d"
+  },
+  {
+    "file": "windows-sdpa-backends.log",
+    "original_sha256": "383938e7eefe125724ef16b171290cbeb1d027c98870c2d0aff1658ee60cc0d1",
+    "published_sha256": "532ac76a17a6b7bc6772ccae058e78dd37b9ca6a2b3cfc045b75ec0c0a1874a1"
+  },
+  {
+    "file": "windows-hf-graph-state.json",
+    "original_sha256": "10942eaab29db2c1e60e6276efc43a0a32542919075d8abf99133dffb819c891",
+    "published_sha256": "473a7b99a420e3e0fea0e1cb8189aa2f3d197e52f2ea81334128a9a8f0d67542"
+  },
+  {
+    "file": "windows-followup-checks.log",
+    "original_sha256": "55fff6f4aa158512636b2dd5ddbcd8f45731d406b9d531d85cb1be45c0aaa2b4",
+    "published_sha256": "b439eeb7392cb188c4def1c317568af86160dbbafd901c8123fa37b9cfca691a"
+  },
+  {
+    "file": "windows-diagnostic-hf-generate-cudnn.json",
+    "original_sha256": "65adbc0a29fb0a436ca3a93364ce74d39a9f84b894bb5b39ce689a17ceaf0719",
+    "published_sha256": "8d48cd89bfb0ab3d447d6f892ee8ffbfe59a6741c4a2dabc7e3b115360d46308"
+  },
+  {
+    "file": "wsl2-hf-suite.log",
+    "original_sha256": "060172f9ebe0f27b8c425d7c8a203df0bca20a56e413be5784cccf9cb7d84546",
+    "published_sha256": "1a5285cfa28778c2cf6db85132afe16b5ab2a870eadf4ce26fc90dad4ed2da60"
+  },
+  {
+    "file": "wsl2-hf-bucketed-suite.log",
+    "original_sha256": "38778d64defab60684f579dcf7b47de9ee05f932869bdcc552f23b38ff29a79c",
+    "published_sha256": "c4cdd949d040f39f0426d776f438ca5e6da48e3e90272930901fb27300a456c8"
+  },
+  {
+    "file": "wsl2-hf-bucketed-reduced-suite.log",
+    "original_sha256": "3deb8edfbd4c7678d9006d638e7b7288137977ecd02aab51ae7f7fd94e64656d",
+    "published_sha256": "913c8a32519cc55fc2f66f80cac1e6c25387e82bf8982b076d7e49c583ddaff9"
+  },
+  {
+    "file": "wsl2-sdpa-backends.json",
+    "original_sha256": "ef0163005bea434ed65000a364fa27cc4499d86132ab906744dc47eea6c43606",
+    "published_sha256": "ef0163005bea434ed65000a364fa27cc4499d86132ab906744dc47eea6c43606"
+  },
+  {
+    "file": "wsl2-sdpa-backends.log",
+    "original_sha256": "f8c3e015a56eb8a5b0c2df9d177518373c633c1bea8cd38686050159f29cab38",
+    "published_sha256": "737522c7b83cba66dd2d9da70a28b87bec7e800cbe4829fe48eaee42bfff231b"
+  },
+  {
+    "file": "wsl2-hf-graph-state.json",
+    "original_sha256": "7891dea2048272aa3b1d81ff4e14956e84e14338303d189d905b42ae3a0c3dfc",
+    "published_sha256": "7891dea2048272aa3b1d81ff4e14956e84e14338303d189d905b42ae3a0c3dfc"
+  },
+  {
+    "file": "wsl2-followup-checks.log",
+    "original_sha256": "8732790d9d1c7bde40e91fc871e14793c74faec500909424cf6f0e0d57882a8e",
+    "published_sha256": "637e343a68ac6071d49b196e62d6b753de56700a3e7240939f5e3f09ddcaa31f"
+  },
+  {
+    "file": "wsl2-diagnostic-hf-generate-cudnn.json",
+    "original_sha256": "4e1480d79f75d9619310864fc4b16cdd445bf411363878c9ca9608cc20ffe7ec",
+    "published_sha256": "4e1480d79f75d9619310864fc4b16cdd445bf411363878c9ca9608cc20ffe7ec"
+  },
+  {
+    "file": "source-sha256.json",
+    "original_sha256": "008a31e0169b6941233a54573475349fb65fce874620579fc475447d4d9de7ef",
+    "published_sha256": "0281202aa2082c9b4d7ac8113ec1876469119fd4a01ca7033bfdbcbc33f7d034"
+  },
+  {
+    "file": "windows-commands.json",
+    "original_sha256": "27905b38bd38992b23f70013f3f3398e1bea4d07f666fecb7afe1c41e909dbd6",
+    "published_sha256": "a306207491831c8afc5680c3b607e705dd9920d293afd9ec502ab92d8a18e8df"
+  },
+  {
+    "file": "wsl2-phase.log",
+    "original_sha256": "36827081864ab53081a67fecebca370f40883c392eb8484da4c3cdeaca038965",
+    "published_sha256": "36827081864ab53081a67fecebca370f40883c392eb8484da4c3cdeaca038965"
+  },
+  {
+    "file": "sources/benchmark_without_tokenspeed.py",
+    "original_sha256": "539bdd34b8d29361f3b2407309e31036c7114b777bb1363e013d20203a4acacd",
+    "published_sha256": "539bdd34b8d29361f3b2407309e31036c7114b777bb1363e013d20203a4acacd"
+  },
+  {
+    "file": "sources/continue_engine_baseline.py",
+    "original_sha256": "3dfbc461c07eeb626430a4e15d126f383bcf11531e55b331ae5466e03230d62d",
+    "published_sha256": "c0d71a4b0088bc19177307a3ce425089d9cd45b30f0d0d266ad167b0d0998df9"
+  },
+  {
+    "file": "sources/flashinfer_comparison_bench.py",
+    "original_sha256": "9388ebbb2208d5ec8f4f8fc55c37eb6c0a08b5c6dc48cab47193e14fe6199026",
+    "published_sha256": "9388ebbb2208d5ec8f4f8fc55c37eb6c0a08b5c6dc48cab47193e14fe6199026"
+  },
+  {
+    "file": "sources/followup_engine_baseline.py",
+    "original_sha256": "60ae4537f8ea5ce7eef0091e381e2ca8d706797264a88e4fe1e9a9510d1a8de4",
+    "published_sha256": "a5e1353367dc712cc92511e3924d8a5540ab9dd1d7ffa2f764919381c29058e7"
+  },
+  {
+    "file": "sources/launch_flashinfer0617.py",
+    "original_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde",
+    "published_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde"
+  },
+  {
+    "file": "sources/probe_hf_graph_state.py",
+    "original_sha256": "f8a46a00299212fc9065ba4066df984a246f4c43b658c88f5761176e94109daa",
+    "published_sha256": "f8a46a00299212fc9065ba4066df984a246f4c43b658c88f5761176e94109daa"
+  },
+  {
+    "file": "sources/probe_sdpa_backends.py",
+    "original_sha256": "84f1dbc8e5e01fa287bf5928907527cb265a715c61e8f367437b7ec61ee778d6",
+    "published_sha256": "84f1dbc8e5e01fa287bf5928907527cb265a715c61e8f367437b7ec61ee778d6"
+  },
+  {
+    "file": "sources/run_bucketed_without_tokenspeed.py",
+    "original_sha256": "727399ed8c08a084763e3073a7af8adf499cf4b635d340ddd76624be28e822d2",
+    "published_sha256": "727399ed8c08a084763e3073a7af8adf499cf4b635d340ddd76624be28e822d2"
+  },
+  {
+    "file": "sources/run_followup_baseline_checks.py",
+    "original_sha256": "1a14b6f1c049aa3905adce32ddd0131fa8ad8a4226814b2e160debf9fb89944b",
+    "published_sha256": "1a14b6f1c049aa3905adce32ddd0131fa8ad8a4226814b2e160debf9fb89944b"
+  },
+  {
+    "file": "sources/run_without_tokenspeed_suite.py",
+    "original_sha256": "c0481a9c3ac7e60f66b434d09851ebb2f4bbee4c0ead057e7ba39b53fa2a5fe2",
+    "published_sha256": "c0481a9c3ac7e60f66b434d09851ebb2f4bbee4c0ead057e7ba39b53fa2a5fe2"
+  },
+  {
+    "file": "sources/run_wsl_baseline_followup.sh",
+    "original_sha256": "dd7416b651755370b6a5c0c7bab915544971a3e6135bd27c10eb3a38e125fcfe",
+    "published_sha256": "0d8f0848ecc334c41c6376693665e1db06a23122d78ab414e08a4cab3ac28bc3"
+  },
+  {
+    "file": "sources/start_engine_baseline_bucketed_windows.py",
+    "original_sha256": "18d4715d1a4d8ff920d895282713947bc882295513f8e9ecf7dbb505c25b6585",
+    "published_sha256": "18d4715d1a4d8ff920d895282713947bc882295513f8e9ecf7dbb505c25b6585"
+  },
+  {
+    "file": "sources/start_engine_baseline_windows.py",
+    "original_sha256": "20d372dfce16dc8c07687c558643d31191410a0ffe8fe4e3c89d2092c9cce2cb",
+    "published_sha256": "20d372dfce16dc8c07687c558643d31191410a0ffe8fe4e3c89d2092c9cce2cb"
+  },
+  {
+    "file": "sources/start_engine_baseline_wsl.sh",
+    "original_sha256": "09f4a7ae932a66897c7105ca87312fac5c7bdb0b4eebd5486c2f306b00e5a376",
+    "published_sha256": "2886a676744b54d4827666c8f69543812f03eb7878364e43a7b005983f5221c0"
+  },
+  {
+    "file": "tool-tests.xml",
+    "original_sha256": "1b7b140233a68efee2d476f777e726b5bb93ed40d45ee392c1c8f90612bb5720",
+    "published_sha256": "db4c9e73c5e9d8512a1aafc515ac2243d7b5114a18dc4be2037b6d3ca294b35a"
+  },
+  {
+    "file": "tool-tests.log",
+    "original_sha256": "86c08b0a1aa33882d8f8c3cd8ab39171060897fae25410f4dac9d5ce3c07bf09",
+    "published_sha256": "9d9490739d33dc5b8a12505d970664d4d45206e471327adfd69be52c32ca4f2d"
+  },
+  {
+    "file": "results.json",
+    "published_sha256": "4f78cf74fdd690739133e0a8a20e642b1745f7827a813f78a071f83ee2387950",
+    "generated_from": "30 validated primary raw reports"
+  }
+]

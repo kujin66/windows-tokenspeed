@@ -1,0 +1,68 @@
+Starting windows generate RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 6707.37it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Passing `generation_config` together with generation-related arguments=({'do_sample', 'eos_token_id'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.
+generate input=128 batch=1: 21.13 tok/s consistent=True
+generate input=128 batch=4: 84.65 tok/s consistent=True
+generate input=512 batch=1: 21.77 tok/s consistent=True
+generate input=512 batch=4: 68.47 tok/s consistent=True
+USDT:2026-10-29 11:57:15 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 11:57:23 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed windows-hf-generate-torch.json
+Starting windows loop-dynamic RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 5104.10it/s]
+loop-dynamic input=128 batch=1: 22.18 tok/s consistent=True
+loop-dynamic input=128 batch=4: 90.12 tok/s consistent=True
+loop-dynamic input=512 batch=1: 18.72 tok/s consistent=True
+loop-dynamic input=512 batch=4: 68.48 tok/s consistent=True
+USDT:2026-10-29 12:02:03 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:02:12 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed windows-hf-loop-dynamic-torch.json
+Starting windows loop-static-eager RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 4134.72it/s]
+loop-static-eager input=128 batch=1: 22.40 tok/s consistent=True
+loop-static-eager input=128 batch=4: 83.14 tok/s consistent=True
+loop-static-eager input=512 batch=1: 24.01 tok/s consistent=True
+loop-static-eager input=512 batch=4: 85.21 tok/s consistent=True
+USDT:2026-10-29 12:06:40 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:06:48 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed windows-hf-loop-static-eager-torch.json
+Starting windows loop-static-graph RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 4928.79it/s]
+loop-static-graph input=128 batch=1: 98.64 tok/s consistent=True
+loop-static-graph input=128 batch=4: 235.85 tok/s consistent=True
+loop-static-graph input=512 batch=1: 87.95 tok/s consistent=True
+loop-static-graph input=512 batch=4: 227.29 tok/s consistent=True
+USDT:2026-10-29 12:09:37 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:09:39 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed windows-hf-loop-static-graph-torch.json
+Starting windows loop-static-eager RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 6248.58it/s]
+loop-static-eager input=128 batch=1: 40.27 tok/s consistent=True
+loop-static-eager input=128 batch=4: 140.32 tok/s consistent=True
+loop-static-eager input=512 batch=1: 40.83 tok/s consistent=True
+loop-static-eager input=512 batch=4: 138.66 tok/s consistent=True
+USDT:2026-10-29 12:11:53 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:11:57 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed windows-hf-loop-static-eager-flashinfer.json
+Starting windows loop-static-graph RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 4274.50it/s]
+loop-static-graph input=128 batch=1: 108.78 tok/s consistent=True
+loop-static-graph input=128 batch=4: 277.42 tok/s consistent=True
+loop-static-graph input=512 batch=1: 105.57 tok/s consistent=True
+loop-static-graph input=512 batch=4: 257.98 tok/s consistent=True
+USDT:2026-10-29 12:14:07 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:14:08 43280:29708 <pytorch-build>/third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed windows-hf-loop-static-graph-flashinfer.json

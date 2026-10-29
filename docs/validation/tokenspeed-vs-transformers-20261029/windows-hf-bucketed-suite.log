@@ -1,0 +1,28 @@
+Starting bucketed graph windows, input=128, capacity=256, RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 6873.55it/s]
+loop-static-graph input=128 batch=1: 103.39 tok/s consistent=True
+loop-static-graph input=128 batch=4: 341.18 tok/s consistent=True
+Completed windows-hf-loop-static-graph-bucketed-torch-in128.json
+Starting bucketed graph windows, input=512, capacity=640, RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 10598.73it/s]
+loop-static-graph input=512 batch=1: 97.25 tok/s consistent=True
+loop-static-graph input=512 batch=4: 251.72 tok/s consistent=True
+Completed windows-hf-loop-static-graph-bucketed-torch-in512.json
+Starting bucketed graph windows, input=128, capacity=256, RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 6411.64it/s]
+loop-static-graph input=128 batch=1: 123.81 tok/s consistent=True
+loop-static-graph input=128 batch=4: 372.61 tok/s consistent=True
+Completed windows-hf-loop-static-graph-bucketed-flashinfer-in128.json
+Starting bucketed graph windows, input=512, capacity=640, RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 5293.35it/s]
+loop-static-graph input=512 batch=1: 108.25 tok/s consistent=True
+loop-static-graph input=512 batch=4: 274.18 tok/s consistent=True
+Completed windows-hf-loop-static-graph-bucketed-flashinfer-in512.json

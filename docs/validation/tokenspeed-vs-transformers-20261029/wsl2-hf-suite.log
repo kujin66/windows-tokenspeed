@@ -1,0 +1,84 @@
+Starting wsl2 generate RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 3446.89it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[transformers] Passing `generation_config` together with generation-related arguments=({'eos_token_id', 'do_sample'}) is deprecated and will be removed in future versions. Please pass either a `generation_config` object OR all generation parameters explicitly, but not both.
+In file included from /opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/Python.h:14,
+                 from /opt/tokenspeed-work/venv/lib/python3.13/site-packages/triton/backends/nvidia/driver.c:9:
+/opt/tokenspeed-work/python/cpython-3.13.16-linux-aarch64-gnu/include/python3.13/pyconfig.h:1988:9: warning: ‘_POSIX_C_SOURCE’ redefined
+ 1988 | #define _POSIX_C_SOURCE 200809L
+      |         ^~~~~~~~~~~~~~~
+In file included from /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:33,
+                 from /usr/include/stdlib.h:26,
+                 from /opt/tokenspeed-work/venv/lib/python3.13/site-packages/triton/backends/nvidia/include/cuda.h:56,
+                 from /opt/tokenspeed-work/venv/lib/python3.13/site-packages/triton/backends/nvidia/driver.c:1:
+/usr/include/features.h:319:10: note: this is the location of the previous definition
+  319 | # define _POSIX_C_SOURCE        202405L
+      |          ^~~~~~~~~~~~~~~
+generate input=128 batch=1: 31.95 tok/s consistent=True
+generate input=128 batch=4: 117.74 tok/s consistent=True
+generate input=512 batch=1: 30.99 tok/s consistent=True
+generate input=512 batch=4: 110.82 tok/s consistent=True
+USDT:2026-10-29 12:36:04 454:454 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:36:09 454:454 SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed wsl2-hf-generate-torch.json
+Starting wsl2 loop-dynamic RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:  52%|█████▏    | 163/311 [00:00<00:00, 1619.11it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2090.44it/s]
+loop-dynamic input=128 batch=1: 32.12 tok/s consistent=True
+loop-dynamic input=128 batch=4: 129.54 tok/s consistent=True
+loop-dynamic input=512 batch=1: 32.25 tok/s consistent=True
+loop-dynamic input=512 batch=4: 119.53 tok/s consistent=True
+USDT:2026-10-29 12:39:51 454:454 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:40:01 454:454 SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed wsl2-hf-loop-dynamic-torch.json
+Starting wsl2 loop-static-eager RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:  45%|████▌     | 140/311 [00:00<00:00, 1389.46it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2770.53it/s]
+loop-static-eager input=128 batch=1: 25.86 tok/s consistent=True
+loop-static-eager input=128 batch=4: 99.72 tok/s consistent=True
+loop-static-eager input=512 batch=1: 29.00 tok/s consistent=True
+loop-static-eager input=512 batch=4: 98.50 tok/s consistent=True
+USDT:2026-10-29 12:44:27 454:454 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:44:39 454:454 SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed wsl2-hf-loop-static-eager-torch.json
+Starting wsl2 loop-static-graph RMSNorm=torch
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:  41%|████▏     | 129/311 [00:00<00:00, 1283.17it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2580.80it/s]
+loop-static-graph input=128 batch=1: 99.84 tok/s consistent=True
+loop-static-graph input=128 batch=4: 254.35 tok/s consistent=True
+loop-static-graph input=512 batch=1: 95.82 tok/s consistent=True
+loop-static-graph input=512 batch=4: 240.19 tok/s consistent=True
+USDT:2026-10-29 12:48:02 454:454 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:48:04 454:454 SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed wsl2-hf-loop-static-graph-torch.json
+Starting wsl2 loop-static-eager RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 3258.18it/s]
+loop-static-eager input=128 batch=1: 42.98 tok/s consistent=True
+loop-static-eager input=128 batch=4: 151.14 tok/s consistent=True
+loop-static-eager input=512 batch=1: 43.46 tok/s consistent=True
+loop-static-eager input=512 batch=4: 152.13 tok/s consistent=True
+USDT:2026-10-29 12:50:19 454:454 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:50:37 454:454 SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed wsl2-hf-loop-static-eager-flashinfer.json
+Starting wsl2 loop-static-graph RMSNorm=flashinfer
+
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]
+Loading weights:  38%|███▊      | 119/311 [00:00<00:00, 1177.75it/s]
+Loading weights: 100%|██████████| 311/311 [00:00<00:00, 2614.02it/s]
+loop-static-graph input=128 batch=1: 112.03 tok/s consistent=True
+loop-static-graph input=128 batch=4: 288.74 tok/s consistent=True
+loop-static-graph input=512 batch=1: 109.51 tok/s consistent=True
+loop-static-graph input=512 batch=4: 269.67 tok/s consistent=True
+USDT:2026-10-29 12:53:19 454:454 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-10-29 12:53:20 454:454 SyncActivityProfilerHandler.cpp:46] profiler_stop
+Completed wsl2-hf-loop-static-graph-flashinfer.json
