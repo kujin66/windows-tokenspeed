@@ -68,12 +68,13 @@ class BuildPyWithRust(build_py):
         package = root / "tokenspeed_engine"
         release = _cargo_build("tokenspeed-py", extension_module=True)
         shutil.copy2(
-            release / "lib_native.so",
+            release / ("_native.dll" if os.name == "nt" else "lib_native.so"),
             package / f"_native{sysconfig.get_config_var('EXT_SUFFIX')}",
         )
         release = _cargo_build("tokenspeed-host", extension_module=False)
         (package / "bin").mkdir(exist_ok=True)
-        shutil.copy2(release / "ts-host", package / "bin" / "ts-host")
+        binary = "ts-host.exe" if os.name == "nt" else "ts-host"
+        shutil.copy2(release / binary, package / "bin" / binary)
 
 
 class BinaryDistribution(Distribution):

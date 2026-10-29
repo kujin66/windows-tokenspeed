@@ -22,8 +22,10 @@
 //! at run time; the tests also need the interpreter's home.
 
 fn main() {
-    if let Ok(lib_dir) = std::env::var("DEP_TS_SCHEDULER_PYTHON_LIB_DIR") {
-        println!("cargo:rustc-link-arg=-Wl,-rpath,{lib_dir}");
+    if std::env::var("CARGO_CFG_TARGET_OS").unwrap() != "windows" {
+        if let Ok(lib_dir) = std::env::var("DEP_TS_SCHEDULER_PYTHON_LIB_DIR") {
+            println!("cargo:rustc-link-arg=-Wl,-rpath,{lib_dir}");
+        }
     }
     if let Ok(home) = std::env::var("DEP_TS_SCHEDULER_PYTHON_HOME") {
         println!("cargo:rustc-env=TS_HOST_TEST_PYTHONHOME={home}");

@@ -447,12 +447,21 @@ fn watch_signals(stop: Arc<AtomicBool>) -> std::io::Result<()> {
     let runtime = tokio::runtime::Builder::new_current_thread()
         .enable_io()
         .build()?;
+    #[cfg(unix)]
     let (mut terminate, mut interrupt) = {
         let _entered = runtime.enter();
         use tokio::signal::unix::{signal, SignalKind};
         (
             signal(SignalKind::terminate())?,
             signal(SignalKind::interrupt())?,
+        )
+    };
+    #[cfg(windows)]
+    let (mut terminate, mut interrupt) = {
+        let _entered = runtime.enter();
+        (
+            tokio::signal::windows::ctrl_break()?,
+            tokio::signal::windows::ctrl_c()?,
         )
     };
     thread::Builder::new()

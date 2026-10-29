@@ -45,16 +45,28 @@ fn python_output(python: &str, code: &str) -> String {
 fn main() {
     cxx_build::CFG.include_prefix = "ts-scheduler";
     let manifest = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
-    let scheduler_dir = manifest
-        .join("scheduler")
+    let scheduler_source = if manifest.join("scheduler/CMakeLists.txt").is_file() {
+        manifest.join("scheduler")
+    } else {
+        manifest.join("../../../tokenspeed-scheduler")
+    };
+    let scheduler_dir = scheduler_source
         .canonicalize()
         .expect("bundled scheduler source");
+    // MSVC does not accept Rust's verbatim path prefix as a source filename.
+    let scheduler_dir = PathBuf::from(scheduler_dir.to_string_lossy().trim_start_matches(r"\\?\"));
     let python = pyo3_build_config::get()
         .executable()
         .expect("PyO3 found no Python interpreter; set PYO3_PYTHON")
         .to_owned();
 
-    let built = cmake::Config::new(&manifest)
+    let mut config = cmake::Config::new(&manifest);
+    if std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows" {
+        config
+            .generator("Ninja")
+            .define("CMAKE_TRY_COMPILE_CONFIGURATION", "Release");
+    }
+    let built = config
         .define("TOKENSPEED_SCHEDULER_DIR", &scheduler_dir)
         .define("Python_EXECUTABLE", &python)
         .build_target("ts_scheduler_embed")
@@ -72,6 +84,9 @@ fn main() {
         .include(&csrc)
         .include(&spdlog_include)
         .define("OPENSSL_SUPPRESS_DEPRECATED", None)
+        .define("NOMINMAX", None)
+        .define("WIN32_LEAN_AND_MEAN", None)
+        .flag_if_supported("/utf-8")
         .std("c++20")
         .compile("ts_scheduler_facade");
 
@@ -87,12 +102,17 @@ fn main() {
     ] {
         println!("cargo:rustc-link-lib=static={lib}");
     }
-    println!("cargo:rustc-link-lib=dylib=crypto");
-    println!("cargo:rustc-link-lib=dylib=stdc++");
+    let windows = std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows";
+    if windows {
+        println!("cargo:rustc-link-lib=bcrypt");
+    } else {
+        println!("cargo:rustc-link-lib=dylib=crypto");
+        println!("cargo:rustc-link-lib=dylib=stdc++");
+    }
 
     // This package's tests start the interpreter: find libpython at run time,
     // and the standard library under the interpreter's base prefix.
-    if let Some(lib_dir) = pyo3_build_config::get().lib_dir() {
+    if let Some(lib_dir) = pyo3_build_config::get().lib_dir().filter(|_| !windows) {
         println!("cargo:rustc-link-arg=-Wl,-rpath,{lib_dir}");
     }
     let home = python_output(&python, "import sys; print(sys.base_prefix)");

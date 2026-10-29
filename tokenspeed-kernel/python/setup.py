@@ -66,7 +66,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 
-from setuptools import Command, find_packages, setup
+from setuptools import Command, Distribution, find_packages, setup
 from setuptools.command.build_ext import build_ext
 from setuptools.command.build_py import build_py
 from setuptools.command.develop import develop
@@ -86,9 +86,22 @@ CUDA_OBJS_DIR = THIRDPARTY_DIR / "cuda" / "objs"
 
 # JIT kernels source directory (no pre-compilation, just need sources available)
 
-CUDA_HOME = os.environ.get("CUDA_HOME", "/usr/local/cuda")
-NVCC = os.environ.get("FLASHINFER_NVCC", f"{CUDA_HOME}/bin/nvcc")
-CXX = os.environ.get("CXX", "g++")
+IS_WINDOWS = sys.platform == "win32"
+CUDA_HOME = os.environ.get("CUDA_HOME", os.environ.get("CUDA_PATH", "/usr/local/cuda"))
+NVCC = os.environ.get(
+    "FLASHINFER_NVCC",
+    str(Path(CUDA_HOME) / "bin" / ("nvcc.exe" if IS_WINDOWS else "nvcc")),
+)
+CXX = os.environ.get("CXX", "cl" if IS_WINDOWS else "g++")
+
+
+def _windows_minimal_profile() -> bool:
+    profile = os.environ.get("TOKENSPEED_KERNEL_WINDOWS_PROFILE")
+    if not IS_WINDOWS or profile is None:
+        return False
+    if profile != "minimal":
+        raise ValueError("TOKENSPEED_KERNEL_WINDOWS_PROFILE must be minimal")
+    return True
 
 
 def _version_date() -> str:
@@ -267,6 +280,8 @@ def _read_requirements(path: Path, seen=None) -> list[str]:
 
 def _selected_install_requires() -> list[str]:
     backend = _selected_backend()
+    if backend == "cuda" and _windows_minimal_profile():
+        return _read_requirements(REQUIREMENTS_DIR / "windows-cuda.txt")
     requirements = _read_requirements(REQUIREMENTS_DIR / f"{backend}.txt")
     requirements.extend(
         _read_requirements(REQUIREMENTS_DIR / f"{backend}-thirdparty.txt")
@@ -321,6 +336,9 @@ def _refresh_python_install_paths() -> None:
 
 def _install_backend_build_requirements(verbose) -> None:
     backend = _selected_backend()
+    if _windows_minimal_profile():
+        # The Windows recipe supplies native ARM64 torch/FFI and build tools.
+        return
     if (
         backend == "cuda"
         and os.environ.get("TOKENSPEED_KERNEL_CUDA_VARIANT") == "cu129"
@@ -743,8 +761,10 @@ class CudaKernelBuilder:
         # silu_and_mul, cvt_quant_to_fp4_get_sf_out_offset). Expose them so
         # our own fused silu+mul+nvfp4 kernel can reuse them.
         try:
-            flashinfer = importlib.import_module("flashinfer")
-            fi_root = Path(flashinfer.__file__).parent / "data"
+            flashinfer_spec = importlib.util.find_spec("flashinfer")
+            if flashinfer_spec is None or flashinfer_spec.origin is None:
+                raise ImportError("flashinfer headers are not installed")
+            fi_root = Path(flashinfer_spec.origin).parent / "data"
             for sub in (
                 fi_root / "csrc" / "nv_internal",
                 fi_root / "csrc" / "nv_internal" / "include",
@@ -764,6 +784,14 @@ class CudaKernelBuilder:
         return dirs
 
     def _resolve_cuda_lib_flags(self):
+        if IS_WINDOWS:
+            import platform
+
+            arch = (
+                "arm64" if platform.machine().lower() in {"arm64", "aarch64"} else "x64"
+            )
+            self._cuda_library_dirs = [Path(CUDA_HOME) / "lib" / arch]
+            return [f"/LIBPATH:{self._cuda_library_dirs[0]}", "cudart.lib", "cuda.lib"]
         cuda_home = Path(CUDA_HOME)
         lib_candidates = []
         for cuda_root in self._cuda_toolkit_roots():
@@ -809,6 +837,8 @@ class CudaKernelBuilder:
         return flags
 
     def _resolve_library_ldflag(self, ldflag):
+        if IS_WINDOWS and ldflag.startswith("-l"):
+            return f"{ldflag[2:]}.lib"
         if not ldflag.startswith("-l") or ldflag.startswith("-l:"):
             return ldflag
 
@@ -898,14 +928,26 @@ class CudaKernelBuilder:
             "-DNDEBUG",
             "-use_fast_math",
             "--expt-relaxed-constexpr",
-            "--compiler-options=-fPIC",
+            (
+                "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor"
+                if IS_WINDOWS
+                else "--compiler-options=-fPIC"
+            ),
             "-DFLASHINFER_ENABLE_BF16",
             "-DFLASHINFER_ENABLE_F16",
             "-DENABLE_BF16",
             "-DENABLE_FP8",
         ] + gencode_flags
+        if IS_WINDOWS:
+            # The selected MSVC environment is already prepared by the recipe.
+            nvcc_flags.append("--use-local-env")
         include_dirs = self._resolve_include_dirs()
-        ldflags = ["-shared"] + self._resolve_cuda_lib_flags()
+        ldflags = (
+            ["/DLL"] if IS_WINDOWS else ["-shared"]
+        ) + self._resolve_cuda_lib_flags()
+        if IS_WINDOWS:
+            tvm_ffi = importlib.import_module("tvm_ffi")
+            ldflags.append(str(Path(tvm_ffi.__file__).parent / "lib" / "tvm_ffi.lib"))
         build_identity = self._build_identity(nvcc_flags, include_dirs, ldflags)
 
         # Ensure output directory exists
@@ -1013,11 +1055,11 @@ class CudaKernelBuilder:
                 self._resolve_library_ldflag(ldflag) for ldflag in (extra_ldflags or [])
             ]
             link_cmd = (
-                [CXX]
+                (["link.exe"] if IS_WINDOWS else [CXX])
                 + [str(o) for o in objects]
                 + ldflags
                 + extra_ldflags
-                + ["-o", str(so_path)]
+                + ([f"/OUT:{so_path}"] if IS_WINDOWS else ["-o", str(so_path)])
             )
             subprocess.check_call(link_cmd)
             if identity is not None:
@@ -1040,7 +1082,14 @@ class BuildKernels(build_ext):
 
         _ensure_cuda_compiler()
         verbose = bool(getattr(self, "verbose", False))
-        CudaKernelBuilder(KERNEL_GROUPS, verbose=verbose).run()
+        groups = KERNEL_GROUPS
+        if _windows_minimal_profile():
+            groups = [
+                g
+                for g in groups
+                if g[0] in {"rmsnorm_fused_parallel", "sampling_chain"}
+            ]
+        CudaKernelBuilder(groups, verbose=verbose).run()
 
 
 class BuildNative(Command):
@@ -1087,7 +1136,15 @@ class BuildPyWithBuild(build_py):
         super().run()
 
 
+class KernelDistribution(Distribution):
+    def has_ext_modules(self):
+        return (
+            IS_WINDOWS and _selected_backend() == "cuda"
+        ) or super().has_ext_modules()
+
+
 setup(
+    distclass=KernelDistribution,
     name="tokenspeed_kernel",
     version=_package_version(),
     install_requires=_selected_install_requires(),

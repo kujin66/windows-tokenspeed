@@ -1,0 +1,8 @@
+# Build/FFI dependencies for the explicit Windows CUDA profile.
+# Native ARM64 torch and TVM FFI wheels are external prerequisites.
+torch>=2.14.0a0
+numpy
+packaging
+psutil
+apache-tvm-ffi==0.1.13.post3
+nvidia-ml-py
