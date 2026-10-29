@@ -24,6 +24,9 @@
 # unpacked source tree to build offline.
 cmake_minimum_required(VERSION 3.18)
 project(ts_grammar LANGUAGES CXX)
+if(MSVC)
+  add_compile_options(/utf-8 /EHsc)
+endif()
 
 include(FetchContent)
 FetchContent_Declare(
@@ -42,7 +45,9 @@ file(WRITE ${CMAKE_BINARY_DIR}/config.cmake
 # xgrammar builds with -flto=auto and -Werror. LTO objects in a static
 # archive need the LTO plugin at the final link, which Cargo's linker
 # invocation does not bring; a newer compiler's warnings must not fail it.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lto -Wno-error")
+if(NOT MSVC)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-lto -Wno-error")
+endif()
 FetchContent_MakeAvailable(xgrammar)
 
 # Where build.rs finds the headers.

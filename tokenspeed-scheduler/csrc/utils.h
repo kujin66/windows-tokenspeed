@@ -96,6 +96,13 @@ constexpr std::string_view TypeName() {
 
     name.remove_prefix(prefix.size());
     name.remove_suffix(suffix.size());
+#if defined(_MSC_VER) && !defined(__clang__)
+    // MSVC spells record template arguments with a class/struct prefix.
+    if (name.starts_with("struct "))
+        name.remove_prefix(7);
+    else if (name.starts_with("class "))
+        name.remove_prefix(6);
+#endif
     return name;
 }
 

@@ -21,16 +21,75 @@
 #pragma once
 
 #include <cstddef>
+#include <algorithm>
 #include <cstdint>
 #include <span>
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#include <windows.h>
+#include <bcrypt.h>
+#else
 #include <openssl/sha.h>
+#endif
 
 #include "utils.h"
 
 namespace tokenspeed {
+
+#ifdef _WIN32
+// CNG hashes the same byte stream as OpenSSL without an external Windows DLL.
+constexpr std::size_t SHA256_DIGEST_LENGTH = 32;
+class PrefixSha256 {
+public:
+    PrefixSha256() {
+        if (BCryptOpenAlgorithmProvider(&algorithm_, BCRYPT_SHA256_ALGORITHM, nullptr, 0) < 0) {
+            throw std::runtime_error("Cannot open the Windows SHA256 provider");
+        }
+        if (BCryptCreateHash(algorithm_, &hash_, nullptr, 0, nullptr, 0, 0) < 0) {
+            BCryptCloseAlgorithmProvider(algorithm_, 0);
+            throw std::runtime_error("Cannot create a Windows SHA256 hash");
+        }
+    }
+    ~PrefixSha256() {
+        BCryptDestroyHash(hash_);
+        BCryptCloseAlgorithmProvider(algorithm_, 0);
+    }
+    PrefixSha256(const PrefixSha256&) = delete;
+    PrefixSha256& operator=(const PrefixSha256&) = delete;
+    void Update(const void* data, std::size_t size) {
+        auto* bytes = static_cast<const unsigned char*>(data);
+        while (size > 0) {
+            ULONG count = static_cast<ULONG>(std::min<std::size_t>(size, 0xffffffffULL));
+            if (BCryptHashData(hash_, const_cast<PUCHAR>(bytes), count, 0) < 0) {
+                throw std::runtime_error("Windows SHA256 update failed");
+            }
+            bytes += count;
+            size -= count;
+        }
+    }
+    void Final(unsigned char* digest) {
+        if (BCryptFinishHash(hash_, digest, SHA256_DIGEST_LENGTH, 0) < 0) {
+            throw std::runtime_error("Windows SHA256 finalization failed");
+        }
+    }
+
+private:
+    BCRYPT_ALG_HANDLE algorithm_ = nullptr;
+    BCRYPT_HASH_HANDLE hash_ = nullptr;
+};
+#else
+class PrefixSha256 {
+public:
+    PrefixSha256() { SHA256_Init(&ctx_); }
+    void Update(const void* data, std::size_t size) { SHA256_Update(&ctx_, data, size); }
+    void Final(unsigned char* digest) { SHA256_Final(digest, &ctx_); }
+
+private:
+    SHA256_CTX ctx_;
+};
+#endif
 
 // Append each byte of [bytes, bytes+n) to out as two lowercase hex characters.
 inline void AppendHexBytes(std::string& out, const uint8_t* bytes, std::size_t n) {
@@ -43,14 +102,14 @@ inline void AppendHexBytes(std::string& out, const uint8_t* bytes, std::size_t n
 
 // Absorb a uint32_t into the hash as 4 little-endian bytes. Encodes each token id
 // and the count/length prefixes that frame extra_keys.
-inline void Sha256UpdateU32LE(SHA256_CTX& ctx, uint32_t v) {
+inline void Sha256UpdateU32LE(PrefixSha256& ctx, uint32_t v) {
     uint8_t buf[4] = {
         static_cast<uint8_t>(v),
         static_cast<uint8_t>(v >> 8),
         static_cast<uint8_t>(v >> 16),
         static_cast<uint8_t>(v >> 24),
     };
-    SHA256_Update(&ctx, buf, 4);
+    ctx.Update(buf, 4);
 }
 
 // Encode a 32-byte SHA-256 digest as a 64-char lowercase hex string.
@@ -88,13 +147,12 @@ inline std::vector<uint8_t> HexToBytes(const std::string& hex) {
 // Feed order is prior_hash -> tokens -> extra_keys.
 inline std::string HashPrefixPage(std::span<const std::int32_t> tokens, const std::string& prior_hash,
                                   std::span<const std::string> extra_keys = {}) {
-    SHA256_CTX ctx;
-    SHA256_Init(&ctx);
+    PrefixSha256 ctx;
 
     std::vector<uint8_t> prior_bytes = HexToBytes(prior_hash);
     Sha256UpdateU32LE(ctx, static_cast<uint32_t>(prior_bytes.size()));
     if (!prior_bytes.empty()) {
-        SHA256_Update(&ctx, prior_bytes.data(), prior_bytes.size());
+        ctx.Update(prior_bytes.data(), prior_bytes.size());
     }
 
     Sha256UpdateU32LE(ctx, static_cast<uint32_t>(tokens.size()));
@@ -108,12 +166,12 @@ inline std::string HashPrefixPage(std::span<const std::int32_t> tokens, const st
         Sha256UpdateU32LE(ctx, static_cast<uint32_t>(extra_keys.size()));
         for (const std::string& key : extra_keys) {
             Sha256UpdateU32LE(ctx, static_cast<uint32_t>(key.size()));
-            SHA256_Update(&ctx, key.data(), key.size());
+            ctx.Update(key.data(), key.size());
         }
     }
 
     unsigned char digest[SHA256_DIGEST_LENGTH];
-    SHA256_Final(digest, &ctx);
+    ctx.Final(digest);
     return DigestToHex(digest);
 }
 

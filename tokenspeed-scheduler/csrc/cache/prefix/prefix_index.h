@@ -443,11 +443,13 @@ private:
     ConstCacheEntryIterator findEntry(const CacheEntries& cache_index, const CacheKey& key) const {
         validateKey(key);
         auto index_it = cache_index.by_key.find(key);
-        return index_it == cache_index.by_key.end() ? cache_index.entries.end() : index_it->second;
+        if (index_it == cache_index.by_key.end()) return cache_index.entries.end();
+        return index_it->second;
     }
     ConstCacheEntryIterator findEntry(const CacheEntries& cache_index, CacheBlockLocation location) const {
         auto index_it = cache_index.by_location.find(location);
-        return index_it == cache_index.by_location.end() ? cache_index.entries.end() : index_it->second;
+        if (index_it == cache_index.by_location.end()) return cache_index.entries.end();
+        return index_it->second;
     }
     void eraseEntry(CacheEntries& cache_index, CacheEntryIterator entry_it) {
         cache_index.by_eviction_order.erase(evictionOrder(*entry_it));
