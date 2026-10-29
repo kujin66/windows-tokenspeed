@@ -1,0 +1,3 @@
+interface:
+  display_name: "TokenSpeed Windows ARM64 构建"
+  short_description: "复现 MSVC 14.51、CUDA 13.4 构建并验证原生 ARM64 产物与推理"

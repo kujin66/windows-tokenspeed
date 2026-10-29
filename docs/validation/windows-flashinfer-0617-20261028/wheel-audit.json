@@ -1,0 +1,17 @@
+{
+  "wheel": "C:/Users/user\\projects\\wheels\\flashinfer_python-0.6.17+g2ea3c24b5dac-py3-none-any.whl",
+  "bytes": 16178950,
+  "sha256": "47db3e3972fda64719ceae8490d1934362380cef62f33975cb593ad086e0bcb6",
+  "metadata": {
+    "flashinfer_python-0.6.17+g2ea3c24b5dac.dist-info/METADATA": "Metadata-Version: 2.4\nName: flashinfer-python\nVersion: 0.6.17+g2ea3c24b5dac\nSummary: FlashInfer: Kernel Library for LLM Serving\nAuthor: FlashInfer team\nLicense-Expression: Apache-2.0\nProject-URL: Homepage, https://github.com/flashinfer-ai/flashinfer\nRequires-Python: <4.0,>=3.10\nDescription-Content-Type: text/markdown\nLicense-File: LICENSE\nLicense-File: LICENSE.cutlass.txt\nLicense-File: LICENSE.flashattention3.txt\nLicense-File: LICENSE.fmt.txt\nLicense-File: LICENSE.spdlog.txt\nRequires-Dist: apache-tvm-ffi<0.2,>=0.1.9\nRequires-Dist: click\nRequires-Dist: cuda-python>=12.0\nRequires-Dist: cuda-tile>=1.4.0\nRequires-Dist: einops\nRequires-Dist: nccl4py>=0.3.1\nRequires-Dist: ninja\nRequires-Dist: numpy\nRequires-Dist: nvidia-cudnn-frontend>=1.25.0\nRequires-Dist: nvidia-cutlass-dsl>=4.5.0; sys_platform != \"win32\"\nRequires-Dist: nvidia-ml-py\nRequires-Dist: packaging>=24.2\nRequires-Dist: requests\nRequires-Dist: tabulate\nRequires-Dist: torch\nRequires-Dist: tqdm\nProvides-Extra: cu12\nRequires-Dist: nvidia-cutlass-dsl>=4.5.0; extra == \"cu12\"\nProvides-Extra: cu13\nRequires-Dist: nvidia-cutlass-dsl[cu13]>=4.5.0; extra == \"cu13\"\nProvides-Extra: nvep\nDynamic: license-file",
+    "flashinfer_python-0.6.17+g2ea3c24b5dac.dist-info/WHEEL": "Wheel-Version: 1.0\nGenerator: setuptools (84.0.0)\nRoot-Is-Purelib: true\nTag: py3-none-any"
+  },
+  "native_files": [],
+  "windows_files": [
+    "flashinfer/data/cccl/libcudacxx/include/cuda/std/__atomic/platform/msvc_to_builtins.h",
+    "flashinfer/data/spdlog/include/spdlog/details/tcp_client-windows.h",
+    "flashinfer/data/spdlog/include/spdlog/details/udp_client-windows.h",
+    "flashinfer/data/spdlog/include/spdlog/details/windows_include.h",
+    "flashinfer/data/spdlog/include/spdlog/sinks/msvc_sink.h"
+  ]
+}

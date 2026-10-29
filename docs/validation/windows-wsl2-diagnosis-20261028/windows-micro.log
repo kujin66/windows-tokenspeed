@@ -1,0 +1,19 @@
+NVML failed to query NUMA affinity: Not Supported
+torch_add_4096: eager 24.459 us; graph {'wall_us_per_op': 1.25290625, 'stream_span_us_per_op': 1.249149963259697}
+device_copy_64MiB: eager 546.897 us; graph {'wall_us_per_op': 546.19625, 'stream_span_us_per_op': 546.1825942993164}
+rmsnorm_facade_m1_n1024: eager 27.608 us; graph {'wall_us_per_op': 1.13809375, 'stream_span_us_per_op': 1.1365900188684464}
+rmsnorm_forced_triton_m1_n1024: eager 26.201 us; graph {'wall_us_per_op': 1.231, 'stream_span_us_per_op': 1.2273799628019333}
+silu_facade_m1_n6144: eager 23.340 us; graph {'wall_us_per_op': 1.17728125, 'stream_span_us_per_op': 1.175059974193573}
+silu_forced_triton_m1_n6144: eager 23.711 us; graph {'wall_us_per_op': 1.06584375, 'stream_span_us_per_op': 1.0636600106954575}
+bf16_mm_m1_k1024_n4096: eager 27.630 us; graph {'wall_us_per_op': 10.6890625, 'stream_span_us_per_op': 10.675820112228394}
+bf16_mm_m1_k1024_n6144: eager 26.502 us; graph {'wall_us_per_op': 18.5770625, 'stream_span_us_per_op': 18.56989026069641}
+bf16_mm_m1_k3072_n1024: eager 27.363 us; graph {'wall_us_per_op': 9.91784375, 'stream_span_us_per_op': 9.9031400680542}
+bf16_mm_m1_k1024_n151936: eager 1224.617 us; graph {'wall_us_per_op': 1218.84234375, 'stream_span_us_per_op': 1218.8341522216797}
+rmsnorm_facade_m4_n1024: eager 32.648 us; graph {'wall_us_per_op': 1.4098125, 'stream_span_us_per_op': 1.4072999358177185}
+rmsnorm_forced_triton_m4_n1024: eager 28.034 us; graph {'wall_us_per_op': 1.27903125, 'stream_span_us_per_op': 1.2766200304031372}
+silu_facade_m4_n6144: eager 27.441 us; graph {'wall_us_per_op': 1.10325, 'stream_span_us_per_op': 1.0996399819850922}
+silu_forced_triton_m4_n6144: eager 25.529 us; graph {'wall_us_per_op': 1.11746875, 'stream_span_us_per_op': 1.1145199835300446}
+bf16_mm_m4_k1024_n4096: eager 25.293 us; graph {'wall_us_per_op': 9.31196875, 'stream_span_us_per_op': 9.307860136032104}
+bf16_mm_m4_k1024_n6144: eager 24.670 us; graph {'wall_us_per_op': 13.307375, 'stream_span_us_per_op': 13.30029010772705}
+bf16_mm_m4_k3072_n1024: eager 27.195 us; graph {'wall_us_per_op': 13.123, 'stream_span_us_per_op': 13.104870319366455}
+bf16_mm_m4_k1024_n151936: eager 1216.282 us; graph {'wall_us_per_op': 1216.46540625, 'stream_span_us_per_op': 1216.4574432373047}

@@ -1,0 +1,24 @@
+Name: nvidia-cusparselt-cu13
+Version: 0.8.1
+Summary: NVIDIA cuSPARSELt
+Home-page: https://developer.nvidia.com/cusparselt
+Author: NVIDIA Corporation
+Author-email: cuda_installer@nvidia.com
+License: NVIDIA Proprietary Software
+Location: /opt/tokenspeed-work/venv/lib/python3.13/site-packages
+Requires: 
+Required-by: torch
+Wheel-Version: 1.0
+Generator: setuptools (80.9.0)
+Root-Is-Purelib: true
+Tag: py3-none-manylinux2014_sbsa
+
+/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nvidia/cusparselt/include/cusparseLt.h: C source, ASCII text
+/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nvidia/cusparselt/lib/libcusparseLt.so.0: ELF 64-bit LSB shared object, ARM aarch64, version 1 (SYSV), dynamically linked, BuildID[sha1]=8b9e2a641eca0780f3de6f9140736fc609fe6485, stripped
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Wed_Aug_20_01:57:39_PM_PDT_2025
+Cuda compilation tools, release 13.0, V13.0.88
+Build cuda_13.0.r13.0/compiler.36424714_0
+rustc 1.92.0 (ded5c06cf 2025-12-08)
+g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0

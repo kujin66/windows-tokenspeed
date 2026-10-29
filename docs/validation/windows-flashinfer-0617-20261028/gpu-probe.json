@@ -1,0 +1,47 @@
+{
+  "version": "0.6.17+g2ea3c24b5dac",
+  "module": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617\\flashinfer\\__init__.py",
+  "torch": "2.14.0a0+git20b0f57",
+  "cuda": "13.4",
+  "cases": [
+    {
+      "rows": 1,
+      "rmsnorm": true,
+      "fused_add_rmsnorm": true,
+      "silu_and_mul": true
+    },
+    {
+      "rows": 4,
+      "rmsnorm": true,
+      "fused_add_rmsnorm": true,
+      "silu_and_mul": true
+    },
+    {
+      "rows": 128,
+      "rmsnorm": true,
+      "fused_add_rmsnorm": true,
+      "silu_and_mul": true
+    },
+    {
+      "rows": 512,
+      "rmsnorm": true,
+      "fused_add_rmsnorm": true,
+      "silu_and_mul": true
+    }
+  ],
+  "passed": true,
+  "cuda_graph_passed": true,
+  "engine_import": true,
+  "native_files": [
+    {
+      "path": "C:/Users/user\\projects\\fij0617\\0.6.17+g2ea3c24b5dac\\121a\\cached_ops\\norm\\module.dll",
+      "machine": "0xaa64",
+      "sha256": "c5ff519c800e35ba9442618eb0db9a9d91851374a7a440baf2fc9e47489c4456"
+    },
+    {
+      "path": "C:/Users/user\\projects\\fij0617\\0.6.17+g2ea3c24b5dac\\121a\\cached_ops\\silu_and_mul\\module.dll",
+      "machine": "0xaa64",
+      "sha256": "fd3d8fc4de07bf2606f4345e3caf04b545f107d8b0315e15a10349ec945b48b3"
+    }
+  ]
+}

@@ -9,12 +9,18 @@ repos:
     hooks:
       - id: check-symlinks
       - id: trailing-whitespace
+        # Preserve the SHA256-addressed historical evidence bytes.
+        exclude: ^docs/validation/windows-(flashinfer-0617-20261028|wsl2-diagnosis-20261028|wsl2-perf-20261028(-after-reboot)?)/
       - id: end-of-file-fixer
+        # Preserve the SHA256-addressed historical evidence bytes.
+        exclude: ^docs/validation/windows-(flashinfer-0617-20261028|wsl2-diagnosis-20261028|wsl2-perf-20261028(-after-reboot)?)/
       - id: check-yaml
         args: [--allow-multiple-documents]
       - id: check-toml
       - id: check-ast
       - id: check-added-large-files
+        # Full compiler log retained under the published SHA256 manifest (668 KiB).
+        exclude: ^docs/validation/windows-wsl2-perf-20261028-after-reboot/wsl2/logs/kernel-build\.log$
       - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       - id: detect-private-key
@@ -31,10 +37,14 @@ repos:
     rev: 8.0.1
     hooks:
       - id: isort
+        # Preserve the SHA256-addressed historical evidence bytes.
+        exclude: ^docs/validation/windows-(flashinfer-0617-20261028|wsl2-diagnosis-20261028|wsl2-perf-20261028(-after-reboot)?)/
   - repo: https://github.com/psf/black
     rev: 26.3.1
     hooks:
       - id: black-jupyter
+        # Preserve the SHA256-addressed historical evidence bytes.
+        exclude: ^docs/validation/windows-(flashinfer-0617-20261028|wsl2-diagnosis-20261028|wsl2-perf-20261028(-after-reboot)?)/
   - repo: https://github.com/kynan/nbstripout
     rev: 0.9.1
     hooks:

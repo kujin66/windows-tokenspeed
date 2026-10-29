@@ -1,0 +1,79 @@
+Looking in indexes: https://redacted-index.invalid/
+Processing .\tokenspeed-scheduler
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed-scheduler
+  Building wheel for tokenspeed-scheduler (pyproject.toml): started
+  Building wheel for tokenspeed-scheduler (pyproject.toml): still running...
+  Building wheel for tokenspeed-scheduler (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed-scheduler: filename=tokenspeed_scheduler-0.1.42-cp313-cp313-win_arm64.whl size=492699 sha256=e9838b47a18ce872b9db13022dffebbb983532e68b74dfcf098d4716469f1b7f
+  Stored in directory: C:/Users/user\AppData\Local\Temp\pip-ephem-wheel-cache-ag10h7o3\wheels\83\7f\ef\9337bc76dc3950d06db0bca79eef80682535f996ace3009619
+Successfully built tokenspeed-scheduler
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\Scripts\python.exe -m pip install --upgrade pip
+Looking in indexes: https://redacted-index.invalid/
+Processing .\tokenspeed-engine
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed-engine
+  Building wheel for tokenspeed-engine (pyproject.toml): started
+  Building wheel for tokenspeed-engine (pyproject.toml): still running...
+  Building wheel for tokenspeed-engine (pyproject.toml): still running...
+  Building wheel for tokenspeed-engine (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed-engine: filename=tokenspeed_engine-0.1.0-cp313-cp313-win_arm64.whl size=5173010 sha256=087d066fd0a26c3090e0569310b9785570a2816eb1b1c443af1d809375dcc039
+  Stored in directory: C:/Users/user\AppData\Local\Temp\pip-ephem-wheel-cache-3is887s4\wheels\a4\4d\df\dba3544a1924475ebfb0c35f5bfeb8aaad3cbdcb47b2ac3d4d
+Successfully built tokenspeed-engine
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\Scripts\python.exe -m pip install --upgrade pip
+Looking in indexes: https://redacted-index.invalid/
+Processing .\tokenspeed-kernel\python
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed_kernel
+  Building wheel for tokenspeed_kernel (pyproject.toml): started
+  Building wheel for tokenspeed_kernel (pyproject.toml): still running...
+  Building wheel for tokenspeed_kernel (pyproject.toml): still running...
+  Building wheel for tokenspeed_kernel (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed_kernel: filename=tokenspeed_kernel-0.1.4.dev20261028+git9a50ac82-cp313-cp313-win_arm64.whl size=3727498 sha256=e4ebc21483d3d658da34c81b430b96090e76edf6c42fab595ddbd4f2a4f2377a
+  Stored in directory: C:/Users/user\AppData\Local\Temp\pip-ephem-wheel-cache-jw_tgvg2\wheels\cb\d9\41\5ad55b518ff6181bdb05b1006999686ad3f61ff37e422ef193
+Successfully built tokenspeed_kernel
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\Scripts\python.exe -m pip install --upgrade pip
+Looking in indexes: https://redacted-index.invalid/
+Processing .\python
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed
+  Building wheel for tokenspeed (pyproject.toml): started
+  Building wheel for tokenspeed (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed: filename=tokenspeed-0.1.1-py3-none-any.whl size=2405644 sha256=9c03651d93e1611794659898f203634f548fa2350db7bb61a719bd27034a38a0
+  Stored in directory: C:/Users/user\AppData\Local\Temp\pip-ephem-wheel-cache-8_wjoky9\wheels\ce\0e\e0\03f03eda962e7286cb5af6a2a9d27af59fc683cb9c5f97bcde
+Successfully built tokenspeed
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\Scripts\python.exe -m pip install --upgrade pip
+Processing .\dist\tokenspeed-0.1.1-py3-none-any.whl
+Installing collected packages: tokenspeed
+Successfully installed tokenspeed-0.1.1
+Processing .\dist\tokenspeed_engine-0.1.0-cp313-cp313-win_arm64.whl
+Installing collected packages: tokenspeed-engine
+Successfully installed tokenspeed-engine-0.1.0
+Processing .\dist\tokenspeed_kernel-0.1.4.dev20261028+git9a50ac82-cp313-cp313-win_arm64.whl
+Installing collected packages: tokenspeed-kernel
+Successfully installed tokenspeed-kernel-0.1.4.dev20261028+git9a50ac82
+Processing .\dist\tokenspeed_scheduler-0.1.42-cp313-cp313-win_arm64.whl
+Installing collected packages: tokenspeed-scheduler
+Successfully installed tokenspeed-scheduler-0.1.42
+PASS: native ARM64 Python without emulation; 4 installed wheels match; all 6 native binaries are ARM64 and linked by MSVC 14.51
+
+Algorithm Hash                                                             Path                                        
+--------- ----                                                             ----                                        
+SHA256    9C03651D93E1611794659898F203634F548FA2350DB7BB61A719BD27034A38A0 C:/Users/user\projects\official-repos\w...
+SHA256    087D066FD0A26C3090E0569310B9785570A2816EB1B1C443AF1D809375DCC039 C:/Users/user\projects\official-repos\w...
+SHA256    E4EBC21483D3D658DA34C81B430B96090E76EDF6C42FAB595DDBD4F2A4F2377A C:/Users/user\projects\official-repos\w...
+SHA256    E9838B47A18CE872B9DB13022DFFEBBB983532E68B74DFCF098D4716469F1B7F C:/Users/user\projects\official-repos\w...
+
+

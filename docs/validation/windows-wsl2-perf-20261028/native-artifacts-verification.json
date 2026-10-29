@@ -1,0 +1,268 @@
+{
+  "passed": true,
+  "python": "3.13.16",
+  "python_pe": {
+    "machine": "0xaa64",
+    "linker_version": [
+      14,
+      44
+    ]
+  },
+  "process_machine": "0x0",
+  "native_machine": "0xaa64",
+  "emulated": false,
+  "cuda_sdk": "13.4.0",
+  "cuda_nvcc": "13.4.46",
+  "artifacts": [
+    {
+      "wheel": "tokenspeed-0.1.1-py3-none-any.whl",
+      "sha256": "9c03651d93e1611794659898f203634f548fa2350db7bb61a719bd27034a38a0",
+      "tags": [
+        "py3-none-any"
+      ],
+      "checked_installed_files": 495,
+      "native_binaries": [],
+      "cuda_build_identities": []
+    },
+    {
+      "wheel": "tokenspeed_engine-0.1.0-cp313-cp313-win_arm64.whl",
+      "sha256": "087d066fd0a26c3090e0569310b9785570a2816eb1b1c443af1d809375dcc039",
+      "tags": [
+        "cp313-cp313-win_arm64"
+      ],
+      "checked_installed_files": 3,
+      "native_binaries": [
+        {
+          "filename": "tokenspeed_engine/_native.cp313-win_arm64.pyd",
+          "machine": "0xaa64",
+          "linker_version": [
+            14,
+            51
+          ],
+          "sha256": "e21874dd61bc6bc1f0780a043e4d35903071972729274c8d86b67e647c76e87e",
+          "installed_matches_wheel": true
+        },
+        {
+          "filename": "tokenspeed_engine/bin/ts-host.exe",
+          "machine": "0xaa64",
+          "linker_version": [
+            14,
+            51
+          ],
+          "sha256": "274a04d176de2882569535bf36d84b0f0bb980ca64d4098c69ea0a6cad425e87",
+          "installed_matches_wheel": true
+        }
+      ],
+      "cuda_build_identities": []
+    },
+    {
+      "wheel": "tokenspeed_kernel-0.1.4.dev20261028+git9a50ac82-cp313-cp313-win_arm64.whl",
+      "sha256": "e4ebc21483d3d658da34c81b430b96090e76edf6c42fab595ddbd4f2a4f2377a",
+      "tags": [
+        "cp313-cp313-win_arm64"
+      ],
+      "checked_installed_files": 645,
+      "native_binaries": [
+        {
+          "filename": "tokenspeed_kernel/thirdparty/cuda/objs/cublas_fp8_tensor/cublas_fp8_tensor.so",
+          "machine": "0xaa64",
+          "linker_version": [
+            14,
+            51
+          ],
+          "sha256": "1bdcda4a2f4a098f2df8d0cdc46f42b11f09891118a62de70d4d7544bb82b9c6",
+          "installed_matches_wheel": true
+        },
+        {
+          "filename": "tokenspeed_kernel/thirdparty/cuda/objs/rmsnorm_fused_parallel/rmsnorm_fused_parallel.so",
+          "machine": "0xaa64",
+          "linker_version": [
+            14,
+            51
+          ],
+          "sha256": "ff8114f675e749dff8f7de6d7478076d33653e2da8107d958aae49c1c2e5790f",
+          "installed_matches_wheel": true
+        },
+        {
+          "filename": "tokenspeed_kernel/thirdparty/cuda/objs/sampling_chain/sampling_chain.so",
+          "machine": "0xaa64",
+          "linker_version": [
+            14,
+            51
+          ],
+          "sha256": "3419a01e107e9ccc92e0c75da36b955b0a55ce53c8934366d224346328877942",
+          "installed_matches_wheel": true
+        }
+      ],
+      "cuda_build_identities": [
+        {
+          "compile_flags": [
+            "-std=c++17",
+            "-O3",
+            "-DNDEBUG",
+            "-use_fast_math",
+            "--expt-relaxed-constexpr",
+            "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor",
+            "-DFLASHINFER_ENABLE_BF16",
+            "-DFLASHINFER_ENABLE_F16",
+            "-DENABLE_BF16",
+            "-DENABLE_FP8",
+            "-gencode=arch=compute_121a,code=sm_121a",
+            "--use-local-env"
+          ],
+          "cuda_frontend_ccbin": null,
+          "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+          "cuda_version": [
+            13,
+            4
+          ],
+          "cxx": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\cl.exe",
+          "extra_cflags": [],
+          "extra_ldflags": [
+            "-lcublasLt"
+          ],
+          "format": 1,
+          "host_compiler_version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for ARM64\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\nusage: cl [ option... ] filename... [ /link linkoption... ]\n",
+          "include_dirs": [
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc",
+            "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include",
+            "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cccl",
+            "C:/Users/user\\projects\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\cutlass\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\spdlog\\include"
+          ],
+          "link_flags": [
+            "/DLL",
+            "/LIBPATH:C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64",
+            "cudart.lib",
+            "cuda.lib",
+            "C:/Users/user\\projects\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\lib\\tvm_ffi.lib"
+          ],
+          "nvcc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\nvcc.exe",
+          "precise_math": false
+        },
+        {
+          "compile_flags": [
+            "-std=c++17",
+            "-O3",
+            "-DNDEBUG",
+            "-use_fast_math",
+            "--expt-relaxed-constexpr",
+            "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor",
+            "-DFLASHINFER_ENABLE_BF16",
+            "-DFLASHINFER_ENABLE_F16",
+            "-DENABLE_BF16",
+            "-DENABLE_FP8",
+            "-gencode=arch=compute_121a,code=sm_121a",
+            "--use-local-env"
+          ],
+          "cuda_frontend_ccbin": null,
+          "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+          "cuda_version": [
+            13,
+            4
+          ],
+          "cxx": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\cl.exe",
+          "extra_cflags": [],
+          "extra_ldflags": [],
+          "format": 1,
+          "host_compiler_version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for ARM64\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\nusage: cl [ option... ] filename... [ /link linkoption... ]\n",
+          "include_dirs": [
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc",
+            "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include",
+            "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cccl",
+            "C:/Users/user\\projects\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\cutlass\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\spdlog\\include"
+          ],
+          "link_flags": [
+            "/DLL",
+            "/LIBPATH:C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64",
+            "cudart.lib",
+            "cuda.lib",
+            "C:/Users/user\\projects\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\lib\\tvm_ffi.lib"
+          ],
+          "nvcc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\nvcc.exe",
+          "precise_math": false
+        },
+        {
+          "compile_flags": [
+            "-std=c++17",
+            "-O3",
+            "-DNDEBUG",
+            "-use_fast_math",
+            "--expt-relaxed-constexpr",
+            "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor",
+            "-DFLASHINFER_ENABLE_BF16",
+            "-DFLASHINFER_ENABLE_F16",
+            "-DENABLE_BF16",
+            "-DENABLE_FP8",
+            "-gencode=arch=compute_121a,code=sm_121a",
+            "--use-local-env"
+          ],
+          "cuda_frontend_ccbin": null,
+          "cuda_home": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4",
+          "cuda_version": [
+            13,
+            4
+          ],
+          "cxx": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.port\\msvc\\Contents\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostarm64\\arm64\\cl.exe",
+          "extra_cflags": [],
+          "extra_ldflags": [],
+          "format": 1,
+          "host_compiler_version": "Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36260 for ARM64\nCopyright (C) Microsoft Corporation.  All rights reserved.\n\nusage: cl [ option... ] filename... [ /link linkoption... ]\n",
+          "include_dirs": [
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\tokenspeed-kernel\\python\\tokenspeed_kernel\\thirdparty\\cuda\\csrc",
+            "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include",
+            "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\include\\cccl",
+            "C:/Users/user\\projects\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\csrc\\nv_internal\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\cutlass\\include",
+            "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\Lib\\site-packages\\flashinfer\\data\\spdlog\\include"
+          ],
+          "link_flags": [
+            "/DLL",
+            "/LIBPATH:C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\lib\\arm64",
+            "cudart.lib",
+            "cuda.lib",
+            "C:/Users/user\\projects\\vllm-bench\\.venv\\Lib\\site-packages\\tvm_ffi\\lib\\tvm_ffi.lib"
+          ],
+          "nvcc": "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\nvcc.exe",
+          "precise_math": false
+        }
+      ]
+    },
+    {
+      "wheel": "tokenspeed_scheduler-0.1.42-cp313-cp313-win_arm64.whl",
+      "sha256": "e9838b47a18ce872b9db13022dffebbb983532e68b74dfcf098d4716469f1b7f",
+      "tags": [
+        "cp313-cp313-win_arm64"
+      ],
+      "checked_installed_files": 2,
+      "native_binaries": [
+        {
+          "filename": "tokenspeed_scheduler/tokenspeed_scheduler_ext.cp313-win_arm64.pyd",
+          "machine": "0xaa64",
+          "linker_version": [
+            14,
+            51
+          ],
+          "sha256": "aebc9b28c0f7a66ffd34fb55c6ed104d4fbd703727a71f060ca5b24172364fd0",
+          "installed_matches_wheel": true
+        }
+      ],
+      "cuda_build_identities": []
+    }
+  ]
+}

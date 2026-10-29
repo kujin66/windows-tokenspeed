@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "flashinfer": "0.6.17+g2ea3c24b5dac",
+  "norm": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\layernorm\\__init__.py",
+  "activation": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\activation\\__init__.py"
+}

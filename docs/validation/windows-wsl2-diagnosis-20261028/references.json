@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://docs.nvidia.com/cuda/wsl-user-guide/index.html",
+    "local_sha256": "7bbf6894785120f2aa2f1f1491ebf7d8a3523b8c8365584602c6c74c989d6942"
+  },
+  {
+    "url": "https://developer.nvidia.com/blog/cuda-graphs/",
+    "local_sha256": "40fc53a33da087536b67b14c660786f80cfde91178d9cf7c485f88e7f15c35fe"
+  },
+  {
+    "url": "https://github.com/woct0rdho/triton-windows",
+    "local_sha256": "9b85379981642df120a44e4383d2f930418d539919782267234829e30a41236b"
+  }
+]

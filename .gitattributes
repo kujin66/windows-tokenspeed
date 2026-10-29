@@ -1,0 +1,2 @@
+# Preserve published evidence bytes on Windows and Linux checkouts.
+docs/validation/windows-*20261028*/** text eol=lf whitespace=-trailing-space

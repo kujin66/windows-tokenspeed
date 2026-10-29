@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "python": "3.13.16",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "torch": "2.14.0+cu130",
+  "torch_compile_cuda": "13.0",
+  "torch_git_version": "08187d9e0fba026dc8217405802ab5381dc88d90",
+  "loaded_cuda_runtime_version": 13000,
+  "gpu": {
+    "name": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+    "sm": [
+      12,
+      1
+    ],
+    "total_memory": 13265012736
+  },
+  "loaded_gpu_libraries": [
+    {
+      "path": "/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nvidia/cu13/lib/libcublas.so.13",
+      "bytes": 61910216
+    },
+    {
+      "path": "/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nvidia/cu13/lib/libcublasLt.so.13",
+      "bytes": 629945952
+    },
+    {
+      "path": "/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nvidia/cu13/lib/libcudart.so.13",
+      "bytes": 707752
+    },
+    {
+      "path": "/opt/tokenspeed-work/venv/lib/python3.13/site-packages/torch/lib/libtorch_cuda.so",
+      "bytes": 461027177
+    },
+    {
+      "path": "/usr/lib/wsl/drivers/nv_surface_woa.inf_arm64_16a58701e0a90ce9/libcuda.so.1.1",
+      "bytes": 27115152
+    },
+    {
+      "path": "/usr/lib/wsl/lib/libcuda.so.1",
+      "bytes": 183864
+    }
+  ],
+  "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2026 NVIDIA Corporation\nBuilt on Sun_Jul_12_11:25:10_PDT_2026\nCuda compilation tools, release 13.4, V13.4.46\nBuild cuda_13.4.r13.4/compiler.38501229_0\n",
+  "gcc": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "rust": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+}

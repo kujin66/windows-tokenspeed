@@ -1,0 +1,174 @@
+{
+  "captured_at": "2026-10-28T17:35:23.515723+08:00",
+  "status": "paired_benchmark_completed",
+  "windows_boot": {
+    "LastBootUpTime": "2026-10-28T16:30:20.494002+08:00",
+    "Version": "10.0.28000",
+    "BuildNumber": "28000"
+  },
+  "platforms": {
+    "windows": {
+      "os": "Windows",
+      "kernel": "11",
+      "machine": "ARM64",
+      "python": "3.13.16",
+      "torch_cuda": "13.4",
+      "dependencies": {
+        "tokenspeed": "0.1.1",
+        "tokenspeed-engine": "0.1.0",
+        "tokenspeed-scheduler": "0.1.42",
+        "tokenspeed-kernel": "0.1.4.dev20261028+git9a50ac82",
+        "torch": "2.14.0a0+git20b0f57",
+        "triton-windows": "3.8.0.post29",
+        "transformers": "5.12.0",
+        "apache-tvm-ffi": "0.1.13.post3",
+        "flashinfer-python": "0.7.2"
+      }
+    },
+    "wsl2": {
+      "os": "Linux",
+      "kernel": "6.18.54.1-microsoft-standard-WSL2",
+      "machine": "aarch64",
+      "python": "3.13.16",
+      "torch_cuda": "13.0",
+      "dependencies": {
+        "tokenspeed": "0.1.1",
+        "tokenspeed-engine": "0.1.0",
+        "tokenspeed-scheduler": "0.1.42",
+        "tokenspeed-kernel": "0.1.4.dev20261028+git864bcdd9",
+        "torch": "2.14.0",
+        "triton": "3.8.0",
+        "tokenspeed-triton": "3.9.10.post20261008",
+        "transformers": "5.12.0",
+        "apache-tvm-ffi": "0.1.13.post3",
+        "flashinfer-python": "0.7.2"
+      }
+    }
+  },
+  "sources": {
+    "windows": "9a50ac82b59fc47044090e4441c05c88173715c1",
+    "wsl2": "864bcdd9ef3c5f1512bbe293d970d73eb29d2c94",
+    "common_upstream_base": "864bcdd9ef3c5f1512bbe293d970d73eb29d2c94",
+    "windows_status_at_start": "M README.md\n M skills/tokenspeed-windows-arm64-build/SKILL.md\n M skills/tokenspeed-windows-arm64-build/references/build.md\n M skills/tokenspeed-windows-arm64-build/references/dependencies.md\n M skills/tokenspeed-windows-arm64-build/references/validation.md\n?? docs/guides/windows-arm64-reproduction.md\n?? docs/guides/wsl2-arm64-build.md\n?? docs/validation/windows-wsl2-perf-20261028/\n?? requirements/windows-arm64-tested.txt\n?? test/tools/\n?? tools/perf/\n?? tools/windows/build_wheels.ps1\n?? tools/windows/copy_python_dependencies.py\n?? tools/windows/enable_wsl2.ps1\n?? tools/windows/install_wsl2.ps1\n?? tools/windows/prepare_local.ps1",
+    "wsl2_status_at_start": ""
+  },
+  "model_files": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "gpu": {
+    "name": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+    "sm": [
+      12,
+      1
+    ],
+    "total_memory": 13265012736
+  },
+  "workload": {
+    "input_lengths": [
+      128,
+      512
+    ],
+    "batch_sizes": [
+      1,
+      4
+    ],
+    "output_length": 128,
+    "warmup": 3,
+    "rounds": 10,
+    "consistency_policy": "record",
+    "seed": 20261028,
+    "engine": {
+      "seed": 20261028,
+      "dtype": "bfloat16",
+      "world_size": 1,
+      "max_model_len": 704,
+      "max_num_seqs": 4,
+      "max_total_tokens": 2816,
+      "gpu_memory_utilization": 0.25,
+      "attention_backend": "triton",
+      "enforce_eager": true,
+      "disable_prefill_graph": true,
+      "grammar_backend": "none",
+      "sampling_backend": "greedy",
+      "disable_kvstore": true,
+      "retraction_snapshot_ratio": 0,
+      "enable_prefix_caching": false,
+      "log_level": "warning"
+    },
+    "sampling": {
+      "temperature": 0,
+      "max_new_tokens": 128,
+      "ignore_eos": true
+    },
+    "timing": "blocking Engine.generate wall time, includes prefill and decode; excludes model load, warmup and output verification"
+  },
+  "measured_requests_per_platform": 100,
+  "measured_output_tokens_per_platform": 12800,
+  "wsl2_functional_inference": {
+    "requests": 5,
+    "output_tokens_per_request": 16,
+    "passed": true
+  },
+  "wsl2_project_native_elf_count": 27,
+  "wsl2_actual_cuda_runtime": 13000,
+  "cases": [
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "windows_output_tokens_per_second": 53.186996404326564,
+      "wsl2_output_tokens_per_second": 65.00665396784635,
+      "windows_relative_to_wsl2_percent": -18.182227267636375,
+      "greedy_output_ids_match": true,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 22.22283332878392,
+      "wsl2_over_windows_ratio": 1.2222283332878392
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "windows_output_tokens_per_second": 215.63649280385346,
+      "wsl2_output_tokens_per_second": 244.94104765299582,
+      "windows_relative_to_wsl2_percent": -11.963921576206237,
+      "greedy_output_ids_match": false,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 13.589793855439058,
+      "wsl2_over_windows_ratio": 1.1358979385543906
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "windows_output_tokens_per_second": 54.9975573565324,
+      "wsl2_output_tokens_per_second": 64.06399549506793,
+      "windows_relative_to_wsl2_percent": -14.152158429196826,
+      "greedy_output_ids_match": true,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 16.485165113353272,
+      "wsl2_over_windows_ratio": 1.1648516511335327
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "windows_output_tokens_per_second": 215.87906289614756,
+      "wsl2_output_tokens_per_second": 244.66493206365934,
+      "windows_relative_to_wsl2_percent": -11.765425034439335,
+      "greedy_output_ids_match": false,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 13.334257051764077,
+      "wsl2_over_windows_ratio": 1.1333425705176408
+    }
+  ],
+  "limits": [
+    "Same physical GPU and Windows boot, same input IDs/model hashes and fixed token counts; Windows run finishes before WSL2 run starts",
+    "BF16 single-GPU eager Engine.generate wall time, includes prefill/decode/IPC; excludes model load and explicit warmup; no HTTP, TTFT/ITL, CUDA-graph or NVFP4 comparison",
+    "PyTorch builds, Triton distributions, selected kernels and CUDA libraries differ; this compares software stacks, not an isolated operating-system effect",
+    "A prior Windows strict trial observed intermittent greedy output variation; retain within-run and cross-platform flags rather than claim universal numerical determinism",
+    "Vendor cuSPARSELt WHEEL declares manylinux2014_sbsa; pip check reports unsupported platform although the library is AArch64 and tested CUDA operations pass",
+    "Official local kernel wheel is tagged py3-none-any but contains AArch64 native libraries; only this Linux ARM64 environment is validated",
+    "Earlier 202 Windows pytest passes are historical checks, not rerun or added to the measured-request totals in this session"
+  ]
+}

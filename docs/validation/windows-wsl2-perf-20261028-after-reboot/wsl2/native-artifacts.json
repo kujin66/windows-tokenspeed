@@ -1,0 +1,220 @@
+{
+  "passed": true,
+  "python": "3.13.16",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "python_elf": {
+    "machine": 183,
+    "architecture": "AArch64"
+  },
+  "artifacts": [
+    {
+      "wheel": "tokenspeed-0.1.1-py3-none-any.whl",
+      "sha256": "7fb9e3d868a55cc7bdbd509a5d75d146cf582e6793ae61bf07970070d816731f",
+      "tags": [
+        "py3-none-any"
+      ],
+      "checked_files": 494,
+      "native_binaries": [],
+      "build_identities": [],
+      "native_content_has_platform_tag": true
+    },
+    {
+      "wheel": "tokenspeed_engine-0.1.0-cp313-cp313-linux_aarch64.whl",
+      "sha256": "581b9f460ddf8d9d534660351007f336504418e01df3abd4e6f82a029ae24919",
+      "tags": [
+        "cp313-cp313-linux_aarch64"
+      ],
+      "checked_files": 3,
+      "native_binaries": [
+        {
+          "file": "tokenspeed_engine/_native.cpython-313-aarch64-linux-gnu.so",
+          "sha256": "c8a819ae8b3ebc456fb0ff7ac925316472cb4f543aaabf6b6d1db8f8b73265b9",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_engine/bin/ts-host",
+          "sha256": "f61d1d0893937c49e3f1526ade66ecf69110d6db350608c8b950a57c4098706a",
+          "machine": 183,
+          "architecture": "AArch64"
+        }
+      ],
+      "build_identities": [],
+      "native_content_has_platform_tag": true
+    },
+    {
+      "wheel": "tokenspeed_kernel-0.1.4.dev20261028+git864bcdd9-py3-none-any.whl",
+      "sha256": "178601b4cd6f29dceca5c7ac3555703205405e66feda6e1fe9d357b509158b8e",
+      "tags": [
+        "py3-none-any"
+      ],
+      "checked_files": 660,
+      "native_binaries": [
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/attn_res/attn_res.so",
+          "sha256": "8c2003961731d25cfc6e1ef9a36833ef3e6baae2497a74947873d5e9c88259a5",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/dsv3_gemm/dsv3_gemm.so",
+          "sha256": "97c3d8d879b2bccca645156df1529412e975d25c33fc59ea8b73e88049b71706",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/dsv4_attention/dsv4_attention.so",
+          "sha256": "7cfeb7d450b5cf29db50dcfe77d1fac8306973c99a88959dd8b0361397821e1c",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/eagle4_candidate/eagle4_candidate.so",
+          "sha256": "9aad17d8dcf740d9290b7530d28fe093d78b29203cec1e3ace8f8a435649239e",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/eagle_harness_chain/eagle_harness_chain.so",
+          "sha256": "d07e8c048367ba9daf48bb715fe630514c457cf287fcecdbd81f864a3050f596",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/eagle_harness_policy/eagle_harness_policy.so",
+          "sha256": "5050eb925e471aa139ca2fea222666d81bb9df6e349a3b064337f396a6ce6f58",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/eagle_harness_tree/eagle_harness_tree.so",
+          "sha256": "0cef74b2ef4043a6b76d0c6fc1e8fd7063aa3a64060324f9e1260f74cb337925",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/flashinfer_softmax/flashinfer_softmax.so",
+          "sha256": "3835639300e68a81f39f936dd7d46fe7889fab6bbc51ed46c0abc9e088a89fd7",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/fused_topk_topp/fused_topk_topp.so",
+          "sha256": "aa1bc521698754b43eeff72ab4e2e5375b4555e706b98553337adbdf7eb0ea57",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/kvcacheio/kvcacheio.so",
+          "sha256": "78f7045298b049a303e998f610a3524d3c717aac60ce947c42f76239caffc56f",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/lm_head_gemm/lm_head_gemm.so",
+          "sha256": "510430b8484acabab956e0ac443b038dff933c3e2bf6d56f8c19a8f36212d154",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/marlin/marlin.so",
+          "sha256": "6e43470f49f933aadd9c3a7b0e91efbd859f213868e330f0c7858b12a0b63e51",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/marlin_moe/marlin_moe.so",
+          "sha256": "3359cc4dc8f40e0ceb212aae093ebc212e4b30dcaf8d16a3ab25fe9cb5980a79",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/merge_state/merge_state.so",
+          "sha256": "6131d24b835c801f73125c397635ee73a4a39fc650cb885b5444f8aa3553520b",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/mhc_big_fuse/mhc_big_fuse.so",
+          "sha256": "f8e98595c02a01154bf63a9c10fae28b6ca2d323688a58118cfaec795c96b70c",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/moe_finalize_fuse_shared/moe_finalize_fuse_shared.so",
+          "sha256": "cd50662d3338c703dabf054308e2068663c12f024a90209bff7b520acf338637",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/rmsnorm_fused_parallel/rmsnorm_fused_parallel.so",
+          "sha256": "c1431e8e2b758109a07adbb45d75a1f6436b3071c27b56deffce0a0c773b92cd",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/rope/rope.so",
+          "sha256": "95587d146bee833a4b26d630a2137cb6f5abe7af0a77f41075e1855a25143c68",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/routing/routing.so",
+          "sha256": "b7b54e2dbf9a9a0528e40c97c24cbe4da7754358bfe176d4fe6e32b27e1a8d51",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/sampling_chain/sampling_chain.so",
+          "sha256": "5ad0e4dd560d030ea6a628c60eaf02366e244f01cdd9befaacef186de66e4340",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/silu_fuse_block_quant/silu_fuse_block_quant.so",
+          "sha256": "a082f8612099d78bac16cde2e6d026c523342ba14c65cb714fa1d4c8836f3f83",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/silu_fuse_nvfp4_quant/silu_fuse_nvfp4_quant.so",
+          "sha256": "799dac2d60844ab3a01ca2a61d1fd11f076c2a58b43b48aabbd2c9a045f22b37",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/trtllm_comm/trtllm_comm.so",
+          "sha256": "07a602e536638975da4f10472b9aebd9f159e7b3e0e5ab7af78d9274e055865d",
+          "machine": 183,
+          "architecture": "AArch64"
+        },
+        {
+          "file": "tokenspeed_kernel/thirdparty/cuda/objs/trtllm_mhc/trtllm_mhc.so",
+          "sha256": "5e3650f3c931d9ecdb55640778599ae5be288a140527c948df53e8c8459b7faa",
+          "machine": 183,
+          "architecture": "AArch64"
+        }
+      ],
+      "build_identities": [],
+      "native_content_has_platform_tag": false
+    },
+    {
+      "wheel": "tokenspeed_scheduler-0.1.42-cp313-cp313-linux_aarch64.whl",
+      "sha256": "2e1e91553bed59abc2b92379195a2b5a2a47572ffd421487e64d438360768ca3",
+      "tags": [
+        "cp313-cp313-linux_aarch64"
+      ],
+      "checked_files": 2,
+      "native_binaries": [
+        {
+          "file": "tokenspeed_scheduler/tokenspeed_scheduler_ext.cpython-313-aarch64-linux-gnu.so",
+          "sha256": "2d619a9f0533d8e49ccc3a2e0d2c591b4bdd07a29988dddab6fbe67306bab65e",
+          "machine": 183,
+          "architecture": "AArch64"
+        }
+      ],
+      "build_identities": [],
+      "native_content_has_platform_tag": true
+    }
+  ]
+}

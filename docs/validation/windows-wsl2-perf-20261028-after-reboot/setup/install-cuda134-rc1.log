@@ -1,0 +1,29 @@
+Using CPython 3.13.16 interpreter at: /opt/tokenspeed-work/venv/bin/python
+Resolved 8 packages in 835ms
+Downloading nvidia-cuda-runtime (2.4MiB)
+Downloading nvidia-cublas (526.0MiB)
+Downloading nvidia-nvvm (65.3MiB)
+Downloading nvidia-cuda-nvcc (39.8MiB)
+Downloading nvidia-cuda-cccl (3.7MiB)
+ Downloaded nvidia-cuda-runtime
+Downloading nvidia-cuda-nvrtc (48.6MiB)
+ Downloaded nvidia-cuda-cccl
+ Downloaded nvidia-cuda-nvcc
+ Downloaded nvidia-cuda-nvrtc
+ Downloaded nvidia-nvvm
+ Downloaded nvidia-cublas
+Prepared 8 packages in 2m 18s
+Installed 8 packages in 62ms
+ + cuda-toolkit==13.4.0rc1
+ + nvidia-cublas==13.7.0.10rc1
+ + nvidia-cuda-cccl==13.3.4.1.2rc1
+ + nvidia-cuda-crt==13.4.46rc1
+ + nvidia-cuda-nvcc==13.4.46rc1
+ + nvidia-cuda-nvrtc==13.4.46rc1
+ + nvidia-cuda-runtime==13.4.46rc1
+ + nvidia-nvvm==13.4.46rc1
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Sun_Jul_12_11:25:10_PDT_2026
+Cuda compilation tools, release 13.4, V13.4.46
+Build cuda_13.4.r13.4/compiler.38501229_0

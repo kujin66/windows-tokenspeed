@@ -1,0 +1,1 @@
+PASS: missing-layout failure reproduced; automatic layout repair, direct MSVC 14.51 build and GPU vector-add passed

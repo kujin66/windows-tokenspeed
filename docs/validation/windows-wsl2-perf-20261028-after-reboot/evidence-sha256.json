@@ -1,0 +1,164 @@
+[
+  {
+    "file": "windows/perf.json",
+    "original_sha256": "8ead3eb22891838eb41034c74b7d9716c03120a5f0a039f30e3690dff60525ec",
+    "published_sha256": "6ce78972896bb52c779cfda0aab6a8ba174c102cdb6437ce93bbf87c23819e99"
+  },
+  {
+    "file": "windows/perf.log",
+    "original_sha256": "db6122b6b502288a1d32ee97cec48e35533baf0ba99e5ecdd9d0df2b6e8f20a6",
+    "published_sha256": "785c7ea6cefabc57c2004c6bbe6aac4fcd823502d983a145e08bb3f1fbde1f0d"
+  },
+  {
+    "file": "windows/boot.json",
+    "original_sha256": "4c7a4a4d33995d40e4c609b0001a654be90fd2e9318325614c117cece2c0e743",
+    "published_sha256": "0348bc347ad5122f558a8415d1d683c1888d249f03461f4f661beb88686fb3f3"
+  },
+  {
+    "file": "windows/reused-wheel-audit.json",
+    "original_sha256": "46a1e2e54047e356c011ab16e2c51a9c18c8ff516ca1e0fbc5aae33ef02e5401",
+    "published_sha256": "f940f3be71edad6ed09a6184584a6bacd17277226c039ec88e4215119bba1083"
+  },
+  {
+    "file": "wsl2/bf16-inference-jit-layout-failure.log",
+    "original_sha256": "8f1dc37bdb75b6d515a1ee71919f89365ec66d362df3ff4a6b23f4b411590cf5",
+    "published_sha256": "be28200eb2670755847c33b3a47093c8468ef2a230b0ff27790ed893c0ef459d"
+  },
+  {
+    "file": "wsl2/bf16-inference.json",
+    "original_sha256": "24e5772b9d8dacd103d27ce373d433dcc8ac99d358568f0cc0861c2220460f33",
+    "published_sha256": "2faeb7af42eb293214f5d357fdfe69f1953d095ff19671e56a17da06dcf401b8"
+  },
+  {
+    "file": "wsl2/bf16-inference.log",
+    "original_sha256": "c887381f783b3b3b9ff6eccdbade56060c86be050ea9d653805a89acaf723c9e",
+    "published_sha256": "c420861b22f9f673d6e74f98fcac79a95c77d1df52ec31bf58a7079df8c9d810"
+  },
+  {
+    "file": "wsl2/cuda-sdk-packages.json",
+    "original_sha256": "26e4f48121220e16d2a790bd5475de7fce916065767f3672e802de16e627ea69",
+    "published_sha256": "b0b6569c6435da6d2914fecb769a8c7982a0228fc64498e5d290206560b12b88"
+  },
+  {
+    "file": "wsl2/native-artifacts.json",
+    "original_sha256": "41540ce57d8bf9ddf9300c4c6e2e69bdab0c2170d54e08a2857386432063a1b8",
+    "published_sha256": "41540ce57d8bf9ddf9300c4c6e2e69bdab0c2170d54e08a2857386432063a1b8"
+  },
+  {
+    "file": "wsl2/perf.json",
+    "original_sha256": "e3afffb74590097a661e379a51ff6c5e7ba78af642281b675707f1caf26a28d5",
+    "published_sha256": "e3afffb74590097a661e379a51ff6c5e7ba78af642281b675707f1caf26a28d5"
+  },
+  {
+    "file": "wsl2/perf.log",
+    "original_sha256": "27a29e526d8128772c6397ba7d468245953ad9a8e14325a264e328a641c692d6",
+    "published_sha256": "2b032a65dcf5a98c5dd739e2786a256675f0569a770e39a4259d2d75087a6eb3"
+  },
+  {
+    "file": "wsl2/python-environment.json",
+    "original_sha256": "dc19c5b86a5ec9560c6f1cf04963da9530b1ce220877357ed2f7f203667ccbdd",
+    "published_sha256": "c44852a58043b436015ab6551e680634c481c669f2b69ed8ad742b847bdf60b7"
+  },
+  {
+    "file": "wsl2/runtime-toolchain.json",
+    "original_sha256": "6907e6994a647d0ead265fb106b711a47eb263004fbae78b0ae6545bc1f4765d",
+    "published_sha256": "6907e6994a647d0ead265fb106b711a47eb263004fbae78b0ae6545bc1f4765d"
+  },
+  {
+    "file": "wsl2/logs/engine-build.log",
+    "original_sha256": "6b9fa48a8f85303d0f292d7b4427104f788d65a8a64bdb59e315bf32507e2fb3",
+    "published_sha256": "6b9fa48a8f85303d0f292d7b4427104f788d65a8a64bdb59e315bf32507e2fb3"
+  },
+  {
+    "file": "wsl2/logs/kernel-build-missing-curand.log",
+    "original_sha256": "ae8b4368353c28696a8a60401619b4d4f278bf2295946481196baf67891d7caf",
+    "published_sha256": "ae8b4368353c28696a8a60401619b4d4f278bf2295946481196baf67891d7caf"
+  },
+  {
+    "file": "wsl2/logs/kernel-build.log",
+    "original_sha256": "bdfcc128ddf6045539404aac53a74e9441bb0446b75158af8f028c6b966942c0",
+    "published_sha256": "bdfcc128ddf6045539404aac53a74e9441bb0446b75158af8f028c6b966942c0"
+  },
+  {
+    "file": "wsl2/logs/runtime-build.log",
+    "original_sha256": "4198d360ee35eddf949fe0332ef34383e1261fa2facaa547a89d4c1679facc87",
+    "published_sha256": "4198d360ee35eddf949fe0332ef34383e1261fa2facaa547a89d4c1679facc87"
+  },
+  {
+    "file": "wsl2/logs/scheduler-build.log",
+    "original_sha256": "70ffe54e266e615b640ce8772f09d42b618e5751d78ccb2641b1a04ef7c35a2f",
+    "published_sha256": "70ffe54e266e615b640ce8772f09d42b618e5751d78ccb2641b1a04ef7c35a2f"
+  },
+  {
+    "file": "setup/ubuntu-install-after-reboot.log",
+    "original_sha256": "d4346d34c2aeea685ac5a2192faae353157ae91adc14c53d8bf44ca36d701be8",
+    "published_sha256": "1ded822c4d97e15a06301461c086d9b385c80f92019c4120c4de25e6fc0fd900"
+  },
+  {
+    "file": "setup/gpu-preflight-after-reboot.log",
+    "original_sha256": "03b74e4398407aa5e8359db4d75629847ce80ea0cc7895a9390a88f7358ae690",
+    "published_sha256": "cd64aa60e78bb3356261803f049fc95b75b293afba8b16dbc2fb89320ae0a8e2"
+  },
+  {
+    "file": "setup/build-official.log",
+    "original_sha256": "375afa0716dc7bfc6cefa90df6b58572466a9a7a4613d0cab263cb6dd3467b5b",
+    "published_sha256": "808f259a3d50a068d5e6edad3a69fbba87a0481a8d13fc5e729ab4c54cfd5a31"
+  },
+  {
+    "file": "setup/install-cuda134.log",
+    "original_sha256": "919ba0b8b7b9be4897c20a45a3c18d0a0b615370481079c617795ef44dec6ec5",
+    "published_sha256": "cd943a5ad115baad5939340de3fa2c13a15cdb44c8164b5193ec6cd4180eb64e"
+  },
+  {
+    "file": "setup/install-cuda134-rc1.log",
+    "original_sha256": "12c643f49ff66d73df3cacf7b7b904deb7170b28fe88b5319565e44043baf761",
+    "published_sha256": "4a06bd5928e5d6db0ac83295c55c8186d4f54d59316984b09f8cc678f4b92914"
+  },
+  {
+    "file": "setup/install-cuda134-curand.log",
+    "original_sha256": "16876305ccdb0a8008504d56ec1b62a234144d0d812cef37bcd2239707f30896",
+    "published_sha256": "c3598c483c0e50da15d488f156624e7c8de12103f63f25c53e95e0e7628a3c20"
+  },
+  {
+    "file": "setup/install-runtime-deps.log",
+    "original_sha256": "48aca6284f6585762cf33207ea95d67bb9fcd0b0ae1870b5939cc5d8e89abdb0",
+    "published_sha256": "1b35aec620103af55daa3917c60164d3020b88911ac9c4782bfbdfdfbd81a0a5"
+  },
+  {
+    "file": "setup/toolchain-probe.log",
+    "original_sha256": "bd9b0ab44f14c57f6ea6ee8dc040612c9f6ad4ee2871e5c9e5b086faee97b4a3",
+    "published_sha256": "3d32241416cb9cc611e4c1097ac6b4a1252712d659ebc5c5c5d66f90617d6d53"
+  },
+  {
+    "file": "setup/runtime-toolchain-final.log",
+    "original_sha256": "5c2f5df54db9384f070afc841e7ed9a466dbe3c131294e6eb1e9824a8a4ece30",
+    "published_sha256": "c235ea32519726836382355b430d12f93d136b050a50e9bdd85684fa87b21767"
+  },
+  {
+    "file": "setup/build-gpu-components.log",
+    "original_sha256": "280bd596b7a08dce3f2c2bd9db9cea332b78f2aeab85c7e3cd0d90dfc193601c",
+    "published_sha256": "097a0332f44a81ea3ec71a91fedecec571de85ea26dcac03d02958d285fbdfd1"
+  },
+  {
+    "file": "setup/build-gpu-complete-sdk.log",
+    "original_sha256": "57af526fb138315dee1156c59708099eb5d5cb5aab8caa68206a497429219d45",
+    "published_sha256": "583e2f72df5a1e9509e94b191a51e72c3ca9f7008caeb4fc0600f396b341ca64"
+  },
+  {
+    "file": "setup/fix-layout-validate.log",
+    "original_sha256": "35a44e68d24893d8ab318d9d2494e65247b529f76c6b039b97296297698b0861",
+    "published_sha256": "9b637d85b6ed922ac8f8761394bd14f8eff38b4791c0da1a61e727505d7f8135"
+  },
+  {
+    "file": "results.json",
+    "published_sha256": "766a3f78fc1438fb6637bd57e6d898db0de177d8988c8b648cb0b8b70891d4d8"
+  },
+  {
+    "file": "comparison.json",
+    "published_sha256": "145723e003f78f74863cbd9405eb7165c518f28758281b3d79cfda7ceea93a38"
+  },
+  {
+    "file": "README.md",
+    "published_sha256": "8d1511041a0ac2490b1ff024036785b825c131731176221f179beea58f861453"
+  }
+]

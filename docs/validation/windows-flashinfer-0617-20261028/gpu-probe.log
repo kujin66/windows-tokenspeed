@@ -1,0 +1,5 @@
+PASS rows=1 RMSNorm/fused-add-RMSNorm/SwiGLU
+PASS rows=4 RMSNorm/fused-add-RMSNorm/SwiGLU
+PASS rows=128 RMSNorm/fused-add-RMSNorm/SwiGLU
+PASS rows=512 RMSNorm/fused-add-RMSNorm/SwiGLU
+NVML failed to query NUMA affinity: Not Supported

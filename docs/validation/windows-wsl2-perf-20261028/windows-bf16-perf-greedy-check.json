@@ -1,0 +1,269 @@
+{
+  "schema": 1,
+  "platform": "windows-arm64",
+  "captured_at": "2026-10-28T16:10:29.693565+08:00",
+  "source_commit": "9a50ac82b59fc47044090e4441c05c88173715c1",
+  "upstream_base": "864bcdd9ef3c5f1512bbe293d970d73eb29d2c94",
+  "source_status": "M README.md\n M skills/tokenspeed-windows-arm64-build/SKILL.md\n M skills/tokenspeed-windows-arm64-build/references/build.md\n M skills/tokenspeed-windows-arm64-build/references/dependencies.md\n M skills/tokenspeed-windows-arm64-build/references/validation.md\n?? docs/guides/windows-arm64-reproduction.md\n?? requirements/windows-arm64-tested.txt\n?? test/tools/\n?? tools/perf/\n?? tools/windows/build_wheels.ps1\n?? tools/windows/copy_python_dependencies.py\n?? tools/windows/enable_wsl2.ps1\n?? tools/windows/install_wsl2.ps1\n?? tools/windows/prepare_local.ps1",
+  "benchmark_sha256": "daeaa85c62b8b161dd7f836e08a79f66e444f001804a633b65f245e11e42e0d1",
+  "environment": {
+    "os": "Windows",
+    "kernel": "11",
+    "machine": "ARM64",
+    "python": "3.13.16",
+    "torch_cuda": "13.4",
+    "dependencies": {
+      "tokenspeed": "0.1.1",
+      "tokenspeed-engine": "0.1.0",
+      "tokenspeed-scheduler": "0.1.42",
+      "tokenspeed-kernel": "0.1.4.dev20261028+git9a50ac82",
+      "torch": "2.14.0a0+git20b0f57",
+      "triton-windows": "3.8.0.post29",
+      "transformers": "5.12.0",
+      "apache-tvm-ffi": "0.1.13.post3",
+      "flashinfer-python": "0.7.2"
+    }
+  },
+  "gpu": {
+    "name": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+    "sm": [
+      12,
+      1
+    ],
+    "total_memory": 13265012736
+  },
+  "model_files": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "quantization": null,
+  "workload": {
+    "input_lengths": [
+      128,
+      512
+    ],
+    "batch_sizes": [
+      1,
+      4
+    ],
+    "output_length": 128,
+    "warmup": 3,
+    "rounds": 10,
+    "seed": 20261028,
+    "engine": {
+      "seed": 20261028,
+      "dtype": "bfloat16",
+      "world_size": 1,
+      "max_model_len": 704,
+      "max_num_seqs": 4,
+      "max_total_tokens": 2816,
+      "gpu_memory_utilization": 0.25,
+      "attention_backend": "triton",
+      "enforce_eager": true,
+      "disable_prefill_graph": true,
+      "grammar_backend": "none",
+      "sampling_backend": "greedy",
+      "disable_kvstore": true,
+      "retraction_snapshot_ratio": 0,
+      "enable_prefix_caching": false,
+      "log_level": "warning"
+    },
+    "sampling": {
+      "temperature": 0,
+      "max_new_tokens": 128,
+      "ignore_eos": true
+    },
+    "timing": "blocking Engine.generate wall time, includes prefill and decode; excludes model load, warmup and output verification"
+  },
+  "cases": [
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "input_ids_sha256": "ba403c1482a35c67d4d8ec3769a7bc15a4d0c0e95f876cdbf11ce18cffe59382",
+      "output_ids": [
+        [
+          82,
+          13,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63,
+          197,
+          197,
+          63
+        ]
+      ],
+      "samples": [
+        {
+          "seconds": 2.2800928000001477,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 2.356716800000413,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 2.141924900000049,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 1.9007751999997708,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 2.255207600000176,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 2.002981699999964,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 2.146734599999945,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 2.280933500000174,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 1.7519580000002861,
+          "output_tokens": 128
+        },
+        {
+          "seconds": 2.277020999999877,
+          "output_tokens": 128
+        }
+      ],
+      "summary": {
+        "rounds": 10,
+        "median_seconds": 2.2009711000000607,
+        "p95_seconds": 2.356716800000413,
+        "mean_seconds": 2.1394346100000803,
+        "output_tokens_per_second": 59.82889096105405,
+        "total_output_tokens": 1280,
+        "total_seconds": 21.394346100000803
+      }
+    }
+  ],
+  "passed": false
+}

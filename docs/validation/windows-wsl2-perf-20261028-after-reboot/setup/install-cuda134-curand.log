@@ -1,0 +1,12 @@
+Using CPython 3.13.16 interpreter at: /opt/tokenspeed-work/venv/bin/python
+Resolved 9 packages in 579ms
+Downloading nvidia-curand (60.8MiB)
+ Downloaded nvidia-curand
+Prepared 1 package in 14.08s
+Installed 1 package in 41ms
+ + nvidia-curand==10.4.4.46rc1
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2026 NVIDIA Corporation
+Built on Sun_Jul_12_11:25:10_PDT_2026
+Cuda compilation tools, release 13.4, V13.4.46
+Build cuda_13.4.r13.4/compiler.38501229_0

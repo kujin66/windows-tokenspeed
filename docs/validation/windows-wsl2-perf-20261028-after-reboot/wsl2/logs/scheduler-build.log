@@ -1,0 +1,74 @@
+Processing ./tokenspeed-scheduler
+  Preparing metadata (pyproject.toml): started
+  Running command Preparing metadata (pyproject.toml)
+  2026-10-28 16:53:34,780 - scikit_build_core - WARNING - cmake should not be in build-system.requires - scikit-build-core will inject it as needed
+  2026-10-28 16:53:34,780 - scikit_build_core - WARNING - ninja should not be in build-system.requires - scikit-build-core will inject it as needed
+  *** scikit-build-core 1.1.1 using CMake 4.2.3 (metadata_wheel)
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed-scheduler
+  Building wheel for tokenspeed-scheduler (pyproject.toml): started
+  Running command Building wheel for tokenspeed-scheduler (pyproject.toml)
+  2026-10-28 16:53:35,224 - scikit_build_core - WARNING - cmake should not be in build-system.requires - scikit-build-core will inject it as needed
+  2026-10-28 16:53:35,224 - scikit_build_core - WARNING - ninja should not be in build-system.requires - scikit-build-core will inject it as needed
+  *** scikit-build-core 1.1.1 using CMake 4.2.3 (wheel)
+  *** Configuring CMake...
+  loading initial cache file /opt/tokenspeed-work/build/scheduler/CMakeInit.txt
+  -- The CXX compiler identification is GNU 15.2.0
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Check for working CXX compiler: /usr/bin/c++ - skipped
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  -- Found Python: /opt/tokenspeed-work/venv/bin/python (found version "3.13.16") found components: Interpreter Development.Module
+  -- Performing Test NB_HAS_MTLS_GNU2
+  -- Performing Test NB_HAS_MTLS_GNU2 - Failed
+  -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.5.5")
+  -- Configuring done (3.5s)
+  -- Generating done (0.0s)
+  -- Build files have been written to: /opt/tokenspeed-work/build/scheduler
+  *** Building project with Ninja...
+  [1/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/core/token_container.cpp.o
+  [2/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/resource/allocator/req_pool_allocator.cpp.o
+  [3/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/fsm/pd_events.cpp.o
+  [4/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/fsm/forward_events.cpp.o
+  [5/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/operations/group_demands.cpp.o
+  [6/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/operations/forward.cpp.o
+  [7/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/operations/prefill_chunk.cpp.o
+  [8/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/kv_cache_events.cpp.o
+  [9/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/capacity_model.cpp.o
+  [10/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/request.cpp.o
+  [11/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/types.cpp.o
+  [12/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/outside_event_handler.cpp.o
+  [13/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/cache/core/cache_config.cpp.o
+  [14/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/scheduler.cpp.o
+  [15/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/cache/coordinator/cache_admission.cpp.o
+  [16/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/cache/core/cache_block_ref.cpp.o
+  [17/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/cache/coordinator/cache_coordinator.cpp.o
+  [18/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/operations/cache.cpp.o
+  [19/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/cache/tier/transfer_manager.cpp.o
+  [20/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/cache/tier/storage_manager.cpp.o
+  [21/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/nb_internals.cpp.o
+  [22/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/nb_func.cpp.o
+  [23/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/nb_type.cpp.o
+  [24/36] Building CXX object CMakeFiles/tokenspeed_scheduler_core.dir/csrc/scheduler/operations/storage.cpp.o
+  [25/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/nb_enum.cpp.o
+  [26/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/nb_ndarray.cpp.o
+  [27/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/nb_static_property.cpp.o
+  [28/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/nb_datetime.cpp.o
+  [29/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/common.cpp.o
+  [30/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/error.cpp.o
+  [31/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/implicit.cpp.o
+  [32/36] Building CXX object CMakeFiles/nanobind-static.dir/opt/tokenspeed-work/venv/lib/python3.13/site-packages/nanobind/src/trampoline.cpp.o
+  [33/36] Linking CXX static library libtokenspeed_scheduler_core.a
+  [34/36] Linking CXX static library libnanobind-static.a
+  [35/36] Building CXX object CMakeFiles/tokenspeed_scheduler_ext.dir/bindings/python_module.cpp.o
+  [36/36] Linking CXX shared module tokenspeed_scheduler_ext.cpython-313-aarch64-linux-gnu.so
+  *** Installing project into wheel...
+  -- Install configuration: "Release"
+  -- Installing: /tmp/tmpesou9xjx/wheel/platlib/tokenspeed_scheduler/tokenspeed_scheduler_ext.cpython-313-aarch64-linux-gnu.so
+  *** Making wheel...
+  *** Created tokenspeed_scheduler-0.1.42-cp313-cp313-linux_aarch64.whl
+  Building wheel for tokenspeed-scheduler (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed-scheduler: filename=tokenspeed_scheduler-0.1.42-cp313-cp313-linux_aarch64.whl size=775083 sha256=2e1e91553bed59abc2b92379195a2b5a2a47572ffd421487e64d438360768ca3
+  Stored in directory: /tmp/pip-ephem-wheel-cache-exnz_l3b/wheels/80/70/9f/5b562ee3e6f649a166515a54c57e4512ea000ec5a004662372
+Successfully built tokenspeed-scheduler

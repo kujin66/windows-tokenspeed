@@ -1,0 +1,5 @@
+NVML failed to query NUMA affinity: Not Supported
+2026-10-28 18:46:35,459 - INFO - core.py:594 - flashinfer.jit: Building JIT module batch_prefill_with_kv_cache_dtype_q_bf16_dtype_kv_bf16_dtype_o_bf16_dtype_idx_i32_head_dim_qk_128_head_dim_vo_128_posenc_0_use_swa_False_use_logits_cap_False_f16qk_False_kv_stride_equal; this can take several minutes on first use.
+PASS FA2 q=(128,) kv=(128,)
+PASS FA2 q=(32, 64, 128, 1) kv=(96, 128, 192, 33)
+PASS FA2 q=(512,) kv=(512,)

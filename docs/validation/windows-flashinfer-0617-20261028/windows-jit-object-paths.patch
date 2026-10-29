@@ -1,0 +1,22 @@
+--- wheel/flashinfer/jit/cpp_ext.py
++++ experiment/flashinfer/jit/cpp_ext.py
+@@ -1,6 +1,7 @@
+ # Adapted from https://github.com/pytorch/pytorch/blob/v2.7.0/torch/utils/cpp_extension.py
+ 
+ import functools
++import hashlib
+ import logging
+ import os
+ import platform
+@@ -536,7 +537,10 @@
+         is_cuda = source.suffix == ".cu"
+         object_suffix = ".cuda.o" if is_cuda else ".o"
+         cmd = "cuda_compile" if is_cuda else "compile"
+-        obj_name = f"{source.parent.name}_{source.stem}{object_suffix}"
++        if is_windows:
++            obj_name = hashlib.sha256(str(source.resolve()).encode()).hexdigest()[:16] + object_suffix
++        else:
++            obj_name = f"{source.parent.name}_{source.stem}{object_suffix}"
+         obj = str((output_dir / obj_name).resolve()).replace(":\\", "$:\\")
+         objects.append(obj)
+         source_path = source.resolve()

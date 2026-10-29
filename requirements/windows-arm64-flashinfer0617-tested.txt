@@ -1,0 +1,9 @@
+# Observed comparison constraints, not a complete lockfile or public PyPI install recipe.
+# FlashInfer is the user-supplied local Windows JIT wheel, installed with --no-deps.
+# Wheel SHA256: 47db3e3972fda64719ceae8490d1934362380cef62f33975cb593ad086e0bcb6
+# Use the isolated overlay procedure in docs/guides/windows-flashinfer-comparison.md.
+flashinfer-python==0.6.17+g2ea3c24b5dac
+torch==2.14.0a0+git20b0f57
+apache-tvm-ffi==0.1.13.post3
+triton-windows==3.8.0.post29
+transformers==5.12.0

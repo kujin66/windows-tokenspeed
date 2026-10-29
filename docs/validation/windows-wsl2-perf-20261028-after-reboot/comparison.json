@@ -1,0 +1,53 @@
+{
+  "cases": [
+    {
+      "input_length": 128,
+      "batch_size": 1,
+      "windows_output_tokens_per_second": 53.186996404326564,
+      "wsl2_output_tokens_per_second": 65.00665396784635,
+      "windows_relative_to_wsl2_percent": -18.182227267636375,
+      "greedy_output_ids_match": true,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 22.22283332878392,
+      "wsl2_over_windows_ratio": 1.2222283332878392
+    },
+    {
+      "input_length": 128,
+      "batch_size": 4,
+      "windows_output_tokens_per_second": 215.63649280385346,
+      "wsl2_output_tokens_per_second": 244.94104765299582,
+      "windows_relative_to_wsl2_percent": -11.963921576206237,
+      "greedy_output_ids_match": false,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 13.589793855439058,
+      "wsl2_over_windows_ratio": 1.1358979385543906
+    },
+    {
+      "input_length": 512,
+      "batch_size": 1,
+      "windows_output_tokens_per_second": 54.9975573565324,
+      "wsl2_output_tokens_per_second": 64.06399549506793,
+      "windows_relative_to_wsl2_percent": -14.152158429196826,
+      "greedy_output_ids_match": true,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 16.485165113353272,
+      "wsl2_over_windows_ratio": 1.1648516511335327
+    },
+    {
+      "input_length": 512,
+      "batch_size": 4,
+      "windows_output_tokens_per_second": 215.87906289614756,
+      "wsl2_output_tokens_per_second": 244.66493206365934,
+      "windows_relative_to_wsl2_percent": -11.765425034439335,
+      "greedy_output_ids_match": false,
+      "windows_within_case_greedy_consistent": true,
+      "wsl2_within_case_greedy_consistent": true,
+      "wsl2_relative_to_windows_percent": 13.334257051764077,
+      "wsl2_over_windows_ratio": 1.1333425705176408
+    }
+  ],
+  "interpretation": "End-to-end comparison of these two software stacks on the same GPU model; dependencies and Windows portability changes can also affect the difference."
+}

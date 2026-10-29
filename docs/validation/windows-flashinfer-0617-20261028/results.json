@@ -1,0 +1,398 @@
+{
+  "captured_at": "2026-10-28T10:54:31.004821+00:00",
+  "status": "completed",
+  "benchmark_sha256": "9388ebbb2208d5ec8f4f8fc55c37eb6c0a08b5c6dc48cab47193e14fe6199026",
+  "model_files": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "measured_requests_per_configuration": 50,
+  "measured_output_tokens_per_configuration": 6400,
+  "rows": [
+    {
+      "mode": "eager",
+      "input_length": 128,
+      "batch_size": 1,
+      "windows_flashinfer_tok_s": 64.8784496670013,
+      "windows_triton_tok_s": 49.619627564689694,
+      "wsl2_flashinfer_tok_s": 73.49236406471356,
+      "windows_flashinfer_vs_triton_percent": 30.751585312522757,
+      "windows_flashinfer_vs_wsl2_percent": -11.72082910562965,
+      "windows_flashinfer_consistent": true,
+      "windows_triton_consistent": true,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": false,
+      "windows_vs_wsl2_reference_ids_match": false
+    },
+    {
+      "mode": "eager",
+      "input_length": 128,
+      "batch_size": 4,
+      "windows_flashinfer_tok_s": 249.91611946181283,
+      "windows_triton_tok_s": 177.58563628549197,
+      "wsl2_flashinfer_tok_s": 271.3867581150449,
+      "windows_flashinfer_vs_triton_percent": 40.729917514297284,
+      "windows_flashinfer_vs_wsl2_percent": -7.911454045274525,
+      "windows_flashinfer_consistent": true,
+      "windows_triton_consistent": true,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": false,
+      "windows_vs_wsl2_reference_ids_match": false
+    },
+    {
+      "mode": "eager",
+      "input_length": 512,
+      "batch_size": 1,
+      "windows_flashinfer_tok_s": 57.916564004279145,
+      "windows_triton_tok_s": 43.639023236467956,
+      "wsl2_flashinfer_tok_s": 59.40387865639106,
+      "windows_flashinfer_vs_triton_percent": 32.717370163042126,
+      "windows_flashinfer_vs_wsl2_percent": -2.5037332338431417,
+      "windows_flashinfer_consistent": true,
+      "windows_triton_consistent": true,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": true,
+      "windows_vs_wsl2_reference_ids_match": true
+    },
+    {
+      "mode": "eager",
+      "input_length": 512,
+      "batch_size": 4,
+      "windows_flashinfer_tok_s": 256.8823781247562,
+      "windows_triton_tok_s": 184.65364209798577,
+      "wsl2_flashinfer_tok_s": 272.3652714163494,
+      "windows_flashinfer_vs_triton_percent": 39.11579279245547,
+      "windows_flashinfer_vs_wsl2_percent": -5.684606268295267,
+      "windows_flashinfer_consistent": true,
+      "windows_triton_consistent": true,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": true,
+      "windows_vs_wsl2_reference_ids_match": true
+    },
+    {
+      "mode": "graph",
+      "input_length": 128,
+      "batch_size": 1,
+      "windows_flashinfer_tok_s": 136.7693235126242,
+      "windows_triton_tok_s": 145.33189524394703,
+      "wsl2_flashinfer_tok_s": 140.9923633200349,
+      "windows_flashinfer_vs_triton_percent": -5.891736096161216,
+      "windows_flashinfer_vs_wsl2_percent": -2.995225917183153,
+      "windows_flashinfer_consistent": true,
+      "windows_triton_consistent": true,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": false,
+      "windows_vs_wsl2_reference_ids_match": false
+    },
+    {
+      "mode": "graph",
+      "input_length": 128,
+      "batch_size": 4,
+      "windows_flashinfer_tok_s": 593.5286504743405,
+      "windows_triton_tok_s": 600.9266523715088,
+      "wsl2_flashinfer_tok_s": 544.3216109609617,
+      "windows_flashinfer_vs_triton_percent": -1.231098981543377,
+      "windows_flashinfer_vs_wsl2_percent": 9.040067218074842,
+      "windows_flashinfer_consistent": false,
+      "windows_triton_consistent": false,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": false,
+      "windows_vs_wsl2_reference_ids_match": false
+    },
+    {
+      "mode": "graph",
+      "input_length": 512,
+      "batch_size": 1,
+      "windows_flashinfer_tok_s": 127.88941146811186,
+      "windows_triton_tok_s": 130.20008457308003,
+      "wsl2_flashinfer_tok_s": 128.32012825680337,
+      "windows_flashinfer_vs_triton_percent": -1.7747093733039954,
+      "windows_flashinfer_vs_wsl2_percent": -0.33565800980929206,
+      "windows_flashinfer_consistent": true,
+      "windows_triton_consistent": true,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": true,
+      "windows_vs_wsl2_reference_ids_match": true
+    },
+    {
+      "mode": "graph",
+      "input_length": 512,
+      "batch_size": 4,
+      "windows_flashinfer_tok_s": 494.5790847991454,
+      "windows_triton_tok_s": 516.9482910760372,
+      "wsl2_flashinfer_tok_s": 477.9498006049695,
+      "windows_flashinfer_vs_triton_percent": -4.327165146504286,
+      "windows_flashinfer_vs_wsl2_percent": 3.4792951421105833,
+      "windows_flashinfer_consistent": true,
+      "windows_triton_consistent": true,
+      "wsl2_flashinfer_consistent": true,
+      "windows_flashinfer_vs_triton_reference_ids_match": true,
+      "windows_vs_wsl2_reference_ids_match": true
+    }
+  ],
+  "environments": {
+    "windows-flashinfer-eager": {
+      "platform": "Windows-11-10.0.28000-SP0",
+      "torch": {
+        "version": "2.14.0a0+git20b0f57",
+        "cuda": "13.4"
+      },
+      "flashinfer": {
+        "version": "0.6.17+g2ea3c24b5dac",
+        "module": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617\\flashinfer\\__init__.py"
+      },
+      "ops": "flashinfer",
+      "operation_sources": {
+        "layernorm": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\layernorm\\__init__.py",
+          "sha256": "a4da023861cb9f7f8dbcbcbd877200b28faf22d080dd20df105d1f33e4083e4f"
+        },
+        "activation": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\activation\\__init__.py",
+          "sha256": "67dac9a53a3edb42c256c61ffe11067dd0355381e30e0e9db48f104c046f3643"
+        }
+      },
+      "engine": {
+        "seed": 20261028,
+        "dtype": "bfloat16",
+        "world_size": 1,
+        "max_model_len": 704,
+        "max_num_seqs": 4,
+        "max_total_tokens": 2816,
+        "gpu_memory_utilization": 0.25,
+        "attention_backend": "flashinfer",
+        "enforce_eager": true,
+        "disable_prefill_graph": true,
+        "grammar_backend": "none",
+        "sampling_backend": "greedy",
+        "disable_kvstore": true,
+        "retraction_snapshot_ratio": 0,
+        "enable_prefix_caching": false,
+        "log_level": "warning"
+      }
+    },
+    "windows-flashinfer-graph": {
+      "platform": "Windows-11-10.0.28000-SP0",
+      "torch": {
+        "version": "2.14.0a0+git20b0f57",
+        "cuda": "13.4"
+      },
+      "flashinfer": {
+        "version": "0.6.17+g2ea3c24b5dac",
+        "module": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617\\flashinfer\\__init__.py"
+      },
+      "ops": "flashinfer",
+      "operation_sources": {
+        "layernorm": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\layernorm\\__init__.py",
+          "sha256": "a4da023861cb9f7f8dbcbcbd877200b28faf22d080dd20df105d1f33e4083e4f"
+        },
+        "activation": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\activation\\__init__.py",
+          "sha256": "67dac9a53a3edb42c256c61ffe11067dd0355381e30e0e9db48f104c046f3643"
+        }
+      },
+      "engine": {
+        "seed": 20261028,
+        "dtype": "bfloat16",
+        "world_size": 1,
+        "max_model_len": 704,
+        "max_num_seqs": 4,
+        "max_total_tokens": 2816,
+        "gpu_memory_utilization": 0.25,
+        "attention_backend": "flashinfer",
+        "enforce_eager": false,
+        "disable_prefill_graph": true,
+        "grammar_backend": "none",
+        "sampling_backend": "greedy",
+        "disable_kvstore": true,
+        "retraction_snapshot_ratio": 0,
+        "enable_prefix_caching": false,
+        "log_level": "warning",
+        "cudagraph_capture_sizes": [
+          1,
+          4
+        ],
+        "max_cudagraph_capture_size": 4
+      }
+    },
+    "windows-triton-eager": {
+      "platform": "Windows-11-10.0.28000-SP0",
+      "torch": {
+        "version": "2.14.0a0+git20b0f57",
+        "cuda": "13.4"
+      },
+      "flashinfer": {
+        "version": "0.6.17+g2ea3c24b5dac",
+        "module": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617\\flashinfer\\__init__.py"
+      },
+      "ops": "triton",
+      "operation_sources": {
+        "layernorm": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel-triton\\tokenspeed_kernel\\ops\\layernorm\\__init__.py",
+          "sha256": "227a2a9a2be9febf312c6f4f76c17934d2696a87d3053d0eb425e983b821075d"
+        },
+        "activation": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel-triton\\tokenspeed_kernel\\ops\\activation\\__init__.py",
+          "sha256": "3bca42032f44558164b53a15381b9bbf28379710ac6530b3b9b8aa0908488df5"
+        }
+      },
+      "engine": {
+        "seed": 20261028,
+        "dtype": "bfloat16",
+        "world_size": 1,
+        "max_model_len": 704,
+        "max_num_seqs": 4,
+        "max_total_tokens": 2816,
+        "gpu_memory_utilization": 0.25,
+        "attention_backend": "triton",
+        "enforce_eager": true,
+        "disable_prefill_graph": true,
+        "grammar_backend": "none",
+        "sampling_backend": "greedy",
+        "disable_kvstore": true,
+        "retraction_snapshot_ratio": 0,
+        "enable_prefix_caching": false,
+        "log_level": "warning"
+      }
+    },
+    "windows-triton-graph": {
+      "platform": "Windows-11-10.0.28000-SP0",
+      "torch": {
+        "version": "2.14.0a0+git20b0f57",
+        "cuda": "13.4"
+      },
+      "flashinfer": {
+        "version": "0.6.17+g2ea3c24b5dac",
+        "module": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617\\flashinfer\\__init__.py"
+      },
+      "ops": "triton",
+      "operation_sources": {
+        "layernorm": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel-triton\\tokenspeed_kernel\\ops\\layernorm\\__init__.py",
+          "sha256": "227a2a9a2be9febf312c6f4f76c17934d2696a87d3053d0eb425e983b821075d"
+        },
+        "activation": {
+          "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel-triton\\tokenspeed_kernel\\ops\\activation\\__init__.py",
+          "sha256": "3bca42032f44558164b53a15381b9bbf28379710ac6530b3b9b8aa0908488df5"
+        }
+      },
+      "engine": {
+        "seed": 20261028,
+        "dtype": "bfloat16",
+        "world_size": 1,
+        "max_model_len": 704,
+        "max_num_seqs": 4,
+        "max_total_tokens": 2816,
+        "gpu_memory_utilization": 0.25,
+        "attention_backend": "triton",
+        "enforce_eager": false,
+        "disable_prefill_graph": true,
+        "grammar_backend": "none",
+        "sampling_backend": "greedy",
+        "disable_kvstore": true,
+        "retraction_snapshot_ratio": 0,
+        "enable_prefix_caching": false,
+        "log_level": "warning",
+        "cudagraph_capture_sizes": [
+          1,
+          4
+        ],
+        "max_cudagraph_capture_size": 4
+      }
+    },
+    "wsl2-flashinfer-eager": {
+      "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-aarch64-with-glibc2.43",
+      "torch": {
+        "version": "2.14.0+cu130",
+        "cuda": "13.0"
+      },
+      "flashinfer": {
+        "version": "0.7.2",
+        "module": "/opt/tokenspeed-work/venv/lib/python3.13/site-packages/flashinfer/__init__.py"
+      },
+      "ops": "official",
+      "operation_sources": {
+        "layernorm": {
+          "path": "/opt/tokenspeed-work/venv/flashinfer-comparison/tokenspeed_kernel/ops/layernorm/__init__.py",
+          "sha256": "0d2194a2967afbcf22679ec69e435eeed3519955415df0a1e4217783c27158b3"
+        },
+        "activation": {
+          "path": "/opt/tokenspeed-work/venv/flashinfer-comparison/tokenspeed_kernel/ops/activation/__init__.py",
+          "sha256": "f9bb4cd11d530019ad291df416cd427b6bc5efcbf23ac83a0c5078468aa4523e"
+        }
+      },
+      "engine": {
+        "seed": 20261028,
+        "dtype": "bfloat16",
+        "world_size": 1,
+        "max_model_len": 704,
+        "max_num_seqs": 4,
+        "max_total_tokens": 2816,
+        "gpu_memory_utilization": 0.25,
+        "attention_backend": "flashinfer",
+        "enforce_eager": true,
+        "disable_prefill_graph": true,
+        "grammar_backend": "none",
+        "sampling_backend": "greedy",
+        "disable_kvstore": true,
+        "retraction_snapshot_ratio": 0,
+        "enable_prefix_caching": false,
+        "log_level": "warning"
+      }
+    },
+    "wsl2-flashinfer-graph": {
+      "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-aarch64-with-glibc2.43",
+      "torch": {
+        "version": "2.14.0+cu130",
+        "cuda": "13.0"
+      },
+      "flashinfer": {
+        "version": "0.7.2",
+        "module": "/opt/tokenspeed-work/venv/lib/python3.13/site-packages/flashinfer/__init__.py"
+      },
+      "ops": "official",
+      "operation_sources": {
+        "layernorm": {
+          "path": "/opt/tokenspeed-work/venv/flashinfer-comparison/tokenspeed_kernel/ops/layernorm/__init__.py",
+          "sha256": "0d2194a2967afbcf22679ec69e435eeed3519955415df0a1e4217783c27158b3"
+        },
+        "activation": {
+          "path": "/opt/tokenspeed-work/venv/flashinfer-comparison/tokenspeed_kernel/ops/activation/__init__.py",
+          "sha256": "f9bb4cd11d530019ad291df416cd427b6bc5efcbf23ac83a0c5078468aa4523e"
+        }
+      },
+      "engine": {
+        "seed": 20261028,
+        "dtype": "bfloat16",
+        "world_size": 1,
+        "max_model_len": 704,
+        "max_num_seqs": 4,
+        "max_total_tokens": 2816,
+        "gpu_memory_utilization": 0.25,
+        "attention_backend": "flashinfer",
+        "enforce_eager": false,
+        "disable_prefill_graph": true,
+        "grammar_backend": "none",
+        "sampling_backend": "greedy",
+        "disable_kvstore": true,
+        "retraction_snapshot_ratio": 0,
+        "enable_prefix_caching": false,
+        "log_level": "warning",
+        "cudagraph_capture_sizes": [
+          1,
+          4
+        ],
+        "max_cudagraph_capture_size": 4
+      }
+    }
+  },
+  "limits": [
+    "Single GPU Qwen3-0.6B BF16 only; no MoE/NVFP4/service validation",
+    "Windows uses user wheel0.6.17 plus one JIT filename patch, matching dense-only MoE compatibility in both Windows groups, and a narrow SM12.1 FA2 paged prefill provider",
+    "WSL2 uses official0.7.2 and matching FA2 prefill provider; PyTorch/CUDA/Triton builds still differ",
+    "FA2 prefill planning copies metadata to CPU per call, so measured performance includes adapter planning overhead",
+    "No clock lock or ABBA repetitions; 5 measured rounds per case; measured timing includes immediate output length/metadata checks",
+    "Within-run and cross-platform IDs are retained; successful fixed-length throughput does not prove numerical equivalence"
+  ]
+}

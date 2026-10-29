@@ -1,0 +1,56 @@
+[
+  {
+    "path": ".port/downloads/Microsoft.VC.14.51.CRT.ARM64.Desktop.base.vsix",
+    "sha256": "c30a1064ef39efd3e969a1cac2bb56173de42aee558efbf7b5c1ca8910228687",
+    "source": "https://download.visualstudio.microsoft.com/download/pr/16ac3a9f-21a9-4b80-a1cb-097bd79ea455/c30a1064ef39efd3e969a1cac2bb56173de42aee558efbf7b5c1ca8910228687/Microsoft.VC.14.51.CRT.ARM64.Desktop.base.vsix",
+    "verified_against_manifest": true
+  },
+  {
+    "path": ".port/downloads/Microsoft.VC.14.51.CRT.Headers.base.vsix",
+    "sha256": "e6d9cc5f0750cbc40a6b2468991c57ed0044fa2e242295a6d51bc02d72502b05",
+    "source": "https://download.visualstudio.microsoft.com/download/pr/a62262cf-b9f6-4770-9454-7372ad8fcec0/e6d9cc5f0750cbc40a6b2468991c57ed0044fa2e242295a6d51bc02d72502b05/Microsoft.VC.14.51.CRT.Headers.base.vsix",
+    "verified_against_manifest": true
+  },
+  {
+    "path": ".port/downloads/Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.base.vsix",
+    "sha256": "c50d4e283b7e0b79c2295854302301df15dd3ee68e3436dec828f037f3d53347",
+    "source": "https://download.visualstudio.microsoft.com/download/pr/1a3f7ee8-40b3-467a-bca3-18a23a5e9a6c/c50d4e283b7e0b79c2295854302301df15dd3ee68e3436dec828f037f3d53347/Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.base.vsix",
+    "verified_against_manifest": true
+  },
+  {
+    "path": ".port/downloads/Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.Res.base.enu.vsix",
+    "sha256": "a98944662afaada1336bcd5813024a730f4e22ad603042c50ddab91cfcf9cafe",
+    "source": "https://download.visualstudio.microsoft.com/download/pr/1a3f7ee8-40b3-467a-bca3-18a23a5e9a6c/a98944662afaada1336bcd5813024a730f4e22ad603042c50ddab91cfcf9cafe/Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.Res.base.enu.vsix",
+    "verified_against_manifest": true
+  },
+  {
+    "path": ".port/downloads/rust-arm64.tar.xz",
+    "sha256": "cd9f4ceb634329b920285998d451cb16df59d7ba6e7fade49c39c9194a6981b8",
+    "source": "https://static.rust-lang.org/dist/rust-1.92.0-aarch64-pc-windows-msvc.tar.xz",
+    "verified_against_manifest": true
+  },
+  {
+    "path": ".port/downloads/xgrammar-0.2.8.tar.gz",
+    "sha256": "8305646fd2b319d6c3003f51a1665e54cbbe9cba1fb636bc41d0b46434ccbb80",
+    "source": "https://files.pythonhosted.org/packages/03/0f/29f521535729be740779c2c98b630ef6607cf28be9b669895dd2b821ff63/xgrammar-0.2.8.tar.gz",
+    "verified_against_manifest": true
+  },
+  {
+    "path": ".port/downloads/flashinfer_python-0.7.2-py3-none-any.whl",
+    "sha256": "770550a0aa92b2f10e6c9a1f048dd43713f0f3bb6a12710186fcf8e4e9c99bd8",
+    "source": "https://pypi.org/project/flashinfer-python/0.7.2/",
+    "verified_against_manifest": true
+  },
+  {
+    "path": ".port/wheelhouse/torch-2.14.0a0+git20b0f57-cp313-cp313-win_arm64.whl",
+    "sha256": "a180cb55449ffb317db7843a888f45f334163a7cb3c59c989d457951f047f47b",
+    "source": "local ARM64 wheelhouse",
+    "verified_against_manifest": false
+  },
+  {
+    "path": ".port/wheelhouse/apache_tvm_ffi-0.1.13.post3-cp313-cp313-win_arm64.whl",
+    "sha256": "54d6feb10cf4684adad7891646fd0915cc455c44136ee797e162db92eaca74d4",
+    "source": "local ARM64 wheelhouse",
+    "verified_against_manifest": false
+  }
+]

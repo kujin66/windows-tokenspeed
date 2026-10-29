@@ -1,0 +1,8 @@
+wsl.exe : Forbidden (403).
+At C:/Users/user\projects\official-repos\windows-tokenspeed\tools\windows\install_wsl2.ps1:26 char:5
++     & wsl.exe --install --distribution Ubuntu --no-launch --web-downl ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Forbidden (403).:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+

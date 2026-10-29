@@ -1,0 +1,436 @@
+Processing ./tokenspeed-engine
+  Preparing metadata (pyproject.toml): started
+  Running command Preparing metadata (pyproject.toml)
+  running dist_info
+  creating /tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine.egg-info
+  writing /tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine.egg-info/PKG-INFO
+  writing dependency_links to /tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine.egg-info/dependency_links.txt
+  writing top-level names to /tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine.egg-info/top_level.txt
+  writing manifest file '/tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine.egg-info/SOURCES.txt'
+  reading manifest file '/tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine.egg-info/SOURCES.txt'
+  writing manifest file '/tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine.egg-info/SOURCES.txt'
+  creating '/tmp/pip-modern-metadata-yj63jyf7/tokenspeed_engine-0.1.0.dist-info'
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: tokenspeed-engine
+  Building wheel for tokenspeed-engine (pyproject.toml): started
+  Running command Building wheel for tokenspeed-engine (pyproject.toml)
+  running bdist_wheel
+  running build
+  running build_py
+  creating build/lib.linux-aarch64-cpython-313/tokenspeed_engine
+  copying python/tokenspeed_engine/__init__.py -> build/lib.linux-aarch64-cpython-313/tokenspeed_engine
+  running egg_info
+  creating python/tokenspeed_engine.egg-info
+  writing python/tokenspeed_engine.egg-info/PKG-INFO
+  writing dependency_links to python/tokenspeed_engine.egg-info/dependency_links.txt
+  writing top-level names to python/tokenspeed_engine.egg-info/top_level.txt
+  writing manifest file 'python/tokenspeed_engine.egg-info/SOURCES.txt'
+  reading manifest file 'python/tokenspeed_engine.egg-info/SOURCES.txt'
+  writing manifest file 'python/tokenspeed_engine.egg-info/SOURCES.txt'
+      Updating crates.io index
+   Downloading crates ...
+    Downloaded generic-array v0.14.7
+    Downloaded percent-encoding v2.3.2
+    Downloaded version_check v0.9.5
+    Downloaded form_urlencoded v1.2.2
+    Downloaded itoa v1.0.18
+    Downloaded idna_adapter v1.2.2
+    Downloaded zerofrom-derive v0.1.8
+    Downloaded potential_utf v0.1.6
+    Downloaded pyo3-macros v0.30.1
+    Downloaded crypto-common v0.1.7
+    Downloaded asynchronous-codec v0.7.0
+    Downloaded futures-task v0.3.34
+    Downloaded scopeguard v1.2.0
+    Downloaded zerofrom v0.1.8
+    Downloaded futures-macro v0.3.34
+    Downloaded cfg-if v1.0.5
+    Downloaded utf8_iter v1.0.4
+    Downloaded yoke-derive v0.8.4
+    Downloaded futures-sink v0.3.34
+    Downloaded errno v0.3.14
+    Downloaded zmij v1.0.23
+    Downloaded cpufeatures v0.2.17
+    Downloaded block-buffer v0.10.4
+    Downloaded stable_deref_trait v1.2.1
+    Downloaded tokio-macros v2.7.2
+    Downloaded zerovec-derive v0.11.6
+    Downloaded lock_api v0.4.14
+    Downloaded heck v0.5.0
+    Downloaded futures-core v0.3.34
+    Downloaded futures-channel v0.3.34
+    Downloaded writeable v0.6.4
+    Downloaded yoke v0.8.3
+    Downloaded async-trait v0.1.92
+    Downloaded ppv-lite86 v0.2.21
+    Downloaded crossbeam-queue v0.3.14
+    Downloaded uuid v1.28.0
+    Downloaded displaydoc v0.2.7
+    Downloaded digest v0.10.7
+    Downloaded rand_chacha v0.9.0
+    Downloaded zerotrie v0.2.5
+    Downloaded zeromq v0.6.0
+    Downloaded thiserror v2.0.21
+    Downloaded unicode-ident v1.0.27
+    Downloaded zerovec v0.11.8
+    Downloaded serde_core v1.0.229
+    Downloaded tracing-core v0.1.36
+    Downloaded proc-macro2 v1.0.107
+    Downloaded socket2 v0.6.5
+    Downloaded pyo3-ffi v0.30.1
+    Downloaded url v2.5.8
+    Downloaded rand v0.9.5
+    Downloaded ureq v2.12.1
+    Downloaded zerocopy v0.8.63
+    Downloaded tokio-util v0.7.20
+    Downloaded scc v3.8.8
+    Downloaded regex v1.13.1
+    Downloaded serde_json v1.0.154
+    Downloaded icu_properties_data v2.3.0
+    Downloaded futures-util v0.3.34
+    Downloaded aho-corasick v1.1.5
+    Downloaded idna v1.1.0
+    Downloaded typenum v1.20.1
+    Downloaded syn v3.0.9
+    Downloaded syn v2.0.119
+    Downloaded icu_properties v2.3.0
+    Downloaded regex-syntax v0.8.11
+    Downloaded pyo3-macros-backend v0.30.1
+    Downloaded mio v1.2.4
+    Downloaded memchr v2.8.3
+    Downloaded icu_collections v2.3.0
+    Downloaded serde v1.0.229
+    Downloaded tracing v0.1.44
+    Downloaded bytes v1.12.1
+    Downloaded icu_locale_core v2.3.0
+    Downloaded base64 v0.22.1
+    Downloaded icu_normalizer_data v2.3.0
+    Downloaded icu_normalizer v2.3.0
+    Downloaded futures v0.3.34
+    Downloaded saa v5.6.2
+    Downloaded pyo3-async-runtimes v0.30.0
+    Downloaded sdd v4.8.11
+    Downloaded regex-automata v0.4.18
+    Downloaded log v0.4.34
+    Downloaded icu_provider v2.3.1
+    Downloaded parking_lot v0.12.5
+    Downloaded num-traits v0.2.19
+    Downloaded getrandom v0.4.3
+    Downloaded getrandom v0.3.4
+    Downloaded tracing-attributes v0.1.31
+    Downloaded smallvec v1.16.3
+    Downloaded slab v0.4.12
+    Downloaded libc v0.2.191
+    Downloaded pyo3-build-config v0.30.1
+    Downloaded once_cell v1.21.4
+    Downloaded crossbeam-utils v0.8.23
+    Downloaded autocfg v1.5.1
+    Downloaded synstructure v0.14.0
+    Downloaded sha2 v0.10.9
+    Downloaded tokio v1.54.0
+    Downloaded quote v1.0.47
+    Downloaded parking_lot_core v0.9.12
+    Downloaded litemap v0.8.3
+    Downloaded libloading v0.9.0
+    Downloaded tinystr v0.8.4
+    Downloaded thiserror-impl v2.0.21
+    Downloaded thiserror-impl v1.0.69
+    Downloaded thiserror v1.0.69
+    Downloaded target-lexicon v0.13.5
+    Downloaded signal-hook-registry v1.4.8
+    Downloaded rand_core v0.9.5
+    Downloaded pin-project-lite v0.2.17
+    Downloaded futures-io v0.3.34
+    Downloaded futures-executor v0.3.34
+    Downloaded pyo3 v0.30.1
+     Compiling proc-macro2 v1.0.107
+     Compiling quote v1.0.47
+     Compiling unicode-ident v1.0.27
+     Compiling libc v0.2.191
+     Compiling syn v3.0.9
+     Compiling cfg-if v1.0.5
+     Compiling stable_deref_trait v1.2.1
+     Compiling smallvec v1.16.3
+     Compiling pin-project-lite v0.2.17
+     Compiling futures-sink v0.3.34
+     Compiling futures-core v0.3.34
+     Compiling memchr v2.8.3
+     Compiling once_cell v1.21.4
+     Compiling parking_lot_core v0.9.12
+     Compiling futures-io v0.3.34
+     Compiling target-lexicon v0.13.5
+     Compiling synstructure v0.14.0
+     Compiling futures-channel v0.3.34
+     Compiling zerofrom-derive v0.1.8
+     Compiling yoke-derive v0.8.4
+     Compiling zerofrom v0.1.8
+     Compiling zerovec-derive v0.11.6
+     Compiling yoke v0.8.3
+     Compiling displaydoc v0.2.7
+     Compiling futures-macro v0.3.34
+     Compiling zerovec v0.11.8
+     Compiling syn v2.0.119
+     Compiling scopeguard v1.2.0
+     Compiling futures-task v0.3.34
+     Compiling zerocopy v0.8.63
+     Compiling slab v0.4.12
+     Compiling bytes v1.12.1
+     Compiling getrandom v0.3.4
+     Compiling futures-util v0.3.34
+     Compiling lock_api v0.4.14
+     Compiling tinystr v0.8.4
+     Compiling errno v0.3.14
+     Compiling litemap v0.8.3
+     Compiling thiserror v2.0.21
+     Compiling writeable v0.6.4
+     Compiling icu_locale_core v2.3.0
+     Compiling signal-hook-registry v1.4.8
+     Compiling pyo3-build-config v0.30.1
+     Compiling parking_lot v0.12.5
+     Compiling potential_utf v0.1.6
+     Compiling zerotrie v0.2.5
+     Compiling thiserror-impl v2.0.21
+     Compiling tokio-macros v2.7.2
+     Compiling mio v1.2.4
+     Compiling socket2 v0.6.5
+     Compiling utf8_iter v1.0.4
+     Compiling icu_properties_data v2.3.0
+     Compiling crossbeam-utils v0.8.23
+     Compiling icu_normalizer_data v2.3.0
+     Compiling getrandom v0.4.3
+     Compiling version_check v0.9.5
+     Compiling autocfg v1.5.1
+     Compiling generic-array v0.14.7
+     Compiling num-traits v0.2.19
+     Compiling tokio v1.54.0
+     Compiling icu_collections v2.3.0
+     Compiling ppv-lite86 v0.2.21
+     Compiling icu_provider v2.3.1
+     Compiling rand_core v0.9.5
+     Compiling saa v5.6.2
+     Compiling regex-syntax v0.8.11
+     Compiling thiserror v1.0.69
+     Compiling regex-automata v0.4.18
+     Compiling sdd v4.8.11
+     Compiling rand_chacha v0.9.0
+     Compiling pyo3-ffi v0.30.1
+     Compiling futures-executor v0.3.34
+     Compiling thiserror-impl v1.0.69
+     Compiling tracing-attributes v0.1.31
+     Compiling tracing-core v0.1.36
+     Compiling typenum v1.20.1
+     Compiling log v0.4.34
+     Compiling pyo3-macros-backend v0.30.1
+     Compiling serde_core v1.0.229
+     Compiling tracing v0.1.44
+     Compiling futures v0.3.34
+     Compiling uuid v1.28.0
+     Compiling icu_normalizer v2.3.0
+     Compiling crossbeam-queue v0.3.14
+     Compiling icu_properties v2.3.0
+     Compiling rand v0.9.5
+     Compiling scc v3.8.8
+     Compiling regex v1.13.1
+     Compiling tokio-util v0.7.20
+     Compiling asynchronous-codec v0.7.0
+     Compiling async-trait v0.1.92
+     Compiling zmij v1.0.23
+     Compiling heck v0.5.0
+     Compiling zeromq v0.6.0
+     Compiling idna_adapter v1.2.2
+     Compiling tokenspeed-wire v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-wire)
+     Compiling pyo3 v0.30.1
+     Compiling serde v1.0.229
+     Compiling serde_json v1.0.154
+     Compiling percent-encoding v2.3.2
+     Compiling form_urlencoded v1.2.2
+     Compiling idna v1.1.0
+     Compiling pyo3-macros v0.30.1
+     Compiling block-buffer v0.10.4
+     Compiling crypto-common v0.1.7
+     Compiling libloading v0.9.0
+     Compiling itoa v1.0.18
+     Compiling tokenspeed-mooncake v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-mooncake)
+     Compiling digest v0.10.7
+     Compiling url v2.5.8
+     Compiling tokenspeed-metrics v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-metrics)
+     Compiling cpufeatures v0.2.17
+     Compiling base64 v0.22.1
+     Compiling ureq v2.12.1
+     Compiling sha2 v0.10.9
+     Compiling tokenspeed-collective v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-collective)
+     Compiling tokenspeed-pd v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-pd)
+     Compiling tokenspeed-l3 v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-l3)
+     Compiling pyo3-async-runtimes v0.30.0
+     Compiling tokenspeed-client v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-client)
+     Compiling tokenspeed-py v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-py)
+      Finished `release` profile [optimized] target(s) in 1m 07s
+   Downloading crates ...
+    Downloaded equivalent v1.0.3
+    Downloaded scratch v1.0.9
+    Downloaded matchers v0.2.0
+    Downloaded lazy_static v1.5.1
+    Downloaded thread_local v1.1.10
+    Downloaded find-msvc-tools v0.1.15
+    Downloaded cxxbridge-flags v1.0.205
+    Downloaded link-cplusplus v1.0.12
+    Downloaded foldhash v0.2.0
+    Downloaded shlex v2.0.1
+    Downloaded cmake v0.1.58
+    Downloaded nu-ansi-term v0.50.3
+    Downloaded tracing-log v0.2.0
+    Downloaded termcolor v1.4.1
+    Downloaded serde_derive v1.0.229
+    Downloaded sharded-slab v0.1.7
+    Downloaded cxxbridge-macro v1.0.205
+    Downloaded crc32fast v1.5.2
+    Downloaded indexmap v2.14.2
+    Downloaded cxx-build v1.0.205
+    Downloaded codespan-reporting v0.13.1
+    Downloaded cc v1.9.0
+    Downloaded hashbrown v0.17.1
+    Downloaded tracing-subscriber v0.3.23
+    Downloaded cxx v1.0.205
+    Downloaded unicode-width v0.2.2
+     Compiling proc-macro2 v1.0.107
+     Compiling shlex v2.0.1
+     Compiling find-msvc-tools v0.1.15
+     Compiling cc v1.9.0
+     Compiling quote v1.0.47
+     Compiling syn v3.0.9
+     Compiling equivalent v1.0.3
+     Compiling hashbrown v0.17.1
+     Compiling indexmap v2.14.2
+     Compiling scratch v1.0.9
+     Compiling link-cplusplus v1.0.12
+     Compiling syn v2.0.119
+     Compiling synstructure v0.14.0
+     Compiling zerofrom-derive v0.1.8
+     Compiling zerofrom v0.1.8
+     Compiling yoke-derive v0.8.4
+     Compiling zerovec-derive v0.11.6
+     Compiling yoke v0.8.3
+     Compiling displaydoc v0.2.7
+     Compiling zerovec v0.11.8
+     Compiling unicode-width v0.2.2
+     Compiling termcolor v1.4.1
+     Compiling tinystr v0.8.4
+     Compiling codespan-reporting v0.13.1
+     Compiling cxxbridge-flags v1.0.205
+     Compiling icu_locale_core v2.3.0
+     Compiling cxx-build v1.0.205
+     Compiling cxx v1.0.205
+     Compiling pyo3-ffi v0.30.1
+     Compiling futures-channel v0.3.34
+     Compiling zerotrie v0.2.5
+     Compiling potential_utf v0.1.6
+     Compiling futures-macro v0.3.34
+     Compiling cmake v0.1.58
+     Compiling regex-automata v0.4.18
+     Compiling futures-util v0.3.34
+     Compiling icu_collections v2.3.0
+     Compiling icu_provider v2.3.1
+     Compiling thiserror-impl v2.0.21
+     Compiling tracing-core v0.1.36
+     Compiling log v0.4.34
+     Compiling pyo3 v0.30.1
+     Compiling thiserror v2.0.21
+     Compiling tracing-attributes v0.1.31
+     Compiling tokio-macros v2.7.2
+     Compiling tracing v0.1.44
+     Compiling tokio v1.54.0
+     Compiling icu_normalizer v2.3.0
+     Compiling icu_properties v2.3.0
+     Compiling futures-executor v0.3.34
+     Compiling thiserror-impl v1.0.69
+     Compiling pyo3-macros-backend v0.30.1
+     Compiling thiserror v1.0.69
+     Compiling tokio-util v0.7.20
+     Compiling futures v0.3.34
+     Compiling idna_adapter v1.2.2
+     Compiling asynchronous-codec v0.7.0
+     Compiling regex v1.13.1
+     Compiling tokenspeed-grammar v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-grammar)
+     Compiling tokenspeed-scheduler v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-scheduler)
+     Compiling async-trait v0.1.92
+     Compiling zeromq v0.6.0
+     Compiling idna v1.1.0
+     Compiling pyo3-macros v0.30.1
+     Compiling tokenspeed-wire v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-wire)
+     Compiling cxxbridge-macro v1.0.205
+     Compiling foldhash v0.2.0
+     Compiling tokenspeed-mooncake v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-mooncake)
+     Compiling tokenspeed-metrics v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-metrics)
+     Compiling url v2.5.8
+     Compiling crc32fast v1.5.2
+     Compiling ureq v2.12.1
+     Compiling tokenspeed-collective v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-collective)
+     Compiling lazy_static v1.5.1
+     Compiling tokenspeed-control v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-control)
+     Compiling sharded-slab v0.1.7
+     Compiling tokenspeed-pd v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-pd)
+     Compiling tokenspeed-l3 v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-l3)
+     Compiling tracing-log v0.2.0
+     Compiling matchers v0.2.0
+     Compiling thread_local v1.1.10
+     Compiling tokenspeed-host v0.1.0 (/opt/tokenspeed-work/source/tokenspeed-engine/crates/ts-host)
+     Compiling nu-ansi-term v0.50.3
+     Compiling tracing-subscriber v0.3.23
+  warning: tokenspeed-scheduler@0.1.0: In file included from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/states.h:26,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/base_event.h:28,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/forward_events.h:36,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/scheduler/scheduler.h:39,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-engine/target/release/build/tokenspeed-scheduler-b916f54d6d1c8627/out/cxxbridge/crate/ts-scheduler/cxx/facade.h:30,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-engine/target/release/build/tokenspeed-scheduler-b916f54d6d1c8627/out/cxxbridge/sources/ts-scheduler/src/lib.rs.cc:1:
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/forward_states.h: In constructor 'tokenspeed::fsm::Submitted::Submitted(tokenspeed::TokenContainer*, int32_t)':
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/forward_states.h:103:11: warning: missing initializer for member 'tokenspeed::fsm::AdmissionResources::storage_hold' [-Wmissing-field-initializers]
+  warning: tokenspeed-scheduler@0.1.0:   103 |         : admission{token_container, prefix_granularity} {}
+  warning: tokenspeed-scheduler@0.1.0:       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  warning: tokenspeed-scheduler@0.1.0: In file included from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/states.h:27:
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/pd_states.h: In constructor 'tokenspeed::fsm::Bootstrapping::Bootstrapping(tokenspeed::TokenContainer*, int32_t)':
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/pd_states.h:42:11: warning: missing initializer for member 'tokenspeed::fsm::AdmissionResources::storage_hold' [-Wmissing-field-initializers]
+  warning: tokenspeed-scheduler@0.1.0:    42 |         : admission{_token_container, _prefix_granularity} {}
+  warning: tokenspeed-scheduler@0.1.0:       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  warning: tokenspeed-scheduler@0.1.0: In file included from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/states.h:26,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/base_event.h:28,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/forward_events.h:36,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/scheduler/scheduler.h:39,
+  warning: tokenspeed-scheduler@0.1.0:                  from /opt/tokenspeed-work/source/tokenspeed-engine/target/release/build/tokenspeed-scheduler-b916f54d6d1c8627/out/cxxbridge/crate/ts-scheduler/cxx/facade.h:30,
+  warning: tokenspeed-scheduler@0.1.0:                  from cxx/facade.cc:21:
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/forward_states.h: In constructor 'tokenspeed::fsm::Submitted::Submitted(tokenspeed::TokenContainer*, int32_t)':
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/forward_states.h:103:11: warning: missing initializer for member 'tokenspeed::fsm::AdmissionResources::storage_hold' [-Wmissing-field-initializers]
+  warning: tokenspeed-scheduler@0.1.0:   103 |         : admission{token_container, prefix_granularity} {}
+  warning: tokenspeed-scheduler@0.1.0:       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  warning: tokenspeed-scheduler@0.1.0: In file included from /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/states.h:27:
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/pd_states.h: In constructor 'tokenspeed::fsm::Bootstrapping::Bootstrapping(tokenspeed::TokenContainer*, int32_t)':
+  warning: tokenspeed-scheduler@0.1.0: /opt/tokenspeed-work/source/tokenspeed-scheduler/csrc/fsm/pd_states.h:42:11: warning: missing initializer for member 'tokenspeed::fsm::AdmissionResources::storage_hold' [-Wmissing-field-initializers]
+  warning: tokenspeed-scheduler@0.1.0:    42 |         : admission{_token_container, _prefix_granularity} {}
+  warning: tokenspeed-scheduler@0.1.0:       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      Finished `release` profile [optimized] target(s) in 2m 20s
+  running build_ext
+  installing to build/bdist.linux-aarch64/wheel
+  running install
+  running install_lib
+  creating build/bdist.linux-aarch64/wheel
+  creating build/bdist.linux-aarch64/wheel/tokenspeed_engine
+  copying build/lib.linux-aarch64-cpython-313/tokenspeed_engine/__init__.py -> build/bdist.linux-aarch64/wheel/./tokenspeed_engine
+  creating build/bdist.linux-aarch64/wheel/tokenspeed_engine/bin
+  copying build/lib.linux-aarch64-cpython-313/tokenspeed_engine/bin/ts-host -> build/bdist.linux-aarch64/wheel/./tokenspeed_engine/bin
+  copying build/lib.linux-aarch64-cpython-313/tokenspeed_engine/_native.cpython-313-aarch64-linux-gnu.so -> build/bdist.linux-aarch64/wheel/./tokenspeed_engine
+  running install_egg_info
+  Copying python/tokenspeed_engine.egg-info to build/bdist.linux-aarch64/wheel/./tokenspeed_engine-0.1.0-py3.13.egg-info
+  running install_scripts
+  creating build/bdist.linux-aarch64/wheel/tokenspeed_engine-0.1.0.dist-info/WHEEL
+  creating '/tmp/pip-ephem-wheel-cache-oq2r1w34/wheels/d7/60/f4/71b6a410af419348082ab6a873522bce5f415713b04de78084/tmpe07jeqsm/.tmp-4t9tt0_j/tokenspeed_engine-0.1.0-cp313-cp313-linux_aarch64.whl' and adding 'build/bdist.linux-aarch64/wheel' to it
+  adding 'tokenspeed_engine/__init__.py'
+  adding 'tokenspeed_engine/_native.cpython-313-aarch64-linux-gnu.so'
+  adding 'tokenspeed_engine/bin/ts-host'
+  adding 'tokenspeed_engine-0.1.0.dist-info/METADATA'
+  adding 'tokenspeed_engine-0.1.0.dist-info/WHEEL'
+  adding 'tokenspeed_engine-0.1.0.dist-info/top_level.txt'
+  adding 'tokenspeed_engine-0.1.0.dist-info/RECORD'
+  removing build/bdist.linux-aarch64/wheel
+  Building wheel for tokenspeed-engine (pyproject.toml): finished with status 'done'
+  Created wheel for tokenspeed-engine: filename=tokenspeed_engine-0.1.0-cp313-cp313-linux_aarch64.whl size=6692226 sha256=581b9f460ddf8d9d534660351007f336504418e01df3abd4e6f82a029ae24919
+  Stored in directory: /tmp/pip-ephem-wheel-cache-oq2r1w34/wheels/d7/60/f4/71b6a410af419348082ab6a873522bce5f415713b04de78084
+Successfully built tokenspeed-engine

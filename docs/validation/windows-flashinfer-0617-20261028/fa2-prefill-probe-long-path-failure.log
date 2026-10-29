@@ -1,0 +1,66 @@
+NVML failed to query NUMA affinity: Not Supported
+Traceback (most recent call last):
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\jit\cpp_ext.py", line 586, in run_ninja
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        command,
+        ^^^^^^^^
+    ...<4 lines>...
+        text=True,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:/Users/user\AppData\Roaming\uv\python\cpython-3.13-windows-aarch64-none\Lib\subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['ninja', '-v', '-C', 'C:/Users/user\\projects\\fij0617\\0.6.17+g2ea3c24b5dac\\121a\\cached_ops\\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False', '-f', 'C:/Users/user\\projects\\fij0617\\0.6.17+g2ea3c24b5dac\\121a\\cached_ops\\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\\build.ninja', '-j', '1']' returned non-zero exit status 1.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.port\probe_fa2_prefill.py", line 28, in <module>
+    actual = mha_extend_with_kvcache(q, qptr, kptr, k, v, table.to('cuda'), lengths,
+                                     max_seqlen_q=max(q_lengths), max_seqlen_k=max(kv_lengths),
+                                     is_causal=True, solution='flashinfer')
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617-kernel\tokenspeed_kernel\ops\attention\mha\__init__.py", line 415, in mha_extend_with_kvcache
+    return kernel(
+        q=q,
+    ...<15 lines>...
+        **scale_kwargs,
+    )
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617-kernel\tokenspeed_kernel\selection.py", line 74, in __call__
+    return self.impl(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617-kernel\tokenspeed_kernel\ops\attention\mha\_sm121_fa2.py", line 66, in flashinfer_fa2_mha_extend_sm121
+    wrapper.plan(q_indptr, indptr, indices, last, q.shape[1], k_cache.shape[2], q.shape[2], page_size,
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                 causal=is_causal, sm_scale=softmax_scale, q_data_type=q.dtype, kv_data_type=k_cache.dtype,
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                 window_left=window_left, logits_soft_cap=logit_cap)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\prefill.py", line 2406, in plan
+    self._cached_module = get_batch_prefill_module(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self._backend, *get_module_args
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\prefill.py", line 462, in get_batch_prefill_module
+    module = gen_batch_prefill_module(backend, *args).build_and_load()
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\jit\core.py", line 321, in build_and_load
+    self.build()
+    ~~~~~~~~~~^^
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\jit\core.py", line 436, in build
+    run_ninja(self.build_dir, self.ninja_path, verbose)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\jit\cpp_ext.py", line 598, in run_ninja
+    raise RuntimeError(msg) from e
+RuntimeError: Ninja build failed. Ninja output:
+ninja: Entering directory `C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\cached_ops\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False'
+[1/11] "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/nvcc" --generate-dependencies-with-compile -MF C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\cached_ops\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False_batch_prefill_paged_kernel_mask_0.cuda.o.d -ccbin cl -DTORCH_EXTENSION_NAME=bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False --std=c++20 -Xcompiler /Zc:__cplusplus -Xcompiler /Zc:preprocessor -I"C:/Users/user\projects\fij0617\cuda_include_overlay\13.4" -I"C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\generated\_cccl_include_overlay" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cccl\cub" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cccl\libcudacxx\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cccl\thrust" -I"C:/Users/user\AppData\Roaming\uv\python\cpython-3.13-windows-aarch64-none\Include" -I"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/include" -I"C:/Users/user\projects\vllm-bench\.venv\Lib\site-packages\tvm_ffi\include" -I"C:/Users/user\projects\vllm-bench\.venv\Lib\site-packages\tvm_ffi\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\csrc" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cutlass\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cutlass\tools\util\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\spdlog\include" --expt-relaxed-constexpr -static-global-template-stub=false -gencode=arch=compute_121a,code=sm_121a -DFLASHINFER_ENABLE_FP8_E8M0 -DFLASHINFER_ENABLE_FP4_E2M1 -Xcompiler /Zc:preprocessor -std=c++20 -O2 --threads=1 -use_fast_math -Xfatbin=-compress-all -DFLASHINFER_ENABLE_F16 -DFLASHINFER_ENABLE_BF16 -DFLASHINFER_ENABLE_FP8_E4M3 -DFLASHINFER_ENABLE_FP8_E5M2 --disable-warnings -c C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\generated\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\batch_prefill_paged_kernel_mask_0.cu -o C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\cached_ops\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False_batch_prefill_paged_kernel_mask_0.cuda.o 
+FAILED: C:/Users/user/projects/fij0617/0.6.17+g2ea3c24b5dac/121a/cached_ops/bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False/bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False_batch_prefill_paged_kernel_mask_0.cuda.o 
+"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/nvcc" --generate-dependencies-with-compile -MF C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\cached_ops\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False_batch_prefill_paged_kernel_mask_0.cuda.o.d -ccbin cl -DTORCH_EXTENSION_NAME=bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False --std=c++20 -Xcompiler /Zc:__cplusplus -Xcompiler /Zc:preprocessor -I"C:/Users/user\projects\fij0617\cuda_include_overlay\13.4" -I"C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\generated\_cccl_include_overlay" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cccl\cub" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cccl\libcudacxx\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cccl\thrust" -I"C:/Users/user\AppData\Roaming\uv\python\cpython-3.13-windows-aarch64-none\Include" -I"C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/include" -I"C:/Users/user\projects\vllm-bench\.venv\Lib\site-packages\tvm_ffi\include" -I"C:/Users/user\projects\vllm-bench\.venv\Lib\site-packages\tvm_ffi\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\csrc" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cutlass\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\cutlass\tools\util\include" -I"C:/Users/user\projects\official-repos\windows-tokenspeed\.venv\flashinfer0617\flashinfer\data\spdlog\include" --expt-relaxed-constexpr -static-global-template-stub=false -gencode=arch=compute_121a,code=sm_121a -DFLASHINFER_ENABLE_FP8_E8M0 -DFLASHINFER_ENABLE_FP4_E2M1 -Xcompiler /Zc:preprocessor -std=c++20 -O2 --threads=1 -use_fast_math -Xfatbin=-compress-all -DFLASHINFER_ENABLE_F16 -DFLASHINFER_ENABLE_BF16 -DFLASHINFER_ENABLE_FP8_E4M3 -DFLASHINFER_ENABLE_FP8_E5M2 --disable-warnings -c C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\generated\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\batch_prefill_paged_kernel_mask_0.cu -o C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\cached_ops\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False_batch_prefill_paged_kernel_mask_0.cuda.o 
+batch_prefill_paged_kernel_mask_0.cu
+nvcc fatal   : Could not open output file C:/Users/user\projects\fij0617\0.6.17+g2ea3c24b5dac\121a\cached_ops\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False\bpkvcd_q_bf16_kv_bf16_o_bf16_idx_i32_qk_128_vo_128_pe_0_swa_False_lc_False_f16qk_False_batch_prefill_paged_kernel_mask_0.cuda.o.d
+ninja: build stopped: subcommand failed.
+

@@ -1,0 +1,12 @@
+{
+  "solution": "flashinfer",
+  "shape": {
+    "batch": 1,
+    "q_heads": 16,
+    "kv_heads": 8,
+    "head_dim": 128,
+    "page_size": 64,
+    "kv_length": 128
+  },
+  "passed": true
+}

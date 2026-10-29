@@ -1,0 +1,62 @@
+{
+  "captured_at": "2026-10-28T10:14:07.040934+00:00",
+  "platform": "Windows-11-10.0.28000-SP0",
+  "script_sha256": "200dbfbf2ec4e1c9eda33ded6c94cffee7a2c76d87f5c00b661361cbf6c942bf",
+  "engine": {
+    "seed": 20261028,
+    "dtype": "bfloat16",
+    "world_size": 1,
+    "max_model_len": 704,
+    "max_num_seqs": 4,
+    "max_total_tokens": 2816,
+    "gpu_memory_utilization": 0.25,
+    "attention_backend": "flashinfer",
+    "enforce_eager": true,
+    "disable_prefill_graph": true,
+    "grammar_backend": "none",
+    "sampling_backend": "greedy",
+    "disable_kvstore": true,
+    "retraction_snapshot_ratio": 0,
+    "enable_prefix_caching": false,
+    "log_level": "warning"
+  },
+  "sampling": {
+    "temperature": 0,
+    "max_new_tokens": 128,
+    "ignore_eos": true
+  },
+  "input_lengths": [
+    128,
+    512
+  ],
+  "model_files": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "ops": "flashinfer",
+  "operation_sources": {
+    "layernorm": {
+      "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\layernorm\\__init__.py",
+      "sha256": "a4da023861cb9f7f8dbcbcbd877200b28faf22d080dd20df105d1f33e4083e4f"
+    },
+    "activation": {
+      "path": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617-kernel\\tokenspeed_kernel\\ops\\activation\\__init__.py",
+      "sha256": "67dac9a53a3edb42c256c61ffe11067dd0355381e30e0e9db48f104c046f3643"
+    }
+  },
+  "flashinfer": {
+    "version": "0.6.17+g2ea3c24b5dac",
+    "module": "C:/Users/user\\projects\\official-repos\\windows-tokenspeed\\.venv\\flashinfer0617\\flashinfer\\__init__.py"
+  },
+  "torch": {
+    "version": "2.14.0a0+git20b0f57",
+    "cuda": "13.4"
+  },
+  "gpu": "NVIDIA RTX Spark N1X (5120-core Blackwell RTX GPU)",
+  "warmup": 3,
+  "rounds": 5,
+  "profile": "none",
+  "cases": [],
+  "passed": false,
+  "error": "Scheduler process 0 (pid 26740) exited or closed its ready pipe before startup finished (exit code None). Please check if there are relevant logs."
+}

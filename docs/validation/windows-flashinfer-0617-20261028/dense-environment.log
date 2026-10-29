@@ -1,0 +1,3 @@
+NVML failed to query NUMA affinity: Not Supported
+Routed normalization cluster kernel unavailable; using Triton: No module named 'cutlass'
+PASS dense model imports and TokenSpeed facade numerical tests
