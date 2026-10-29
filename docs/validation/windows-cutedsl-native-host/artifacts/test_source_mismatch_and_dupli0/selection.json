@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "directory": ".",
+  "selections": [
+    {
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block_size": 128
+    },
+    {
+      "shape_mnk": [
+        1,
+        896,
+        7168
+      ],
+      "block_size": 128
+    }
+  ]
+}

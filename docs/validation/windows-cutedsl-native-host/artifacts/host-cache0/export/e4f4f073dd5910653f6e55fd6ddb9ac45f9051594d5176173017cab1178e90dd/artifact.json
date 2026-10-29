@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+  "factory": "compile_cluster",
+  "parameters": {
+    "use_pdl": false
+  },
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "4b2137477b1326068190547cd62e57be1d9dbc6f13aa7c717e699810d9ea5ea6",
+  "ptx_sha256": "796b490c0da44b7feeeb2d581c59e18433a502dd5c878519b84043fee685a756",
+  "entries": [
+    {
+      "name": "kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__False_0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__False_0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__False_0_param_1,\n\t.param .u32 kernel_cutlass_cluster_copy_ptrf32gmemalign16_ptrf32gmemalign16__False_0_param_2\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract",
+  "host": {
+    "target": "aarch64-pc-windows-msvc",
+    "parameters": [
+      {
+        "name": "a",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "out",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "n",
+        "ctype": "int32_t",
+        "kind": "i32"
+      },
+      {
+        "name": "stream",
+        "ctype": "cudaStream_t",
+        "kind": "stream"
+      }
+    ],
+    "prefix": "tokenspeed_aot",
+    "exporter_sha256": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498"
+  },
+  "host_files": {
+    "host.h": "a4fee5ea077e7f657ad387a0758d9709f45da7c699fc010ba53841c22bd41c23",
+    "host.o": "001dbdf56a249a6a9d87f9cbc06106a6cadc6a1666116f12223ace96f93160b7",
+    "adapter.cpp": "50ec321fbe8fbd51e42f6a3b718e35e26df4b8f437e81ae8949d321220d4fa6f"
+  }
+}

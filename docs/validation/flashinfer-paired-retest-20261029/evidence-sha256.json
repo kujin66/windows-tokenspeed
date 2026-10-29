@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "file": "commands.json",
+      "original_sha256": "b8fdea14ef05fdf6f74a26f222c0d1c792697ad246fb32b919caf93731ab974f",
+      "published_sha256": "24db936058c5c9ff2ba8796b21a76f8ca0afed7ee20644c2a436fd851a8f5588"
+    },
+    {
+      "file": "comparisons.json",
+      "published_sha256": "cdfd01d497acbad55f53d5e4e5d8080fb730f6e19ea3a3b42fc67f266213a333"
+    },
+    {
+      "file": "outcomes.json",
+      "original_sha256": "16c9c768e3c08470aa86e55821e0aeae4d50cf9d9a31a1e31a77616a87ae7110",
+      "published_sha256": "f259efe505dbfaab9db46b79ce1fa1798d491fc2fa081abced27e40118f9b2e6"
+    },
+    {
+      "file": "README.md",
+      "published_sha256": "bb3dddcc9434b046fcb2c90fbec8631f38bc51c31c4a1232b126050207f614e2"
+    },
+    {
+      "file": "sources/benchmark_engine_matrix.py",
+      "original_sha256": "90aae2d885835f00d24e91dde0c232a005a19b25c5f17c71d1ad672c30971deb",
+      "published_sha256": "90aae2d885835f00d24e91dde0c232a005a19b25c5f17c71d1ad672c30971deb"
+    },
+    {
+      "file": "sources/launch_flashinfer0617.py",
+      "original_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde",
+      "published_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde"
+    },
+    {
+      "file": "sources/retest_fi_wsl.sh",
+      "original_sha256": "e64bbf87aaa64f74fd41eeeb18fff148c892ac6d9dce0c514898eaf53229980b",
+      "published_sha256": "393292ede47b091343909282fcaf43a41552418a2f92af429c15a3a0b1cfb265"
+    },
+    {
+      "file": "sources/run.py",
+      "original_sha256": "289d680087754b90bb046ad83e62e1be96e3e035ebd8dd3962bed4edb19f4658",
+      "published_sha256": "1b7e9ffb1728ebe7a1b5fe4c527a899f987fd54365870a7fd28542e1d496f4c7"
+    },
+    {
+      "file": "sources/run_checked_benchmark.py",
+      "original_sha256": "3206dfecc2397124239dc6c6c01959a0af3e1fbfe6b5a18d0a577b2ff382cc10",
+      "published_sha256": "3206dfecc2397124239dc6c6c01959a0af3e1fbfe6b5a18d0a577b2ff382cc10"
+    },
+    {
+      "file": "sources/wsl-env.sh",
+      "original_sha256": "27005493e4e31ec3779eb27312e49e1ac2dafd543b02e18bc7f533514097ec2b",
+      "published_sha256": "27005493e4e31ec3779eb27312e49e1ac2dafd543b02e18bc7f533514097ec2b"
+    },
+    {
+      "file": "windows-flashinfer-repeat1-environment.json",
+      "original_sha256": "bf485c38ab729dfd025636d24720d79f5aa9bdf3acc56629bb200a3307b9744a",
+      "published_sha256": "653635c55f4be20bb53ebb78dd59d1694e83603ba84306c2bd5e4c63ca442634"
+    },
+    {
+      "file": "windows-flashinfer-repeat1.json",
+      "original_sha256": "5e582c6a08dbce08f9ce7883ec312b5b33783ec528f070d883fb9796494770a0",
+      "published_sha256": "73a9b50c42b3fd2616c4b44e4b600b4b3ffe948538b47cbee7c571fd8b5b2872"
+    },
+    {
+      "file": "windows-flashinfer-repeat1.log",
+      "original_sha256": "af6f0e537484f50c471d4917df348c2f1a9bb54f2df195c9cfb3e91faab5f212",
+      "published_sha256": "0fd3a104493ba4ad425fd1084359532fda4c75c4186acf35c0406695d4637a34"
+    },
+    {
+      "file": "windows-flashinfer-repeat2-environment.json",
+      "original_sha256": "bf485c38ab729dfd025636d24720d79f5aa9bdf3acc56629bb200a3307b9744a",
+      "published_sha256": "653635c55f4be20bb53ebb78dd59d1694e83603ba84306c2bd5e4c63ca442634"
+    },
+    {
+      "file": "windows-flashinfer-repeat2.json",
+      "original_sha256": "ab6bc91b75d91b442d29889b665c0618b8f754902bdcd0cb597f3cc00393228a",
+      "published_sha256": "46d7723bad5871ee6b063028d805fd7c645f6c709047b1282ef8fbb3d8afaa33"
+    },
+    {
+      "file": "windows-flashinfer-repeat2.log",
+      "original_sha256": "87bc5563c8df23c625e78a1edd7aafda757ccdb70f017d86a26ad843c6a30b03",
+      "published_sha256": "0eae62a21af1088e875bf021a59f3a591ed69be7359958882e90535bf39242d8"
+    },
+    {
+      "file": "wsl2-flashinfer-repeat1.json",
+      "original_sha256": "c21b690f39f9e601e161caeaa711514b2613cc54fcb1aa1391158afd641edbfa",
+      "published_sha256": "c21b690f39f9e601e161caeaa711514b2613cc54fcb1aa1391158afd641edbfa"
+    },
+    {
+      "file": "wsl2-flashinfer-repeat1.log",
+      "original_sha256": "2b63278b407fdc213d9435d2ad5bfbf74d70c003eb81bf39c990e84fa340e869",
+      "published_sha256": "7674bcd8e5f7f44ffd3826a7fccebf699752c02acb4aee96a2ec01dd61f95301"
+    },
+    {
+      "file": "wsl2-flashinfer-repeat2.json",
+      "original_sha256": "1374a20290b1b406d9776b665392a8e0d465e8c8120f8816eec26e600cf844b8",
+      "published_sha256": "1374a20290b1b406d9776b665392a8e0d465e8c8120f8816eec26e600cf844b8"
+    },
+    {
+      "file": "wsl2-flashinfer-repeat2.log",
+      "original_sha256": "060a565de8460db7b601f6c6815769919fdcd33f782d534619a7f96e46a752df",
+      "published_sha256": "5707cc184e1192458f41dcf4f4fb9e4be1a883daf56559fda416e0868067bf36"
+    }
+  ]
+}

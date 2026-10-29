@@ -1,0 +1,16 @@
+[
+  {
+    "name": "windows-tokenspeed-triton-graph",
+    "returncode": 0,
+    "passed": true,
+    "seconds": 288.2204093999899,
+    "error": null
+  },
+  {
+    "name": "windows-vllm-auto-graph",
+    "returncode": 0,
+    "passed": true,
+    "seconds": 256.2949185999896,
+    "error": null
+  }
+]

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "Microsoft.VC.14.51.CRT.ARM64.Desktop.base",
+    "version": "14.51.36254",
+    "payloads": [
+      {
+        "fileName": "Microsoft.VC.14.51.CRT.ARM64.Desktop.base.vsix",
+        "sha256": "c30a1064ef39efd3e969a1cac2bb56173de42aee558efbf7b5c1ca8910228687",
+        "size": 66195195,
+        "url": "https://download.visualstudio.microsoft.com/download/pr/16ac3a9f-21a9-4b80-a1cb-097bd79ea455/c30a1064ef39efd3e969a1cac2bb56173de42aee558efbf7b5c1ca8910228687/Microsoft.VC.14.51.CRT.ARM64.Desktop.base.vsix",
+        "signer": {
+          "$ref": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "Microsoft.VC.14.51.CRT.ARM64.Store.base",
+    "version": "14.51.36254",
+    "payloads": [
+      {
+        "fileName": "Microsoft.VC.14.51.CRT.ARM64.Store.base.vsix",
+        "sha256": "904230c4a5c5d34b84c9c962f9435a8909cdaa2d0ebe3d0c55472de4e45db081",
+        "size": 67104811,
+        "url": "https://download.visualstudio.microsoft.com/download/pr/16ac3a9f-21a9-4b80-a1cb-097bd79ea455/904230c4a5c5d34b84c9c962f9435a8909cdaa2d0ebe3d0c55472de4e45db081/Microsoft.VC.14.51.CRT.ARM64.Store.base.vsix",
+        "signer": {
+          "$ref": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "Microsoft.VC.14.51.CRT.Headers.base",
+    "version": "14.51.36244",
+    "payloads": [
+      {
+        "fileName": "Microsoft.VC.14.51.CRT.Headers.base.vsix",
+        "sha256": "e6d9cc5f0750cbc40a6b2468991c57ed0044fa2e242295a6d51bc02d72502b05",
+        "size": 2079990,
+        "url": "https://download.visualstudio.microsoft.com/download/pr/a62262cf-b9f6-4770-9454-7372ad8fcec0/e6d9cc5f0750cbc40a6b2468991c57ed0044fa2e242295a6d51bc02d72502b05/Microsoft.VC.14.51.CRT.Headers.base.vsix",
+        "signer": {
+          "$ref": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.base",
+    "version": "14.51.36260",
+    "payloads": [
+      {
+        "fileName": "Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.base.vsix",
+        "sha256": "c50d4e283b7e0b79c2295854302301df15dd3ee68e3436dec828f037f3d53347",
+        "size": 25130159,
+        "url": "https://download.visualstudio.microsoft.com/download/pr/1a3f7ee8-40b3-467a-bca3-18a23a5e9a6c/c50d4e283b7e0b79c2295854302301df15dd3ee68e3436dec828f037f3d53347/Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.base.vsix",
+        "signer": {
+          "$ref": "1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.Res.base",
+    "version": "14.51.36260",
+    "payloads": [
+      {
+        "fileName": "Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.Res.base.enu.vsix",
+        "sha256": "a98944662afaada1336bcd5813024a730f4e22ad603042c50ddab91cfcf9cafe",
+        "size": 284495,
+        "url": "https://download.visualstudio.microsoft.com/download/pr/1a3f7ee8-40b3-467a-bca3-18a23a5e9a6c/a98944662afaada1336bcd5813024a730f4e22ad603042c50ddab91cfcf9cafe/Microsoft.VC.14.51.Tools.HostARM64.TargetARM64.Res.base.enu.vsix",
+        "signer": {
+          "$ref": "1"
+        }
+      }
+    ]
+  }
+]

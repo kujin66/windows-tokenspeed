@@ -1,0 +1,25 @@
+# Observed Windows ARM64 Python 3.13 environment, 2026-10-28.
+# Constraints only: not a complete lockfile or a clean-machine installation recipe.
+# Supply native ARM64 CUDA wheels; do not resolve these through an x64 interpreter.
+# Main pyproject declares setuptools==83.0.0; this no-build-isolation recipe used 80.10.2.
+setuptools==80.10.2
+wheel==0.48.0
+scikit-build-core==1.1.1
+nanobind==3.1.0
+tokenspeed-spdlog==1.15.1
+ninja==1.13.2
+torch==2.14.0a0+git20b0f57
+apache-tvm-ffi==0.1.13.post3
+triton-windows==3.8.0.post29
+flashinfer-python==0.7.2
+transformers==5.12.0
+compressed-tensors==0.17.0
+numpy==2.5.4
+packaging==26.3
+psutil==7.0.0
+msgspec==0.22.0
+pyzmq==26.4.0
+pydantic==2.14.1
+nvidia-ml-py==13.615.71
+pytest==9.1.1
+pytest-timeout==2.4.0

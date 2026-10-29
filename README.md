@@ -70,6 +70,10 @@ LightSeek's work is advanced by the support of [sponsors and partners](https://l
 Start here:
 
 - [Docs Index](https://lightseek.org/tokenspeed/)
+- [Windows ARM64 build, WSL2, FlashInfer and Triton benchmark report](docs/guides/windows-arm64-performance-report.md)
+- [Latest Windows/WSL2 engine results and repeated FlashInfer measurements](docs/guides/windows-wsl2-engine-backend-retest.md)
+- [Windows-local CuTe compiler and native ARM64 host validation](docs/guides/windows-arm64-cutedsl-native-host.md)
+- [Complete Windows ARM64 source and native build instructions](docs/guides/windows-arm64-build-details.md)
 - [Getting Started](https://lightseek.org/tokenspeed/guides/getting-started)
 - [Launching a Server](https://lightseek.org/tokenspeed/guides/launching)
 - [Model Recipes](https://lightseek.org/tokenspeed/recipes/models)

@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "arch": "sm_121a",
+  "source_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+  "factory": "compile_sequence",
+  "parameters": {},
+  "worker_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+  "cubin_sha256": "f047b83db41046f34633eb3c0bcbc0c1a3535700fe6f1eaa1509469842fe54cb",
+  "ptx_sha256": "a77edc9e427a9ac9f6078ace20373f67cbe76c44393656c275430db2e7a8f76a",
+  "entries": [
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_0_param_5\n"
+    },
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___20_10_1_param_5\n"
+    },
+    {
+      "name": "kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2",
+      "ptx_parameters": "\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_0,\n\t.param .u64 .ptr .global .align 16 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_1,\n\t.param .u32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_2,\n\t.param .u64 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_3,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_4,\n\t.param .f32 kernel_cutlass_affine_ptrf32gmemalign16_ptrf32gmemalign16___10_00_2_param_5\n"
+    }
+  ],
+  "compiler": {
+    "os": "win32",
+    "python": "3.13.17 (main, Oct 21 2026, 17:48:10) [MSC v.1944 64 bit (AMD64)]",
+    "python_pe_machine": "0x8664",
+    "cutedsl": "4.8.1",
+    "cuda_bindings": "13.4.4"
+  },
+  "scope": "Windows-local compiler process; x64 may use system emulation; device code only, caller owns ABI and launch contract",
+  "host": {
+    "target": "aarch64-pc-windows-msvc",
+    "parameters": [
+      {
+        "name": "a",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "temporary",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "out",
+        "ctype": "void *",
+        "kind": "ptr",
+        "dtype": "Float32",
+        "alignment": 16
+      },
+      {
+        "name": "n",
+        "ctype": "int32_t",
+        "kind": "i32"
+      },
+      {
+        "name": "repetitions",
+        "ctype": "int32_t",
+        "kind": "i32"
+      },
+      {
+        "name": "stream",
+        "ctype": "cudaStream_t",
+        "kind": "stream"
+      }
+    ],
+    "prefix": "tokenspeed_aot",
+    "exporter_sha256": "2b98561e6a60522d6bf95ea6e9d9b5f29db3929441e5741c6a162ccec6262498"
+  },
+  "host_files": {
+    "host.h": "c1cdd951afc3514727e82a5f27dc249d85008108593443b5ffd16909ae95c0cb",
+    "host.o": "4dcd6b8c2cf6999b991d9f0f383a7d33c31d25f61995a67c7ff4dd7570830ca3",
+    "adapter.cpp": "d8b22fb1cd66fcefaab771bc8e99a7ca1fc8386f440bcb0db98df500bd264d75"
+  }
+}

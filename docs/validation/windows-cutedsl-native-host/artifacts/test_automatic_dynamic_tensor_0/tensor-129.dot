@@ -1,0 +1,16 @@
+digraph dot {
+subgraph cluster_103 {
+label="graph_103" graph[style="dashed"];
+"graph_103_node_0"[style="bold" shape="record" label="{KERNEL
+| {ID | 0 (topoId: 0) | kernel_cutlass_tensor_copy_tensorptrf32gmemalign16oi64i64_tensorptrf32gmemalign16oi641_0\<\<\<2,128,0\>\>\>}
+| {{node handle | func handle} | {0x000000FE76A77870 | 0x000000FE94723800}}
+| {accessPolicyWindow | {base_ptr | num_bytes | hitRatio | hitProp | missProp} | {0x0000000000000000 | 0 | 0.000000 | N | N}}
+| {cooperative | 0}
+| {priority | 0}
+| {cluster dim | (0,0,0)}
+| {preferred cluster dim | (0,0,0)}
+| {cluster scheduling policy preference | 1}
+}"];
+
+}
+}

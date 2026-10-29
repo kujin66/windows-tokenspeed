@@ -9,7 +9,11 @@ repos:
     hooks:
       - id: check-symlinks
       - id: trailing-whitespace
+        # Preserve the SHA256-addressed evidence bytes.
+        exclude: ^(docs/validation/|ports/windows-arm64/overlay/)
       - id: end-of-file-fixer
+        # Preserve the SHA256-addressed evidence bytes.
+        exclude: ^(docs/validation/|ports/windows-arm64/overlay/)
       - id: check-yaml
         args: [--allow-multiple-documents]
       - id: check-toml
@@ -31,10 +35,14 @@ repos:
     rev: 8.0.1
     hooks:
       - id: isort
+        # Preserve the SHA256-addressed evidence bytes.
+        exclude: ^(docs/validation/|ports/windows-arm64/overlay/)
   - repo: https://github.com/psf/black
     rev: 26.3.1
     hooks:
       - id: black-jupyter
+        # Preserve the SHA256-addressed evidence bytes.
+        exclude: ^(docs/validation/|ports/windows-arm64/overlay/)
   - repo: https://github.com/kynan/nbstripout
     rev: 0.9.1
     hooks:
