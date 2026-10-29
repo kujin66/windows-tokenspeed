@@ -1,7 +1,15 @@
-# Paired FlashInfer confirmation
+# FlashInfer measurements
 
-See [the report](../../guides/windows-wsl2-engine-backend-retest.md) for the original cohort and this confirmation. Four sequential process runs retain every measured time and output ID. Both repeats pass process, package, source, model, input, graph, output-count and throughput validation against the original per-platform environment. The two Windows FlashInfer import/version guard reports also match the original exactly. comparisons.json is recomputed from all ten measured calls per case/platform, with no samples removed. commands.json and outcomes.json retain execution order, pre/post GPU snapshots and lightweight CPU samples; no GPU telemetry is sampled during generation. These observations cannot isolate OS or compiler effects or establish output equivalence.
+Four sequential fresh engine processes, two per platform, with three warmups
+and five timed calls per case. Reports retain every measured duration and
+input/output ID. commands.json and outcomes.json record execution order and
+pre/post GPU plus lightweight CPU samples.
 
-Publication normalizes user/build paths and ANSI formatting. Numerical values, sampled IDs and durations are retained. evidence-sha256.json preserves original/public identities; checksums.sha256 verifies published bytes. Tested native-host source snapshots retain their original bytes and line endings.
+comparisons.json combines total output tokens over total elapsed seconds.
+Per-platform dependencies, module/source hashes, model and settings match
+across both repetitions. Publication normalizes user/build paths and ANSI
+formatting; hashes verify the published bytes.
 
-Recompute from the repository root with python -m tools.perf.summarize_engine_retest --root . --report latest-engine-summary.json. This verifies all five new evidence manifests and the recorded CuTe test counts/architectures.
+See [methods and results](../../guides/windows-wsl2-engine-backend-retest.md).
+Run python -m tools.perf.summarize_engine_retest --root . --report latest-engine-summary.json
+from the PR checkout to verify current evidence and recompute the comparison.

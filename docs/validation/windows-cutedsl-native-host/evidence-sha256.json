@@ -1,6 +1,5 @@
 {
-  "normalization": "Public user/build paths and ANSI formatting only; source snapshots retain exact tested bytes",
-  "input_manifest_sha256": "485d6cb7dbee17bcc063c269bf0844cdedf5d5cb27526def5efc8d70d1a0f922",
+  "schema": 1,
   "files": [
     {
       "file": "artifacts/custom-cute0/affine/artifact.json",
@@ -444,48 +443,21 @@
       "published_sha256": "ea12f0acd8870e6bad5afab71c9d2f3c059ed67af691f30b157cc4a25d1958cd"
     },
     {
-      "file": "summary.json",
-      "original_sha256": "98f92a71dd5533f8bb23fab32a6c05b8dc7e433aa738201d1b0cd7cf4998b7dc",
-      "published_sha256": "db22c251e26fa49308dc20a7ab2e8472fdae5c1f5617611e838320775c2ee7ca"
+      "file": "sources/requirements/windows-cutedsl-compiler-x64.txt",
+      "original_sha256": "61e159428ec0379111ef1245aee0040e6cfb369d4f3406411e204797f87693cd",
+      "published_sha256": "61e159428ec0379111ef1245aee0040e6cfb369d4f3406411e204797f87693cd",
+      "scope": "reproduction support"
     },
     {
-      "file": "tests.log",
-      "original_sha256": "6ff987bf0ffea94aef7f58e13e5d0c80dc65bfbbcc0115ed695084a6910f4f56",
-      "published_sha256": "f5d484db7f0e38e5563d69f2a90499ce8c83057eda52f48222100080085bf7bf"
-    },
-    {
-      "file": "tests.xml",
-      "original_sha256": "13d187bfa858af5286dcfc5e0911a210e5ca84170ab5efd25282af70b480cf0e",
-      "published_sha256": "84d91b22e77895a04cfe9e9859b8c22ef4efcc3ac16907c6bf63e8852da94d79"
-    },
-    {
-      "file": "sources/tools/windows/cute_dsl_aot/validate_local.py",
-      "original_sha256": "e5139b232a1e27cb75f288dba4dc4de93f7f788eb6e64c3531008cd16dfe8948",
-      "published_sha256": "e5139b232a1e27cb75f288dba4dc4de93f7f788eb6e64c3531008cd16dfe8948",
+      "file": "sources/tokenspeed-kernel/python/setup.py",
+      "original_sha256": "53258017056d7280d827663e958e39060423f828f9ac00c88ca73939d9ca15d5",
+      "published_sha256": "53258017056d7280d827663e958e39060423f828f9ac00c88ca73939d9ca15d5",
       "scope": "tested source"
     },
     {
-      "file": "sources/tools/windows/cute_dsl_aot/elementwise_factory.py",
-      "original_sha256": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
-      "published_sha256": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tools/windows/cute_dsl_aot/export_router.py",
-      "original_sha256": "68f78853b2b6fd26cd5ce0dde745fd8948e9928d79e2c37d73f839e8d08267f6",
-      "published_sha256": "68f78853b2b6fd26cd5ce0dde745fd8948e9928d79e2c37d73f839e8d08267f6",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_compile.py",
-      "original_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
-      "published_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_runtime.py",
-      "original_sha256": "ccb09688f16b62d2c93ab9f7ef942198fa0d7385ec168450333b682a79d0aa45",
-      "published_sha256": "ccb09688f16b62d2c93ab9f7ef942198fa0d7385ec168450333b682a79d0aa45",
+      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/_cute_dsl_native.cpp",
+      "original_sha256": "8549c00a37e3e2cea6dce8b9b174325be438b11ac431b6fb5cbbf4fd4b43c587",
+      "published_sha256": "8549c00a37e3e2cea6dce8b9b174325be438b11ac431b6fb5cbbf4fd4b43c587",
       "scope": "tested source"
     },
     {
@@ -495,45 +467,9 @@
       "scope": "tested source"
     },
     {
-      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/cute_dsl_aot.py",
-      "original_sha256": "011e083c094dcd25ad84d3e6b47efab9827283e50ec8539f4c8f38b0e46e80f6",
-      "published_sha256": "011e083c094dcd25ad84d3e6b47efab9827283e50ec8539f4c8f38b0e46e80f6",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/__init__.py",
-      "original_sha256": "1290c40f971a6506be8c53c62ff501f96fe80934d8db0bf68a33db033f6a6b54",
-      "published_sha256": "1290c40f971a6506be8c53c62ff501f96fe80934d8db0bf68a33db033f6a6b54",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cute_dsl/ll_bf16/_kernel.py",
-      "original_sha256": "f7002218589c3af7639f6c245b69209142b922abdadcd8998be3c511da9cd278",
-      "published_sha256": "f7002218589c3af7639f6c245b69209142b922abdadcd8998be3c511da9cd278",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tokenspeed-kernel/test/nvidia/test_cute_dsl_windows_compile.py",
-      "original_sha256": "6c965a83f84848d94fe1d6ed9f141e71f859a4778e10691eb40e9283682e5c56",
-      "published_sha256": "6c965a83f84848d94fe1d6ed9f141e71f859a4778e10691eb40e9283682e5c56",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tokenspeed-kernel/test/nvidia/test_cute_dsl_aot.py",
-      "original_sha256": "0babc91aa8821d370e2969d60c4162b379861a93c14581d354188390d76b71d6",
-      "published_sha256": "0babc91aa8821d370e2969d60c4162b379861a93c14581d354188390d76b71d6",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tokenspeed-kernel/test/nvidia/test_cute_dsl_host.py",
-      "original_sha256": "634c997fcf2d6f48044f386bc3b70a55cb61cd0bfb0122344ea40a06b5ca1c0e",
-      "published_sha256": "634c997fcf2d6f48044f386bc3b70a55cb61cd0bfb0122344ea40a06b5ca1c0e",
-      "scope": "tested source"
-    },
-    {
-      "file": "sources/tools/windows/cute_dsl_aot/host_factory.py",
-      "original_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
-      "published_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_compile.py",
+      "original_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
+      "published_sha256": "abe210ced6bfdc0c7a303557f78d9ad0e573ef76cb222cbb13a12d3fe54a26f3",
       "scope": "tested source"
     },
     {
@@ -549,9 +485,27 @@
       "scope": "tested source"
     },
     {
-      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/_cute_dsl_native.cpp",
-      "original_sha256": "8549c00a37e3e2cea6dce8b9b174325be438b11ac431b6fb5cbbf4fd4b43c587",
-      "published_sha256": "8549c00a37e3e2cea6dce8b9b174325be438b11ac431b6fb5cbbf4fd4b43c587",
+      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/cute_dsl_runtime.py",
+      "original_sha256": "ccb09688f16b62d2c93ab9f7ef942198fa0d7385ec168450333b682a79d0aa45",
+      "published_sha256": "ccb09688f16b62d2c93ab9f7ef942198fa0d7385ec168450333b682a79d0aa45",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/__init__.py",
+      "original_sha256": "1290c40f971a6506be8c53c62ff501f96fe80934d8db0bf68a33db033f6a6b54",
+      "published_sha256": "1290c40f971a6506be8c53c62ff501f96fe80934d8db0bf68a33db033f6a6b54",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/cute_dsl_aot.py",
+      "original_sha256": "011e083c094dcd25ad84d3e6b47efab9827283e50ec8539f4c8f38b0e46e80f6",
+      "published_sha256": "011e083c094dcd25ad84d3e6b47efab9827283e50ec8539f4c8f38b0e46e80f6",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cute_dsl/ll_bf16/_kernel.py",
+      "original_sha256": "f7002218589c3af7639f6c245b69209142b922abdadcd8998be3c511da9cd278",
+      "published_sha256": "f7002218589c3af7639f6c245b69209142b922abdadcd8998be3c511da9cd278",
       "scope": "tested source"
     },
     {
@@ -561,15 +515,45 @@
       "scope": "tested source"
     },
     {
-      "file": "sources/tokenspeed-kernel/python/setup.py",
-      "original_sha256": "53258017056d7280d827663e958e39060423f828f9ac00c88ca73939d9ca15d5",
-      "published_sha256": "53258017056d7280d827663e958e39060423f828f9ac00c88ca73939d9ca15d5",
+      "file": "sources/tokenspeed-kernel/test/nvidia/test_cute_dsl_aot.py",
+      "original_sha256": "0babc91aa8821d370e2969d60c4162b379861a93c14581d354188390d76b71d6",
+      "published_sha256": "0babc91aa8821d370e2969d60c4162b379861a93c14581d354188390d76b71d6",
       "scope": "tested source"
     },
     {
-      "file": "sources/requirements/windows-cutedsl-compiler-x64.txt",
-      "original_sha256": "61e159428ec0379111ef1245aee0040e6cfb369d4f3406411e204797f87693cd",
-      "published_sha256": "61e159428ec0379111ef1245aee0040e6cfb369d4f3406411e204797f87693cd",
+      "file": "sources/tokenspeed-kernel/test/nvidia/test_cute_dsl_host.py",
+      "original_sha256": "634c997fcf2d6f48044f386bc3b70a55cb61cd0bfb0122344ea40a06b5ca1c0e",
+      "published_sha256": "634c997fcf2d6f48044f386bc3b70a55cb61cd0bfb0122344ea40a06b5ca1c0e",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tokenspeed-kernel/test/nvidia/test_cute_dsl_windows_compile.py",
+      "original_sha256": "6c965a83f84848d94fe1d6ed9f141e71f859a4778e10691eb40e9283682e5c56",
+      "published_sha256": "6c965a83f84848d94fe1d6ed9f141e71f859a4778e10691eb40e9283682e5c56",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tools/windows/cute_dsl_aot/elementwise_factory.py",
+      "original_sha256": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
+      "published_sha256": "f30984b501ccb3ca64470ffc99758b188b6dad89f7a339cf1b1c1f3a473e26cc",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tools/windows/cute_dsl_aot/export_router.py",
+      "original_sha256": "68f78853b2b6fd26cd5ce0dde745fd8948e9928d79e2c37d73f839e8d08267f6",
+      "published_sha256": "68f78853b2b6fd26cd5ce0dde745fd8948e9928d79e2c37d73f839e8d08267f6",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tools/windows/cute_dsl_aot/host_factory.py",
+      "original_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+      "published_sha256": "70b145313a608964d167e2e1b3cc6ead78ecef9069fc2e21bd52a71f2865719f",
+      "scope": "tested source"
+    },
+    {
+      "file": "sources/tools/windows/cute_dsl_aot/inspect_graphs.py",
+      "original_sha256": "7a13dbc72b6a30563a4ed1edaaa8832b9228261d8c2be4396248d24c8fb88938",
+      "published_sha256": "7a13dbc72b6a30563a4ed1edaaa8832b9228261d8c2be4396248d24c8fb88938",
       "scope": "reproduction support"
     },
     {
@@ -585,16 +569,31 @@
       "scope": "reproduction support"
     },
     {
+      "file": "sources/tools/windows/cute_dsl_aot/validate_local.py",
+      "original_sha256": "e5139b232a1e27cb75f288dba4dc4de93f7f788eb6e64c3531008cd16dfe8948",
+      "published_sha256": "e5139b232a1e27cb75f288dba4dc4de93f7f788eb6e64c3531008cd16dfe8948",
+      "scope": "tested source"
+    },
+    {
       "file": "sources/tools/windows/cute_dsl_aot/windows_router_aot.py",
       "original_sha256": "69bea0929bcc8e87460d5dd1941ab962d8ef018a7c7de5572504d1ebd39b8d8b",
       "published_sha256": "69bea0929bcc8e87460d5dd1941ab962d8ef018a7c7de5572504d1ebd39b8d8b",
       "scope": "reproduction support"
     },
     {
-      "file": "sources/tools/windows/cute_dsl_aot/inspect_graphs.py",
-      "original_sha256": "7a13dbc72b6a30563a4ed1edaaa8832b9228261d8c2be4396248d24c8fb88938",
-      "published_sha256": "7a13dbc72b6a30563a4ed1edaaa8832b9228261d8c2be4396248d24c8fb88938",
-      "scope": "reproduction support"
+      "file": "summary.json",
+      "original_sha256": "98f92a71dd5533f8bb23fab32a6c05b8dc7e433aa738201d1b0cd7cf4998b7dc",
+      "published_sha256": "db22c251e26fa49308dc20a7ab2e8472fdae5c1f5617611e838320775c2ee7ca"
+    },
+    {
+      "file": "tests.log",
+      "original_sha256": "6ff987bf0ffea94aef7f58e13e5d0c80dc65bfbbcc0115ed695084a6910f4f56",
+      "published_sha256": "f5d484db7f0e38e5563d69f2a90499ce8c83057eda52f48222100080085bf7bf"
+    },
+    {
+      "file": "tests.xml",
+      "original_sha256": "13d187bfa858af5286dcfc5e0911a210e5ca84170ab5efd25282af70b480cf0e",
+      "published_sha256": "84d91b22e77895a04cfe9e9859b8c22ef4efcc3ac16907c6bf63e8852da94d79"
     }
   ]
 }

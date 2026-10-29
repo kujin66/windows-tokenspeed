@@ -7,13 +7,6 @@
     "error": null
   },
   {
-    "name": "windows-tokenspeed-flashinfer-graph",
-    "returncode": 0,
-    "passed": true,
-    "seconds": 268.2522144999966,
-    "error": null
-  },
-  {
     "name": "windows-vllm-auto-graph",
     "returncode": 0,
     "passed": true,

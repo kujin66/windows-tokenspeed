@@ -1,7 +1,0 @@
-Starting windows-tokenspeed-triton-graph
-{'name': 'windows-tokenspeed-triton-graph', 'returncode': 0, 'passed': True, 'seconds': 192.26445340001374, 'error': None}
-Starting windows-tokenspeed-flashinfer-graph
-{'name': 'windows-tokenspeed-flashinfer-graph', 'returncode': 1, 'passed': False, 'seconds': 104.12054600000556, 'error': 'RuntimeError: Scheduler process 0 (pid 57492) exited or closed its ready pipe before startup finished (exit code None). Please check if there are relevant logs.'}
-Starting windows-vllm-auto-graph
-{'name': 'windows-vllm-auto-graph', 'returncode': 0, 'passed': True, 'seconds': 242.621642099999, 'error': None}
-Native Windows matrix finished

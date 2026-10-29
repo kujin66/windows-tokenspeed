@@ -1,9 +1,0 @@
-{
-  "status": "failed compatibility pilot",
-  "reason": "EngineCore explicitly failed its startup memory gate; stopped only this pilot process tree after failure to unblock cleanup",
-  "stopped_pids": [
-    44916,
-    45448
-  ],
-  "measured_samples": 0
-}

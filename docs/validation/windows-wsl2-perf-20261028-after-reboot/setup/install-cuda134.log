@@ -1,3 +1,0 @@
-Using CPython 3.13.16 interpreter at: /opt/tokenspeed-work/venv/bin/python
-error: No solution found when resolving dependencies
-  cause: Because there is no version of cuda-toolkit[nvcc]==13.4.0 and you require cuda-toolkit[nvcc]==13.4.0, we can conclude that your requirements are unsatisfiable.

@@ -1,9 +1,0 @@
---- installed/ops/attention/mha/flashinfer.py
-+++ experiment/ops/attention/mha/flashinfer.py
-@@ -333,3 +333,6 @@
-     "trtllm_batch_decode_with_kv_cache_mla",
-     "trtllm_ragged_attention_deepseek",
- ]
-+
-+# Experimental SM12.1 FA2 prefill; architecture checks remain intact.
-+import tokenspeed_kernel.ops.attention.mha._sm121_fa2  # noqa: E402,F401

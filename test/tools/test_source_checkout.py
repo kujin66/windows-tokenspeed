@@ -80,7 +80,7 @@ def source_repository(tmp_path):
         ),
         encoding="utf-8",
     )
-    (bundle / "historical-evidence-manifest.json").write_text("[]", encoding="utf-8")
+    (bundle / "build-inputs-manifest.json").write_text("[]", encoding="utf-8")
     return root
 
 
@@ -93,6 +93,21 @@ def test_reconstructs_modified_added_and_unchanged_sources(source_repository, tm
     verify_checkout(source_repository / "ports/windows-arm64", destination)
 
 
+def test_current_preparation_helper_restored_without_benchmark_archive(
+    source_repository, tmp_path
+):
+    helper = source_repository / "tools/windows/flashinfer/prepare_backend.py"
+    helper.parent.mkdir(parents=True)
+    helper.write_bytes(b"print('prepare backend')\n")
+    destination = tmp_path / "with-preparation-helper"
+    prepare_checkout(source_repository, destination, str(source_repository))
+    assert (
+        destination / ".port/prepare_backend.py"
+    ).read_bytes() == helper.read_bytes()
+    assert (destination / "tools/windows/flashinfer/prepare_backend.py").is_file()
+    assert not (destination / ".port/flashinfer_comparison_bench.py").exists()
+
+
 def test_refuses_existing_destination_without_overwriting(source_repository, tmp_path):
     destination = tmp_path / "existing"
     destination.mkdir()
@@ -101,6 +116,31 @@ def test_refuses_existing_destination_without_overwriting(source_repository, tmp
     with pytest.raises(ValueError, match="must not exist"):
         prepare_checkout(source_repository, destination, str(source_repository))
     assert marker.read_text(encoding="utf-8") == "keep"
+
+
+def test_corrupt_build_input_rejected_before_destination_is_created(
+    source_repository, tmp_path
+):
+    inventory = source_repository / "docs/validation/build-input.json"
+    inventory.parent.mkdir(parents=True)
+    inventory.write_bytes(b'{"toolchain":"expected"}\n')
+    manifest = source_repository / "ports/windows-arm64/build-inputs-manifest.json"
+    manifest.write_text(
+        json.dumps(
+            [
+                dict(
+                    file=inventory.relative_to(source_repository).as_posix(),
+                    published_sha256=hashlib.sha256(inventory.read_bytes()).hexdigest(),
+                )
+            ]
+        ),
+        encoding="utf-8",
+    )
+    inventory.write_bytes(b'{"toolchain":"changed"}\n')
+    destination = tmp_path / "rejected-build-input"
+    with pytest.raises(ValueError, match="Build input hash mismatch"):
+        prepare_checkout(source_repository, destination, str(source_repository))
+    assert not destination.exists()
 
 
 def test_rejects_bad_overlay_before_creating_checkout(source_repository, tmp_path):

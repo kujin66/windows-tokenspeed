@@ -36,13 +36,6 @@ CELLS = [
         ("tokenspeed", "flashinfer"),
     )
 ]
-HISTORICAL = {
-    "windows-vllm-auto": [144.75, 582.45, 133.66, 509.51],
-    "windows-tokenspeed-triton": [144.22, 608.83, 128.36, 515.84],
-    "windows-tokenspeed-flashinfer": [139.61, 564.28, 125.84, 502.62],
-    "wsl2-tokenspeed-flashinfer": [140.99, 544.32, 128.32, 477.95],
-}
-HISTORICAL_CASES = [(128, 1), (128, 4), (512, 1), (512, 4)]
 
 
 def compare(directory):
@@ -130,7 +123,7 @@ def compare(directory):
         all_cases[name] = cases
         artifacts[path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
     keys = list(all_cases[next(iter(all_cases))])
-    rows, ratios, consistency, historical = [], [], [], []
+    rows, ratios, consistency = [], [], []
     for key in keys:
         input_reference = next(iter(all_cases.values()))[key]["input_ids"]
         row = dict(input_length=key[0], batch_size=key[1])
@@ -151,18 +144,6 @@ def compare(directory):
                     repeat_consistent=same,
                 )
             )
-            if name in HISTORICAL and key in HISTORICAL_CASES:
-                old = HISTORICAL[name][HISTORICAL_CASES.index(key)]
-                historical.append(
-                    dict(
-                        cell=name,
-                        input_length=key[0],
-                        batch_size=key[1],
-                        old_tps=old,
-                        new_tps=case["tokens_per_second"],
-                        new_over_old=case["tokens_per_second"] / old,
-                    )
-                )
         rows.append(row)
         pairs = []
         for os in ("windows", "wsl2"):
@@ -233,7 +214,6 @@ def compare(directory):
         throughput=rows,
         ratios=ratios,
         consistency=consistency,
-        historical=historical,
         reports_sha256=artifacts,
         scope="Six fresh independent-engine/backend configurations; AOT router is inactive and inapplicable to this dense model; different package/graph policies prevent an OS-only or AOT speedup attribution.",
     )

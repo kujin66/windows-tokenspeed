@@ -1,9 +1,7 @@
-# WSL2 ARM64 官方源码构建与 Windows 对比
+# Build TokenSpeed in WSL2 ARM64
 
-本流程在 2026-10-28 重启 Windows 后执行。旧的重启前记录保留在
-[原报告](../validation/windows-wsl2-perf-20261028/README.md)，不累计为本轮测试。
-本轮结果、原生 ELF 审计、逐轮吞吐与输出 IDs 见
-[重启后报告](../validation/windows-wsl2-perf-20261028-after-reboot/README.md)。
+This prepares the Linux software stack used by the current
+[non-eager comparison](windows-wsl2-engine-backend-retest.md).
 
 ## 环境和源码
 
@@ -14,7 +12,7 @@
 | GPU | RTX Spark N1X，SM12.1，驱动 615.89 |
 | Python | 隔离 CPython 3.13.16，与 Windows 相同 |
 | PyTorch | 官方 PyPI 2.14.0，torch.__version__ 为 2.14.0+cu130 |
-| PyTorch CUDA 运行库 | 探测到实际加载 CUDA 13.0；详见 runtime-toolchain.json |
+| PyTorch CUDA 运行库 | 探测到实际加载 CUDA 13.0；与编译 SDK 分开记录 |
 | AOT CUDA 编译器 | 官方 cuda-toolkit 13.4.0rc1，nvcc 13.4.46 |
 | C++ / Rust | GCC 15.2.0 / Rust 1.92.0 |
 | Linux 工作目录 | /opt/tokenspeed-work，位于此仓库 .port/wsl2-ubuntu 的 VHDX 内 |
@@ -22,7 +20,7 @@
 
 Linux 使用官方源码，与 Windows 移植 9a50ac82 的共同上游基线对齐。
 工作目录、venv 和模型放在 Linux 文件系统，Windows 的 win_arm64 wheel 不安装到 Linux。
-模型与测试脚本保持一致；新旧两轮的报告文件分别保存。
+使用与 Windows 相同的模型字节和测试脚本。
 
 ## 已解决的安装问题
 
@@ -30,7 +28,7 @@ Ubuntu 首次软件包配置曾中断，通过 dpkg --configure -a 恢复，随�
 CUDA 13.0 nvcc 与 Ubuntu 26.04 的 glibc 数学声明发生 rsqrt/rsqrtf noexcept 冲突。
 使用独立官方 CUDA 13.4 SDK 后，SM121a 编译及 4097 元素 GPU 向量加法通过。
 PyPI 对应版本名为 13.4.0rc1，其 nvcc 组件为 13.4.46rc1，工具输出为 V13.4.46。
-独立 SDK 必须包含 cuRAND 头文件；首次缺少它导致采样相关编译失败，日志予以保留。
+独立 SDK 必须包含 cuRAND 头文件；首次缺少它导致采样相关编译失败。
 
 cuSPARSELt 0.8.1 的供应商 WHEEL 内部标签为 manylinux2014_sbsa，pip check 报平台不支持；
 已检查 libcusparseLt.so.0 的实际 ELF 为 AArch64，并通过实际 CUDA/BF16 探测。
@@ -114,32 +112,9 @@ python -m pip wheel ./python --no-build-isolation --no-deps --wheel-dir /opt/tok
 python -m pip install --no-deps --no-index /opt/tokenspeed-work/wheels/*.whl
 ```
 
-## 验证和配对性能测试
+## Verify and measure
 
-安装后逐文件比较 wheel 与 site-packages，核对项目原生文件为 ELF64/AArch64，并保存 SHA256。
-官方本地 kernel wheel 虽标记 py3-none-any，实际包含 AArch64 原生库；本次只验证
-Linux ARM64 使用，不能据此作为跨平台通用 wheel 分发。
-然后验证同一 BF16 检查点的三次顺序请求和一次双请求 batch，保存全部 token IDs。
-性能测试复用 tools/perf/benchmark_tokenspeed.py，参数与原复现说明一致：
-输入 128/512、输出 128、batch 1/4、3 次预热、10 次实测、seed=20261028、Triton attention、
-eager、关闭 prefix cache、KV offload、prefill graph，context=704、KV token 容量=2816。
-consistency-policy=record 保留逐轮 ID 差异；性能完成状态不代表模型输出数值等价。
-
-按上文设置环境后，在 Linux 中运行下列命令。repo_mount 指向 Windows 目标仓库
-在 WSL 中的挂载位置；模型、依赖和官方源码仍位于 Linux 文件系统。
-
-```bash
-repo_mount=/mnt/c/Users/user/projects/official-repos/windows-tokenspeed
-export HF_HUB_OFFLINE=1
-python "$repo_mount/tools/perf/benchmark_tokenspeed.py" \
-  --platform wsl2-arm64 --attention-backend triton --consistency-policy record \
-  --model /opt/tokenspeed-work/models/Qwen3-0.6B \
-  --source-root /opt/tokenspeed-work/source \
-  --upstream-base 864bcdd9ef3c5f1512bbe293d970d73eb29d2c94 \
-  --input-lengths 128 512 --batch-sizes 1 4 --output-length 128 --warmup 3 --rounds 10 \
-  --report "$repo_mount/.port/wsl2-artifacts/perf.json"
-```
-
-Windows 基线与 WSL2 基准在同一次 Windows 启动内顺序运行，避免 GPU 竞争。
-旧的重启前 Windows 数据不用于本次配对比较。两侧 PyTorch、Triton、运行库及平台实现
-存在差异，结果描述两套实际软件栈，不把全部差异归因于操作系统。
+Compare installed project bytes against the four wheels and audit native ELF
+files as AArch64. Run tools/perf/benchmark_engine_matrix.py with explicit engine,
+backend, --platform wsl2-arm64 and --execution graph. The linked report defines
+all workload, warmup/repetition, environment and output-count checks.

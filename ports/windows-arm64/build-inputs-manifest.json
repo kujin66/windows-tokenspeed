@@ -1,0 +1,18 @@
+[
+  {
+    "file": "docs/validation/windows-arm64-build-inputs/msvc-packages.json",
+    "published_sha256": "0655ee8b6b7ec912ede1301b019494d85d3484d418bbe2c21d49bc621be912dc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-build-inputs/download-cache-audit.json",
+    "published_sha256": "41647a23c3da922b0c5ef88b4cda42e68d91b9ebdaf4a9b183da3ed3ac85f0c1"
+  },
+  {
+    "file": "docs/validation/windows-arm64-build-inputs/python-environment.json",
+    "published_sha256": "d5ca4d63553b6db8def0e289669dc951f18ba4df8836cee43513c40788204dcc"
+  },
+  {
+    "file": "docs/validation/windows-arm64-build-inputs/python-environment.txt",
+    "published_sha256": "d002ae79cb5f0196faf52d6251c530f209d1a1336bf5c4b62a5c0a992fe7a861"
+  }
+]

@@ -5,14 +5,9 @@ description: "在本仓库使用 MSVC 14.51 和 CUDA SDK 13.4.0 构建、排查�
 
 # TokenSpeed Windows ARM64 构建与验证
 
-本地 official-repos 工作区的依赖迁移、路径调整和 WSL2 对比流程见
-[复现说明](../../docs/guides/windows-arm64-reproduction.md)。当前分支基于已提交的
-Windows 移植 9a50ac82；下文引用的 2026-10-27 记录均为历史证据。
-2026-10-28 长请求性能试跑曾在 batch=4 观察到重复 greedy token IDs 差异；
-固定长度吞吐与输出一致性分别记录。WSL2 已安装，官方 Linux ARM64 构建和真实
-推理已通过；同次开机配对结果见
-[重启后报告](../../docs/validation/windows-wsl2-perf-20261028-after-reboot/README.md)，
-Linux 依赖和构建步骤见 [WSL2 复现说明](../../docs/guides/wsl2-arm64-build.md)。
+源码还原与依赖准备见 [构建说明](../../docs/guides/windows-arm64-build-details.md)。
+当前性能结果见 [non-eager 对比](../../docs/guides/windows-wsl2-engine-backend-retest.md)，
+Linux 环境准备见 [WSL2 构建](../../docs/guides/wsl2-arm64-build.md)。
 
 在包含 Windows 移植修改的 TokenSpeed checkout 中工作。仓库根目录为本文件的
 两级父目录；命令中的路径相对仓库根目录。遵守该 checkout 的 AGENTS.md，
@@ -25,7 +20,7 @@ Linux 依赖和构建步骤见 [WSL2 复现说明](../../docs/guides/wsl2-arm64-
 - nvcc 拒绝主机、DLL/导入或版本选择失败：读 [故障处理](references/troubleshooting.md)。
 - 判断是否原生、复跑 GPU/模型测试或提交验证结论：读 [测试与证据](references/validation.md)。
 - 查看当前产物、哈希、安装路径、测试结果：读
-  [产物与验证总表](../../docs/guides/windows-arm64-build-record.md)。
+  [产物与验证总表](../../docs/guides/windows-arm64-build-details.md)。
 
 这些参考文件属于仓库 skill，引用同一仓库中的源码和证据；移动或安装本 skill
 时需保留仓库，或调整引用。用户要求的输出位置为仓库 skills，不自动安装到
@@ -61,8 +56,6 @@ Linux 依赖和构建步骤见 [WSL2 复现说明](../../docs/guides/wsl2-arm64-
 
 报告实际执行的构建/复验、wheel 和六个原生二进制的位置与 SHA256、工具链
 身份、测试通过/失败/跳过数，以及模型请求数和 token 一致性。以本次生成的
-证据为准，不把 2026-10-27 的历史通过数当成未来执行的结果。
+证据为准，不累计独立测试轮次的通过数。
 
-当前验证范围是原生 Windows ARM64、RTX Spark N1X SM12.1、单 GPU、eager
-BF16/NVFP4。干净机器依赖安装、全量服务、物理 SM100/103、CUDA graph、
-卸载与压力/性能验证仍需独立执行。
+当前模型性能范围是单 GPU dense BF16、decode CUDA Graph，具体后端、版本和局限以当前报告为准。

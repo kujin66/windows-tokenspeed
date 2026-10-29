@@ -51,13 +51,12 @@ try {
 }
 ```
 
-cuBLASLt FP8 数值、out/bias、多 stream 共 21 项；大 batch FP8 token 量化
-4 项；NVFP4 动态 batch 不重新编译 1 项。保留紧数值阈值及独立参考实现。
+使用独立 FP32 参考执行数值检查，并验证改变输入后的 CUDA Graph replay。
 
 ## BF16 与 NVFP4 真实推理
 
 模型版本、文件 SHA256 与路径见
-[总表的检查点记录](../../../docs/guides/windows-arm64-build-record.md#模型与实际推理)。
+[总表的检查点记录](../../../docs/guides/windows-wsl2-engine-backend-retest.md)。
 模型已在本机缓存时设置 HF_HUB_OFFLINE=1；缺模型时按固定 revision 下载，
 校验后再执行，不把缺模型当成本机内核失败。
 
@@ -88,14 +87,13 @@ NVFP4 检查点权重及矩阵乘保持 NVFP4，dtype=bfloat16 是其余模型�
 - scheduler C++：通过 runner 用 Ninja 配置独立目录，开启
   TOKENSPEED_SCHEDULER_BUILD_TESTS=ON 和 TOKENSPEED_SCHEDULER_BUILD_PYTHON=ON，可设置
   FETCHCONTENT_SOURCE_DIR_GOOGLETEST 指向 .port/googletest；构建后 ctest
-  --test-dir 该构建目录 --output-on-failure。历史 14.51 结果为 661 项通过。
-- scheduler Python：对本机安装包运行 tokenspeed-scheduler/python/tests，历史结果 280 项通过。
+  --test-dir 该构建目录 --output-on-failure。
+- scheduler Python：对本机安装包运行 tokenspeed-scheduler/python/tests。
 - engine：相同 Rust/MSVC/PYO3 环境下，进入 tokenspeed-engine 后运行
   cargo test --locked；按实际改动选择 crates 或 host 测试，保存退出码。
 - 原生 CUDA：通过 runner 运行 tools/windows/check_rmsnorm.py 和
-  check_sampling_chain.py；历史分别 24、72 项通过。
+  check_sampling_chain.py。
 
-这些是历史组件结果，不默认累计到最近的 186 项安装包复验中。
 
 ## 文档与证据交付
 
@@ -107,8 +105,8 @@ NVFP4 检查点权重及矩阵乘保持 NVFP4，dtype=bfloat16 是其余模型�
 主张“原生 ARM64”需要进程架构和项目 PE 两方面证据；“14.51 编译”还需要
 CMake/compiler identity 与实际 CUDA 编译宏；“可用”需要安装包 GPU 数值和
 模型推理。单凭 wheel 文件名、nvcc --version 或能 import 都不足以给出完整结论。
-检查 docs/guides/windows-arm64-build-record.md 与 dist/SHA256SUMS.txt 是否仍
-对应当前产物；有变化时更新表和快照，不照抄本轮 2026-10-27 的哈希。
+检查 docs/guides/windows-arm64-build-details.md 与 dist/SHA256SUMS.txt 是否仍
+对应当前产物；有变化时更新表和快照，不照抄任何未经本轮验证的哈希。
 
 ## 创建提交时的完整检查
 

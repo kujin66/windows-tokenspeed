@@ -8,22 +8,14 @@
   ],
   "benchmark_sha256": "90aae2d885835f00d24e91dde0c232a005a19b25c5f17c71d1ad672c30971deb",
   "environment_checks_passed": true,
-  "method": "Two independent process repetitions per platform, reverse order Windows/WSL2 then WSL2/Windows; original 3 warmups/5 samples and all four cases; pooled TPS=total measured output tokens/total measured seconds; original observations retained, no outliers removed",
-  "scope": "Same per-platform dependencies and module hashes as the original cohort; Windows FlashInfer 0.6.17 and WSL2 FlashInfer 0.7.2 remain different stacks; no AOT, engine or dependency changes applied",
+  "method": "Two independent process repetitions per platform, Windows/WSL2 then WSL2/Windows; three warmups and five measured calls for all four cases; total output tokens / total measured seconds; all samples retained.",
+  "scope": "Fixed per-platform packages, module hashes and workload across both repetitions; Windows FlashInfer 0.6.17 and WSL2 FlashInfer 0.7.2 are different software stacks; AOT inactive.",
   "rows": [
     {
       "input_length": 128,
       "batch_size": 1,
       "platforms": {
         "windows": {
-          "old_tps": 98.34478957961966,
-          "old_seconds": [
-            0.9733362999977544,
-            1.0524374999949941,
-            1.5171300999936648,
-            1.914014900001348,
-            1.0507975999935297
-          ],
           "repeat_tps": [
             145.12340024166485,
             138.2962229466211
@@ -54,14 +46,6 @@
           ]
         },
         "wsl2": {
-          "old_tps": 136.45635279551917,
-          "old_seconds": [
-            0.9032637210000303,
-            0.9386632210000698,
-            0.9530231220001042,
-            0.9771569229999386,
-            0.9180374210000082
-          ],
           "repeat_tps": [
             137.69911113429316,
             140.0264838258745
@@ -92,7 +76,6 @@
           ]
         }
       },
-      "old_ratio": 0.7207051014106323,
       "repeat_ratios": [
         1.053916754045936,
         0.987643331232933
@@ -108,14 +91,6 @@
       "batch_size": 4,
       "platforms": {
         "windows": {
-          "old_tps": 540.6685155000082,
-          "old_seconds": [
-            0.9286549000098603,
-            0.988880099990638,
-            0.8998619000049075,
-            0.8954795000026934,
-            1.0220025999878999
-          ],
           "repeat_tps": [
             566.8448840251987,
             572.3885999868337
@@ -146,14 +121,6 @@
           ]
         },
         "wsl2": {
-          "old_tps": 535.5629324765504,
-          "old_seconds": [
-            0.8850796049998735,
-            1.0153387760001351,
-            0.9442614910001339,
-            0.9984420799999043,
-            0.9368951940000443
-          ],
           "repeat_tps": [
             550.6377012651757,
             579.0681943332496
@@ -184,7 +151,6 @@
           ]
         }
       },
-      "old_ratio": 1.0095331149970528,
       "repeat_ratios": [
         1.029433478170464,
         0.9884649262180477
@@ -200,14 +166,6 @@
       "batch_size": 1,
       "platforms": {
         "windows": {
-          "old_tps": 130.35337373900578,
-          "old_seconds": [
-            0.993608699995093,
-            0.9726506000006339,
-            0.9946641999995336,
-            0.9919525000004796,
-            0.9568549999967217
-          ],
           "repeat_tps": [
             134.0918321623751,
             127.92612522125471
@@ -238,14 +196,6 @@
           ]
         },
         "wsl2": {
-          "old_tps": 127.33681861752477,
-          "old_seconds": [
-            1.0022070890001942,
-            1.0185766869999497,
-            1.0543810880001274,
-            0.9874016880000909,
-            0.9634738889999426
-          ],
           "repeat_tps": [
             132.92808531078612,
             132.2670702002706
@@ -276,7 +226,6 @@
           ]
         }
       },
-      "old_ratio": 1.0236895750516721,
       "repeat_ratios": [
         1.0087547101041,
         0.9671804556308451
@@ -292,14 +241,6 @@
       "batch_size": 4,
       "platforms": {
         "windows": {
-          "old_tps": 463.96212271288823,
-          "old_seconds": [
-            1.0363829999987502,
-            1.0369970000028843,
-            1.2963401000015438,
-            1.0538230999954976,
-            1.0941485999937868
-          ],
           "repeat_tps": [
             493.76492553900994,
             488.03314141683296
@@ -330,14 +271,6 @@
           ]
         },
         "wsl2": {
-          "old_tps": 452.3876666646615,
-          "old_seconds": [
-            1.134176516000025,
-            1.0878968189999796,
-            1.2080190100000436,
-            1.1138626169999952,
-            1.1149084170001515
-          ],
           "repeat_tps": [
             501.0701010641383,
             501.4554659691571
@@ -368,7 +301,6 @@
           ]
         }
       },
-      "old_ratio": 1.025585259946546,
       "repeat_ratios": [
         0.9854208512748732,
         0.973233267033229

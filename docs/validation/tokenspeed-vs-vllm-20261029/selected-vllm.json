@@ -1,4 +1,0 @@
-{
-  "eager": "windows-vllm-text-eager.json",
-  "graph": "windows-vllm-text-graph.json"
-}

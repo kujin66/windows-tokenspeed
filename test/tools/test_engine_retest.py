@@ -85,7 +85,7 @@ def test_pooled_rates_use_all_measured_seconds(evidence):
             128 * key[1] * len(samples) / sum(sample["seconds"] for sample in samples)
         )
         assert row["windows-tokenspeed-flashinfer"] == expected
-    assert result["cute_validation"][EVIDENCE[4]]["tests"] == 33
+    assert result["cute_validation"][EVIDENCE[2]]["tests"] == 33
 
 
 @pytest.mark.parametrize("field", ["packages", "engine_config"])
@@ -99,7 +99,9 @@ def test_different_environment_or_graph_policy_rejected(evidence, field):
     else:
         report[field]["enforce_eager"] = True
     rewrite(path, report)
-    with pytest.raises(ValueError, match="Changed environment/workload"):
+    with pytest.raises(
+        ValueError, match="Changed environment/workload|Expected non-eager BF16"
+    ):
         summarize(evidence)
 
 
@@ -120,9 +122,43 @@ def test_evidence_corruption_rejected(evidence):
 
 
 def test_x64_compiler_not_misreported_as_native_arm64(evidence):
-    path = evidence / "docs/validation" / EVIDENCE[4] / "summary.json"
+    path = evidence / "docs/validation" / EVIDENCE[2] / "summary.json"
     report = json.loads(path.read_text())
     report["compiler_python_pe_machine"] = "0xaa64"
     rewrite(path, report)
     with pytest.raises(ValueError, match="Wrong compiler/execution architecture"):
+        summarize(evidence)
+
+
+def test_unlisted_measurement_is_rejected(evidence):
+    path = evidence / "docs/validation" / EVIDENCE[0] / "unselected-report.json"
+    path.write_text("{}", encoding="utf-8")
+    with pytest.raises(ValueError, match="Unexpected/missing evidence file"):
+        summarize(evidence)
+
+
+def test_vllm_eager_report_cannot_enter_non_eager_summary(evidence):
+    path = evidence / "docs/validation" / EVIDENCE[0] / "windows-vllm-auto-graph.json"
+    report = json.loads(path.read_text())
+    report["engine_config"]["enforce_eager"] = True
+    rewrite(path, report)
+    with pytest.raises(ValueError, match="Expected non-eager BF16"):
+        summarize(evidence)
+
+
+def test_shared_model_mismatch_rejected(evidence):
+    path = evidence / "docs/validation" / EVIDENCE[0] / "wsl2-vllm-auto-graph.json"
+    report = json.loads(path.read_text())
+    report["model_files"] = {"config.json": "different-model"}
+    rewrite(path, report)
+    with pytest.raises(ValueError, match="Incomparable model_files"):
+        summarize(evidence)
+
+
+def test_stale_combined_throughput_rejected(evidence):
+    path = evidence / "docs/validation" / EVIDENCE[1] / "comparisons.json"
+    report = json.loads(path.read_text())
+    report["rows"][0]["platforms"]["windows"]["pooled_tps"] += 1
+    rewrite(path, report)
+    with pytest.raises(ValueError, match="Stale FlashInfer comparison"):
         summarize(evidence)

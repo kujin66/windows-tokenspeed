@@ -49,7 +49,7 @@ foreach ($part in @('.port/msvc', '.port/rust-toolchain', '.port/xgrammar-0.2.8'
     }
 }
 New-Item -ItemType Directory -Force (Join-Path $root '.port/downloads'), (Join-Path $root '.port/wheelhouse') | Out-Null
-$auditPath = Join-Path $root 'docs/validation/windows-arm64-fp8-20261027/inventory/download-cache-audit.json'
+$auditPath = Join-Path $root 'docs/validation/windows-arm64-build-inputs/download-cache-audit.json'
 $audit = Get-Content -Raw -Encoding UTF8 -LiteralPath $auditPath | ConvertFrom-Json
 $records = @()
 foreach ($archive in $audit.archives) {

@@ -1,6 +1,0 @@
-{
-  "nvidia_cutlass_dsl/dsl_packages/cutlass/_mlir/_mlir_libs/_cutlass_ir.cu12.cp313-win_amd64.pyd": "0x8664",
-  "nvidia_cutlass_dsl/dsl_packages/cutlass/_mlir/_mlir_libs/_cutlass_ir.cu13.cp313-win_amd64.pyd": "0x8664",
-  "nvidia_cutlass_dsl/cu12/lib/cute_dsl_runtime.dll": "0x8664",
-  "nvidia_cutlass_dsl/cu13/lib/cute_dsl_runtime.dll": "0x8664"
-}

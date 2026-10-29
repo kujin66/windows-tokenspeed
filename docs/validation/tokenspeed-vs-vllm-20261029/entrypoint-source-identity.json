@@ -1,8 +1,0 @@
-{
-  "component": "TokenSpeed Engine entrypoint",
-  "installed_sha256": "eb41a2d50f928dc145e7582bb463d6d0b69bbade599b53d155ab65b01020d907",
-  "included_source_overlay_sha256": "6d4a3b0b907cb7b0762becb73ed26a340115ff5f8d24f9bc66ebabb543d43ecc",
-  "installed_lf_sha256": "6d4a3b0b907cb7b0762becb73ed26a340115ff5f8d24f9bc66ebabb543d43ecc",
-  "matches_included_source_after_newline_normalization": true,
-  "normalization": "Installed Windows source uses CRLF; included versioned overlay uses LF"
-}

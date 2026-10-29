@@ -237,11 +237,10 @@ TokenSpeed CuTe kernels or all MoE models. It does not broaden upstream's
 supported GPU matrix. No complete Kimi K3 model or model-level throughput
 improvement is claimed. Dense Qwen3-0.6B has no matching router, so the
 [existing six-engine/backend comparison](windows-wsl2-engine-backend-retest.md)
-remains a separate cohort with aot_router.active=false. Neither its numbers
-nor the [older isolated-kernel speedups](windows-arm64-cutedsl-aot.md) become
-end-to-end gains merely because this dispatch integration now exists.
+records aot_router.active=false. Its throughput does not establish model-level
+gains from this dispatch integration.
 
-See the [local compiler evidence](../validation/windows-cutedsl-local-compiler/)
+See the [local compiler evidence](../validation/windows-cutedsl-native-host/)
 for test reports, manifests, graph dumps, dependency versions and source hashes.
 
 To rebuild all router artifacts on Windows and retain a fresh test evidence
@@ -251,7 +250,7 @@ The command fails if any test fails or skips. Block choices are explicit
 experimental selections, not performance guarantees.
 
 ```powershell
-.venv/Scripts/python.exe tools/windows/run.py .venv/Scripts/python.exe tools/windows/cute_dsl_aot/validate_local.py --compiler-python .port/cutedsl-win-x64-venv/Scripts/python.exe --work-directory .port/cutedsl-local-validation --evidence-directory docs/validation/windows-cutedsl-local-compiler --router-blocks 128 128 64 --suite device
+.venv/Scripts/python.exe tools/windows/run.py .venv/Scripts/python.exe tools/windows/cute_dsl_aot/validate_local.py --compiler-python .port/cutedsl-win-x64-venv/Scripts/python.exe --work-directory .port/cutedsl-local-validation --evidence-directory docs/validation/windows-cutedsl-native-host-new --router-blocks 128 128 64 --suite device
 ```
 
 An ARM64-native compiler remains blocked by the required native backend

@@ -81,16 +81,16 @@ def verify_overlay(bundle):
     return manifest
 
 
-def verify_history(repository):
+def verify_build_inputs(repository):
     entries = json.loads(
-        (
-            repository / "ports/windows-arm64/historical-evidence-manifest.json"
-        ).read_text(encoding="utf-8")
+        (repository / "ports/windows-arm64/build-inputs-manifest.json").read_text(
+            encoding="utf-8"
+        )
     )
     for entry in entries:
         path = relative_path(repository, entry["file"])
         if hashlib.sha256(path.read_bytes()).hexdigest() != entry["published_sha256"]:
-            raise ValueError(f"Historical evidence hash mismatch: {entry['file']}")
+            raise ValueError(f"Build input hash mismatch: {entry['file']}")
     return len(entries)
 
 
@@ -145,7 +145,7 @@ def verify_checkout(bundle, destination):
 def prepare_checkout(repository, destination, git_source):
     bundle = repository / "ports/windows-arm64"
     manifest = verify_overlay(bundle)
-    verify_history(repository)
+    verify_build_inputs(repository)
     destination = destination.resolve()
     if destination.exists():
         raise ValueError(
@@ -210,10 +210,13 @@ def prepare_checkout(repository, destination, git_source):
             "\n.port/\ntokenspeed-kernel/python/tokenspeed_kernel/thirdparty/cuda/objs/\n"
         )
     (destination / ".port").mkdir()
-    snapshots = repository / "docs/validation/windows-flashinfer-0617-20261028/scripts"
+    snapshots = repository / "docs/validation/engine-matrix-retest-20261029/sources"
     for path in snapshots.glob("*"):
         if path.is_file():
             shutil.copyfile(path, destination / ".port" / path.name)
+    # Current preparation helpers do not depend on archived benchmark files.
+    for path in (repository / "tools/windows/flashinfer").glob("*.py"):
+        shutil.copyfile(path, destination / ".port" / path.name)
     environment = repository / "tools/perf/wsl-env.sh"
     if environment.is_file():
         shutil.copyfile(environment, destination / ".port/wsl-env.sh")
@@ -262,7 +265,7 @@ def main():
             json.dumps(
                 {
                     "verified_source_files": len(manifest["files"]),
-                    "historical_evidence_files": verify_history(repository),
+                    "build_input_files": verify_build_inputs(repository),
                     "validated_port": manifest["validated_port"],
                 }
             )

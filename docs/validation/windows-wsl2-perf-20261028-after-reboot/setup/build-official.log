@@ -1,9 +1,0 @@
-/usr/include/aarch64-linux-gnu/bits/mathcalls.h(206): error: exception specification is incompatible with that of previous function "rsqrt" (declared at line 629 of /opt/tokenspeed-work/venv/lib/python3.13/site-packages/nvidia/cu13/bin/..//include/crt/math_functions.h)
-   extern double rsqrt (double __x) noexcept (true); extern double __rsqrt (double __x) noexcept (true);
-                                    ^
-
-/usr/include/aarch64-linux-gnu/bits/mathcalls.h(206): error: exception specification is incompatible with that of previous function "rsqrtf" (declared at line 653 of /opt/tokenspeed-work/venv/lib/python3.13/site-packages/nvidia/cu13/bin/..//include/crt/math_functions.h)
-   extern float rsqrtf (float __x) noexcept (true); extern float __rsqrtf (float __x) noexcept (true);
-                                   ^
-
-2 errors detected in the compilation of "/mnt/c/Users/user/projects/official-repos/windows-tokenspeed/.port/wsl-cuda-smoke.cu".

@@ -1,6 +1,5 @@
 {
-  "normalization": "Public user/build paths and ANSI formatting only; source snapshots retain exact tested bytes",
-  "input_manifest_sha256": "3763ad1cc09fad380d7aa879eff0373151eedde0f1700f9f0a206d28f08f421c",
+  "schema": 1,
   "files": [
     {
       "file": "commands.json",
@@ -9,8 +8,7 @@
     },
     {
       "file": "comparisons.json",
-      "original_sha256": "9a903a0bd1c9965d1eb7fc315a554d7103b05b6ef07eabc9c63a5b56334d9010",
-      "published_sha256": "509980e4871091bf555244d825271293c1d466f36c852612d0d832119e78dd1f"
+      "published_sha256": "cdfd01d497acbad55f53d5e4e5d8080fb730f6e19ea3a3b42fc67f266213a333"
     },
     {
       "file": "outcomes.json",
@@ -19,14 +17,7 @@
     },
     {
       "file": "README.md",
-      "original_sha256": "88a6b49ac5b36f59a693cc85c22dd5d82e32930bab3d82d377f932eb32a1603f",
-      "published_sha256": "8b0e42126eb869999130e5e20d254b4b8901c8ed4f5054cb26ce663242ea6c43",
-      "normalization": "Expanded public reproduction notes; recorded result data unchanged"
-    },
-    {
-      "file": "sources/analyze_fi_pair.py",
-      "original_sha256": "199726f4c1edf345ee4278dea5a56712c861f396a804d6130ee15b9383ca05ac",
-      "published_sha256": "199726f4c1edf345ee4278dea5a56712c861f396a804d6130ee15b9383ca05ac"
+      "published_sha256": "bb3dddcc9434b046fcb2c90fbec8631f38bc51c31c4a1232b126050207f614e2"
     },
     {
       "file": "sources/benchmark_engine_matrix.py",
@@ -37,11 +28,6 @@
       "file": "sources/launch_flashinfer0617.py",
       "original_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde",
       "published_sha256": "ec4222d880d50cdcdd922f9933acacc1a7f6162100cc1a54b024f6a54f357fde"
-    },
-    {
-      "file": "sources/retest_fi_pair.py",
-      "original_sha256": "e7a18db285dc1d15f6d3e63e26039397b60cada631d0b31df2df0bc0c14c9796",
-      "published_sha256": "358bcc7a940219cdb7cb088273617803f656404cf3ddb997278c495450ef49f6"
     },
     {
       "file": "sources/retest_fi_wsl.sh",

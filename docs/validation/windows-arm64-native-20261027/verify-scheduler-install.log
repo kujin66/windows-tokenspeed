@@ -1,7 +1,0 @@
-Processing .\dist\tokenspeed_scheduler-0.1.42-cp313-cp313-win_arm64.whl
-Installing collected packages: tokenspeed-scheduler
-  Attempting uninstall: tokenspeed-scheduler
-    Found existing installation: tokenspeed-scheduler 0.1.42
-    Uninstalling tokenspeed-scheduler-0.1.42:
-      Successfully uninstalled tokenspeed-scheduler-0.1.42
-Successfully installed tokenspeed-scheduler-0.1.42

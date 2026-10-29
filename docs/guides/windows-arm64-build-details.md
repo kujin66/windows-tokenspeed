@@ -32,7 +32,7 @@ template are restored into `.port`, ready for the documented preparation steps.
 `.port/source-reconstruction.json` records the source identities and copied
 support-file hashes. It does not create venvs or install system dependencies.
 
-The resulting checkout contains the old, tested Python `Engine` API. Its Git
+The resulting checkout contains the tested Python `Engine` API. Its Git
 HEAD remains the official upstream base, with the verified Windows changes in
 the working tree. Record both HEAD and the overlay manifest when reporting a
 build. The newer PR base `main` has a different runtime API; the overlay must
@@ -58,9 +58,9 @@ integration. No external Windows-port clone is needed to reconstruct the code.
 | GoogleTest | v1.14.0 source | Optional scheduler C++ regression executable |
 
 Source/provenance records are included locally in
-[MSVC payloads](../validation/windows-arm64-20261026/msvc-packages.json),
-[download audit](../validation/windows-arm64-fp8-20261027/inventory/download-cache-audit.json),
-[observed Python environment](../validation/windows-arm64-fp8-20261027/inventory/python-environment.json)
+[MSVC payloads](../validation/windows-arm64-build-inputs/msvc-packages.json),
+[download audit](../validation/windows-arm64-build-inputs/download-cache-audit.json),
+[observed Python environment](../validation/windows-arm64-build-inputs/python-environment.json)
 and the [dependency reference](../../skills/tokenspeed-windows-arm64-build/references/dependencies.md).
 Rust's official archive is
 https://static.rust-lang.org/dist/rust-1.92.0-aarch64-pc-windows-msvc.tar.xz,
@@ -169,8 +169,7 @@ suffix but contain ARM64 Windows PE DLLs loaded by TVM FFI.
 The overlay also carries the cuBLAS FP8 binding and packed NVFP4 Triton
 `tl.dot_scaled` implementation for SM12x. Packed weights, 16-element scale
 groups, fused projection global scales and compressed-tensors' divisor/inverse
-global-scale convention are preserved. Their earlier numerical/inference tests
-are historical evidence, separate from the final dense BF16 performance matrix.
+global-scale convention are preserved. The model comparison covers dense BF16 only.
 
 ### Runtime: Windows process/IPC and optional backends
 
@@ -203,33 +202,15 @@ to avoid a source-inserting conftest. Use repository-local, uniquely named
 pytest temp/cache directories because the system shared Temp ACL previously
 caused setup errors. Preserve failed attempts separately from successful reruns.
 
-The [2026-10-28 build record](../validation/windows-wsl2-perf-20261028/README.md)
-has 160 runtime, 26 GPU and 16 performance-tool passes. Earlier C++/native/FP8/FP4
-records are included with a separate
-[historical publication manifest](../../ports/windows-arm64/historical-evidence-manifest.json).
-Do not add those earlier overlapping counts to 202, or present source
-reconstruction/publication checks as new GPU/model runs. New builds may have
-different wheel names and hashes due to dates, paths and ZIP timestamps.
-
 ## 5. FlashInfer, WSL2 and performance boundaries
 
-Follow the [FlashInfer procedure](windows-flashinfer-comparison.md) only after
-base wheel validation. It creates isolated kernel copies, installs the supplied
-0.6.17 JIT source wheel, disables unavailable MoE registrations in both Windows
-controls, registers the restricted SM12.1 FA2 prefill provider and applies the
-hashed-object-name fix. TRT-LLM decode remains active. GPU numerical probes
-must precede model timing. Preparation scripts are first-run recipes.
+Prepare the restricted dense-model backends using the
+[FlashInfer procedure](windows-flashinfer-comparison.md). The
+[WSL2 build guide](wsl2-arm64-build.md) documents the separate Linux venv,
+SDK and four wheel builds. Windows wheels are not installed on Linux.
 
-The [WSL2 build](wsl2-arm64-build.md) uses official upstream and Linux AArch64
-wheels in its own filesystem/venv. The included `tools/perf/wsl-env.sh` records
-the separate 13.4 SDK and runtime-library layout. Windows wheels are not reused
-on Linux. The final matrix uses the same FA2 source adapter on both platforms.
-
-The [main report](windows-arm64-performance-report.md) contains all eager and
-non-eager results, graph/eager ratios, raw data links and output consistency.
-Non-eager means decode graphs only. Windows FlashInfer 0.6.17 versus Linux
-0.7.2, unmatched torch/CUDA/Triton versions, CPU prefill planning, five measured
-rounds, unlocked clocks, missing WSL2 profiler GPU activity and unresolved
-input-128 output variation prevent an OS-only performance conclusion. No full
-service, grammar, multi-GPU, FlashInfer MoE/NVFP4, prefill graph or clean-machine
-support claim follows from these builds.
+The [current comparison](windows-wsl2-engine-backend-retest.md) contains
+non-eager throughput, the exact measurement method, software versions,
+graph policies, repeated-output diagnostics and limitations. Measurements
+do not establish full service, grammar, multi-GPU, FlashInfer MoE/NVFP4,
+prefill graph or clean-machine support.

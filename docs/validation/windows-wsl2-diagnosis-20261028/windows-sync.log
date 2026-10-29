@@ -1,6 +1,0 @@
-idle_device_synchronize: 2.509 us
-empty_event_record_synchronize: 3.453 us
-add_event_synchronize: 24.216 us
-add_pinned_d2h_event_synchronize: 37.090 us
-python_queue_thread_roundtrip: 16.388 us
-thread_add_pinned_d2h_event_synchronize: 143.144 us

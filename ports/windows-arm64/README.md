@@ -7,9 +7,9 @@ changed. This is the complete tested versioned port, not a latest-main migration
 
 - [Complete source inventory](FILES.md)
 - [Source identity manifest](source-manifest.json)
-- [136 historical build records and original/public hashes](historical-evidence-manifest.json)
+- [Build dependency identities](build-inputs-manifest.json)
 - [Detailed English reconstruction and native build guide](../../docs/guides/windows-arm64-build-details.md)
-- [Eager, decode-graph, FlashInfer/Triton and WSL2 results and limits](../../docs/guides/windows-arm64-performance-report.md)
+- [Non-eager FlashInfer/Triton and Windows/WSL2 results](../../docs/guides/windows-arm64-performance-report.md)
 
 Run tools/windows/prepare_source_checkout.py from this PR to reconstruct a full
 checkout from the pinned official upstream revision. The script verifies source
