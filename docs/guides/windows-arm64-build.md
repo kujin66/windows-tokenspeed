@@ -77,19 +77,18 @@ The complete change is 24 files over main afb6e89b: 18 scheduler/engine/CUDA
 source or build files, and six supporting files (the build entrypoint,
 dependency list, installed-wheel tests, workflow, this guide and output ignore).
 The Python runtime wheel uses the existing package sources without a runtime
-port or additional kernel/backend integration. No source overlay, binary
-payload, benchmark archive or file from PR #1 is required to build this unit.
+port or additional kernel/backend integration. The tracked sources and declared
+external dependencies are sufficient to build this unit; no source overlay or
+benchmark archive is required.
 
 ## Inference evaluation
 
 The [Draft PR evaluation](https://github.com/kujin66/windows-tokenspeed/pull/2)
-contains the latest selected non-eager reports, per-platform throughput,
-recomputed engine/backend ratios and conclusions. Each configuration uses one
+contains the latest selected TokenSpeed non-eager results, Windows/WSL2
+throughput, Triton/FlashInfer ratios and limitations. Each configuration uses one
 retained process with three warmups and five measured calls per case.
 
-Those measurements use PR #1's complete Windows port 9a50ac82 and WSL2 upstream
+Those measurements use the complete Windows port 9a50ac82 and WSL2 upstream
 864bcdd9 with backend adapters. This compilation-only unit has the separate
 build/DLL checks described above. Its full-engine current-main integration
 remains separate work.
-
-[Selected Windows FlashInfer report](https://github.com/kujin66/windows-tokenspeed/blob/de694811af609f221c8d7be17fd5cbcc5fc098df/docs/validation/flashinfer-paired-retest-20261029/windows-flashinfer-repeat2.json) · [Selected WSL2 FlashInfer report](https://github.com/kujin66/windows-tokenspeed/blob/de694811af609f221c8d7be17fd5cbcc5fc098df/docs/validation/flashinfer-paired-retest-20261029/wsl2-flashinfer-repeat2.json).
