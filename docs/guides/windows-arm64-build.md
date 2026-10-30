@@ -80,39 +80,16 @@ The Python runtime wheel uses the existing package sources without a runtime
 port or additional kernel/backend integration. No source overlay, binary
 payload, benchmark archive or file from PR #1 is required to build this unit.
 
-## Current non-eager reference results
+## Inference evaluation
 
-These are the current full-engine reference results from [PR #1](https://github.com/kujin66/windows-tokenspeed/pull/1),
-using the validated Windows runtime at 9a50ac82 and WSL2 upstream 864bcdd9
-with backend adapters. They are **not throughput measurements of this
-compilation-only current-main change**. vLLM and TokenSpeed are independent
-engines; Triton and FlashInfer are TokenSpeed backends. All values are
-aggregate output tokens/s.
+The [Draft PR evaluation](https://github.com/kujin66/windows-tokenspeed/pull/2)
+contains the latest selected non-eager reports, per-platform throughput,
+recomputed engine/backend ratios and conclusions. Each configuration uses one
+retained process with three warmups and five measured calls per case.
 
-| Input / batch | Win vLLM | Win TS Triton | Win TS FI | WSL2 vLLM | WSL2 TS Triton | WSL2 TS FI |
-| --- | --- | --- | --- | --- | --- | --- |
-| 128 / 1 | 137.79 | 143.62 | 141.63 | 143.02 | 141.98 | 138.85 |
-| 128 / 4 | 585.17 | 597.74 | 569.60 | 549.26 | 571.50 | 564.50 |
-| 512 / 1 | 134.78 | 130.01 | 130.94 | 134.46 | 125.93 | 132.60 |
-| 512 / 4 | 509.22 | 522.49 | 490.88 | 496.45 | 499.86 | 501.26 |
+Those measurements use PR #1's complete Windows port 9a50ac82 and WSL2 upstream
+864bcdd9 with backend adapters. This compilation-only unit has the separate
+build/DLL checks described above. Its full-engine current-main integration
+remains separate work.
 
-Same RTX Spark N1X (SM12.1, 40 SMs), identical Qwen3-0.6B BF16 model
-bytes and deterministic input token IDs; inputs 128/512, batches 1/4, exactly
-128 new tokens, greedy temperature zero and ignore-EOS. Each engine process
-uses three warmups and five measured calls per case. FlashInfer combines two
-independent process repetitions per platform (ten measured calls per case);
-vLLM and Triton each use five measured calls. Rates divide total output tokens
-by total measured seconds; all samples are retained. The table combines
-separate verified cohorts and is not one paired six-configuration experiment.
-
-Timing includes prefill, decode, IPC, normal text-output processing and immediate
-returned-ID/count checks; loading, compilation, capture and warmups are excluded.
-TokenSpeed captures decode batches [1,4] with prefill graphs disabled; vLLM
-uses its default Inductor/FULL_AND_PIECEWISE policy. Windows FlashInfer is
-0.6.17+g2ea3c24b5dac, WSL2 TokenSpeed FlashInfer is 0.7.2, and other package
-versions also differ. These are software-stack comparisons, not isolated OS
-effects. Greedy-ID differences remain; completion counts do not establish
-answer equivalence or a stable small-percentage ranking. Dense Qwen has no
-matching MoE router, so no CuTe-router model speedup is established.
-
-[Complete current method, environment versions, ratios and raw evidence](https://github.com/kujin66/windows-tokenspeed/blob/de694811af609f221c8d7be17fd5cbcc5fc098df/docs/guides/windows-wsl2-engine-backend-retest.md).
+[Selected Windows FlashInfer report](https://github.com/kujin66/windows-tokenspeed/blob/de694811af609f221c8d7be17fd5cbcc5fc098df/docs/validation/flashinfer-paired-retest-20261029/windows-flashinfer-repeat2.json) · [Selected WSL2 FlashInfer report](https://github.com/kujin66/windows-tokenspeed/blob/de694811af609f221c8d7be17fd5cbcc5fc098df/docs/validation/flashinfer-paired-retest-20261029/wsl2-flashinfer-repeat2.json).
