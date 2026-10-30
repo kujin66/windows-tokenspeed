@@ -19,6 +19,7 @@ jobs:
       CARGO_BUILD_JOBS: '2'
       CMAKE_BUILD_PARALLEL_LEVEL: '2'
       MAX_JOBS: '1'
+      CMAKE_ARGS: '-DCMAKE_TRY_COMPILE_CONFIGURATION=Release'
     defaults:
       run:
         shell: pwsh
