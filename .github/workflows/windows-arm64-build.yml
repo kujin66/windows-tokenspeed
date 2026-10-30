@@ -1,0 +1,62 @@
+name: Windows ARM64 build
+
+on:
+  workflow_dispatch:
+    inputs:
+      cuda_arch:
+        description: nvcc architecture (e.g. 121a)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: [self-hosted, Windows, ARM64, tokenspeed-cuda]
+    timeout-minutes: 90
+    env:
+      CARGO_BUILD_JOBS: '2'
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+      MAX_JOBS: '1'
+      CMAKE_ARGS: '-DCMAKE_TRY_COMPILE_CONFIGURATION=Release'
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - name: Activate native ARM64 compiler
+        run: |
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $vs = & $vswhere -latest -products '*' -property installationPath
+          if (-not $vs) { throw 'Visual Studio with ARM64 C++ tools is required' }
+          & (Join-Path $vs 'Common7/Tools/Launch-VsDevShell.ps1') -Arch arm64 -HostArch arm64 -SkipAutomaticLocation
+          foreach ($item in (Get-ChildItem Env:)) {
+            if ($item.Name -in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH', 'VCToolsInstallDir', 'VCINSTALLDIR', 'WindowsSdkDir')) {
+              ('{0}={1}' -f $item.Name, $item.Value) >> $env:GITHUB_ENV
+            }
+          }
+      - name: Prepare isolated build dependencies
+        run: |
+          if (-not $env:TOKENSPEED_WINDOWS_WHEELHOUSE) { throw 'Set the runner wheelhouse path' }
+          python -m venv .venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python -m pip install --no-index --find-links $env:TOKENSPEED_WINDOWS_WHEELHOUSE -r requirements/windows-arm64-build.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ('PATH={0};{1}' -f (Resolve-Path .venv/Scripts).Path, $env:PATH) >> $env:GITHUB_ENV
+      - name: Build, audit and check CUDA graph replay
+        env:
+          BUILD_CUDA_ARCH: ${{ inputs.cuda_arch }}
+        run: |
+          $buildOutput = 'outputs/windows-arm64-${{ github.run_id }}-${{ github.run_attempt }}'
+          .venv/Scripts/python tools/windows/build_wheels.py --cuda-arch $env:BUILD_CUDA_ARCH --output $buildOutput
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-arm64-wheels
+          path: |
+            outputs/windows-arm64-*/wheels/*.whl
+            outputs/windows-arm64-*/build.json
+            outputs/windows-arm64-*/tests.xml
+          if-no-files-found: warn

@@ -30,6 +30,11 @@ fn main() {
     if let Ok(source) = std::env::var("FETCHCONTENT_SOURCE_DIR_XGRAMMAR") {
         config.define("FETCHCONTENT_SOURCE_DIR_XGRAMMAR", source);
     }
+    if std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows" {
+        config
+            .generator("Ninja")
+            .define("CMAKE_TRY_COMPILE_CONFIGURATION", "Release");
+    }
     let build = config
         .define("CMAKE_BUILD_TYPE", "Release")
         .build_target("xgrammar")
@@ -54,7 +59,9 @@ fn main() {
         build.join("_deps/xgrammar-build").display()
     );
     println!("cargo:rustc-link-lib=static=xgrammar");
-    println!("cargo:rustc-link-lib=dylib=stdc++");
+    if std::env::var("CARGO_CFG_TARGET_OS").unwrap() != "windows" {
+        println!("cargo:rustc-link-lib=dylib=stdc++");
+    }
     for path in ["CMakeLists.txt", "cxx", "src/lib.rs"] {
         println!("cargo:rerun-if-changed={path}");
     }

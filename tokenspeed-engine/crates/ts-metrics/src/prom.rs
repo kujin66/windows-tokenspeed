@@ -29,13 +29,35 @@
 //! native byte order. Readers take the used length first and read only up
 //! to it, so an entry is written before the length that publishes it.
 
+#[cfg(unix)]
+use std::os::unix::fs::FileExt;
 use std::{
     collections::HashMap,
     fs::{File, OpenOptions},
     io,
-    os::unix::fs::FileExt,
     path::{Path, PathBuf},
 };
+
+#[cfg(windows)]
+trait WriteAllAt {
+    fn write_all_at(&self, bytes: &[u8], offset: u64) -> io::Result<()>;
+}
+
+#[cfg(windows)]
+impl WriteAllAt for File {
+    fn write_all_at(&self, mut bytes: &[u8], mut offset: u64) -> io::Result<()> {
+        use std::os::windows::fs::FileExt;
+        while !bytes.is_empty() {
+            let count = self.seek_write(bytes, offset)?;
+            if count == 0 {
+                return Err(io::ErrorKind::WriteZero.into());
+            }
+            bytes = &bytes[count..];
+            offset += count as u64;
+        }
+        Ok(())
+    }
+}
 
 /// The size `prometheus_client` gives a new file.
 const INITIAL_SIZE: u64 = 1 << 16;
@@ -224,6 +246,27 @@ fn python_float_repr(value: f64) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(windows)]
+    #[test]
+    fn positioned_writes_preserve_offsets() {
+        let unique = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!("ts-metrics-{}-{unique}", std::process::id()));
+        let file = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&path)
+            .unwrap();
+        file.write_all_at(b"abc", 3).unwrap();
+        file.write_all_at(b"XY", 0).unwrap();
+        drop(file);
+        let bytes = std::fs::read(&path).unwrap();
+        std::fs::remove_file(path).unwrap();
+        assert_eq!(bytes, b"XY\0abc");
+    }
 
     #[test]
     fn keys_are_python_json() {

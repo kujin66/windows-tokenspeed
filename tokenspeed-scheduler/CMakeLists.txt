@@ -32,7 +32,14 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT
 )
 find_package(nanobind CONFIG REQUIRED)
-find_package(OpenSSL REQUIRED)
+if(WIN32)
+    add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN)
+    add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/utf-8> $<$<CXX_COMPILER_ID:MSVC>:/permissive->)
+    set(TOKENSPEED_HASH_LIBRARY bcrypt)
+else()
+    find_package(OpenSSL REQUIRED)
+    set(TOKENSPEED_HASH_LIBRARY OpenSSL::Crypto)
+endif()
 
 add_library(tokenspeed_scheduler_core STATIC
     csrc/core/token_container.cpp
@@ -70,7 +77,7 @@ target_include_directories(tokenspeed_scheduler_core
 
 target_link_libraries(tokenspeed_scheduler_core
     PUBLIC
-        OpenSSL::Crypto
+        ${TOKENSPEED_HASH_LIBRARY}
         spdlog::spdlog
 )
 
@@ -98,10 +105,13 @@ if(TOKENSPEED_SCHEDULER_BUILD_PYTHON)
 
     install(TARGETS tokenspeed_scheduler_ext
         LIBRARY DESTINATION tokenspeed_scheduler
+        RUNTIME DESTINATION tokenspeed_scheduler
     )
 endif()
 
 if(TOKENSPEED_SCHEDULER_BUILD_TESTS)
+    enable_testing()
+    set(gtest_force_shared_crt ON CACHE BOOL "Use the same CRT as the scheduler" FORCE)
     FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
