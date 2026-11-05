@@ -47,7 +47,6 @@ from tokenspeed_kernel.profiling import (
     start_profiling,
     stop_profiling,
 )
-from viztracer import VizTracer
 
 from tokenspeed.runtime.engine.io_struct import (
     ProfileReq,
@@ -312,6 +311,8 @@ class Profiler:
 
         if "VIZTRACER" in activities:
             Path(self.profiler_output_dir).mkdir(parents=True, exist_ok=True)
+            from viztracer import VizTracer
+
             self.viztracer = VizTracer(
                 output_file=os.path.join(
                     self.profiler_output_dir,

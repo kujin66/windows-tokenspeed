@@ -444,6 +444,7 @@ private:
         validateKey(key);
         auto index_it = cache_index.by_key.find(key);
         if (index_it == cache_index.by_key.end()) return cache_index.entries.end();
+        // Separate returns let MSVC convert the stored iterator to const_iterator.
         return index_it->second;
     }
     ConstCacheEntryIterator findEntry(const CacheEntries& cache_index, CacheBlockLocation location) const {

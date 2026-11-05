@@ -18,14 +18,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from tokenspeed.runtime.layers.moe.expert import MoELayer
-from tokenspeed.runtime.layers.moe.latent import Kimi3LatentProjection, LatentMoELayer
-from tokenspeed.runtime.layers.moe.loader import (
-    MoECheckpointLoader,
-    MoECheckpointLoadError,
-    build_moe_checkpoint_loader,
-)
-from tokenspeed.runtime.layers.moe.schema import ExpertCheckpointSchema
+import importlib
+
+_EXPORT_MODULES = {
+    "MoELayer": "expert",
+    "Kimi3LatentProjection": "latent",
+    "LatentMoELayer": "latent",
+    "MoECheckpointLoader": "loader",
+    "MoECheckpointLoadError": "loader",
+    "build_moe_checkpoint_loader": "loader",
+    "ExpertCheckpointSchema": "schema",
+}
+
+
+def __getattr__(name):
+    if name not in _EXPORT_MODULES:
+        raise AttributeError(name)
+    return getattr(importlib.import_module(f"{__name__}.{_EXPORT_MODULES[name]}"), name)
+
 
 __all__ = [
     "ExpertCheckpointSchema",

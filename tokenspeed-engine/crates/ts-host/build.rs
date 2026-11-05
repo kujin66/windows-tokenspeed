@@ -22,6 +22,8 @@
 //! at run time; the tests also need the interpreter's home.
 
 fn main() {
+    // PE binaries find python DLLs through the Windows loader (including PATH);
+    // GNU rpath is an ELF loader option, not an engine feature switch.
     if std::env::var("CARGO_CFG_TARGET_OS").unwrap() != "windows" {
         if let Ok(lib_dir) = std::env::var("DEP_TS_SCHEDULER_PYTHON_LIB_DIR") {
             println!("cargo:rustc-link-arg=-Wl,-rpath,{lib_dir}");

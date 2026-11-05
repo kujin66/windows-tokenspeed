@@ -1,0 +1,971 @@
+{
+  "system_under_test": "TokenSpeed WireDriver and installed Rust host/scheduler",
+  "expected_compute_packages": {
+    "torch": "2.16.0.dev20261101+cu134",
+    "apache-tvm-ffi": "0.1.15.post2",
+    "triton-windows": "3.9.0.post30",
+    "flashinfer-python": "0.6.17+g2ea3c24b5dac",
+    "transformers": "5.12.0"
+  },
+  "aggregate": [
+    {
+      "input_length": 128,
+      "concurrency": 1,
+      "windows_triton": 137.80841024287483,
+      "windows_triton_cv": 0.025069243797273023,
+      "windows_flashinfer": 136.93569202487714,
+      "windows_flashinfer_cv": 0.01643649510789142,
+      "wsl_triton": 136.41376950904004,
+      "wsl_triton_cv": 0.01300694474164166,
+      "wsl_flashinfer": 133.030819669663,
+      "wsl_flashinfer_cv": 0.024598180753449057,
+      "triton_windows_over_wsl": 1.0102236067433235,
+      "flashinfer_windows_over_wsl": 1.0293531406099021
+    },
+    {
+      "input_length": 128,
+      "concurrency": 4,
+      "windows_triton": 574.5136069061048,
+      "windows_triton_cv": 0.031705158600086845,
+      "windows_flashinfer": 568.2041523784973,
+      "windows_flashinfer_cv": 0.04082061251342811,
+      "wsl_triton": 571.4528827944866,
+      "wsl_triton_cv": 0.02784756511557982,
+      "wsl_flashinfer": 531.9297099063405,
+      "wsl_flashinfer_cv": 0.06326787831529607,
+      "triton_windows_over_wsl": 1.005356039323226,
+      "flashinfer_windows_over_wsl": 1.0681940523279736
+    },
+    {
+      "input_length": 512,
+      "concurrency": 1,
+      "windows_triton": 130.0461249224374,
+      "windows_triton_cv": 0.014268284403081779,
+      "windows_flashinfer": 133.7148287039264,
+      "windows_flashinfer_cv": 0.020559302610148933,
+      "wsl_triton": 128.0947988487855,
+      "wsl_triton_cv": 0.017327435549728935,
+      "wsl_flashinfer": 126.63033536951426,
+      "wsl_flashinfer_cv": 0.046113426408718024,
+      "triton_windows_over_wsl": 1.0152334528114246,
+      "flashinfer_windows_over_wsl": 1.055946257377738
+    },
+    {
+      "input_length": 512,
+      "concurrency": 4,
+      "windows_triton": 506.2771143778467,
+      "windows_triton_cv": 0.023059641125445163,
+      "windows_flashinfer": 499.02540922415943,
+      "windows_flashinfer_cv": 0.026732240089631654,
+      "wsl_triton": 502.2030460291854,
+      "wsl_triton_cv": 0.019566430203663183,
+      "wsl_flashinfer": 488.8326813626082,
+      "wsl_flashinfer_cv": 0.010811201960303695,
+      "triton_windows_over_wsl": 1.008112392748061,
+      "flashinfer_windows_over_wsl": 1.0208511587914688
+    }
+  ],
+  "correctness": {
+    "windows": {
+      "reference_sha256": "d994f87df2c506c0c158d2afa97262f12069ed53a3957905cb43491183e91b6a",
+      "configurations": {
+        "main-triton-r1": {
+          "exact_sequences": 40,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.771875,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        },
+        "main-flashinfer-r1": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.79453125,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        },
+        "main-triton-r2": {
+          "exact_sequences": 40,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.771875,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        },
+        "main-flashinfer-r2": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.79609375,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        },
+        "supplement-fi-off-r1": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.79296875,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        },
+        "supplement-fi-on-r1": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.79296875,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        },
+        "supplement-fi-on-r2": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.79140625,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        },
+        "supplement-fi-off-r2": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.79296875,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": false
+        }
+      }
+    },
+    "wsl": {
+      "reference_sha256": "f7dc4187a823d01419387440c3ff6d25dd8f133275f7f18af7335a0b06feee83",
+      "configurations": {
+        "main-triton-r1": {
+          "exact_sequences": 40,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.771875,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        },
+        "main-flashinfer-r1": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.80078125,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        },
+        "main-triton-r2": {
+          "exact_sequences": 40,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.771875,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        },
+        "main-flashinfer-r2": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.80078125,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        },
+        "supplement-fi-off-r1": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.80078125,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        },
+        "supplement-fi-on-r1": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.8328125,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        },
+        "supplement-fi-on-r2": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.8328125,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        },
+        "supplement-fi-off-r2": {
+          "exact_sequences": 48,
+          "sequence_comparisons": 80,
+          "saved_token_agreement": 0.80078125,
+          "strict_full_sequence_equivalence": false,
+          "repeatability_passed": true
+        }
+      }
+    }
+  },
+  "tests": {
+    "windows/installed_native": {
+      "passed": 8,
+      "sha256": "7fbeefdfd7b8359c15c86f2adac8dca55c27d13df66b96faa099b176fe865e47"
+    },
+    "windows/numerical": {
+      "passed": 23,
+      "sha256": "36a6c75e12e59d1cc25b7a58663cbdd962b584799b4ca12c289f479707e8629f"
+    },
+    "windows/triton": {
+      "passed": 6,
+      "sha256": "658ace3133a5f242bcc7e07118e7fecf5ff52ded345eaabb73a847804e889454"
+    },
+    "windows/flashinfer": {
+      "passed": 14,
+      "sha256": "0057b690466d982ad79d418437ff4fb1876f09ae9034817ace9ce85c45e0e706"
+    },
+    "windows/scheduler": {
+      "passed": 662,
+      "sha256": "50dc1eee8d3e368e07dd3559928cd75ff7971cabef041f625055ee1a38756f54"
+    },
+    "wsl/numerical": {
+      "passed": 23,
+      "sha256": "2c5583ce2e4853e65131a954c2de06b3cbc0aece256ed57552bf0dc79ffd4145"
+    },
+    "wsl/triton": {
+      "passed": 6,
+      "sha256": "5b4310ced0a216c019c323a32f4cd0be8db684a7c4838073c1412705fa0d7777"
+    },
+    "wsl/flashinfer": {
+      "passed": 14,
+      "sha256": "f31c8e75fea2a0ff4775b5a3130acfd9edf92ac87f2cdf237f36ad3d0e46badd"
+    },
+    "wsl/scheduler": {
+      "passed": 662,
+      "sha256": "f5eabe2a0cadbcfea38433bdb7ff649b52dcf757421c6c6f87fca1a15512d1a7"
+    },
+    "wsl/flashinfer_dsl_on": {
+      "passed": 14,
+      "sha256": "fb86a64f73d864417ad4d99f66f71dae79f339cc361382ebc26a4d2499afe382"
+    }
+  },
+  "rust_tests": {
+    "windows": {
+      "counts": {
+        "host": 3,
+        "metrics": 3,
+        "scheduler": 0
+      },
+      "log_sha256": "f17362a4d5a9c2490645c196b8affbc413754d5bf414e664e0b66a420acf7822"
+    },
+    "wsl": {
+      "counts": {
+        "host": 3,
+        "metrics": 2,
+        "scheduler": 0
+      },
+      "log_sha256": "a3870e2f810e00e46dda0dd1eea52aeeb9ba8b8031fd6c5bfb9ac9c04767f9c4"
+    }
+  },
+  "completed_configurations": 16,
+  "completed_cases": 64,
+  "timed_calls": 320,
+  "strict_full_sequence_equivalence": false,
+  "model_files": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b"
+  },
+  "model_auxiliary_files": {
+    "config.json": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "generation_config.json": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2",
+    "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "tokenizer_config.json": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101",
+    "special_tokens_map.json": null,
+    "added_tokens.json": null,
+    "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+    "merges.txt": "8831e4f1a044471340f7c0a83d7bd71306a5b867e95fd870f74d0c5308a904d5",
+    "chat_template.jinja": null
+  },
+  "compute_environment": {
+    "CUBLAS_WORKSPACE_CONFIG": null,
+    "CUBLASLT_WORKSPACE_SIZE": null,
+    "NVIDIA_TF32_OVERRIDE": null,
+    "CUDA_MODULE_LOADING": null,
+    "CUDA_DEVICE_MAX_CONNECTIONS": null,
+    "CUDA_LAUNCH_BLOCKING": null,
+    "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": null,
+    "TORCH_CUDNN_V8_API_DISABLED": null,
+    "TORCH_CUDNN_V8_API_LRU_CACHE_LIMIT": null,
+    "PYTORCH_CUDA_ALLOC_CONF": null,
+    "PYTORCH_ALLOC_CONF": null,
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "TRITON_DEFAULT_FP_FUSION": "1",
+    "TRITON_INTERPRET": null
+  },
+  "cross_platform_outputs": [
+    {
+      "configuration": "main-triton-r1",
+      "input_length": 128,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-triton-r1",
+      "input_length": 128,
+      "concurrency": 4,
+      "first_warmup_batch_exact": false,
+      "paired_exact_sequences": 25,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 0.94873046875
+    },
+    {
+      "configuration": "main-triton-r1",
+      "input_length": 512,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-triton-r1",
+      "input_length": 512,
+      "concurrency": 4,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 32,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-flashinfer-r1",
+      "input_length": 128,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-flashinfer-r1",
+      "input_length": 128,
+      "concurrency": 4,
+      "first_warmup_batch_exact": false,
+      "paired_exact_sequences": 28,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 0.896484375
+    },
+    {
+      "configuration": "main-flashinfer-r1",
+      "input_length": 512,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-flashinfer-r1",
+      "input_length": 512,
+      "concurrency": 4,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 32,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-triton-r2",
+      "input_length": 128,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-triton-r2",
+      "input_length": 128,
+      "concurrency": 4,
+      "first_warmup_batch_exact": false,
+      "paired_exact_sequences": 29,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 0.97802734375
+    },
+    {
+      "configuration": "main-triton-r2",
+      "input_length": 512,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-triton-r2",
+      "input_length": 512,
+      "concurrency": 4,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 32,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-flashinfer-r2",
+      "input_length": 128,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-flashinfer-r2",
+      "input_length": 128,
+      "concurrency": 4,
+      "first_warmup_batch_exact": false,
+      "paired_exact_sequences": 29,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 0.92236328125
+    },
+    {
+      "configuration": "main-flashinfer-r2",
+      "input_length": 512,
+      "concurrency": 1,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 8,
+      "paired_sequences": 8,
+      "paired_saved_token_agreement": 1.0
+    },
+    {
+      "configuration": "main-flashinfer-r2",
+      "input_length": 512,
+      "concurrency": 4,
+      "first_warmup_batch_exact": true,
+      "paired_exact_sequences": 32,
+      "paired_sequences": 32,
+      "paired_saved_token_agreement": 1.0
+    }
+  ],
+  "attention_features": {
+    "flash_compiled": true,
+    "flash_enabled": true,
+    "mem_efficient_enabled": true,
+    "math_enabled": true,
+    "cudnn_enabled": true
+  },
+  "flashinfer_import_glue": {
+    "passed": true,
+    "base_commit": "2ea3c24b5dac97e1bbd3834b698010bc48c52848",
+    "original_wheel_sha256": "a124450d2bdcb3e4278070329444533bce7e9df93c15b76e3e9d52d1ba22d241",
+    "changed_members": [
+      "flashinfer/jit/__init__.py",
+      "flashinfer_python-0.6.17+g2ea3c24b5dac.dist-info/RECORD"
+    ],
+    "fixed_wheel_sha256": "ee5ca219bb30c6322d453f4e15c119d3adbd9a97b09e232e02d69497ca0377e6",
+    "scope": "Stale optional NVSHMEM import only; no substitute function, version change, numerical kernel or native payload change"
+  },
+  "triton_host_glue": {
+    "passed": true,
+    "original_wheel_sha256": "d2efc19a58cf3e5d26279d6ac4af967b94cb74c5dfbdbcd098ae5db52d7a354b",
+    "fixed_wheel_sha256": "6bd5ff435f5e167a5df746db401c1b982fbb62e297e1a11f57a8caf7038b4fcb",
+    "changed_members": [
+      "triton/backends/nvidia/driver.c",
+      "triton_windows-3.9.0.post30.dist-info/RECORD"
+    ],
+    "scope": "Feature-test macro for POSIX host API declarations only; native GPU compiler, PTXAS, headers, libdevice and kernel implementations unchanged"
+  },
+  "flashinfer_host_flags": {
+    "passed": true,
+    "original_wheel_sha256": "ee5ca219bb30c6322d453f4e15c119d3adbd9a97b09e232e02d69497ca0377e6",
+    "fixed_wheel_sha256": "6a053bfb3477d22e696f99ba3140da0719d276d2fbc93c47fe612b821ba7924b",
+    "changed_members": [
+      "flashinfer/compilation_context.py",
+      "flashinfer_python-0.6.17+g2ea3c24b5dac.dist-info/RECORD"
+    ],
+    "scope": "MSVC-only preprocessor host flag guarded by os.name; version, optimization/kernel flags and every other wheel member unchanged"
+  },
+  "flashinfer_xqa_constants": {
+    "passed": true,
+    "original_wheel_sha256": "6a053bfb3477d22e696f99ba3140da0719d276d2fbc93c47fe612b821ba7924b",
+    "fixed_wheel_sha256": "7969615a1bb42e806d7403c1fdb8feb4e60170ecf04ee05cee675b5755cf9880",
+    "changed_members": [
+      "flashinfer/data/csrc/xqa/utils.cuh",
+      "flashinfer_python-0.6.17+g2ea3c24b5dac.dist-info/RECORD"
+    ],
+    "constants": {
+      "safeInitRowMax": {
+        "type": "float32",
+        "value": -100000,
+        "bits": "0050c3c7"
+      },
+      "kBAD_PAGE_INDEX": {
+        "type": "int32",
+        "value": -1,
+        "bits": "ffffffff"
+      }
+    },
+    "scope": "Linux constant storage/access compatibility only; original literal values, signedness and precision preserved; Windows branch and formulas unchanged"
+  },
+  "runtime_initializer_overlay": {
+    "passed": true,
+    "changed_members": [
+      "tokenspeed/runtime/execution/distributed_initializer.py",
+      "tokenspeed-0.1.1.dist-info/RECORD"
+    ],
+    "original_wheel_sha256": "50646f7662ac8e5eec92e600e08e7b10213d4f7c5454ac7f5f1e713f39696dbd",
+    "fixed_wheel_sha256": "1f21e2ff24b2a5f520cd2e1b4c87729030a8e17b2ce8219f4f8c81f2e7167f50",
+    "original_initializer_sha256": "b3c68a680d333052fc6589deedfbc35a45895d4ede23e76296f256fbc63a17ea",
+    "fixed_initializer_sha256": "1ab57b363e350a6dd283f7483b6ab9b65ae6820c61ae530bbe7a8529e7a6d7cb",
+    "source_overlay": "Initializer-only Linux compatibility override over the frozen source manifest",
+    "scope": "Same existing Windows world_size1/no-NCCL Gloo branch generalized to Linux; world_size>1 still errors. No model/scheduling/kernel change; Windows installation unchanged.",
+    "tcpstore": {
+      "linux_USE_LIBUV": "0",
+      "windows_default_USE_LIBUV": "0"
+    }
+  },
+  "supplementary_dsl_audits": {
+    "windows": [
+      {
+        "configuration": "supplement-fi-off-r1",
+        "compiler_visible": false,
+        "successful_compiles": 0,
+        "kernels": [],
+        "failed_compiles": 0,
+        "norm_paths_exercised": false
+      },
+      {
+        "configuration": "supplement-fi-on-r1",
+        "compiler_visible": false,
+        "successful_compiles": 0,
+        "kernels": [],
+        "failed_compiles": 0,
+        "norm_paths_exercised": false
+      },
+      {
+        "configuration": "supplement-fi-on-r2",
+        "compiler_visible": false,
+        "successful_compiles": 0,
+        "kernels": [],
+        "failed_compiles": 0,
+        "norm_paths_exercised": false
+      },
+      {
+        "configuration": "supplement-fi-off-r2",
+        "compiler_visible": false,
+        "successful_compiles": 0,
+        "kernels": [],
+        "failed_compiles": 0,
+        "norm_paths_exercised": false
+      }
+    ],
+    "wsl": [
+      {
+        "configuration": "supplement-fi-off-r1",
+        "compiler_visible": false,
+        "successful_compiles": 0,
+        "kernels": [],
+        "failed_compiles": 0,
+        "norm_paths_exercised": false
+      },
+      {
+        "configuration": "supplement-fi-on-r1",
+        "compiler_visible": true,
+        "successful_compiles": 2,
+        "kernels": [
+          "flashinfer.norm.kernels.fused_add_rmsnorm.FusedAddRMSNormKernel",
+          "flashinfer.norm.kernels.rmsnorm.RMSNormKernel"
+        ],
+        "failed_compiles": 0,
+        "norm_paths_exercised": true
+      },
+      {
+        "configuration": "supplement-fi-on-r2",
+        "compiler_visible": true,
+        "successful_compiles": 2,
+        "kernels": [
+          "flashinfer.norm.kernels.fused_add_rmsnorm.FusedAddRMSNormKernel",
+          "flashinfer.norm.kernels.rmsnorm.RMSNormKernel"
+        ],
+        "failed_compiles": 0,
+        "norm_paths_exercised": true
+      },
+      {
+        "configuration": "supplement-fi-off-r2",
+        "compiler_visible": false,
+        "successful_compiles": 0,
+        "kernels": [],
+        "failed_compiles": 0,
+        "norm_paths_exercised": false
+      }
+    ]
+  },
+  "dsl_aggregate": [
+    {
+      "input_length": 128,
+      "concurrency": 1,
+      "windows_off": 136.98879807265712,
+      "windows_off_cv": 0.008166437904727531,
+      "windows_on": 137.0733496948969,
+      "windows_on_cv": 0.017511572009326574,
+      "windows_change_pct": 0.061721559302196916,
+      "wsl_off": 133.70077790284944,
+      "wsl_off_cv": 0.022938134171009244,
+      "wsl_on": 133.15252495103084,
+      "wsl_on_cv": 0.033010163304680575,
+      "wsl_change_pct": -0.4100596574067583
+    },
+    {
+      "input_length": 128,
+      "concurrency": 4,
+      "windows_off": 563.1531800078194,
+      "windows_off_cv": 0.02850749310398398,
+      "windows_on": 570.2243987809057,
+      "windows_on_cv": 0.029279631858965597,
+      "windows_change_pct": 1.2556474906149306,
+      "wsl_off": 545.078869974175,
+      "wsl_off_cv": 0.04328481615998854,
+      "wsl_on": 544.2340911511083,
+      "wsl_on_cv": 0.03722333701404431,
+      "wsl_change_pct": -0.1549828602063985
+    },
+    {
+      "input_length": 512,
+      "concurrency": 1,
+      "windows_off": 132.935688071642,
+      "windows_off_cv": 0.016035464076734233,
+      "windows_on": 133.25481570935997,
+      "windows_on_cv": 0.015103685538685515,
+      "windows_change_pct": 0.24006167369139408,
+      "wsl_off": 131.685691183246,
+      "wsl_off_cv": 0.018030313183867223,
+      "wsl_on": 130.24327862092406,
+      "wsl_on_cv": 0.02438102959103614,
+      "wsl_change_pct": -1.0953449454996433
+    },
+    {
+      "input_length": 512,
+      "concurrency": 4,
+      "windows_off": 486.82303168936994,
+      "windows_off_cv": 0.029466637325147066,
+      "windows_on": 485.1544951274095,
+      "windows_on_cv": 0.028714912953671283,
+      "windows_change_pct": -0.34273985685727704,
+      "wsl_off": 484.51224028189154,
+      "wsl_off_cv": 0.025903942126625543,
+      "wsl_on": 475.9071113056065,
+      "wsl_on_cv": 0.020460817066377195,
+      "wsl_change_pct": -1.7760395426292042
+    }
+  ],
+  "backend_ratios": [
+    {
+      "input_length": 128,
+      "concurrency": 1,
+      "windows_flashinfer_over_triton": 0.9936671628643012,
+      "wsl_flashinfer_over_triton": 0.9752008184250576,
+      "triton_windows_over_wsl": 1.0102236067433235,
+      "flashinfer_windows_over_wsl": 1.0293531406099021
+    },
+    {
+      "input_length": 128,
+      "concurrency": 4,
+      "windows_flashinfer_over_triton": 0.9890177457039087,
+      "wsl_flashinfer_over_triton": 0.9308373899614047,
+      "triton_windows_over_wsl": 1.005356039323226,
+      "flashinfer_windows_over_wsl": 1.0681940523279736
+    },
+    {
+      "input_length": 512,
+      "concurrency": 1,
+      "windows_flashinfer_over_triton": 1.028210788931059,
+      "wsl_flashinfer_over_triton": 0.9885673462745351,
+      "triton_windows_over_wsl": 1.0152334528114246,
+      "flashinfer_windows_over_wsl": 1.055946257377738
+    },
+    {
+      "input_length": 512,
+      "concurrency": 4,
+      "windows_flashinfer_over_triton": 0.9856764113017458,
+      "wsl_flashinfer_over_triton": 0.9733765759242325,
+      "triton_windows_over_wsl": 1.008112392748061,
+      "flashinfer_windows_over_wsl": 1.0208511587914688
+    }
+  ],
+  "optional_compiler_provenance": {
+    "input_freeze_sha256": "0ac9c01ca780653a79bd3195dce764fac31454b9c3c56cfc680c79cf3d6cd4e0",
+    "support_freeze_sha256": "663250573d26c3e5620e729ed4f6a8b9ff85345cd1faabb0df376699cfab0ee4",
+    "record_provenance_sha256": "b2c89dfc9e0e042e02fbc7a37bec6c513116dda5cb8019eb9b1a64c57c922f9b",
+    "installed_record_files_matched": 311,
+    "package_versions": {
+      "nvidia-cutlass-dsl-libs-base": "4.8.0",
+      "nvidia-cutlass-dsl": "4.8.0",
+      "nvidia-cutlass-dsl-libs-core": "4.8.0",
+      "nvidia-cutlass-dsl-libs-cu12": "4.8.0",
+      "nvidia-cutlass-dsl-libs-cu13": "4.8.0"
+    },
+    "protobuf_version": "6.33.6",
+    "scope": "Frozen optional compiler/support files only; no inherited old runtime environment",
+    "observed_compiler_version": "4.8.0",
+    "observed_compiler_cuda_version": "DSLCudaVersion(major=13, minor=4)"
+  },
+  "baseline_commit": "b0d36dcb9a6cf8186ba05f504814b63dc8f3d249",
+  "tested_source_manifest_sha256": "d2f3b1297c4817aeb7f1f798fb1c3666b96022919ac0f741eae3b329e58684e2",
+  "source_freeze_sha256": "4b876136b18785c4f900acccf8955f4ed365a3dfabb4d882fdfda8c69a252524",
+  "audits": {
+    "windows": {
+      "installed_wheel_members_matched": 1243,
+      "kernel_groups": [
+        "attn_res",
+        "dsv3_gemm",
+        "dsv4_attention",
+        "eagle4_candidate",
+        "eagle_harness_chain",
+        "eagle_harness_policy",
+        "eagle_harness_tree",
+        "flashinfer_softmax",
+        "fused_topk_topp",
+        "kvcacheio",
+        "lm_head_gemm",
+        "marlin",
+        "marlin_moe",
+        "merge_state",
+        "mhc_big_fuse",
+        "moe_finalize_fuse_shared",
+        "rmsnorm_fused_parallel",
+        "rope",
+        "routing",
+        "sampling_chain",
+        "silu_fuse_block_quant",
+        "silu_fuse_nvfp4_quant",
+        "trtllm_comm",
+        "trtllm_mhc"
+      ],
+      "wheels": [
+        {
+          "wheel": "tokenspeed-0.1.1-py3-none-any.whl",
+          "sha256": "11b641f4ba6f69c7621c61250c3fb04f534c0d460f85793df677fce6879f09b7",
+          "native_files": []
+        },
+        {
+          "wheel": "tokenspeed_engine-0.1.0-cp313-cp313-win_arm64.whl",
+          "sha256": "f5f0dcf67952c9d1aab8a56905327203963dc25ac88072a7dfa935e7bd3a9eed",
+          "native_files": [
+            {},
+            {}
+          ]
+        },
+        {
+          "wheel": "tokenspeed_kernel-0.1.4.dev20261103+gitb0d36dcb-cp313-cp313-win_arm64.whl",
+          "sha256": "8c8e08d64de8a27b91fc793be6475f7421bae22d7c8479c24f14b9c86dc39452",
+          "native_files": [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+          ]
+        },
+        {
+          "wheel": "tokenspeed_scheduler-0.1.44-cp313-cp313-win_arm64.whl",
+          "sha256": "b587d7c76a1ab7744f006cef869ac9baa499d056bc55d1d3487ddd45f097c063",
+          "native_files": [
+            {}
+          ]
+        }
+      ]
+    },
+    "wsl": {
+      "installed_wheel_members_matched": 1243,
+      "kernel_groups": [
+        "attn_res",
+        "dsv3_gemm",
+        "dsv4_attention",
+        "eagle4_candidate",
+        "eagle_harness_chain",
+        "eagle_harness_policy",
+        "eagle_harness_tree",
+        "flashinfer_softmax",
+        "fused_topk_topp",
+        "kvcacheio",
+        "lm_head_gemm",
+        "marlin",
+        "marlin_moe",
+        "merge_state",
+        "mhc_big_fuse",
+        "moe_finalize_fuse_shared",
+        "rmsnorm_fused_parallel",
+        "rope",
+        "routing",
+        "sampling_chain",
+        "silu_fuse_block_quant",
+        "silu_fuse_nvfp4_quant",
+        "trtllm_comm",
+        "trtllm_mhc"
+      ],
+      "wheels": [
+        {
+          "wheel": "tokenspeed-0.1.1-py3-none-any.whl",
+          "sha256": "1f21e2ff24b2a5f520cd2e1b4c87729030a8e17b2ce8219f4f8c81f2e7167f50",
+          "native_files": []
+        },
+        {
+          "wheel": "tokenspeed_engine-0.1.0-cp313-cp313-linux_aarch64.whl",
+          "sha256": "6ea6e31ed2f9fc46112e80aec4df84ff55f53f49fa6d05eee84773ae192a0a8d",
+          "native_files": [
+            {
+              "path": "tokenspeed_engine/_native.cpython-313-aarch64-linux-gnu.so",
+              "sha256": "e80861003451946332ca4eaf847c037424e66896ab70177cec9e34661b22dccb",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_engine/bin/ts-host",
+              "sha256": "6846cc5ce72677217cc20c9c2c1a123171cd5635a1aaaf710d119d95e722bb3e",
+              "elf_machine": 183
+            }
+          ]
+        },
+        {
+          "wheel": "tokenspeed_kernel-0.1.4.dev20261103+gitb0d36dcb-py3-none-any.whl",
+          "sha256": "ed7a089a7af4a19fb4451c04e4f2a6ef51fc18578fb3e85db546e012f381d44d",
+          "native_files": [
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/attn_res/attn_res.so",
+              "sha256": "6dd5ee4e6f33bfad3c0315be59f09ee830a7dd0b0b21627c4a52395763582f81",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/dsv3_gemm/dsv3_gemm.so",
+              "sha256": "8e0ab112ff142a8c8642db60e51f9c82267bf9dce0b812fddbd76b299d34ee1a",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/dsv4_attention/dsv4_attention.so",
+              "sha256": "9d0d83a6720c566f736da27735a24cad68c700c1a1ebcefcc3eea0087fc52d45",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/eagle4_candidate/eagle4_candidate.so",
+              "sha256": "03d70edc474cc9321d6f9c639fd9cd9be06215809a45123c16322489693d15fe",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/eagle_harness_chain/eagle_harness_chain.so",
+              "sha256": "597c609f5f2b59cd44daa2dc67f6fe36a9dea48cb5934631e28107354ccbef38",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/eagle_harness_policy/eagle_harness_policy.so",
+              "sha256": "028dacedfb4e432f4b1653fc4fe1159a73a78cf8a8a3738493e649ae06e112b6",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/eagle_harness_tree/eagle_harness_tree.so",
+              "sha256": "a07bafc45f83acaf5b836f62931d9dd1825cca35a20f411f95efbdaedac08486",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/flashinfer_softmax/flashinfer_softmax.so",
+              "sha256": "4b84ff8365d47fb617d4fe97bec6b78ea150a5ea9025739b6dd88069957cc050",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/fused_topk_topp/fused_topk_topp.so",
+              "sha256": "5daa3f774f19ca22142b668ebda7b03bbbc890d0603d5b12656d0e4be71a3f9d",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/kvcacheio/kvcacheio.so",
+              "sha256": "129ede4c4eee985b9373bfaff9ecb2dd3e81419c47d06c84249be10a618f28d7",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/lm_head_gemm/lm_head_gemm.so",
+              "sha256": "8a499f4acba4f1679f6f1b33185f1acde3f09ece5bcbae5a24adb514046a1add",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/marlin/marlin.so",
+              "sha256": "7da16ef2b56a68bbee2b654347e3df54c7738c6d8c5f898c6762d980d9b9cd58",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/marlin_moe/marlin_moe.so",
+              "sha256": "24174dc93d15416620e96a06d8689c604df471f086328b6051319d11562e0767",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/merge_state/merge_state.so",
+              "sha256": "5f52bf1347f9966fc46bc3be0e9706779db0b35e0fcbd91c49e641d57d427a8c",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/mhc_big_fuse/mhc_big_fuse.so",
+              "sha256": "fa09076db18d1f556aebaac28481d428be2d9a2549ea7dc3ea8ae2d640616eaf",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/moe_finalize_fuse_shared/moe_finalize_fuse_shared.so",
+              "sha256": "f3b698e779098dc4409773908bf6dcfbb87b5f7ac121c79881f7b802fa3d980b",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/rmsnorm_fused_parallel/rmsnorm_fused_parallel.so",
+              "sha256": "b8a6eb79beb349663c40fb46da2df48c903ef3745d40d5a4fd8ad39392310e4c",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/rope/rope.so",
+              "sha256": "5389b48c7b49b1ea45511d0a159e46269bd6412d28a2583f914b02991197f5e4",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/routing/routing.so",
+              "sha256": "e98a31808d8e15de985831737d7f0e7d019f602e6df9b05bab872b594d9f49a1",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/sampling_chain/sampling_chain.so",
+              "sha256": "c41a9edd018d0da344496e02a2e5c859bc1a3d49830fe9bca06b8a6df0c7bd1f",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/silu_fuse_block_quant/silu_fuse_block_quant.so",
+              "sha256": "d238b4a1e880df6380d43ba9ec6eb81be8a217e50f685cccb32c595cbd3466fe",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/silu_fuse_nvfp4_quant/silu_fuse_nvfp4_quant.so",
+              "sha256": "3ae5b8a082bef2617a07afec0a2c60aff0104437f1c4cebbcecb32d28651ec1f",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/trtllm_comm/trtllm_comm.so",
+              "sha256": "fc9e81ce50d23e00609a5b348cae8da593d833fcf3e4f644089aa58c964d7206",
+              "elf_machine": 183
+            },
+            {
+              "path": "tokenspeed_kernel/thirdparty/cuda/objs/trtllm_mhc/trtllm_mhc.so",
+              "sha256": "5d98b38c0114c606e1a3912f58a661f11d517cb6d50c1183020e6a07b81baebd",
+              "elf_machine": 183
+            }
+          ]
+        },
+        {
+          "wheel": "tokenspeed_scheduler-0.1.44-cp313-cp313-linux_aarch64.whl",
+          "sha256": "7c03b39f8d0958320eb5be984fd71820a6cd1a9f7c6376b62908862b5c6dbf5a",
+          "native_files": [
+            {
+              "path": "tokenspeed_scheduler/tokenspeed_scheduler_ext.cpython-313-aarch64-linux-gnu.so",
+              "sha256": "88a8e0c157d5ae2209eed815ce405b031990ddb8ba1df936e59cb690bfea8343",
+              "elf_machine": 183
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -31,7 +31,11 @@ import os
 import pickle
 import random
 import re
-import resource
+
+try:
+    import resource
+except ModuleNotFoundError:
+    resource = None
 import subprocess
 import tempfile
 import threading
@@ -239,6 +243,8 @@ def set_random_seed(seed: int) -> None:
 
 
 def set_ulimit(target_soft_limit=65535):
+    if resource is None:
+        return
     # number of open files
     resource_type = resource.RLIMIT_NOFILE
     current_soft, current_hard = resource.getrlimit(resource_type)

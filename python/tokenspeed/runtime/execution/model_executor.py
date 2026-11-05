@@ -30,7 +30,6 @@ from typing import TYPE_CHECKING, Protocol, runtime_checkable
 import torch
 from tokenspeed_kernel.ops.metadata import advance_accepted_frontier
 from tokenspeed_kernel.ops.metadata.ngram import commit_ngram_inputs
-from tokenspeed_kernel.ops.moe import moe_apply as kernel_moe_apply
 from tokenspeed_kernel.ops.tuning import (
     autotune,
     autotune_cache_path,
@@ -1172,6 +1171,8 @@ class ModelExecutor:
         """
         if self.drafter.draft_model_runner is None:
             return
+        from tokenspeed_kernel.ops.moe import moe_apply as kernel_moe_apply
+
         from tokenspeed.runtime.layers.moe.expert import MoELayer
 
         tuned: set[tuple] = set()

@@ -61,10 +61,15 @@ fn main() {
         .to_owned();
 
     let mut config = cmake::Config::new(&manifest);
-    if std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows" {
+    let windows = std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows";
+    if windows {
         config
             .generator("Ninja")
             .define("CMAKE_TRY_COMPILE_CONFIGURATION", "Release");
+    }
+    println!("cargo:rerun-if-env-changed=OPENSSL_ROOT_DIR");
+    if let Ok(root) = std::env::var("OPENSSL_ROOT_DIR") {
+        config.define("OPENSSL_ROOT_DIR", root);
     }
     let built = config
         .define("TOKENSPEED_SCHEDULER_DIR", &scheduler_dir)
@@ -79,16 +84,27 @@ fn main() {
          print(pathlib.Path(tokenspeed_spdlog.__file__).parent / 'include')",
     );
     let csrc = scheduler_dir.join("csrc");
-    cxx_build::bridge("src/lib.rs")
+    let openssl = if windows {
+        Some(std::fs::read_to_string(built.join("openssl-link.txt"))
+            .expect("CMake OpenSSL link metadata"))
+    } else {
+        None
+    };
+    let mut facade = cxx_build::bridge("src/lib.rs");
+    facade
         .file("cxx/facade.cc")
         .include(&csrc)
         .include(&spdlog_include)
         .define("OPENSSL_SUPPRESS_DEPRECATED", None)
-        .define("NOMINMAX", None)
-        .define("WIN32_LEAN_AND_MEAN", None)
-        .flag_if_supported("/utf-8")
-        .std("c++20")
-        .compile("ts_scheduler_facade");
+        .std("c++20");
+    if windows {
+        facade
+            .define("NOMINMAX", None)
+            .define("WIN32_LEAN_AND_MEAN", None)
+            .flag_if_supported("/utf-8");
+        facade.include(openssl.as_ref().unwrap().lines().nth(1).expect("OpenSSL include path"));
+    }
+    facade.compile("ts_scheduler_facade");
 
     // Dependents after their users: the facade and the module need the core;
     // the module needs nanobind.
@@ -102,9 +118,15 @@ fn main() {
     ] {
         println!("cargo:rustc-link-lib=static={lib}");
     }
-    let windows = std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows";
     if windows {
-        println!("cargo:rustc-link-lib=bcrypt");
+        let mut lines = openssl.as_ref().unwrap().lines();
+        let crypto = Path::new(lines.next().expect("OpenSSL crypto library"));
+        println!("cargo:rustc-link-search=native={}", crypto.parent().unwrap().display());
+        println!("cargo:rustc-link-lib=static={}", crypto.file_stem().unwrap().to_str().unwrap());
+        lines.next();
+        for library in lines.next().unwrap_or("").split(';').filter(|s| !s.is_empty()) {
+            println!("cargo:rustc-link-lib={library}");
+        }
     } else {
         println!("cargo:rustc-link-lib=dylib=crypto");
         println!("cargo:rustc-link-lib=dylib=stdc++");
@@ -112,6 +134,7 @@ fn main() {
 
     // This package's tests start the interpreter: find libpython at run time,
     // and the standard library under the interpreter's base prefix.
+    // Windows uses DLL search paths instead of an ELF rpath.
     if let Some(lib_dir) = pyo3_build_config::get().lib_dir().filter(|_| !windows) {
         println!("cargo:rustc-link-arg=-Wl,-rpath,{lib_dir}");
     }

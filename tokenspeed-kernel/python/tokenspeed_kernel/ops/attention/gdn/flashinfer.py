@@ -42,6 +42,8 @@ Other prefill conventions (verified equal to bf16 on B200):
 
 from __future__ import annotations
 
+import importlib.util
+
 import torch
 from tokenspeed_kernel.ops.attention.gdn import (
     GdnCheckpointLayout,
@@ -59,6 +61,7 @@ from tokenspeed_kernel.registry import Priority, error_fn, register_kernel
 from tokenspeed_kernel.signature import format_signatures
 
 platform = current_platform()
+_cute_available = importlib.util.find_spec("cutlass") is not None
 SUPPORTED_HEAD_DIM = 128
 
 _chunk_gated_delta_rule = error_fn
@@ -66,7 +69,7 @@ _gated_delta_rule_decode_pretranspose = error_fn
 _gated_delta_rule_mtp = error_fn
 _gated_delta_rule_bf16_mtp = None
 
-if platform.is_hopper_plus:
+if platform.is_hopper_plus and _cute_available:
     from tokenspeed_kernel.ops.attention.gdn._flashinfer import (
         adapter as _flashinfer_gdn,
     )
@@ -83,7 +86,11 @@ def is_available() -> bool:
     """Whether the flashinfer GDN chunk-prefill kernel can run on this platform."""
     cuda_major = int(torch.version.cuda.split(".")[0]) if torch.version.cuda else 0
     # FlashInfer provides separate SM90 and Blackwell prefill kernels.
-    return (platform.is_hopper or platform.is_blackwell) and cuda_major >= 13
+    return (
+        _cute_available
+        and (platform.is_hopper or platform.is_blackwell)
+        and cuda_major >= 13
+    )
 
 
 def is_supported(
@@ -103,7 +110,7 @@ def is_supported(
 
 def is_decode_available() -> bool:
     """Whether the SM90+ GDN decode/MTP kernels can run on this platform."""
-    return platform.is_hopper_plus
+    return platform.is_hopper_plus and _cute_available
 
 
 CHUNK_SIZE = 64

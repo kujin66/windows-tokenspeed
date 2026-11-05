@@ -36,12 +36,13 @@ import time still arms once the CLI flag flips the flag at runtime.
 from __future__ import annotations
 
 import functools
+import importlib.util
 
 from tokenspeed_kernel.platform import current_platform
 
 from tokenspeed.runtime.utils.env import envs
 
-if current_platform().is_nvidia:
+if current_platform().is_nvidia and importlib.util.find_spec("nvtx") is not None:
     import nvtx
     from nvtx.colors import _NVTX_COLORS
 else:

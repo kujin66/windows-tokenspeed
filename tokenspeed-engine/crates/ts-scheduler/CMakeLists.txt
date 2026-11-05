@@ -46,6 +46,13 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT
 )
 find_package(nanobind CONFIG REQUIRED)
+if(WIN32)
+    set(OPENSSL_USE_STATIC_LIBS TRUE)
+    find_package(OpenSSL REQUIRED COMPONENTS Crypto)
+    # Cargo does not inherit CMake's transitive library/include properties.
+    file(GENERATE OUTPUT "${CMAKE_BINARY_DIR}/openssl-link.txt"
+        CONTENT "$<TARGET_FILE:OpenSSL::Crypto>\n${OPENSSL_INCLUDE_DIR}\n$<TARGET_PROPERTY:OpenSSL::Crypto,INTERFACE_LINK_LIBRARIES>\n")
+endif()
 
 set(TOKENSPEED_SCHEDULER_BUILD_PYTHON OFF CACHE BOOL "" FORCE)
 set(TOKENSPEED_SCHEDULER_BUILD_TESTS OFF CACHE BOOL "" FORCE)

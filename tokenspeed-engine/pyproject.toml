@@ -19,3 +19,4 @@ license = "MIT"
 [tool.setuptools]
 package-dir = { "" = "python" }
 packages = ["tokenspeed_engine"]
+license-files = ["OPENSSL-LICENSE.txt"]

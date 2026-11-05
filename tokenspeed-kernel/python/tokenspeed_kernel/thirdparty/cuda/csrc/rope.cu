@@ -24,6 +24,13 @@ using namespace flashinfer;
 using tvm::ffi::Tensor;
 using tvm::ffi::Optional;
 
+// Keep directives outside dispatch macro arguments and lambda captures.
+#ifdef ENABLE_FP8
+#define TOKENSPEED_ROPE_FP8_ENABLED 1
+#else
+#define TOKENSPEED_ROPE_FP8_ENABLED 0
+#endif
+
 void apply_rope(TensorView q, TensorView k, TensorView q_rope, TensorView k_rope, TensorView indptr,
                 TensorView offsets, int64_t rotary_dim, bool interleave, double rope_scale,
                 double rope_theta) {
@@ -278,17 +285,17 @@ void apply_rope_pos_ids_cos_sin_cache_fused(TensorView q, TensorView k, TensorVi
         // Cache dtype matches input dtype — no conversion needed.
         dispatch_loc(c_type{});
       } else if (cache_dtype == dl_float8_e4m3fn) {
-#ifdef ENABLE_FP8
-        dispatch_loc(__nv_fp8_e4m3{});
-#else
-        TVM_FFI_ICHECK(false) << "FP8 support is disabled";
-#endif
+        if constexpr (TOKENSPEED_ROPE_FP8_ENABLED) {
+          dispatch_loc(__nv_fp8_e4m3{});
+        } else {
+          TVM_FFI_ICHECK(false) << "FP8 support is disabled";
+        }
       } else if (cache_dtype == dl_float8_e5m2) {
-#ifdef ENABLE_FP8
-        dispatch_loc(__nv_fp8_e5m2{});
-#else
-        TVM_FFI_ICHECK(false) << "FP8 support is disabled";
-#endif
+        if constexpr (TOKENSPEED_ROPE_FP8_ENABLED) {
+          dispatch_loc(__nv_fp8_e5m2{});
+        } else {
+          TVM_FFI_ICHECK(false) << "FP8 support is disabled";
+        }
       } else {
         TVM_FFI_ICHECK(false) << "Unsupported KV cache dtype for fused RoPE+KV write: "
                               << (int)cache_dtype.code << " " << (int)cache_dtype.bits;

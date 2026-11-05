@@ -18,33 +18,65 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import importlib
+from collections.abc import MutableMapping
 from enum import Enum
 
 from tokenspeed.runtime.layers.quantization.base_config import (  # noqa: F401
     QuantizationConfig,
     QuantizeMethodBase,
 )
-from tokenspeed.runtime.layers.quantization.compressed_tensors.compressed_tensors import (
-    CompressedTensorsConfig,
-)
-from tokenspeed.runtime.layers.quantization.fp8 import Fp8Config, Mxfp8Config
-from tokenspeed.runtime.layers.quantization.modelopt_mixed import ModelOptMixedConfig
-from tokenspeed.runtime.layers.quantization.mxfp4 import Mxfp4Config
-from tokenspeed.runtime.layers.quantization.mxfp8_nvfp4 import Mxfp8Nvfp4Config
-from tokenspeed.runtime.layers.quantization.nvfp4 import Nvfp4Config
-from tokenspeed.runtime.layers.quantization.w8a8_fp8 import W8A8Fp8Config
 
-BASE_QUANTIZATION_METHODS: dict[str, type[QuantizationConfig]] = {
-    "fp8": Fp8Config,
-    "mxfp8": Mxfp8Config,
-    "mxfp8_nvfp4": Mxfp8Nvfp4Config,
-    "w8a8_fp8": W8A8Fp8Config,
-    "compressed-tensors": CompressedTensorsConfig,
-    "nvfp4": Nvfp4Config,
-    "mxfp4": Mxfp4Config,
-    "modelopt_mixed": ModelOptMixedConfig,
+_CONFIG_PATHS = {
+    "fp8": "fp8:Fp8Config",
+    "mxfp8": "fp8:Mxfp8Config",
+    "mxfp8_nvfp4": "mxfp8_nvfp4:Mxfp8Nvfp4Config",
+    "w8a8_fp8": "w8a8_fp8:W8A8Fp8Config",
+    "compressed-tensors": "compressed_tensors.compressed_tensors:CompressedTensorsConfig",
+    "nvfp4": "nvfp4:Nvfp4Config",
+    "mxfp4": "mxfp4:Mxfp4Config",
+    "modelopt_mixed": "modelopt_mixed:ModelOptMixedConfig",
 }
 
+
+class _LazyConfigRegistry(MutableMapping):
+    """Resolve only selected quantizers, keeping dense startup vendor-neutral."""
+
+    def __init__(self):
+        self._entries = dict(_CONFIG_PATHS)
+
+    def __getitem__(self, key):
+        entry = self._entries[key]
+        if isinstance(entry, str):
+            module, name = entry.split(":", 1)
+            entry = getattr(importlib.import_module(f"{__name__}.{module}"), name)
+            self._entries[key] = entry
+        return entry
+
+    def __setitem__(self, key, value):
+        self._entries[key] = value
+
+    def __delitem__(self, key):
+        del self._entries[key]
+
+    def __iter__(self):
+        return iter(self._entries)
+
+    def __len__(self):
+        return len(self._entries)
+
+    def __contains__(self, key):
+        return key in self._entries
+
+
+def __getattr__(name):
+    for key, path in _CONFIG_PATHS.items():
+        if path.split(":", 1)[1] == name:
+            return QUANTIZATION_METHODS[key]
+    raise AttributeError(name)
+
+
+BASE_QUANTIZATION_METHODS = _LazyConfigRegistry()
 
 QUANTIZATION_METHODS = BASE_QUANTIZATION_METHODS
 

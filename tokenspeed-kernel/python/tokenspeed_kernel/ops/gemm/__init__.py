@@ -3885,7 +3885,13 @@ import tokenspeed_kernel.ops.gemm.gluon  # noqa: E402,F401
 import tokenspeed_kernel.ops.gemm.native  # noqa: E402,F401
 import tokenspeed_kernel.ops.gemm.triton  # noqa: E402,F401
 import tokenspeed_kernel.ops.gemm.triton_fp8_channel  # noqa: E402,F401
-import tokenspeed_kernel.ops.gemm.trtllm  # noqa: E402,F401
+import importlib.util
+
+if (
+    importlib.util.find_spec("deep_ep") is not None
+    and importlib.util.find_spec("trtllm_kernel") is not None
+):
+    import tokenspeed_kernel.ops.gemm.trtllm  # noqa: E402,F401
 from tokenspeed_kernel.ops.gemm.cuda import dsv3_router_gemm  # noqa: E402
 from tokenspeed_kernel.ops.gemm.cute_dsl import (  # noqa: E402
     cute_dsl_ll_bf16_router,
