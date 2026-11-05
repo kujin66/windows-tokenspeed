@@ -632,6 +632,7 @@ def test_biweekly_calendar_and_off_week_result(tmp_path, monkeypatch):
         stage: {"result": "skipped"}
         for stage in (
             "plan",
+            "windows-arm64",
             "amd",
             "kernel",
             "tokenspeed",
@@ -649,6 +650,43 @@ def test_biweekly_calendar_and_off_week_result(tmp_path, monkeypatch):
     results["resume"]["result"] = "success"
     monkeypatch.setenv("RESULTS", json.dumps(results))
     exec(compile(workflow_python("result"), "release-result", "exec"), {})
+
+
+@pytest.mark.parametrize("mode", ["normal", "recovery", "skip"])
+@pytest.mark.parametrize(
+    ("windows_result", "accepted"),
+    [("skipped", True), ("success", True), ("failure", False), ("cancelled", False)],
+)
+def test_release_result_reports_optional_windows_build(
+    tmp_path, monkeypatch, mode, windows_result, accepted
+):
+    results = {
+        stage: {"result": "success"}
+        for stage in (
+            "prepare",
+            "plan",
+            "windows-arm64",
+            "amd",
+            "kernel",
+            "tokenspeed",
+            "index",
+            "docker",
+            "release",
+            "resume",
+        )
+    }
+    results["windows-arm64"]["result"] = windows_result
+    summary = tmp_path / "summary"
+    monkeypatch.setenv("MODE", mode)
+    monkeypatch.setenv("RESULTS", json.dumps(results))
+    monkeypatch.setenv("GITHUB_STEP_SUMMARY", str(summary))
+    script = compile(workflow_python("result"), "release-result", "exec")
+    if accepted:
+        exec(script, {})
+    else:
+        with pytest.raises(SystemExit, match="Release incomplete"):
+            exec(script, {})
+    assert f"- windows-arm64: {windows_result}" in summary.read_text()
 
 
 def test_source_tree_check_catches_unreleased_changes(
