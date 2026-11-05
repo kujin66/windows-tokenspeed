@@ -244,6 +244,19 @@ class WireDriver:
         self._stop_process()
 
     def _stop_process(self) -> None:
+        if sys.platform == "win32":
+            import psutil
+
+            if self.process.poll() is None:
+                parent = psutil.Process(self.process.pid)
+                for child in reversed(parent.children(recursive=True)):
+                    try:
+                        child.kill()
+                    except psutil.NoSuchProcess:
+                        pass
+                self.process.terminate()
+            self.process.wait(timeout=_SHUTDOWN_GRACE_S)
+            return
         if self.process.poll() is None:
             self.process.send_signal(signal.SIGTERM)
             deadline = time.monotonic() + _SHUTDOWN_GRACE_S

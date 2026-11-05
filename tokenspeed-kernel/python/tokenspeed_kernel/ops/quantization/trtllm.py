@@ -19,19 +19,27 @@
 # SOFTWARE.
 from __future__ import annotations
 
+import importlib.util
+
 import torch
 from tokenspeed_kernel.platform import (
     ArchVersion,
     CapabilityRequirement,
     current_platform,
 )
-from tokenspeed_kernel.registry import Priority, register_kernel
+from tokenspeed_kernel.registry import Priority, error_fn, register_kernel
 from tokenspeed_kernel.signature import format_signatures
 
 platform = current_platform()
 __all__ = []
+_per_token_group_quant_8bit = error_fn
+_per_token_quant_fp8 = error_fn
 
-if platform.is_nvidia:
+if (
+    platform.is_nvidia
+    and importlib.util.find_spec("deep_ep") is not None
+    and importlib.util.find_spec("trtllm_kernel") is not None
+):
     # DeepEP must initialize before TRT-LLM's static CUDA runtime.
     import deep_ep  # noqa: F401
     import trtllm_kernel  # noqa: F401

@@ -1421,7 +1421,10 @@ struct neg_zero<float> {
 };
 
 template <typename T>
-__device__ static constexpr T neg_zero_v = neg_zero<T>::value;
+// A function keeps the exact sentinel bits without a device variable template.
+__device__ __forceinline__ T negative_zero() {
+  return neg_zero<T>::value;
+}
 
 template <typename T>
 __device__ __forceinline__ bool is_negative_zero(T) {
@@ -1474,7 +1477,7 @@ __device__ __forceinline__ void remove_neg_zero(vec_t<T, VEC_SIZE>& vec) {
 template <typename T>
 __device__ __forceinline__ void set_neg_zero(T* addr) {
   vec_t<T, details::kBytesPerAccess / sizeof(T)> val;
-  val.fill(neg_zero_v<T>);
+  val.fill(negative_zero<T>());
   val.store_global_volatile(addr);
 }
 
@@ -1559,7 +1562,7 @@ __global__ void allreduce_fusion_kernel_oneshot_lamport(
   int access_stride = index_helper.access_stride;
   int tot_access = index_helper.tot_access;
   vec_t<T, VEC_SIZE> clear_vec;
-  clear_vec.fill(neg_zero_v<T>);
+  clear_vec.fill(negative_zero<T>());
   FusedOp<Pattern, T> fused_op(params, access_id, access_id_in_token);
 
 #if (defined(__CUDA_ARCH__) && (__CUDA_ARCH__ >= 900))

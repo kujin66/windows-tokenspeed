@@ -22,6 +22,8 @@
 
 from __future__ import annotations
 
+import os
+
 import tokenspeed_kernel.ops.layernorm._triton.weightless  # noqa: F401
 import tokenspeed_kernel.ops.layernorm.gluon  # noqa: F401
 
@@ -56,11 +58,14 @@ from tokenspeed_kernel.selection import select_kernel
 from tokenspeed_kernel.signature import dense_tensor_format, format_signature
 
 _platform = current_platform()
+_use_triton_norm = (
+    _platform.is_amd or os.environ.get("TOKENSPEED_COMPARISON_OPS") == "triton"
+)
 
 if _platform.is_npu:
     from tokenspeed_kernel.ops.layernorm.ascend import qk_rmsnorm as _qk_rmsnorm
     from tokenspeed_kernel.ops.layernorm.ascend import rmsnorm as _rmsnorm
-elif _platform.is_amd:
+elif _use_triton_norm:
     from tokenspeed_kernel.ops.layernorm.triton import qk_rmsnorm as _qk_rmsnorm
     from tokenspeed_kernel.ops.layernorm.triton import rmsnorm as triton_rmsnorm
 else:
@@ -79,7 +84,7 @@ def rmsnorm(
     out: torch.Tensor | None = None,
 ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
     """Apply RMSNorm with one platform-independent call contract."""
-    if _platform.is_amd:
+    if _use_triton_norm:
         if residual is not None:
             if out is not None:
                 raise ValueError("fused add rmsnorm does not support out")

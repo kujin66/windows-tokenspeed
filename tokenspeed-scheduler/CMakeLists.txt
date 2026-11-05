@@ -32,7 +32,13 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT
 )
 find_package(nanobind CONFIG REQUIRED)
-find_package(OpenSSL REQUIRED)
+if(WIN32)
+    add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN)
+    add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/utf-8> $<$<CXX_COMPILER_ID:MSVC>:/permissive->)
+    # Keep OpenSSL in the wheel without requiring an external crypto DLL.
+    set(OPENSSL_USE_STATIC_LIBS TRUE)
+endif()
+find_package(OpenSSL REQUIRED COMPONENTS Crypto)
 
 add_library(tokenspeed_scheduler_core STATIC
     csrc/core/token_container.cpp
@@ -98,10 +104,15 @@ if(TOKENSPEED_SCHEDULER_BUILD_PYTHON)
 
     install(TARGETS tokenspeed_scheduler_ext
         LIBRARY DESTINATION tokenspeed_scheduler
+        # CMake classifies Windows DLLs as RUNTIME artifacts.
+        RUNTIME DESTINATION tokenspeed_scheduler
     )
 endif()
 
 if(TOKENSPEED_SCHEDULER_BUILD_TESTS)
+    # CTest registration is platform independent and remains opt-in.
+    enable_testing()
+    set(gtest_force_shared_crt ON CACHE BOOL "Use the same CRT as the scheduler" FORCE)
     FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git

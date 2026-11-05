@@ -66,8 +66,10 @@ class NcclBackend(CommBackend):
             process_group_manager as pg_manager,
         )
 
-        device_group = pg_manager.get_process_group(
-            "nccl", group, name=self._group_name
+        device_group = (
+            pg_manager.get_device_process_group(group)
+            if self._group_name is None
+            else pg_manager.get_process_group("nccl", group, name=self._group_name)
         )
         world_size = len(group)
 

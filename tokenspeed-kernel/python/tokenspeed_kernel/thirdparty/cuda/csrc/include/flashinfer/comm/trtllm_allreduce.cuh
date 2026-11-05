@@ -193,7 +193,10 @@ struct neg_zero<float> {
 };
 
 template <typename T>
-__device__ static constexpr T neg_zero_v = neg_zero<T>::value;
+// A function keeps the exact sentinel bits without a device variable template.
+__device__ __forceinline__ T negative_zero() {
+  return neg_zero<T>::value;
+}
 
 template <typename T>
 __device__ bool is_negative_zero(T) {
@@ -246,7 +249,7 @@ __device__ __forceinline__ void remove_neg_zero(vec_t<T, VEC_SIZE>& vec) {
 template <typename T>
 __device__ __forceinline__ void set_neg_zero(T* addr) {
   vec_t<T, 16 / sizeof(T)> val;
-  val.fill(neg_zero_v<T>);
+  val.fill(negative_zero<T>());
   val.store_global_volatile(addr);
 }
 

@@ -715,7 +715,10 @@ struct neg_zero<float> {
 };
 
 template <typename T>
-__device__ static constexpr T neg_zero_v = neg_zero<T>::value;
+// A function keeps the exact sentinel bits without a device variable template.
+__device__ __forceinline__ T negative_zero() {
+  return neg_zero<T>::value;
+}
 
 template <typename T>
 __device__ __forceinline__ bool is_negative_zero(T) {
@@ -768,7 +771,7 @@ __device__ __forceinline__ void remove_neg_zero(vec_t<T, VEC_SIZE>& vec) {
 template <typename T>
 __device__ __forceinline__ void set_neg_zero(T* addr) {
   vec_t<T, details::kBytesPerAccess / sizeof(T)> val;
-  val.fill(neg_zero_v<T>);
+  val.fill(negative_zero<T>());
   val.store_global_volatile(addr);
 }
 
@@ -1035,7 +1038,7 @@ __global__ void reducescatter_fusion_kernel_oneshot_lamport(ReduceScatterFusionP
   int access_stride = index_helper.access_stride; // token_id增加时，对应access_stride增加步长 = token_stride * hidden_dim / VEC_SIZE
   int tot_access = index_helper.tot_access;
   vec_t<T, VEC_SIZE> clear_vec;
-  clear_vec.fill(utils::neg_zero_v<T>);
+  clear_vec.fill(utils::negative_zero<T>());
   int num_tokens = params.size / params.hidden_dim;
   int tokens_per_rank = num_tokens / NRanks;
   int remaining_tokens = num_tokens % NRanks;

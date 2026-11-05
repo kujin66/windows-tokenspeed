@@ -321,6 +321,9 @@ if platform.is_nvidia and platform.is_hopper_plus:
 # Direct export
 # ------------------------------------------------------------------------------
 
+if platform.is_nvidia and platform.arch_version == ArchVersion(12, 1):
+    import tokenspeed_kernel.ops.attention.mha._sm121_fa2  # noqa: E402,F401
+
 __all__ = [
     "BatchDecodeWithPagedKVCacheWrapper",
     "BatchMLAPagedAttentionWrapper",

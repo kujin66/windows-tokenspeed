@@ -274,6 +274,34 @@ def start_rust_host(
         The process and the launcher's end of the pipe.
     """
     parent, child = Pipe(duplex=True)
+    if os.name == "nt":
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.lpAttributeList = {"handle_list": [child.fileno()]}
+        os.set_handle_inheritable(child.fileno(), True)
+        child_env = dict(os.environ)
+        child_env["PATH"] = sys.base_prefix + os.pathsep + child_env.get("PATH", "")
+        try:
+            with start_context:
+                popen = subprocess.Popen(
+                    [
+                        binary,
+                        "--python",
+                        sys.executable,
+                        "--control-fd",
+                        str(child.fileno()),
+                    ],
+                    startupinfo=startupinfo,
+                    close_fds=True,
+                    creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
+                    env=child_env,
+                )
+        except BaseException:
+            parent.close()
+            raise
+        finally:
+            child.close()
+        parent.send((server_args, port_args, metrics_relay_endpoint))
+        return HostProcess(popen, int(popen._handle)), parent
     sentinel, held_until_exit = os.pipe()
     preexec_fn = None
     if parent_death_signal:
@@ -1403,7 +1431,13 @@ def bootstrap(control_fd: int, pd_outbox) -> HostBootstrap | EncodeBootstrap:
     ``control_fd``; with PD, its transfer peer reaches the host through
     ``pd_outbox`` (see ``pd/host_peer.py``). An EPD encode rank runs the
     host's encode mode instead (``epd/encode_host.py``)."""
-    connection = Connection(control_fd)
+    from multiprocessing import connection as mp_connection
+
+    connection = (
+        mp_connection.PipeConnection(control_fd)
+        if os.name == "nt"
+        else Connection(control_fd)
+    )
     server_args, port_args, metrics_relay_endpoint = connection.recv()
     if server_args.disaggregation_mode == "encode":
         return EncodeBootstrap(server_args, port_args, connection)
@@ -1415,4 +1449,5 @@ def bootstrap(control_fd: int, pd_outbox) -> HostBootstrap | EncodeBootstrap:
 def notify_launcher_of_failure() -> None:
     """Tell the launcher this rank failed: the launcher then stops the other
     ranks."""
-    os.kill(os.getppid(), signal.SIGUSR1)
+    if os.name != "nt":
+        os.kill(os.getppid(), signal.SIGUSR1)

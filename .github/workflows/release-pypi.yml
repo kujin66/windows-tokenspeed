@@ -9,6 +9,14 @@ on:
       - "python/tokenspeed/version.py"
   workflow_dispatch:
     inputs:
+      windows_arm64:
+        description: "Also build and test TokenSpeed wheels on the prepared Windows ARM64 CUDA runner."
+        type: boolean
+        default: false
+      windows_cuda_arch:
+        description: "CUDA architecture for the Windows runner."
+        type: string
+        default: "121a"
       nightly:
         description: "Build a dated nightly with the same-date tokenspeed-kernel dependency."
         type: boolean
@@ -33,6 +41,21 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  windows-arm64:
+    if: inputs.windows_arm64 || vars.TOKENSPEED_WINDOWS_ARM64_CI == 'true'
+    runs-on: [self-hosted, Windows, ARM64, tokenspeed-cuda]
+    timeout-minutes: 90
+    env:
+      CARGO_BUILD_JOBS: '2'
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+      MAX_JOBS: '1'
+      CMAKE_ARGS: '-DCMAKE_TRY_COMPILE_CONFIGURATION=Release'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/windows-arm64-build
+        with:
+          cuda_arch: ${{ inputs.windows_cuda_arch || vars.TOKENSPEED_WINDOWS_CUDA_ARCH || '121a' }}
+
   build:
     if: github.repository == 'lightseekorg/tokenspeed'
     runs-on: ubuntu-latest

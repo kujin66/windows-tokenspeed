@@ -19,6 +19,8 @@
 
 from __future__ import annotations
 
+import os
+
 import torch
 from tokenspeed_kernel.ops.activation.flashinfer import (
     silu_and_mul as flashinfer_silu_and_mul,
@@ -51,6 +53,7 @@ def silu_and_mul(
     if (
         limit is not None
         or current_platform().is_amd
+        or os.environ.get("TOKENSPEED_COMPARISON_OPS") == "triton"
         or flashinfer_silu_and_mul is error_fn
     ):
         return triton_silu_and_mul(x, out, limit=limit)

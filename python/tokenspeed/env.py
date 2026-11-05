@@ -22,7 +22,11 @@
 
 import importlib.metadata
 import os
-import resource
+
+try:
+    import resource
+except ModuleNotFoundError:
+    resource = None
 import subprocess
 import sys
 from collections import OrderedDict, defaultdict
