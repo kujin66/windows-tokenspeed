@@ -85,8 +85,10 @@ fn main() {
     );
     let csrc = scheduler_dir.join("csrc");
     let openssl = if windows {
-        Some(std::fs::read_to_string(built.join("openssl-link.txt"))
-            .expect("CMake OpenSSL link metadata"))
+        Some(
+            std::fs::read_to_string(built.join("openssl-link.txt"))
+                .expect("CMake OpenSSL link metadata"),
+        )
     } else {
         None
     };
@@ -102,7 +104,14 @@ fn main() {
             .define("NOMINMAX", None)
             .define("WIN32_LEAN_AND_MEAN", None)
             .flag_if_supported("/utf-8");
-        facade.include(openssl.as_ref().unwrap().lines().nth(1).expect("OpenSSL include path"));
+        facade.include(
+            openssl
+                .as_ref()
+                .unwrap()
+                .lines()
+                .nth(1)
+                .expect("OpenSSL include path"),
+        );
     }
     facade.compile("ts_scheduler_facade");
 
@@ -121,10 +130,21 @@ fn main() {
     if windows {
         let mut lines = openssl.as_ref().unwrap().lines();
         let crypto = Path::new(lines.next().expect("OpenSSL crypto library"));
-        println!("cargo:rustc-link-search=native={}", crypto.parent().unwrap().display());
-        println!("cargo:rustc-link-lib=static={}", crypto.file_stem().unwrap().to_str().unwrap());
+        println!(
+            "cargo:rustc-link-search=native={}",
+            crypto.parent().unwrap().display()
+        );
+        println!(
+            "cargo:rustc-link-lib=static={}",
+            crypto.file_stem().unwrap().to_str().unwrap()
+        );
         lines.next();
-        for library in lines.next().unwrap_or("").split(';').filter(|s| !s.is_empty()) {
+        for library in lines
+            .next()
+            .unwrap_or("")
+            .split(';')
+            .filter(|s| !s.is_empty())
+        {
             println!("cargo:rustc-link-lib={library}");
         }
     } else {
