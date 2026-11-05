@@ -81,7 +81,14 @@ def main() -> None:
         parser.error("Run with native Windows ARM64 Python")
     if sys.prefix == sys.base_prefix:
         parser.error("Run inside a dedicated venv; wheels will be installed there")
-    for command in ("cl.exe", "link.exe", "cargo.exe", "cmake.exe", "ninja.exe"):
+    for command in (
+        "cl.exe",
+        "link.exe",
+        "cargo.exe",
+        "cmake.exe",
+        "ninja.exe",
+        "git.exe",
+    ):
         if not shutil.which(command):
             parser.error(
                 f"Missing {command}; activate an ARM64 MSVC developer environment"
@@ -94,13 +101,17 @@ def main() -> None:
     wheels = output / "wheels"
     wheels.mkdir()
     env = dict(os.environ)
+    git_command = ["git", "-c", f"safe.directory={ROOT.as_posix()}"]
+    revision = subprocess.check_output(
+        [*git_command, "rev-parse", "HEAD"], cwd=ROOT, text=True
+    ).strip()
+    env.setdefault("TOKENSPEED_KERNEL_GIT_SHA", revision)
     env.update(
         PYTHONPATH="",
         PYO3_PYTHON=sys.executable,
         CMAKE_GENERATOR="Ninja",
         CUDA_HOME=cuda,
         TOKENSPEED_KERNEL_BACKEND="cuda",
-        TOKENSPEED_KERNEL_WINDOWS_PROFILE="minimal",
         TOKENSPEED_CUDA_ARCH=args.cuda_arch,
         FLASHINFER_CUDA_ARCH_LIST=args.cuda_arch,
         DISTUTILS_USE_SDK="1",
@@ -131,24 +142,48 @@ def main() -> None:
         ]
         if component == "tokenspeed-scheduler":
             command.append(f"--config-settings=build-dir={output / 'scheduler'}")
+            command.append(
+                "--config-settings=cmake.define.TOKENSPEED_SCHEDULER_BUILD_TESTS=ON"
+            )
+            command.append("--config-settings=cmake.define.INSTALL_GTEST=OFF")
         run(*command)
+    run(
+        "cmake",
+        "--build",
+        str(output / "scheduler"),
+        "--target",
+        "tokenspeed_scheduler_tests",
+        "--config",
+        "Release",
+    )
+    run(
+        "ctest",
+        "--test-dir",
+        str(output / "scheduler"),
+        "--no-tests=error",
+        "--output-on-failure",
+        "--output-junit",
+        str(output / "scheduler-tests.xml"),
+    )
     built = sorted(wheels.glob("*.whl"))
     if len(built) != 4:
         raise RuntimeError(f"Expected four wheels, found {len(built)}")
     audits = [audit_wheel(path) for path in built]
-    if sum(len(item["native_files"]) for item in audits) != 5:
-        raise RuntimeError(
-            "Expected scheduler, engine extension, host, RMSNorm and sampling DLLs"
-        )
-    revision = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
-    ).strip()
-    diff = subprocess.check_output(["git", "diff", "HEAD", "--binary"], cwd=ROOT)
+    native_groups = sorted(
+        Path(name).parent.name
+        for item in audits
+        for name in item["native_files"]
+        if "/thirdparty/cuda/objs/" in name
+    )
+    if len(native_groups) != 24 or len(set(native_groups)) != 24:
+        raise RuntimeError(f"Expected all 24 native CUDA groups, found {native_groups}")
+    diff = subprocess.check_output([*git_command, "diff", "HEAD", "--binary"], cwd=ROOT)
     report = {
         "revision": revision,
         "tracked_diff_sha256": hashlib.sha256(diff).hexdigest(),
         "python": platform.python_version(),
         "cuda_arch": args.cuda_arch,
+        "kernel_groups": native_groups,
         "wheels": audits,
     }
     (output / "build.json").write_text(
@@ -170,10 +205,22 @@ def main() -> None:
         "pytest",
         "-q",
         "--confcutdir=test/windows",
-        "test/windows",
+        "test/windows/test_native_build.py",
         "--basetemp",
         str(output / "pytest-tmp"),
         f"--junitxml={output / 'tests.xml'}",
+    )
+    run(
+        sys.executable,
+        "-m",
+        "pytest",
+        "-q",
+        "--confcutdir=tokenspeed-kernel/test/nvidia/thirdparty",
+        "tokenspeed-kernel/test/nvidia/thirdparty/test_collective_sentinels.py",
+        "tokenspeed-kernel/test/nvidia/thirdparty/test_marlin_native.py",
+        "--basetemp",
+        str(output / "collective-pytest-tmp"),
+        f"--junitxml={output / 'collective-tests.xml'}",
     )
     run(
         "cargo",
@@ -184,7 +231,12 @@ def main() -> None:
         "--locked",
         "-p",
         "tokenspeed-metrics",
+        "-p",
+        "tokenspeed-host",
+        "-p",
+        "tokenspeed-scheduler",
         "--lib",
+        "--bins",
     )
 
 

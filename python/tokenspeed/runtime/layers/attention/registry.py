@@ -1099,6 +1099,13 @@ def _prepare_fixed_workspaces(
     buffers (the draft's extend step follows the target's forward on the
     same stream), so the plan budgets one workspace.
     """
+    if (
+        expected_bytes == 0
+        and not uses_paged_state_verify
+        and not is_inkling
+        and config.qcp_size == 1
+    ):
+        return
     from tokenspeed.runtime.layers.attention.backends.specific.qwen4_exp import (
         Qwen4ExpBackend,
     )

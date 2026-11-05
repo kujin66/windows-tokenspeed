@@ -18,22 +18,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
+
 # ruff: noqa: E402,F401
+import sys
+
+_dense_profile = os.environ.get("TOKENSPEED_RUNTIME_PROFILE") == "dense-qwen"
 # Import all backend modules to trigger register_backend() calls.
 from tokenspeed_kernel.platform import current_platform
 
 platform = current_platform()
 
-from tokenspeed.runtime.layers.attention.backends.specific import (  # noqa: F401
-    deepseek_v41,
-)
+if sys.platform != "win32" and not _dense_profile:
+    from tokenspeed.runtime.layers.attention.backends.specific import deepseek_v41
 
-if platform.is_hopper_plus:
+if platform.is_hopper_plus and sys.platform != "win32" and not _dense_profile:
     from tokenspeed.runtime.layers.attention.backends.paged import (  # noqa: F401
         flashmla,
     )
 
-if platform.is_nvidia:
+if platform.is_nvidia and sys.platform != "win32" and not _dense_profile:
     from tokenspeed.runtime.layers.attention.backends.paged import trtllm  # noqa: F401
     from tokenspeed.runtime.layers.attention.backends.paged import (
         trtllm_mla,
@@ -42,10 +46,14 @@ if platform.is_nvidia:
         tokenspeed_mla,
     )
 
-from tokenspeed.runtime.layers.attention.backends.paged import ascend_dsa  # noqa: F401
-from tokenspeed.runtime.layers.attention.backends.paged import ascend_mla  # noqa: F401
-from tokenspeed.runtime.layers.attention.backends.paged import dsa  # noqa: F401
 from tokenspeed.runtime.layers.attention.backends.paged import mha  # noqa: F401
-from tokenspeed.runtime.layers.attention.backends.paged import mla  # noqa: F401
-from tokenspeed.runtime.layers.attention.backends.paged import msa  # noqa: F401
-from tokenspeed.runtime.layers.attention.backends.paged import qsa  # noqa: F401
+
+if sys.platform != "win32" and not _dense_profile:
+    from tokenspeed.runtime.layers.attention.backends.paged import (
+        ascend_dsa,
+        ascend_mla,
+        dsa,
+        mla,
+        msa,
+        qsa,
+    )

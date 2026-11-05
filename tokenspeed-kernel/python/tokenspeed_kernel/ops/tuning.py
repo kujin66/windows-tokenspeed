@@ -458,9 +458,10 @@ def save_autotune_cache(
         return False
     payload = None
     try:
-        with tempfile.NamedTemporaryFile() as tmp:
-            _autotuner.AutoTuner.get().save_configs(tmp.name)
-            payload = Path(tmp.name).read_bytes()
+        with tempfile.TemporaryDirectory() as directory:
+            cache_path = Path(directory) / "autotune.json"
+            _autotuner.AutoTuner.get().save_configs(str(cache_path))
+            payload = cache_path.read_bytes()
     except Exception:
         logger.warning(f"Could not save FlashInfer cache {path}", exc_info=True)
     if process_group is not None:

@@ -361,7 +361,7 @@ __global__ __launch_bounds__(264, 1) void allgather_fusion_kernel_oneshot_lampor
   int tot_access = index_helper.tot_access;
 
   vec_t<T, VEC_SIZE> clear_vec;
-  clear_vec.fill(flashinfer::trtllm_reducescatter_fusion::utils::neg_zero_v<T>);
+  clear_vec.fill(flashinfer::trtllm_reducescatter_fusion::utils::negative_zero<T>());
 
 #if (defined(__CUDA_ARCH__) && (__CUDA_ARCH__ >= 900))
   cudaGridDependencySynchronize();

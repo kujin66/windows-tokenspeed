@@ -21,6 +21,7 @@
 import logging
 import math
 import os
+import sys
 from ctypes import c_void_p
 
 import torch
@@ -120,7 +121,7 @@ reducescatter_residual_rmsnorm = error_fn
 trtllm_allreduce_fusion = error_fn
 trtllm_create_ipc_workspace_for_all_reduce_fusion = error_fn
 
-if current_platform().is_nvidia:
+if current_platform().is_nvidia and sys.platform != "win32":
     from tokenspeed_kernel.ops.communication.fabric import fabric_allocation_supported
     from tokenspeed_kernel.thirdparty.cuda.trtllm import (
         _MNNVL_SUPPORTED_WORLD_SIZES,

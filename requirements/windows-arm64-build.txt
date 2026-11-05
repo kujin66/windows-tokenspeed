@@ -1,4 +1,4 @@
-# Prepared build environment; supply native torch/TVM FFI wheels separately.
+# Use tools/windows/prepare_public_dependencies.py for NVIDIA Torch and PyPI TVM.
 setuptools==80.10.2
 wheel==0.48.0
 scikit-build-core==1.1.1
@@ -10,5 +10,6 @@ packaging==26.3
 psutil==7.0.0
 nvidia-ml-py==13.615.71
 pytest==9.1.1
-torch==2.14.0a0+git20b0f57
-apache-tvm-ffi==0.1.13.post3
+torch==2.16.0.dev20261101+cu134
+apache-tvm-ffi==0.1.15.post2
+triton-windows==3.9.0.post30

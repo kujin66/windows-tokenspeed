@@ -22,6 +22,12 @@
 
 #include "dlpack/dlpack.h"
 
+#if defined(_MSC_VER)
+#define TOKENSPEED_FUNCTION_SIGNATURE __FUNCSIG__
+#else
+#define TOKENSPEED_FUNCTION_SIGNATURE __PRETTY_FUNCTION__
+#endif
+
 using tvm::ffi::Tensor;
 using tvm::ffi::TensorView;
 namespace ffi = tvm::ffi;
@@ -86,7 +92,7 @@ constexpr DLDevice cpu = DLDevice{kDLCPU, 0};
       _DISPATCH_CASE_F16(c_type, __VA_ARGS__)                                            \
       _DISPATCH_CASE_BF16(c_type, __VA_ARGS__)                                           \
       default:                                                                           \
-        TVM_FFI_ICHECK(false) << __PRETTY_FUNCTION__ << " failed to dispatch data type " \
+        TVM_FFI_ICHECK(false) << TOKENSPEED_FUNCTION_SIGNATURE << " failed to dispatch data type " \
                               << (dlpack_dtype).code << " " << (dlpack_dtype).bits;      \
         return false;                                                                    \
     }                                                                                    \
@@ -110,7 +116,7 @@ constexpr DLDevice cpu = DLDevice{kDLCPU, 0};
       _DISPATCH_CASE_I32(c_type, __VA_ARGS__)                                            \
       _DISPATCH_CASE_I64(c_type, __VA_ARGS__)                                            \
       default:                                                                           \
-        TVM_FFI_ICHECK(false) << __PRETTY_FUNCTION__ << " failed to dispatch data type " \
+        TVM_FFI_ICHECK(false) << TOKENSPEED_FUNCTION_SIGNATURE << " failed to dispatch data type " \
                               << (dlpack_dtype).code << " " << (dlpack_dtype).bits;      \
         return false;                                                                    \
     }                                                                                    \
@@ -127,7 +133,7 @@ constexpr DLDevice cpu = DLDevice{kDLCPU, 0};
         _DISPATCH_CASE_F16(c_type, __VA_ARGS__)                                          \
         _DISPATCH_CASE_BF16(c_type, __VA_ARGS__)                                         \
       default:                                                                           \
-        TVM_FFI_ICHECK(false) << __PRETTY_FUNCTION__ << " failed to dispatch data type " \
+        TVM_FFI_ICHECK(false) << TOKENSPEED_FUNCTION_SIGNATURE << " failed to dispatch data type " \
                               << (dlpack_dtype).code << " " << (dlpack_dtype).bits;      \
         return false;                                                                    \
     }                                                                                    \
@@ -159,7 +165,7 @@ constexpr DLDevice cpu = DLDevice{kDLCPU, 0};
       _DISPATCH_CASE_FP8_E4M3(c_type, __VA_ARGS__)                                       \
       _DISPATCH_CASE_FP8_E5M2(c_type, __VA_ARGS__)                                       \
       default:                                                                           \
-        TVM_FFI_ICHECK(false) << __PRETTY_FUNCTION__ << " failed to dispatch data type " \
+        TVM_FFI_ICHECK(false) << TOKENSPEED_FUNCTION_SIGNATURE << " failed to dispatch data type " \
                               << (dlpack_dtype).code << " " << (dlpack_dtype).bits;      \
         return false;                                                                    \
     }                                                                                    \
@@ -192,7 +198,7 @@ constexpr DLDevice cpu = DLDevice{kDLCPU, 0};
       _DISPATCH_CASE_F32(c_type, __VA_ARGS__)                                       \
       _DISPATCH_SF_CASE_FP8_E8M0(c_type, __VA_ARGS__)                               \
       default:                                                                      \
-        TVM_FFI_ICHECK(false) << __PRETTY_FUNCTION__                                \
+        TVM_FFI_ICHECK(false) << TOKENSPEED_FUNCTION_SIGNATURE                                \
                               << " failed to dispatch scaling factor data type "    \
                               << (dlpack_dtype).code << " " << (dlpack_dtype).bits; \
         return false;                                                               \
@@ -219,7 +225,7 @@ constexpr DLDevice cpu = DLDevice{kDLCPU, 0};
       _DISPATCH_CASE_FP8_E5M2(c_type, __VA_ARGS__)                                       \
       _DISPATCH_CASE_FP4_E2M1(c_type, __VA_ARGS__)                                       \
       default:                                                                           \
-        TVM_FFI_ICHECK(false) << __PRETTY_FUNCTION__ << " failed to dispatch data type " \
+        TVM_FFI_ICHECK(false) << TOKENSPEED_FUNCTION_SIGNATURE << " failed to dispatch data type " \
                               << (dlpack_dtype).code << " " << (dlpack_dtype).bits;      \
         return false;                                                                    \
     }                                                                                    \

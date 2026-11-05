@@ -17,6 +17,7 @@
 
 """Architecture-selected FlashAttention kernels."""
 
+import importlib.util
 import math
 
 import torch
@@ -42,19 +43,23 @@ flash_attn_with_kvcache = error_fn
 get_scheduler_metadata = error_fn
 
 platform = current_platform()
+_fa4_available = (
+    importlib.util.find_spec("flash_attn") is not None
+    and importlib.util.find_spec("cutlass") is not None
+)
 
 # ------------------------------------------------------------------------------
 # Kernel registration
 # ------------------------------------------------------------------------------
 
 
-if platform.is_blackwell_plus:
+if platform.is_blackwell_plus and _fa4_available:
     from flash_attn.cute import (
         flash_attn_func,
         flash_attn_varlen_func,
     )
 
-if platform.is_nvidia and platform.is_blackwell:
+if platform.is_nvidia and platform.is_blackwell and _fa4_available:
     # FA4 on Blackwell supports prefill head_dim in [8, 256] divisible by 8,
     # but the 256-wide MHA path mishandles non-contiguous V split views, so we
     # restrict it to <256 for now until that is resolved.

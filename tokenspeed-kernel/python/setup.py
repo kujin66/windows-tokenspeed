@@ -95,15 +95,6 @@ NVCC = os.environ.get(
 CXX = os.environ.get("CXX", "cl" if IS_WINDOWS else "g++")
 
 
-def _windows_minimal_profile() -> bool:
-    profile = os.environ.get("TOKENSPEED_KERNEL_WINDOWS_PROFILE")
-    if not IS_WINDOWS or profile is None:
-        return False
-    if profile != "minimal":
-        raise ValueError("TOKENSPEED_KERNEL_WINDOWS_PROFILE must be minimal")
-    return True
-
-
 def _version_date() -> str:
     override = os.environ.get("TOKENSPEED_KERNEL_VERSION_DATE")
     if override:
@@ -280,7 +271,7 @@ def _read_requirements(path: Path, seen=None) -> list[str]:
 
 def _selected_install_requires() -> list[str]:
     backend = _selected_backend()
-    if backend == "cuda" and _windows_minimal_profile():
+    if backend == "cuda" and IS_WINDOWS:
         return _read_requirements(REQUIREMENTS_DIR / "windows-cuda.txt")
     requirements = _read_requirements(REQUIREMENTS_DIR / f"{backend}.txt")
     requirements.extend(
@@ -336,8 +327,9 @@ def _refresh_python_install_paths() -> None:
 
 def _install_backend_build_requirements(verbose) -> None:
     backend = _selected_backend()
-    if _windows_minimal_profile():
-        # The Windows recipe supplies native ARM64 torch/FFI and build tools.
+    if IS_WINDOWS:
+        # Prepared builds supply their torch/FFI and build tools explicitly;
+        # the Linux dependency recipe is not a Windows bootstrap procedure.
         return
     if (
         backend == "cuda"
@@ -398,6 +390,8 @@ KERNEL_GROUPS = [
             CUDA_CSRC_DIR / "dsv4_attention_binding.cu",
         ],
         [],
+        # Persistent top-k uses C++20 designated initializers.
+        ["-std=c++20"],
     ),
     (
         "dsv3_gemm",
@@ -762,9 +756,21 @@ class CudaKernelBuilder:
         # our own fused silu+mul+nvfp4 kernel can reuse them.
         try:
             flashinfer_spec = importlib.util.find_spec("flashinfer")
-            if flashinfer_spec is None or flashinfer_spec.origin is None:
-                raise ImportError("flashinfer headers are not installed")
+        except ImportError:
+            flashinfer_spec = None
+        fi_data_dir = os.environ.get("TOKENSPEED_FLASHINFER_DATA_DIR")
+        if fi_data_dir:
+            fi_root = Path(fi_data_dir).resolve()
+            if not all(
+                (fi_root / name).is_dir()
+                for name in ("include", "cutlass/include", "spdlog/include")
+            ):
+                raise ValueError(f"Incomplete FlashInfer build data: {fi_root}")
+        elif flashinfer_spec is not None and flashinfer_spec.origin is not None:
             fi_root = Path(flashinfer_spec.origin).parent / "data"
+        else:
+            fi_root = None
+        if fi_root is not None:
             for sub in (
                 fi_root / "csrc" / "nv_internal",
                 fi_root / "csrc" / "nv_internal" / "include",
@@ -776,8 +782,6 @@ class CudaKernelBuilder:
             if (spdlog / "spdlog" / "spdlog.h").exists():
                 _add_dir(spdlog)
                 return dirs
-        except ImportError:
-            pass
         if (Path("/usr/include") / "spdlog" / "spdlog.h").exists():
             _add_dir(Path("/usr/include"))
 
@@ -1046,7 +1050,17 @@ class CudaKernelBuilder:
                 # Relocatable device code links its device side with nvcc first.
                 dlink = so_path.parent / f"{name}_dlink.o"
                 subprocess.check_call(
-                    [NVCC, *gencode_flags, "--compiler-options=-fPIC", "-dlink"]
+                    [
+                        NVCC,
+                        *gencode_flags,
+                        (
+                            "--compiler-options=/MD"
+                            if IS_WINDOWS
+                            else "--compiler-options=-fPIC"
+                        ),
+                        *(["--use-local-env"] if IS_WINDOWS else []),
+                        "-dlink",
+                    ]
                     + [str(o) for o in objects]
                     + [*extra_ldflags, "-o", str(dlink)]
                 )
@@ -1083,12 +1097,6 @@ class BuildKernels(build_ext):
         _ensure_cuda_compiler()
         verbose = bool(getattr(self, "verbose", False))
         groups = KERNEL_GROUPS
-        if _windows_minimal_profile():
-            groups = [
-                g
-                for g in groups
-                if g[0] in {"rmsnorm_fused_parallel", "sampling_chain"}
-            ]
         CudaKernelBuilder(groups, verbose=verbose).run()
 
 

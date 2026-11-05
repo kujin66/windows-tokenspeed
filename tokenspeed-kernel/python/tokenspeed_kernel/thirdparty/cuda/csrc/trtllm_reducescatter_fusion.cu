@@ -100,7 +100,7 @@ void trtllm_reducescatter_fusion(TensorView reducescatter_in, int64_t world_size
                                             : QuantizationSFLayout::SWIZZLED_128x4;
     params.pattern = static_cast<ReduceScatterFusionPattern>(pattern_code);
     if (params.pattern == ReduceScatterFusionPattern::kRSResidualRMSNormFP8BlockWiseQuant \
-        or params.pattern == ReduceScatterFusionPattern::kRSAddResidualRMSNormFP8BlockWiseQuant) {
+        || params.pattern == ReduceScatterFusionPattern::kRSAddResidualRMSNormFP8BlockWiseQuant) {
       // check not float32
       TVM_FFI_ICHECK_NE(reducescatter_in.dtype(), dl_float32) << "Only bf16 and half supported";
       // check col-major and alignment

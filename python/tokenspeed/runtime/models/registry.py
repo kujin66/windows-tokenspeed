@@ -20,11 +20,13 @@
 
 """Model registry helpers for resolving runtime model entry classes."""
 
+import ast
 import importlib
 import pkgutil
 from collections.abc import Set
 from dataclasses import dataclass, field
 from functools import lru_cache
+from pathlib import Path
 
 import torch.nn as nn
 
@@ -62,12 +64,16 @@ class _ModelRegistry:
     def _try_load_model_cls(self, model_arch: str) -> type[nn.Module] | None:
         registered = registered_model(model_arch)
         in_tree = self.models.get(model_arch)
+        if isinstance(in_tree, str) and (registered is None or not registered.override):
+            module_name, class_name = in_tree.split(":", 1)
+            in_tree = getattr(importlib.import_module(module_name), class_name)
+            self.models[model_arch] = in_tree
         if registered is None:
             return in_tree
         if in_tree is not None and not registered.override:
             raise ValueError(
                 f"Plugin model {registered.cls.__name__} registers architecture "
-                f"{model_arch!r}, which the in-tree {in_tree.__name__} already "
+                f"{model_arch!r}, which the in-tree {model_arch} already "
                 "serves; register it with override=True to replace it"
             )
         return registered.cls
@@ -99,34 +105,32 @@ class _ModelRegistry:
 
 @lru_cache
 def import_model_classes():
-    """Import model modules and collect their ``EntryClass`` exports."""
+    """Discover entrypoints without importing unrelated models and their backends."""
     model_arch_name_to_cls = {}
     package_name = "tokenspeed.runtime.models"
     package = importlib.import_module(package_name)
 
     for _, name, _ in pkgutil.iter_modules(package.__path__, package_name + "."):
-
-        try:
-            module = importlib.import_module(name)
-        except Exception as exc:
-            raise RuntimeError(f"Failed to import model module {name}.") from exc
-        if hasattr(module, "EntryClass"):
-            entry = module.EntryClass
-            if isinstance(
-                entry, list
-            ):  # To support multiple model classes in one module
-                for tmp in entry:
-                    if tmp.__name__ in model_arch_name_to_cls:
-                        raise ValueError(
-                            f"Duplicated model implementation for {tmp.__name__}"
-                        )
-                    model_arch_name_to_cls[tmp.__name__] = tmp
-            else:
-                if entry.__name__ in model_arch_name_to_cls:
-                    raise ValueError(
-                        f"Duplicated model implementation for {entry.__name__}"
-                    )
-                model_arch_name_to_cls[entry.__name__] = entry
+        spec = importlib.util.find_spec(name)
+        if spec is None or spec.origin is None or not spec.origin.endswith(".py"):
+            continue
+        tree = ast.parse(Path(spec.origin).read_text(encoding="utf-8"))
+        for statement in tree.body:
+            if not isinstance(statement, ast.Assign) or not any(
+                isinstance(target, ast.Name) and target.id == "EntryClass"
+                for target in statement.targets
+            ):
+                continue
+            value = statement.value
+            entries = (
+                value.elts if isinstance(value, (ast.List, ast.Tuple)) else [value]
+            )
+            for entry in entries:
+                if not isinstance(entry, ast.Name):
+                    raise ValueError(f"Model entrypoint in {name} must name a class")
+                if entry.id in model_arch_name_to_cls:
+                    raise ValueError(f"Duplicated model implementation for {entry.id}")
+                model_arch_name_to_cls[entry.id] = f"{name}:{entry.id}"
 
     return model_arch_name_to_cls
 

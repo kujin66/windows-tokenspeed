@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import sys
 from dataclasses import dataclass
 
 import torch
@@ -177,6 +178,10 @@ class DistributedInitializer:
         # Determine backend
         if config.device == "cuda":
             backend = "nccl"
+            if not torch.distributed.is_nccl_available():
+                if config.world_size != 1:
+                    raise NotImplementedError("CUDA without NCCL requires world_size=1")
+                backend = "gloo"
         elif config.device == "npu":
             backend = "hccl"
         else:
@@ -192,7 +197,9 @@ class DistributedInitializer:
         # init) instead of inferring it later — this also mutes the c10d
         # "barrier(): using the device under current context" warning.
         device_id = (
-            None if backend == "hccl" else torch.device(config.device, config.gpu_id)
+            None
+            if backend in {"hccl", "gloo"}
+            else torch.device(config.device, config.gpu_id)
         )
 
         if config.emulate_rank_zero:

@@ -352,7 +352,7 @@ def launch_scheduler_headless(server_args: ServerArgs) -> None:
         """Forward a shutdown (or child-failure SIGUSR1) to every scheduler."""
         if signum is not None:
             logger.info(f"received signal {signum!s}; terminating scheduler(s)")
-        if signum == signal.SIGUSR1:
+        if sys.platform != "win32" and signum == signal.SIGUSR1:
             child_failed.set()
         if not terminate_requested_at:
             terminate_requested_at.append(time.monotonic())
@@ -381,7 +381,8 @@ def launch_scheduler_headless(server_args: ServerArgs) -> None:
         # an unhandled SIGUSR1 would kill this supervisor without cleanup.
         signal.signal(signal.SIGTERM, _terminate_schedulers)
         signal.signal(signal.SIGINT, _terminate_schedulers)
-        signal.signal(signal.SIGUSR1, _terminate_schedulers)
+        if sys.platform != "win32":
+            signal.signal(signal.SIGUSR1, _terminate_schedulers)
 
         metrics_service.start(server_args, port_args)
         kv_bootstrap_server = _start_kv_bootstrap_server(server_args)

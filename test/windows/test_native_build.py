@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Installed-wheel and CUDA graph checks for the minimal ARM64 build."""
+"""Installed-wheel and CUDA graph checks for Windows ARM64 wheels."""
 
 import hashlib
 import importlib.metadata
@@ -81,7 +81,7 @@ def test_installed_native_packages():
     assert importlib.metadata.version("tokenspeed")
 
 
-@pytest.mark.skipif(sys.platform != "win32", reason="Windows CNG SHA256 check")
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows OpenSSL SHA256 check")
 def test_prefix_hash_matches_sha256():
     import tokenspeed_scheduler as ts
 

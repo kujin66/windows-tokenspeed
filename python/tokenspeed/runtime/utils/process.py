@@ -67,13 +67,17 @@ def register_child_failure_signals():
         if begin_process_shutdown():
             raise SystemExit(1)
 
-    signal.signal(signal.SIGUSR1, signal_handler)
-    signal.signal(signal.SIGQUIT, signal_handler)
+    if sys.platform != "win32":
+        signal.signal(signal.SIGUSR1, signal_handler)
+        signal.signal(signal.SIGQUIT, signal_handler)
 
 
 def kill_process_tree(parent_pid, include_parent: bool = True, skip_pid: int = None):
     """Kill the target process and all of its child processes."""
-    if threading.current_thread() is threading.main_thread():
+    if (
+        sys.platform != "win32"
+        and threading.current_thread() is threading.main_thread()
+    ):
         signal.signal(signal.SIGCHLD, signal.SIG_DFL)
 
     if parent_pid is None:
@@ -101,7 +105,8 @@ def kill_process_tree(parent_pid, include_parent: bool = True, skip_pid: int = N
                 sys.exit(0)
 
             itself.kill()
-            itself.send_signal(signal.SIGQUIT)
+            if sys.platform != "win32":
+                itself.send_signal(signal.SIGQUIT)
         except psutil.NoSuchProcess:
             pass
 

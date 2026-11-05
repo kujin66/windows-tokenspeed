@@ -29,6 +29,7 @@
 #include <tvm/ffi/extra/c_env_api.h>
 
 #include <cstdio>
+#include <cstdlib>
 #include <cuda_bf16.h>
 #include <cuda_fp16.h>
 #include <cuda_fp8.h>
@@ -75,7 +76,7 @@ inline void RuntimeDeviceCheck(cudaError_t error) {
 template <typename... Args>
 [[noreturn]] inline void Panic(Args&&...) {
   TVM_FFI_ICHECK(false) << "marlin_moe: unrecoverable error";
-  __builtin_unreachable();
+  std::abort();
 }
 
 struct LaunchKernel {
