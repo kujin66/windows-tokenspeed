@@ -108,8 +108,12 @@ compiled group. Retain source commit/diff hashes with results.
 
 `.github/workflows/windows-arm64-build.yml` runs portable PE audit behavior tests
 on Linux and Windows hosted runners. Its separate native CUDA job is an explicit
-manual opt-in requiring `[self-hosted, Windows, ARM64, tokenspeed-cuda]`. Configure
-that runner with the SDKs, native Python, OpenSSL prefix/license and source inputs
+manual opt-in requiring `[self-hosted, Windows, ARM64, tokenspeed-cuda]`. Use
+an additional label unique to the intended runner and supply it as runner_label
+when dispatching with native_cuda=true and an explicit cuda_arch. An ephemeral
+runner can execute one manual job and deregister afterward; a Windows service
+installation is not required. Keep its workspace and Cargo cache paths short.
+Configure the runner with the SDKs, native Python, OpenSSL prefix/license and source inputs
 above. The native job calls the same build entrypoint and uploads wheels,
 build manifest and JUnit. A hosted build-tool check is not native ARM64 CUDA
 compilation evidence. A native job requires an available configured runner.

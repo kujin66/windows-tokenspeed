@@ -23,6 +23,10 @@ on:
         description: nvcc architecture for the native runner GPU
         type: string
         required: true
+      runner_label:
+        description: Unique label of the prepared GPU runner for this manual run
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -50,7 +54,7 @@ jobs:
 
   native-cuda:
     if: github.event_name == 'workflow_dispatch' && inputs.native_cuda
-    runs-on: [self-hosted, Windows, ARM64, tokenspeed-cuda]
+    runs-on: [self-hosted, Windows, ARM64, tokenspeed-cuda, '${{ inputs.runner_label }}']
     timeout-minutes: 90
     env:
       CARGO_BUILD_JOBS: '2'
