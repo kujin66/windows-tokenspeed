@@ -83,6 +83,7 @@ def main() -> None:
         parser.error("Run inside a dedicated venv; wheels will be installed there")
     for command in (
         "cl.exe",
+        "clang.exe",
         "link.exe",
         "cargo.exe",
         "cmake.exe",

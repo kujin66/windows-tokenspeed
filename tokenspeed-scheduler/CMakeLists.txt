@@ -165,6 +165,11 @@ if(TOKENSPEED_SCHEDULER_BUILD_TESTS)
         tests/cpp/test_utils.cpp
     )
 
+    if(MSVC)
+        # Large GoogleTest translation units exceed standard COFF section limits.
+        target_compile_options(tokenspeed_scheduler_tests PRIVATE /bigobj)
+    endif()
+
     target_link_libraries(tokenspeed_scheduler_tests
         PRIVATE
             tokenspeed_scheduler_core

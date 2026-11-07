@@ -47,9 +47,9 @@ __global__ void read_sentinels(int64_t* output) {
   namespace ar = flashinfer::trtllm_allreduce;
   namespace arf = flashinfer::trtllm_allreduce_fusion;
   namespace rs = flashinfer::trtllm_reducescatter_fusion::utils;
-  const T a = ar::negative_zero<T>();
-  const T b = arf::negative_zero<T>();
-  const T c = rs::negative_zero<T>();
+  const T a = ar::neg_zero<T>::value;
+  const T b = arf::neg_zero<T>::value;
+  const T c = rs::neg_zero<T>::value;
   const T positive_zero = static_cast<T>(0.0f);
   output[0] = sentinel_bits(a);
   output[1] = ar::is_negative_zero(a);

@@ -14,6 +14,10 @@ runs:
         $vs = & $vswhere -latest -products '*' -property installationPath
         if (-not $vs) { throw 'Visual Studio with ARM64 C++ tools is required' }
         & (Join-Path $vs 'Common7/Tools/Launch-VsDevShell.ps1') -Arch arm64 -HostArch arm64 -SkipAutomaticLocation
+        # ring uses Clang for its Windows ARM64 assembly sources.
+        $llvm = Join-Path $vs 'VC/Tools/Llvm/ARM64/bin'
+        if (Test-Path (Join-Path $llvm 'clang.exe')) { $env:PATH = $llvm + ';' + $env:PATH }
+        if (-not (Get-Command clang.exe -ErrorAction SilentlyContinue)) { throw 'LLVM clang.exe is required by ring on Windows ARM64; add its bin directory to PATH' }
         if ($env:TOKENSPEED_MSVC_ROOT) {
           $installedMsvc = $env:VCToolsInstallDir.TrimEnd([char]92)
           $preparedMsvc = $env:TOKENSPEED_MSVC_ROOT.TrimEnd([char]92)

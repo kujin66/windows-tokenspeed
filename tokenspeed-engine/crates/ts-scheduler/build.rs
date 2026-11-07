@@ -46,10 +46,10 @@ fn main() {
     cxx_build::CFG.include_prefix = "ts-scheduler";
     let manifest = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
     let windows = std::env::var("CARGO_CFG_TARGET_OS").unwrap() == "windows";
-    let scheduler_source = if manifest.join("scheduler/CMakeLists.txt").is_file() {
-        manifest.join("scheduler")
-    } else {
+    let scheduler_source = if windows && !manifest.join("scheduler/CMakeLists.txt").is_file() {
         manifest.join("../../../tokenspeed-scheduler")
+    } else {
+        manifest.join("scheduler")
     };
     let scheduler_dir = scheduler_source
         .canonicalize()

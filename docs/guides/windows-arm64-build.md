@@ -12,6 +12,7 @@ quantization, operator selection and Linux release workflows retain upstream cod
 | Compiler | MSVC ARM64 19.51.36260; Windows SDK 10.0.26100.0 |
 | CUDA | SDK 13.4, nvcc 13.4.59; tested GPU architecture 121a |
 | Rust | 1.92.0, aarch64-pc-windows-msvc |
+| Clang | LLVM 21.1.8 ARM64 compiler; needed by the locked ring dependency |
 | CMake / generator | CMake 4.4.4 / Ninja |
 | OpenSSL | 3.5.4 static libcrypto, /MD; compatible ARM64 include/lib prefix |
 | Torch | 2.16.0.dev20261101+cu134, cp313-win_arm64 |
@@ -32,6 +33,7 @@ headers for MSVC. It does not install FlashInfer's Linux communication dependenc
 
 Install Microsoft/NVIDIA SDKs from their official providers. Prepare ARM64 Python,
 Rust and OpenSSL before invoking the build. Cargo's locked registry sources,
+LLVM's [Windows ARM64 archive](https://github.com/llvm/llvm-project/releases/tag/llvmorg-21.1.8),
 GoogleTest v1.14.0 and xgrammar v0.2.8 must also be available. The
 [build-input release](https://github.com/kujin66/windows-tokenspeed/releases/tag/windows-arm64-build-deps-20261105)
 contains public wheels, a transitive build wheelhouse, Cargo vendor sources,
@@ -41,8 +43,9 @@ SHA256 manifests. SDK installers are external prerequisites.
 ## Activate the toolchain and prepare dependencies
 
 Use Visual Studio's native ARM64 developer PowerShell. Set CUDA_HOME/CUDA_PATH to
-the ARM64 CUDA SDK and OPENSSL_ROOT_DIR to the ARM64 static /MD prefix. Set
-OPENSSL_LICENSE_FILE to LICENSE.txt from the same OpenSSL source/install archive.
+the ARM64 CUDA SDK. Include the LLVM compiler bin directory in PATH
+so ring can find clang.exe. Set OPENSSL_ROOT_DIR to the ARM64 static /MD prefix.
+Set OPENSSL_LICENSE_FILE to LICENSE.txt from the same OpenSSL source/install archive.
 The source repository does not duplicate OpenSSL license texts; Windows wheels
 carry the external license with their statically linked libcrypto. Missing
 license input fails the Windows package build. Linux packaging is unchanged.
@@ -55,6 +58,7 @@ $env:TOKENSPEED_FLASHINFER_DATA_DIR = (Resolve-Path outputs/public-dependencies/
 $env:OPENSSL_ROOT_DIR = 'C:/build-inputs/openssl-arm64'
 $env:OPENSSL_LICENSE_FILE = 'C:/build-inputs/openssl-arm64/LICENSE.txt'
 $env:CUDA_HOME = $env:CUDA_PATH
+$env:PATH = 'C:/build-inputs/llvm/bin;' + $env:PATH
 ```
 
 For offline preparation, place the four verified public input wheels in

@@ -87,10 +87,17 @@ CUDA_OBJS_DIR = THIRDPARTY_DIR / "cuda" / "objs"
 # JIT kernels source directory (no pre-compilation, just need sources available)
 
 IS_WINDOWS = sys.platform == "win32"
-CUDA_HOME = os.environ.get("CUDA_HOME", os.environ.get("CUDA_PATH", "/usr/local/cuda"))
+CUDA_HOME = os.environ.get(
+    "CUDA_HOME",
+    os.environ.get("CUDA_PATH", "/usr/local/cuda") if IS_WINDOWS else "/usr/local/cuda",
+)
 NVCC = os.environ.get(
     "FLASHINFER_NVCC",
-    str(Path(CUDA_HOME) / "bin" / ("nvcc.exe" if IS_WINDOWS else "nvcc")),
+    (
+        str(Path(CUDA_HOME) / "bin" / "nvcc.exe")
+        if IS_WINDOWS
+        else f"{CUDA_HOME}/bin/nvcc"
+    ),
 )
 CXX = os.environ.get("CXX", "cl" if IS_WINDOWS else "g++")
 
@@ -753,22 +760,29 @@ class CudaKernelBuilder:
         # (tensorrt_llm/kernels/quantization_utils.cuh: cvt_warp_fp16_to_fp4,
         # silu_and_mul, cvt_quant_to_fp4_get_sf_out_offset). Expose them so
         # our own fused silu+mul+nvfp4 kernel can reuse them.
-        try:
-            flashinfer_spec = importlib.util.find_spec("flashinfer")
-        except ImportError:
-            flashinfer_spec = None
-        fi_data_dir = os.environ.get("TOKENSPEED_FLASHINFER_DATA_DIR")
-        if fi_data_dir:
-            fi_root = Path(fi_data_dir).resolve()
-            if not all(
-                (fi_root / name).is_dir()
-                for name in ("include", "cutlass/include", "spdlog/include")
-            ):
-                raise ValueError(f"Incomplete FlashInfer build data: {fi_root}")
-        elif flashinfer_spec is not None and flashinfer_spec.origin is not None:
-            fi_root = Path(flashinfer_spec.origin).parent / "data"
+        if IS_WINDOWS:
+            try:
+                flashinfer_spec = importlib.util.find_spec("flashinfer")
+            except ImportError:
+                flashinfer_spec = None
+            fi_data_dir = os.environ.get("TOKENSPEED_FLASHINFER_DATA_DIR")
+            if fi_data_dir:
+                fi_root = Path(fi_data_dir).resolve()
+                if not all(
+                    (fi_root / name).is_dir()
+                    for name in ("include", "cutlass/include", "spdlog/include")
+                ):
+                    raise ValueError(f"Incomplete FlashInfer build data: {fi_root}")
+            elif flashinfer_spec is not None and flashinfer_spec.origin is not None:
+                fi_root = Path(flashinfer_spec.origin).parent / "data"
+            else:
+                fi_root = None
         else:
-            fi_root = None
+            try:
+                flashinfer = importlib.import_module("flashinfer")
+                fi_root = Path(flashinfer.__file__).parent / "data"
+            except ImportError:
+                fi_root = None
         if fi_root is not None:
             for sub in (
                 fi_root / "csrc" / "nv_internal",
@@ -1095,8 +1109,7 @@ class BuildKernels(build_ext):
 
         _ensure_cuda_compiler()
         verbose = bool(getattr(self, "verbose", False))
-        groups = KERNEL_GROUPS
-        CudaKernelBuilder(groups, verbose=verbose).run()
+        CudaKernelBuilder(KERNEL_GROUPS, verbose=verbose).run()
 
 
 class BuildNative(Command):
