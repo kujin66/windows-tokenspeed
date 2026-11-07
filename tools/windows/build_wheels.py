@@ -143,6 +143,11 @@ def main() -> None:
         if component == "tokenspeed-scheduler":
             command.append(f"--config-settings=build-dir={output / 'scheduler'}")
             command.append(
+                "--config-settings=cmake.args="
+                "-DTOKENSPEED_SCHEDULER_BUILD_TESTS=ON;"
+                "-DTOKENSPEED_SCHEDULER_BUILD_PYTHON=ON;-DINSTALL_GTEST=OFF"
+            )
+            command.append(
                 "--config-settings=cmake.define.TOKENSPEED_SCHEDULER_BUILD_TESTS=ON"
             )
             command.append("--config-settings=cmake.define.INSTALL_GTEST=OFF")
