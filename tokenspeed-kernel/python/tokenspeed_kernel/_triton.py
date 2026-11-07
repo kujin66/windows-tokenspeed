@@ -67,6 +67,17 @@ if _IS_NPU:
             return _UnavailableGluonKernel(fn, options)
 
     gluon = _UnavailableGluon()
+elif sys.platform == "win32":
+    # The native Windows distribution exposes the upstream triton namespace.
+    import triton
+    import triton.experimental.gluon.language as gl
+    from triton import language as tl
+    from triton.experimental import gluon
+    from triton.language.core import _aggregate as aggregate
+    from triton.language.extra import libdevice
+    from triton.tools.tensor_descriptor import TensorDescriptor
+
+    proton = None
 else:
     import tokenspeed_triton as triton
     import tokenspeed_triton.experimental.gluon.language as gl
@@ -160,7 +171,7 @@ def redirect_triton_to_tokenspeed_triton():
     Outside the ``with`` block ``sys.modules`` is restored to its prior
     state, so unrelated code is unaffected.
     """
-    if _IS_NPU:
+    if _IS_NPU or sys.platform == "win32":
         yield
         return
 

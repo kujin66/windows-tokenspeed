@@ -1,0 +1,137 @@
+# Windows ARM64 native CUDA wheel build
+
+This guide covers four project wheels: scheduler, engine, kernel and runtime.
+The native build includes all 24 CUDA groups. Python runtime, model registration,
+quantization, operator selection and Linux release workflows retain upstream code.
+
+## Prepared environment
+
+| Input | Prepared Windows ARM64 configuration |
+|---|---|
+| Python | Native ARM64 CPython 3.13.16 |
+| Compiler | MSVC ARM64 19.51.36260; Windows SDK 10.0.26100.0 |
+| CUDA | SDK 13.4, nvcc 13.4.59; tested GPU architecture 121a |
+| Rust | 1.92.0, aarch64-pc-windows-msvc |
+| CMake / generator | CMake 4.4.4 / Ninja |
+| OpenSSL | 3.5.4 static libcrypto, /MD; compatible ARM64 include/lib prefix |
+| Torch | 2.16.0.dev20261101+cu134, cp313-win_arm64 |
+| TVM FFI | 0.1.15.post2, cp313-win_arm64 |
+| Triton | triton-windows 3.9.0.post30, cp312-abi3-win_arm64 |
+| FlashInfer build input | Public 0.6.17 wheel, extracted headers/data |
+
+The remaining build requirements are pinned in
+`requirements/windows-arm64-build.txt`. The explicit no-build-isolation recipe
+uses setuptools 80.10.2; the runtime project's isolated build configuration
+declares setuptools 83.0.0. This guide does not claim a clean isolated PEP 517
+build with that different configuration.
+
+Torch comes from the [NVIDIA nightly feed](https://pypi.nvidia.com/nvtorch_oot_nightly/).
+TVM FFI, Triton Windows and FlashInfer build data come from public PyPI. The
+preparation script verifies fixed wheel SHA256 values and patches the public
+headers for MSVC. It does not install FlashInfer's Linux communication dependencies.
+
+Install Microsoft/NVIDIA SDKs from their official providers. Prepare ARM64 Python,
+Rust and OpenSSL before invoking the build. Cargo's locked registry sources,
+GoogleTest v1.14.0 and xgrammar v0.2.8 must also be available. The
+[build-input release](https://github.com/kujin66/windows-tokenspeed/releases/tag/windows-arm64-build-deps-20261105)
+contains public wheels, a transitive build wheelhouse, Cargo vendor sources,
+OpenSSL source/install archives, GoogleTest and xgrammar sources, licenses and
+SHA256 manifests. SDK installers are external prerequisites.
+
+## Activate the toolchain and prepare dependencies
+
+Use Visual Studio's native ARM64 developer PowerShell. Set CUDA_HOME/CUDA_PATH to
+the ARM64 CUDA SDK and OPENSSL_ROOT_DIR to the ARM64 static /MD prefix. Set
+OPENSSL_LICENSE_FILE to LICENSE.txt from the same OpenSSL source/install archive.
+The source repository does not duplicate OpenSSL license texts; Windows wheels
+carry the external license with their statically linked libcrypto. Missing
+license input fails the Windows package build. Linux packaging is unchanged.
+
+```powershell
+python -m venv .venv
+.venv/Scripts/python tools/windows/prepare_public_dependencies.py --output outputs/public-dependencies
+.venv/Scripts/python -m pip install --find-links outputs/public-dependencies -r requirements/windows-arm64-build.txt
+$env:TOKENSPEED_FLASHINFER_DATA_DIR = (Resolve-Path outputs/public-dependencies/flashinfer-headers).Path
+$env:OPENSSL_ROOT_DIR = 'C:/build-inputs/openssl-arm64'
+$env:OPENSSL_LICENSE_FILE = 'C:/build-inputs/openssl-arm64/LICENSE.txt'
+$env:CUDA_HOME = $env:CUDA_PATH
+```
+
+For offline preparation, place the four verified public input wheels in
+`outputs/public-dependencies`, use `--verify-only` on the preparation script, and
+add `--no-index --find-links C:/build-inputs/wheelhouse` to pip installation.
+Extract the release wheelhouse before using it; it includes the prepared
+source-built ARM64 psutil wheel and provenance.
+
+Resolve the current Cargo.lock with `cargo fetch --locked`. For an offline build,
+generate a matching snapshot with `cargo vendor --locked vendor` from
+`tokenspeed-engine` and save its source replacement configuration in
+`tokenspeed-engine/.cargo/config.toml`. Preserve the current Cargo.lock; the older
+release vendor archive must be checked against it before reuse.
+Set `FETCHCONTENT_SOURCE_DIR_XGRAMMAR` and, through CMAKE_ARGS,
+`FETCHCONTENT_SOURCE_DIR_GOOGLETEST` to the extracted source directories when
+building offline. They must match the documented tags. Cargo and CMake may fetch
+public sources in an online prepared environment.
+
+## Build and validate
+
+Use a dedicated venv: the entrypoint installs the newly built wheels into it.
+Each output directory must be new. Supply the architecture explicitly.
+
+```powershell
+.venv/Scripts/python tools/windows/build_wheels.py --cuda-arch 121a --output outputs/windows-arm64-1
+```
+
+The entrypoint builds the four wheels with `--no-build-isolation --no-deps
+--no-index`, builds/runs scheduler CTest, audits ARM64 PE payloads and wheel tags,
+requires all 24 CUDA groups, then installs its own output wheels. It runs native
+package/OpenSSL SHA256 checks, changed-input CUDA Graph checks, selected Marlin
+and communication-sentinel numerical checks, and Rust host/metrics/scheduler tests.
+Configured CUDA tests fail when no GPU is available; they do not silently skip.
+Wheel inventories, source-diff hash and JUnit/log files are saved in the output.
+
+The complete build produces 27 ARM64 native payloads across the wheels. The
+numerical tests cover selected operations, rather than every shape of every
+compiled group. Retain source commit/diff hashes with results.
+
+## CI and Linux regression
+
+`.github/workflows/windows-arm64-build.yml` runs portable PE audit behavior tests
+on Linux and Windows hosted runners. Its separate native CUDA job is an explicit
+manual opt-in requiring `[self-hosted, Windows, ARM64, tokenspeed-cuda]`. Configure
+that runner with the SDKs, native Python, OpenSSL prefix/license and source inputs
+above. The composite action calls the same build entrypoint and uploads wheels,
+build manifest and JUnit. A hosted build-tool check is not native ARM64 CUDA
+compilation evidence. A native job requires an available configured runner.
+
+Existing upstream Linux workflows and runtime files are unchanged. Windows
+compiler/linker choices are gated by WIN32, _MSC_VER or Python target platform.
+The Linux toolchain retains dynamic crypto/stdC++ linking, original Marlin
+dispatch and CUDA compilation flags. RoPE FP8 dispatch retains its original
+enabled/disabled calls through macro expansion. Verify both variants when
+changing those macros.
+
+Run the upstream Rust workspace and scheduler Python/C++ suites on Linux after
+changes. GPU kernel/model/distributed tests require the corresponding upstream
+hardware/dependency matrix; a single SM12.1 Windows/WSL machine cannot provide
+SM90/SM100/SM107 multi-GPU, AMD or Ascend coverage.
+
+## Scope and limitations
+
+- Building all native CUDA groups does not establish that every Python vendor
+  backend, model, quantization mode or multi-GPU feature works on Windows.
+- Full Windows runtime startup/inference is outside this compiler port. This
+  change does not add experimental dense-Qwen model loading or comparison flags.
+  Native numerical checks load the compiled libraries directly.
+- The prepared Windows environment does not provide the upstream DeepEP,
+  TRT-LLM GEMM or fast_hadamard_transform Python dependency paths. Their runtime
+  support is unvalidated; their absence must not suppress original Linux code.
+- Extracting public FlashInfer headers does not install the separate experimental
+  FlashInfer 0.6.17+g2ea3c24b5dac runtime port used by earlier measurements.
+- Public PyPI tokenspeed-triton currently has no Windows wheel. The small Windows
+  import adapter uses the prepared Triton Windows distribution; this does not
+  establish feature equivalence for the entire vendor compiler/profiler suite.
+- Windows Python CuTe DSL and strict Hugging Face output-sequence equivalence
+  remain unvalidated/unsatisfied by the earlier experiments. Earlier throughput
+  results belong to their recorded source and environment, not this reduced
+  compiler-only source. New throughput claims require a new matching evaluation.

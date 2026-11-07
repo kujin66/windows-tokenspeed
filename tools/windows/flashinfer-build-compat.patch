@@ -1,0 +1,191 @@
+diff --git a/include/flashinfer/activation.cuh b/include/flashinfer/activation.cuh
+--- a/include/flashinfer/activation.cuh
++++ b/include/flashinfer/activation.cuh
+@@ -22,0 +23,4 @@
++
++#ifndef M_SQRT1_2
++#define M_SQRT1_2 0.707106781186547524401
++#endif
+diff --git a/include/flashinfer/attention/decode.cuh b/include/flashinfer/attention/decode.cuh
+--- a/include/flashinfer/attention/decode.cuh
++++ b/include/flashinfer/attention/decode.cuh
+@@ -669 +669 @@
+-  constexpr uint32_t vec_size = std::max(16UL / sizeof(DTypeKV), HEAD_DIM / 32UL);
++  constexpr uint32_t vec_size = std::max(16ULL / sizeof(DTypeKV), HEAD_DIM / 32ULL);
+@@ -754 +754 @@
+-  constexpr uint32_t vec_size = std::max(16UL / sizeof(DTypeKV), HEAD_DIM / 32UL);
++  constexpr uint32_t vec_size = std::max(16ULL / sizeof(DTypeKV), HEAD_DIM / 32ULL);
+@@ -943 +943 @@
+-  extern __attribute__((shared)) uint8_t smem[];
++  extern __shared__ uint8_t smem[];
+@@ -1109 +1109 @@
+-  constexpr uint32_t vec_size_ckv = std::max(16UL / sizeof(DTypeKV), HEAD_DIM_CKV / 32UL);
++  constexpr uint32_t vec_size_ckv = std::max(16ULL / sizeof(DTypeKV), HEAD_DIM_CKV / 32ULL);
+diff --git a/include/flashinfer/attention/mla.cuh b/include/flashinfer/attention/mla.cuh
+--- a/include/flashinfer/attention/mla.cuh
++++ b/include/flashinfer/attention/mla.cuh
+@@ -760 +760 @@
+-    o_smem.template stmatrix_m8n8x4(o_smem_offset_w, o_frag_f16);
++    o_smem.stmatrix_m8n8x4(o_smem_offset_w, o_frag_f16);
+@@ -799 +799 @@
+-          o_smem.template store_128b(o_smem_offset_w, o_partial_ptr);
++          o_smem.template store_128b<DTypeO>(o_smem_offset_w, o_partial_ptr);
+@@ -840 +840 @@
+-          o_smem.template store_128b(o_smem_offset_w, o_final_ptr);
++          o_smem.template store_128b<DTypeO>(o_smem_offset_w, o_final_ptr);
+diff --git a/include/flashinfer/attention/scheduler.cuh b/include/flashinfer/attention/scheduler.cuh
+--- a/include/flashinfer/attention/scheduler.cuh
++++ b/include/flashinfer/attention/scheduler.cuh
+@@ -157 +157 @@
+-  constexpr uint32_t vec_size = std::max(16UL / sizeof(DTypeKV), HEAD_DIM / 32UL);
++  constexpr uint32_t vec_size = std::max(16ULL / sizeof(DTypeKV), HEAD_DIM / 32ULL);
+@@ -199 +199 @@
+-                                                              std::max(128 / page_size, 1U));
++                                                              std::max<uint32_t>(128 / page_size, 1U));
+@@ -223 +223 @@
+-    constexpr uint32_t vec_size_ckv = std::max(16UL / sizeof(DTypeKV), HEAD_DIM_CKV / 32UL);
++    constexpr uint32_t vec_size_ckv = std::max<size_t>(16 / sizeof(DTypeKV), HEAD_DIM_CKV / 32);
+@@ -265 +265 @@
+-                                                              std::max(128 / page_size, 1U));
++                                                              std::max<uint32_t>(128 / page_size, 1U));
+@@ -325 +325 @@
+-                                                            std::max(128 / page_size, 1U));
++                                                            std::max<uint32_t>(128 / page_size, 1U));
+@@ -1335 +1335 @@
+-    int kv_len_limit = f(std::max(ceil_div(total_kv_lens * num_kv_heads, num_clusters), 1L));
++    int kv_len_limit = f(std::max<int64_t>(ceil_div(total_kv_lens * num_kv_heads, num_clusters), 1));
+@@ -1646 +1646 @@
+-  int kv_len_limit = f(std::max(ceil_div(total_kv_lens, num_clusters), 1L));
++  int kv_len_limit = f(std::max<int64_t>(ceil_div(total_kv_lens, num_clusters), 1));
+diff --git a/include/flashinfer/comm/trtllm_allreduce.cuh b/include/flashinfer/comm/trtllm_allreduce.cuh
+--- a/include/flashinfer/comm/trtllm_allreduce.cuh
++++ b/include/flashinfer/comm/trtllm_allreduce.cuh
+@@ -195,2 +196,0 @@
+-template <typename T>
+-__device__ static constexpr T neg_zero_v = neg_zero<T>::value;
+@@ -249 +251 @@
+-  val.fill(neg_zero_v<T>);
++  val.fill(neg_zero<T>::value);
+diff --git a/include/flashinfer/comm/trtllm_allreduce_fusion.cuh b/include/flashinfer/comm/trtllm_allreduce_fusion.cuh
+--- a/include/flashinfer/comm/trtllm_allreduce_fusion.cuh
++++ b/include/flashinfer/comm/trtllm_allreduce_fusion.cuh
+@@ -1382,2 +1383,0 @@
+-template <typename T>
+-__device__ static constexpr T neg_zero_v = neg_zero<T>::value;
+@@ -1436 +1438 @@
+-  val.fill(neg_zero_v<T>);
++  val.fill(neg_zero<T>::value);
+@@ -1509 +1511 @@
+-  clear_vec.fill(neg_zero_v<T>);
++  clear_vec.fill(neg_zero<T>::value);
+diff --git a/include/flashinfer/comm/trtllm_moe_allreduce_fusion.cuh b/include/flashinfer/comm/trtllm_moe_allreduce_fusion.cuh
+--- a/include/flashinfer/comm/trtllm_moe_allreduce_fusion.cuh
++++ b/include/flashinfer/comm/trtllm_moe_allreduce_fusion.cuh
+@@ -867,2 +868,0 @@
+-template <typename T>
+-__device__ static constexpr T neg_zero_v = neg_zero<T>::value;
+@@ -921 +923 @@
+-  val.fill(neg_zero_v<T>);
++  val.fill(neg_zero<T>::value);
+@@ -977 +979 @@
+-  clear_vec.fill(neg_zero_v<T>);
++  clear_vec.fill(neg_zero<T>::value);
+@@ -1281 +1283 @@
+-  clear_vec.fill(neg_zero_v<T>);
++  clear_vec.fill(neg_zero<T>::value);
+diff --git a/include/flashinfer/math.cuh b/include/flashinfer/math.cuh
+--- a/include/flashinfer/math.cuh
++++ b/include/flashinfer/math.cuh
+@@ -190 +190 @@
+-  ushort y_u16;
++  unsigned short y_u16;
+@@ -265 +265 @@
+-  ushort y_u16;
++  unsigned short y_u16;
+diff --git a/include/flashinfer/norm/fused_qk_rmsnorm_rope.cuh b/include/flashinfer/norm/fused_qk_rmsnorm_rope.cuh
+--- a/include/flashinfer/norm/fused_qk_rmsnorm_rope.cuh
++++ b/include/flashinfer/norm/fused_qk_rmsnorm_rope.cuh
+@@ -21,0 +22 @@
++#include <cuda/std/bit>
+@@ -161,2 +162,2 @@
+-struct packed_as<uint, 1> {
+-  using type = uint;
++struct packed_as<unsigned int, 1> {
++  using type = unsigned int;
+@@ -166 +167 @@
+-struct packed_as<uint, 2> {
++struct packed_as<unsigned int, 2> {
+@@ -171 +172 @@
+-struct packed_as<uint, 4> {
++struct packed_as<unsigned int, 4> {
+@@ -334 +335 @@
+-  constexpr int log_head_dim = __builtin_ctz(head_dim);
++  constexpr int log_head_dim = cuda::std::countr_zero(static_cast<unsigned int>(head_dim));
+@@ -341 +342 @@
+-  using vec_T = typename fused_rope_detail::packed_as<uint, vecSize>::type;
++  using vec_T = typename fused_rope_detail::packed_as<unsigned int, vecSize>::type;
+@@ -372 +373 @@
+-            *reinterpret_cast<__nv_bfloat162*>(reinterpret_cast<uint*>(&vec) + i));
++            *reinterpret_cast<__nv_bfloat162*>(reinterpret_cast<unsigned int*>(&vec) + i));
+@@ -410 +411 @@
+-          *reinterpret_cast<__nv_bfloat162*>(reinterpret_cast<uint*>(&weight_vec) + i));
++          *reinterpret_cast<__nv_bfloat162*>(reinterpret_cast<unsigned int*>(&weight_vec) + i));
+@@ -413 +414 @@
+-          __bfloat1622float2(*reinterpret_cast<__nv_bfloat162*>(reinterpret_cast<uint*>(&vec) + i));
++          __bfloat1622float2(*reinterpret_cast<__nv_bfloat162*>(reinterpret_cast<unsigned int*>(&vec) + i));
+@@ -566 +567 @@
+-        reinterpret_cast<__nv_bfloat162&>(*(reinterpret_cast<uint*>(&vec) + ii)) = vals;
++        reinterpret_cast<__nv_bfloat162&>(*(reinterpret_cast<unsigned int*>(&vec) + ii)) = vals;
+diff --git a/include/flashinfer/pos_enc.cuh b/include/flashinfer/pos_enc.cuh
+--- a/include/flashinfer/pos_enc.cuh
++++ b/include/flashinfer/pos_enc.cuh
+@@ -29,0 +30,4 @@
++
++#ifndef M_PI
++#define M_PI 3.14159265358979323846
++#endif
+@@ -1529,2 +1533,2 @@
+-    DType* q, DType* k, DType* q_rope, DType* k_rope, IdType* __restrict__ indptr,
+-    IdType* __restrict__ offsets, uint32_t batch_size, uint32_t num_qo_heads, uint32_t num_kv_heads,
++    DType* q, DType* k, DType* q_rope, DType* k_rope, IdType* indptr,
++    IdType* offsets, uint32_t batch_size, uint32_t num_qo_heads, uint32_t num_kv_heads,
+diff --git a/include/flashinfer/trtllm/fmha/fmhaKernels.cuh b/include/flashinfer/trtllm/fmha/fmhaKernels.cuh
+--- a/include/flashinfer/trtllm/fmha/fmhaKernels.cuh
++++ b/include/flashinfer/trtllm/fmha/fmhaKernels.cuh
+@@ -19,0 +20 @@
++#include <cuda/std/bit>
+@@ -329 +330 @@
+-      return blockSize == 0 ? 0 : __builtin_ctz(static_cast<unsigned int>(blockSize));
++      return blockSize == 0 ? 0 : cuda::std::countr_zero(static_cast<unsigned int>(blockSize));
+diff --git a/include/flashinfer/trtllm/fused_moe/RoutingKernel.cuh b/include/flashinfer/trtllm/fused_moe/RoutingKernel.cuh
+--- a/include/flashinfer/trtllm/fused_moe/RoutingKernel.cuh
++++ b/include/flashinfer/trtllm/fused_moe/RoutingKernel.cuh
+@@ -298,2 +298,2 @@
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertCount[MaxNumExperts];
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertOffset[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertCount[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertOffset[MaxNumExperts];
+@@ -552 +552 @@
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertCount[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertCount[MaxNumExperts];
+@@ -654,3 +654,3 @@
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertOffset[MaxNumExperts];
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertCount[MaxNumExperts];
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertTileOffset[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertOffset[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertCount[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertTileOffset[MaxNumExperts];
+@@ -970,2 +970,2 @@
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertCount[MaxNumExperts];
+-  __shared__ int32_t __attribute((aligned(128))) smemExpertOffset[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertCount[MaxNumExperts];
++  __shared__ int32_t __align__(128) smemExpertOffset[MaxNumExperts];
+diff --git a/include/flashinfer/vec_dtypes.cuh b/include/flashinfer/vec_dtypes.cuh
+--- a/include/flashinfer/vec_dtypes.cuh
++++ b/include/flashinfer/vec_dtypes.cuh
+@@ -35,0 +36,3 @@
++#ifdef _WIN32
++#define FLASHINFER_INLINE inline [[msvc::forceinline]] __device__
++#else
+@@ -36,0 +40 @@
++#endif
