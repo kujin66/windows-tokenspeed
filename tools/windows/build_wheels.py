@@ -25,6 +25,7 @@ import hashlib
 import json
 import os
 import platform
+import shlex
 import shutil
 import struct
 import subprocess
@@ -152,6 +153,16 @@ def main() -> None:
                 "--config-settings=cmake.define.TOKENSPEED_SCHEDULER_BUILD_TESTS=ON"
             )
             command.append("--config-settings=cmake.define.INSTALL_GTEST=OFF")
+        else:
+            # Windows indexers can keep staging directories open after packaging.
+            stage = output / f"stage-{component.replace('/', '-')}"
+            command.extend(
+                [
+                    "--config-settings=--build-option=--keep-temp",
+                    "--config-settings=--build-option="
+                    + shlex.quote(f"--bdist-dir={stage.as_posix()}"),
+                ]
+            )
         run(*command)
     run(
         "cmake",

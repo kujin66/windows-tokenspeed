@@ -59,6 +59,7 @@ $env:OPENSSL_ROOT_DIR = 'C:/build-inputs/openssl-arm64'
 $env:OPENSSL_LICENSE_FILE = 'C:/build-inputs/openssl-arm64/LICENSE.txt'
 $env:CUDA_HOME = $env:CUDA_PATH
 $env:PATH = 'C:/build-inputs/llvm/bin;' + $env:PATH
+$env:CARGO_TARGET_DIR = 'C:/build-inputs/ts-cargo'
 ```
 
 For offline preparation, place the four verified public input wheels in
@@ -80,6 +81,8 @@ public sources in an online prepared environment.
 ## Build and validate
 
 Use a dedicated venv: the entrypoint installs the newly built wheels into it.
+Keep checkout/output paths short. Set CARGO_TARGET_DIR to a short cache path
+when a deep checkout would exceed MSVC object/PDB path limits.
 Each output directory must be new. Supply the architecture explicitly.
 
 ```powershell
@@ -93,6 +96,9 @@ package/OpenSSL SHA256 checks, changed-input CUDA Graph checks, selected Marlin
 and communication-sentinel numerical checks, and Rust host/metrics/scheduler tests.
 Configured CUDA tests fail when no GPU is available; they do not silently skip.
 Wheel inventories, source-diff hash and JUnit/log files are saved in the output.
+Setuptools staging trees are retained in separate output directories to avoid
+Windows file-lock errors during post-package cleanup. Remove these rebuildable
+directories after their processes and indexers release them.
 
 The complete build produces 27 ARM64 native payloads across the wheels. The
 numerical tests cover selected operations, rather than every shape of every
@@ -104,7 +110,7 @@ compiled group. Retain source commit/diff hashes with results.
 on Linux and Windows hosted runners. Its separate native CUDA job is an explicit
 manual opt-in requiring `[self-hosted, Windows, ARM64, tokenspeed-cuda]`. Configure
 that runner with the SDKs, native Python, OpenSSL prefix/license and source inputs
-above. The composite action calls the same build entrypoint and uploads wheels,
+above. The native job calls the same build entrypoint and uploads wheels,
 build manifest and JUnit. A hosted build-tool check is not native ARM64 CUDA
 compilation evidence. A native job requires an available configured runner.
 
