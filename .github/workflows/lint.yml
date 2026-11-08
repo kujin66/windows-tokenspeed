@@ -15,7 +15,8 @@ concurrency:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    # Match the clang-format 18 pre-commit hook; ubuntu-latest can change majors.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v2
 
@@ -95,7 +96,9 @@ jobs:
         if: steps.scheduler_cpp_changes.outputs.changed == 'true'
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang-format clang-tidy cmake ninja-build
+          sudo apt-get install -y clang-format-18 clang-tidy-18 cmake ninja-build
+          clang-format-18 --version
+          clang-tidy-18 --version
 
       - name: Configure scheduler compile database
         if: steps.scheduler_cpp_changes.outputs.changed == 'true'
@@ -147,11 +150,11 @@ jobs:
           echo "Running clang-format on ${format_count} files with ${jobs} workers"
           printf '%s\n' "$cpp_files" | xargs -r -n 16 -P "$jobs" sh -c '
             echo "clang-format: $*"
-            clang-format --dry-run --Werror "$@"
+            clang-format-18 --dry-run --Werror "$@"
           ' sh
 
           echo "Running clang-tidy on ${tidy_count} translation units with ${jobs} workers"
           printf '%s\n' "$tidy_files" | xargs -r -n 1 -P "$jobs" sh -c '
             echo "clang-tidy: $1"
-            clang-tidy -p tokenspeed-scheduler/build "$1"
+            clang-tidy-18 -p tokenspeed-scheduler/build "$1"
           ' sh
