@@ -130,7 +130,14 @@ def adapt_windows_headers(headers: Path, *, patch: Path) -> list[dict]:
         for name in names
     }
     # Zero context avoids whitespace-only context lines being trimmed by hooks.
-    apply_command = ["git", "apply", "--no-index", "--unidiff-zero"]
+    apply_command = [
+        "git",
+        "-c",
+        "core.longpaths=true",
+        "apply",
+        "--no-index",
+        "--unidiff-zero",
+    ]
     # Even --no-index discovers enclosing repositories and silently skips paths
     # outside the current subdirectory. Treat extracted headers as standalone.
     env = dict(os.environ, GIT_CEILING_DIRECTORIES=str(headers.resolve().parent))
