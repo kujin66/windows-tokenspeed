@@ -30,10 +30,42 @@ import shutil
 import struct
 import subprocess
 import sys
+import time
 import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def run_build_command(
+    command: tuple[str, ...], *, cwd: Path, env: dict[str, str]
+) -> None:
+    """Retry only Windows Rust temporary-archive sharing violations, at most twice."""
+    for attempt in range(3):
+        result = subprocess.run(
+            command, cwd=cwd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        )
+        sys.stdout.buffer.write(result.stdout)
+        sys.stdout.buffer.flush()
+        if result.returncode == 0:
+            return
+        archive_lock = os.name == "nt" and all(
+            message in result.stdout
+            for message in (
+                b"failed to remove temporary directory",
+                b"temp-archive",
+                b"(os error 32)",
+            )
+        )
+        if not archive_lock or b"error[E" in result.stdout or attempt == 2:
+            raise subprocess.CalledProcessError(
+                result.returncode, command, output=result.stdout
+            )
+        print(
+            f"Windows Rust temporary archive is locked; retrying ({attempt + 2}/3).",
+            flush=True,
+        )
+        time.sleep(attempt + 1)
 
 
 def pe_machine(contents: bytes) -> int:
@@ -122,7 +154,7 @@ def main() -> None:
     env.setdefault("CARGO_TARGET_DIR", str(output / "cargo"))
 
     def run(*command: str) -> None:
-        subprocess.run(command, cwd=ROOT, env=env, check=True)
+        run_build_command(command, cwd=ROOT, env=env)
 
     for component in (
         "tokenspeed-scheduler",

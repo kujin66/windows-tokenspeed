@@ -22,14 +22,106 @@
 
 import hashlib
 import importlib.metadata
+import os
 import struct
+import subprocess
 import sys
+import threading
+import time
 import zipfile
 from pathlib import Path
 
 import pytest
 
-from tools.windows.build_wheels import audit_wheel, pe_machine
+from tools.windows.build_wheels import audit_wheel, pe_machine, run_build_command
+
+
+@pytest.mark.parametrize(
+    "message",
+    [
+        "error[E0308]: mismatched types",
+        "failed to remove temporary directory: (os error 5) at x.temp-archive",
+        "failed to open output file: (os error 32)",
+    ],
+)
+def test_build_command_preserves_failure(tmp_path, message):
+    marker = tmp_path / "first-attempt"
+    script = (
+        "from pathlib import Path; import sys; "
+        "Path(sys.argv[1]).open('x').close(); print(sys.argv[2]); sys.exit(7)"
+    )
+    command = (sys.executable, "-c", script, str(marker), message)
+    with pytest.raises(subprocess.CalledProcessError) as failure:
+        run_build_command(command, cwd=tmp_path, env=dict(os.environ))
+    assert failure.value.returncode == 7
+    assert message.encode() in failure.value.output
+
+
+@pytest.mark.skipif(sys.platform != "win32", reason="Windows file sharing semantics")
+@pytest.mark.parametrize("transient", [True, False])
+def test_build_command_handles_real_archive_lock(tmp_path, transient):
+    import ctypes
+    from ctypes import wintypes
+
+    target = tmp_path / "cargo.temp-archive"
+    target.write_bytes(b"archive")
+    marker = tmp_path / "sharing-violation"
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel32.CreateFileW.argtypes = (
+        wintypes.LPCWSTR,
+        wintypes.DWORD,
+        wintypes.DWORD,
+        wintypes.LPVOID,
+        wintypes.DWORD,
+        wintypes.DWORD,
+        wintypes.HANDLE,
+    )
+    kernel32.CreateFileW.restype = wintypes.HANDLE
+    kernel32.CloseHandle.argtypes = (wintypes.HANDLE,)
+    kernel32.CloseHandle.restype = wintypes.BOOL
+    # Permit reads/writes but omit FILE_SHARE_DELETE, reproducing OS error 32.
+    handle = kernel32.CreateFileW(str(target), 0x80000000, 3, None, 3, 0x80, None)
+    assert handle != ctypes.c_void_p(-1).value, ctypes.get_last_error()
+    release_allowed = threading.Event()
+
+    def release_after_violation():
+        try:
+            deadline = time.monotonic() + 10
+            while not marker.exists() and time.monotonic() < deadline:
+                time.sleep(0.01)
+            if not transient:
+                # Bound the test too: an unbounded retry would recover and fail
+                # the expected-error assertion once this safety timeout expires.
+                release_allowed.wait(10)
+        finally:
+            kernel32.CloseHandle(handle)
+
+    release = threading.Thread(target=release_after_violation)
+    release.start()
+    script = """
+from pathlib import Path
+import sys
+try:
+    Path(sys.argv[1]).unlink()
+except OSError as error:
+    Path(sys.argv[2]).write_text(str(error.winerror))
+    print(f"failed to remove temporary directory: (os error {error.winerror}) at {sys.argv[1]}")
+    raise SystemExit(1)
+"""
+    try:
+        command = (sys.executable, "-c", script, str(target), str(marker))
+        if transient:
+            run_build_command(command, cwd=tmp_path, env=dict(os.environ))
+            assert not target.exists()
+        else:
+            with pytest.raises(subprocess.CalledProcessError) as failure:
+                run_build_command(command, cwd=tmp_path, env=dict(os.environ))
+            assert failure.value.returncode == 1
+            assert target.exists()
+    finally:
+        release_allowed.set()
+        release.join()
+    assert marker.read_text() == "32"
 
 
 def load_cuda_library(group):

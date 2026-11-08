@@ -45,7 +45,7 @@ jobs:
           python-version: '3.13'
       - run: python -m pip install pytest
       - name: Validate PE wheel audit behavior
-        run: python -m pytest -q --confcutdir=test/windows test/windows/test_native_build.py -k 'rejects_non_pe or wheel_machine_validation' --junitxml=build-tools.xml
+        run: python -m pytest -q --confcutdir=test/windows test/windows/test_native_build.py -k 'rejects_non_pe or wheel_machine_validation or build_command' --junitxml=build-tools.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:

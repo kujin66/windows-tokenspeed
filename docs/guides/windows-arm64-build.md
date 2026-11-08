@@ -89,6 +89,9 @@ Use a dedicated venv: the entrypoint installs the newly built wheels into it.
 Keep checkout/output paths short. Set CARGO_TARGET_DIR to a short cache path
 when a deep checkout would exceed MSVC object/PDB path limits.
 Each output directory must be new. Supply the architecture explicitly.
+The Windows entrypoint retries a command at most twice only when Rust reports a
+temporary-archive cleanup sharing violation (OS error 32). It preserves command
+output and exit codes; other build/compiler failures are not retried.
 
 ```powershell
 .venv/Scripts/python tools/windows/build_wheels.py --cuda-arch 121a --output outputs/windows-arm64-1
