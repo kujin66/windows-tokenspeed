@@ -115,12 +115,14 @@ def adapt_windows_fmt(headers: Path) -> dict:
     }
 
 
-def adapt_windows_headers(headers: Path) -> list[dict]:
+def adapt_windows_headers(headers: Path, *, patch: Path) -> list[dict]:
     """Apply the checked-in Windows syntax/ABI fixes to pinned build headers."""
-    patch = Path(__file__).with_name("flashinfer-build-compat.patch").resolve()
+    # Read as text so a Windows checkout's CRLF cannot alter hunk matching.
+    patch_text = patch.read_text(encoding="utf-8")
+    patch_data = patch_text.encode("utf-8")
     names = [
         line.split(" b/", 1)[1]
-        for line in patch.read_text(encoding="utf-8").splitlines()
+        for line in patch_text.splitlines()
         if line.startswith("diff --git ")
     ]
     original = {
@@ -135,9 +137,13 @@ def adapt_windows_headers(headers: Path) -> list[dict]:
     for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE"):
         env.pop(name, None)
     subprocess.run(
-        [*apply_command, "--check", str(patch)], cwd=headers, env=env, check=True
+        [*apply_command, "--check"],
+        input=patch_data,
+        cwd=headers,
+        env=env,
+        check=True,
     )
-    subprocess.run([*apply_command, str(patch)], cwd=headers, env=env, check=True)
+    subprocess.run(apply_command, input=patch_data, cwd=headers, env=env, check=True)
     records = [
         {
             "path": name,
@@ -197,9 +203,12 @@ def main() -> None:
             target.write_bytes(archive.read(name))
     records[2]["build_data_dir"] = str(headers)
     records[2]["build_header_patches"] = [adapt_windows_fmt(headers)]
-    records[2]["build_header_patches"].extend(adapt_windows_headers(headers))
+    patch = Path(__file__).with_name("flashinfer-build-compat.patch").resolve()
+    records[2]["build_header_patches"].extend(
+        adapt_windows_headers(headers, patch=patch)
+    )
     records[2]["compatibility_patch_sha256"] = hashlib.sha256(
-        Path(__file__).with_name("flashinfer-build-compat.patch").read_bytes()
+        patch.read_text(encoding="utf-8").encode("utf-8")
     ).hexdigest()
     (args.output / "public-dependencies.json").write_text(
         json.dumps(records, indent=2) + chr(10), encoding="utf-8"

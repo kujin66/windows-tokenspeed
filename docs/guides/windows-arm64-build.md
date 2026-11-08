@@ -33,6 +33,8 @@ headers for MSVC. It does not install FlashInfer's Linux communication dependenc
 Patch application isolates Git repository discovery so outputs inside a checkout
 receive the same fixes as standalone headers; unchanged patch targets fail
 preparation instead of allowing a silently skipped compatibility patch.
+Patch text and its manifest hash use canonical LF line endings, including when
+Git checks the patch out with Windows CRLF line endings.
 
 Install Microsoft/NVIDIA SDKs from their official providers. Prepare ARM64 Python,
 Rust and OpenSSL before invoking the build. Cargo's locked registry sources,

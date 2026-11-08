@@ -38,7 +38,8 @@ from tools.windows.build_wheels import audit_wheel, pe_machine, run_build_comman
 from tools.windows.prepare_public_dependencies import PACKAGES, adapt_windows_headers
 
 
-def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path):
+@pytest.mark.parametrize("patch_eol", [b"\n", b"\r\n"])
+def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path, patch_eol):
     package = PACKAGES[2]
     wheel_input = os.environ.get("TOKENSPEED_FLASHINFER_TEST_WHEEL")
     if wheel_input is None:
@@ -57,6 +58,11 @@ def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path):
         for line in patch.read_text().splitlines()
         if line.startswith("diff --git ")
     ]
+    canonical_data = patch.read_text(encoding="utf-8").encode("utf-8")
+    canonical_patch = tmp_path / "canonical.patch"
+    canonical_patch.write_bytes(canonical_data)
+    checkout_patch = tmp_path / "checkout.patch"
+    checkout_patch.write_bytes(canonical_data.replace(b"\n", patch_eol))
     outside = tmp_path / "standalone-headers"
     with zipfile.ZipFile(wheel) as archive:
         for name in names:
@@ -67,8 +73,8 @@ def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path):
     subprocess.run(["git", "init", str(checkout)], check=True, capture_output=True)
     inside = checkout / "outputs/public-dependencies/flashinfer-headers"
     shutil.copytree(outside, inside)
-    expected = adapt_windows_headers(outside)
-    actual = adapt_windows_headers(inside)
+    expected = adapt_windows_headers(outside, patch=canonical_patch)
+    actual = adapt_windows_headers(inside, patch=checkout_patch)
     assert actual == expected
     assert all(r["original_sha256"] != r["patched_sha256"] for r in actual)
     for record in actual:
