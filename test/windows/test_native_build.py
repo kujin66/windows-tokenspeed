@@ -23,6 +23,7 @@
 import hashlib
 import importlib.metadata
 import os
+import shutil
 import struct
 import subprocess
 import sys
@@ -34,6 +35,46 @@ from pathlib import Path
 import pytest
 
 from tools.windows.build_wheels import audit_wheel, pe_machine, run_build_command
+from tools.windows.prepare_public_dependencies import PACKAGES, adapt_windows_headers
+
+
+def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path):
+    package = PACKAGES[2]
+    wheel_input = os.environ.get("TOKENSPEED_FLASHINFER_TEST_WHEEL")
+    if wheel_input is None:
+        wheel_input = str(
+            Path(os.environ["TOKENSPEED_FLASHINFER_DATA_DIR"]).parent
+            / package["filename"]
+        )
+    wheel = Path(wheel_input)
+    assert hashlib.sha256(wheel.read_bytes()).hexdigest() == package["sha256"]
+    patch = (
+        Path(__file__).resolve().parents[2]
+        / "tools/windows/flashinfer-build-compat.patch"
+    )
+    names = [
+        line.split(" b/", 1)[1]
+        for line in patch.read_text().splitlines()
+        if line.startswith("diff --git ")
+    ]
+    outside = tmp_path / "standalone-headers"
+    with zipfile.ZipFile(wheel) as archive:
+        for name in names:
+            target = outside / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(archive.read(f"flashinfer/data/{name}"))
+    checkout = tmp_path / "checkout"
+    subprocess.run(["git", "init", str(checkout)], check=True, capture_output=True)
+    inside = checkout / "outputs/public-dependencies/flashinfer-headers"
+    shutil.copytree(outside, inside)
+    expected = adapt_windows_headers(outside)
+    actual = adapt_windows_headers(inside)
+    assert actual == expected
+    assert all(r["original_sha256"] != r["patched_sha256"] for r in actual)
+    for record in actual:
+        assert (inside / record["path"]).read_bytes() == (
+            outside / record["path"]
+        ).read_bytes()
 
 
 @pytest.mark.parametrize(

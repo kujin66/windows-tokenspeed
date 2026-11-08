@@ -23,6 +23,7 @@
 import argparse
 import hashlib
 import json
+import os
 import platform
 import subprocess
 import sys
@@ -128,9 +129,16 @@ def adapt_windows_headers(headers: Path) -> list[dict]:
     }
     # Zero context avoids whitespace-only context lines being trimmed by hooks.
     apply_command = ["git", "apply", "--no-index", "--unidiff-zero"]
-    subprocess.run([*apply_command, "--check", str(patch)], cwd=headers, check=True)
-    subprocess.run([*apply_command, str(patch)], cwd=headers, check=True)
-    return [
+    # Even --no-index discovers enclosing repositories and silently skips paths
+    # outside the current subdirectory. Treat extracted headers as standalone.
+    env = dict(os.environ, GIT_CEILING_DIRECTORIES=str(headers.resolve().parent))
+    for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE"):
+        env.pop(name, None)
+    subprocess.run(
+        [*apply_command, "--check", str(patch)], cwd=headers, env=env, check=True
+    )
+    subprocess.run([*apply_command, str(patch)], cwd=headers, env=env, check=True)
+    records = [
         {
             "path": name,
             "original_sha256": original[name],
@@ -138,6 +146,10 @@ def adapt_windows_headers(headers: Path) -> list[dict]:
         }
         for name in names
     ]
+    for record in records:
+        if record["original_sha256"] == record["patched_sha256"]:
+            raise ValueError(f"Compatibility patch was not applied: {record['path']}")
+    return records
 
 
 def main() -> None:

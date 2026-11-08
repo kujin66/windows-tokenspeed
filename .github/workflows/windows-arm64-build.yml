@@ -44,8 +44,13 @@ jobs:
         with:
           python-version: '3.13'
       - run: python -m pip install pytest
+      - name: Prepare pinned FlashInfer patch regression input
+        run: |
+          python -m pip download --only-binary=:all: --no-deps flashinfer-python==0.6.17 --dest outputs/public-dependencies
       - name: Validate PE wheel audit behavior
-        run: python -m pytest -q --confcutdir=test/windows test/windows/test_native_build.py -k 'rejects_non_pe or wheel_machine_validation or build_command' --junitxml=build-tools.xml
+        env:
+          TOKENSPEED_FLASHINFER_TEST_WHEEL: outputs/public-dependencies/flashinfer_python-0.6.17-py3-none-any.whl
+        run: python -m pytest -q --confcutdir=test/windows test/windows/test_native_build.py -k 'rejects_non_pe or wheel_machine_validation or build_command or header_patch' --junitxml=build-tools.xml
       - uses: actions/upload-artifact@v4
         if: always()
         with:

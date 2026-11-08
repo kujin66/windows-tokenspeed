@@ -30,6 +30,9 @@ Torch comes from the [NVIDIA nightly feed](https://pypi.nvidia.com/nvtorch_oot_n
 TVM FFI, Triton Windows and FlashInfer build data come from public PyPI. The
 preparation script verifies fixed wheel SHA256 values and patches the public
 headers for MSVC. It does not install FlashInfer's Linux communication dependencies.
+Patch application isolates Git repository discovery so outputs inside a checkout
+receive the same fixes as standalone headers; unchanged patch targets fail
+preparation instead of allowing a silently skipped compatibility patch.
 
 Install Microsoft/NVIDIA SDKs from their official providers. Prepare ARM64 Python,
 Rust and OpenSSL before invoking the build. Cargo's locked registry sources,
