@@ -69,7 +69,16 @@ jobs:
           $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
           $vs = & $vswhere -latest -products '*' -property installationPath
           if (-not $vs) { throw 'Visual Studio with ARM64 C++ tools is required' }
-          & (Join-Path $vs 'Common7/Tools/Launch-VsDevShell.ps1') -Arch arm64 -HostArch arm64 -SkipAutomaticLocation
+          # VS2022's PowerShell wrapper rejects HostArch=arm64; the batch
+          # entrypoint supports the native ARM64 host and target environment.
+          $vcvarsall = Join-Path $vs 'VC/Auxiliary/Build/vcvarsall.bat'
+          $compilerEnv = & $env:ComSpec /d /c ('call "{0}" arm64 >nul && set' -f $vcvarsall)
+          if ($LASTEXITCODE -ne 0) { throw 'Native ARM64 compiler environment initialization failed' }
+          foreach ($line in $compilerEnv) {
+            if ($line -match '^([^=]+)=(.*)$') {
+              [Environment]::SetEnvironmentVariable($Matches[1], $Matches[2], 'Process')
+            }
+          }
           # ring uses Clang for its Windows ARM64 assembly sources.
           $llvm = Join-Path $vs 'VC/Tools/Llvm/ARM64/bin'
           if (Test-Path (Join-Path $llvm 'clang.exe')) { $env:PATH = $llvm + ';' + $env:PATH }
@@ -84,10 +93,15 @@ jobs:
             }
             $env:VCToolsInstallDir = $preparedMsvc + [char]92
           }
+          $nativeTools = Join-Path $env:VCToolsInstallDir 'bin/Hostarm64/arm64'
+          if (-not (Test-Path (Join-Path $nativeTools 'cl.exe'))) { throw 'Native ARM64 MSVC host tools are required' }
+          $env:PATH = $nativeTools + ';' + $env:PATH
+          $env:VSCMD_ARG_HOST_ARCH = 'arm64'
+          $env:VSCMD_ARG_TGT_ARCH = 'arm64'
           if (-not $env:OPENSSL_LICENSE_FILE -or -not (Test-Path -LiteralPath $env:OPENSSL_LICENSE_FILE)) { throw 'OPENSSL_LICENSE_FILE must identify the external OpenSSL license' }
           if (-not $env:OPENSSL_ROOT_DIR) { throw 'OPENSSL_ROOT_DIR must identify the prepared ARM64 static OpenSSL /MD install' }
           foreach ($item in (Get-ChildItem Env:)) {
-            if ($item.Name -in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH', 'VCToolsInstallDir', 'VCINSTALLDIR', 'WindowsSdkDir', 'OPENSSL_ROOT_DIR')) {
+            if ($item.Name -in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH', 'VCToolsInstallDir', 'VCINSTALLDIR', 'WindowsSdkDir', 'OPENSSL_ROOT_DIR', 'VSCMD_ARG_HOST_ARCH', 'VSCMD_ARG_TGT_ARCH')) {
               ('{0}={1}' -f $item.Name, $item.Value) >> $env:GITHUB_ENV
             }
           }

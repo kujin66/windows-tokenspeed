@@ -50,6 +50,11 @@ The source repository does not duplicate OpenSSL license texts; Windows wheels
 carry the external license with their statically linked libcrypto. Missing
 license input fails the Windows package build. Linux packaging is unchanged.
 
+VS2022's `Launch-VsDevShell.ps1` accepts only x86/amd64 host arguments. The GPU
+workflow uses `vcvarsall.bat arm64` and explicitly selects
+`VCToolsInstallDir/bin/Hostarm64/arm64` instead. Native ARM64 host
+tools must be installed; `TOKENSPEED_MSVC_ROOT` can select a prepared toolset.
+
 ```powershell
 python -m venv .venv
 .venv/Scripts/python tools/windows/prepare_public_dependencies.py --output outputs/public-dependencies
