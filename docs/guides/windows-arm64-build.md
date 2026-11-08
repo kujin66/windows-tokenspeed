@@ -37,6 +37,8 @@ Patch text and its manifest hash use canonical LF line endings, including when
 Git checks the patch out with Windows CRLF line endings.
 The patch command enables Git long paths only for that process, so nested build
 and test directories work without modifying system or global Git settings.
+The native workflow passes the same process-level Git setting through checkout
+and cleanup so a reused runner can remove long-path test outputs safely.
 
 Install Microsoft/NVIDIA SDKs from their official providers. Prepare ARM64 Python,
 Rust and OpenSSL before invoking the build. Cargo's locked registry sources,

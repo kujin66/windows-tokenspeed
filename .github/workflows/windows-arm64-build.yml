@@ -62,6 +62,10 @@ jobs:
     runs-on: [self-hosted, Windows, ARM64, tokenspeed-cuda, '${{ inputs.runner_label }}']
     timeout-minutes: 90
     env:
+      # Scope long-path support to this job, including checkout cleanup.
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.longpaths
+      GIT_CONFIG_VALUE_0: 'true'
       CARGO_BUILD_JOBS: '2'
       CMAKE_BUILD_PARALLEL_LEVEL: '2'
       MAX_JOBS: '1'

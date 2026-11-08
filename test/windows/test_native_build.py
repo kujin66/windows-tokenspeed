@@ -81,6 +81,29 @@ def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path, patch
         assert (inside / record["path"]).read_bytes() == (
             outside / record["path"]
         ).read_bytes()
+    # Exercise the same process-only configuration used by runner checkout.
+    assert checkout.resolve().is_relative_to(tmp_path.resolve())
+    cleanup_env = dict(os.environ)
+    config_count = int(cleanup_env.get("GIT_CONFIG_COUNT", "0"))
+    cleanup_env[f"GIT_CONFIG_KEY_{config_count}"] = "core.longpaths"
+    cleanup_env[f"GIT_CONFIG_VALUE_{config_count}"] = "true"
+    cleanup_env["GIT_CONFIG_COUNT"] = str(config_count + 1)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            f"safe.directory={checkout.as_posix()}",
+            "clean",
+            "-ffd",
+            "--",
+            "outputs",
+        ],
+        cwd=checkout,
+        env=cleanup_env,
+        check=True,
+        capture_output=True,
+    )
+    assert not (checkout / "outputs").exists()
 
 
 @pytest.mark.parametrize(
