@@ -191,6 +191,15 @@ SM90/SM100/SM107 multi-GPU, AMD or Ascend coverage.
 
 ## Source baseline and validation
 
-This port is based on upstream main at 6023794d37a8f44b48e7f04522a807c39f43a839 (2026-11-09). The Windows ARM64 compiler changes are reapplied from PR4. The upstream runtime, test-scope selection helper and Linux release workflows come from that main snapshot. Only the lint toolchain pin and the additional opt-in Windows ARM64 build workflow differ.
+This port is based on upstream main at
+6023794d37a8f44b48e7f04522a807c39f43a839 (2026-11-09). The Windows ARM64
+compiler changes are reapplied from PR4. The upstream runtime, test-scope
+selection helper and Linux release workflows come from that main snapshot.
+The lint toolchain pin and opt-in Windows ARM64 build workflow supplement
+upstream CI. The K8s manual dispatch menu also includes an existing MI35x
+monokernel performance configuration omitted by the upstream snapshot.
 
-Historical PR3/PR4 throughput results are not validation of this source. Fresh native build, JIT, numerical and Linux regression results are recorded in the pull request with their exact source and Actions links. Do not infer full Windows inference support from compiler checks.
+Historical PR3/PR4 throughput results are not validation of this source.
+Fresh native build, JIT, numerical and Linux regression results are recorded
+in the pull request with their exact tested source and, when run, Actions links.
+Do not infer full Windows inference support from compiler checks.
