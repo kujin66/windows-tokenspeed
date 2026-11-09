@@ -22,6 +22,7 @@
 
 import argparse
 import hashlib
+import importlib.metadata
 import json
 import os
 import platform
@@ -229,6 +230,10 @@ def main() -> None:
     diff = subprocess.check_output([*git_command, "diff", "HEAD", "--binary"], cwd=ROOT)
     report = {
         "revision": revision,
+        "build_dependencies": {
+            name: importlib.metadata.version(name)
+            for name in ("torch", "apache-tvm-ffi", "tokenspeed-triton")
+        },
         "tracked_diff_sha256": hashlib.sha256(diff).hexdigest(),
         "python": platform.python_version(),
         "cuda_arch": args.cuda_arch,

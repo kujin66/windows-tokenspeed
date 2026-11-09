@@ -6,4 +6,4 @@ packaging
 psutil
 apache-tvm-ffi==0.1.15.post2
 nvidia-ml-py
-triton-windows==3.9.0.post30
+tokenspeed-triton==3.9.10.post20261023

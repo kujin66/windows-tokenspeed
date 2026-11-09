@@ -12,4 +12,4 @@ nvidia-ml-py==13.615.71
 pytest==9.1.1
 torch==2.16.0.dev20261101+cu134
 apache-tvm-ffi==0.1.15.post2
-triton-windows==3.9.0.post30
+tokenspeed-triton==3.9.10.post20261023

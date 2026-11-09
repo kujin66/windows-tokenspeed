@@ -53,11 +53,11 @@ PACKAGES = (
         "sha256": "ab7ce3aec42faf2f6079aa840c2407ac00ecd277a0524cdb708a8ff4a64dad90",
     },
     {
-        "name": "triton-windows",
-        "version": "3.9.0.post30",
-        "index": "https://pypi.org/simple",
-        "filename": "triton_windows-3.9.0.post30-cp312-abi3-win_arm64.whl",
-        "sha256": "14efee65f0ae116996696fd3b22f8319002894d0772f8c6055f879fac814f0e1",
+        "name": "tokenspeed-triton",
+        "version": "3.9.10.post20261023",
+        "url": "https://github.com/kujin66/windows-tokenspeed/releases/download/windows-arm64-build-deps-20261109/tokenspeed_triton-3.9.10.post20261023-cp312-abi3-win_arm64.whl",
+        "filename": "tokenspeed_triton-3.9.10.post20261023-cp312-abi3-win_arm64.whl",
+        "sha256": "107470c3f1269bb91513a0b5c7539cc1a324b75a98f1e60247d905ee8225b08e",
     },
 )
 
@@ -179,17 +179,22 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=True)
     if not args.verify_only:
         for package in PACKAGES:
+            source = (
+                f"{package['url']}#sha256={package['sha256']}"
+                if "url" in package
+                else f"{package['name']}=={package['version']}"
+            )
+            index_args = [] if "url" in package else ["--index-url", package["index"]]
             subprocess.run(
                 [
                     sys.executable,
                     "-m",
                     "pip",
                     "download",
-                    f"{package['name']}=={package['version']}",
+                    source,
                     "--no-deps",
                     "--only-binary=:all:",
-                    "--index-url",
-                    package["index"],
+                    *index_args,
                     "--dest",
                     str(args.output),
                 ],
@@ -221,7 +226,7 @@ def main() -> None:
         json.dumps(records, indent=2) + chr(10), encoding="utf-8"
     )
     print(
-        "Verified NVIDIA Torch, PyPI TVM FFI, Triton Windows and FlashInfer build headers"
+        "Verified NVIDIA Torch, PyPI TVM FFI, vendor TokenSpeed Triton and FlashInfer build headers"
     )
 
 

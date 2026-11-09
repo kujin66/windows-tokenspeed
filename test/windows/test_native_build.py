@@ -21,6 +21,7 @@
 """Installed-wheel and CUDA graph checks for Windows ARM64 wheels."""
 
 import hashlib
+import importlib
 import importlib.metadata
 import os
 import shutil
@@ -36,6 +37,96 @@ import pytest
 
 from tools.windows.build_wheels import audit_wheel, pe_machine, run_build_command
 from tools.windows.prepare_public_dependencies import PACKAGES, adapt_windows_headers
+
+
+def test_vendor_triton_scoped_imports():
+    from tokenspeed_kernel import _triton as adapter
+
+    assert adapter.triton.__name__ == "tokenspeed_triton"
+    assert (
+        Path(adapter.triton.__file__)
+        .resolve()
+        .is_relative_to(Path(sys.prefix).resolve())
+    )
+    saved = {
+        name: module
+        for name, module in sys.modules.items()
+        if name == "triton" or name.startswith("triton.")
+    }
+    with adapter.redirect_triton_to_tokenspeed_triton():
+        assert importlib.import_module("triton") is adapter.triton
+        assert importlib.import_module("triton.language") is adapter.tl
+        assert (
+            importlib.import_module("triton.language.extra.libdevice")
+            is adapter.libdevice
+        )
+    restored = {
+        name: module
+        for name, module in sys.modules.items()
+        if name == "triton" or name.startswith("triton.")
+    }
+    assert restored == saved
+
+
+@pytest.mark.parametrize("compiler", ["triton", "gluon"])
+def test_vendor_triton_cuda_graph(compiler):
+    import torch
+    from tokenspeed_kernel._triton import gl, gluon, tl, triton
+
+    assert torch.cuda.is_available()
+
+    @triton.jit
+    def add(a, b, out, n, BLOCK: tl.constexpr):
+        offsets = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
+        x = tl.load(a + offsets, offsets < n, other=0)
+        y = tl.load(b + offsets, offsets < n, other=0)
+        tl.store(out + offsets, x + y, offsets < n)
+
+    @gluon.jit
+    def gluon_add(a, b, out, n, BLOCK: gl.constexpr):
+        offsets = gl.program_id(0) * BLOCK + gl.arange(
+            0, BLOCK, layout=gl.BlockedLayout([1], [32], [4], [0])
+        )
+        x = gl.load(a + offsets, offsets < n, other=0)
+        y = gl.load(b + offsets, offsets < n, other=0)
+        gl.store(out + offsets, x + y, offsets < n)
+
+    kernel = {"triton": add, "gluon": gluon_add}[compiler]
+    a = torch.randn(1025, device="cuda")
+    b = torch.randn_like(a)
+    out = torch.empty_like(a)
+
+    def launch():
+        kernel[(triton.cdiv(a.numel(), 256),)](a, b, out, a.numel(), BLOCK=256)
+
+    stream = torch.cuda.Stream()
+    stream.wait_stream(torch.cuda.current_stream())
+    with torch.cuda.stream(stream):
+        launch()
+    torch.cuda.current_stream().wait_stream(stream)
+    torch.testing.assert_close(out, a + b, atol=0, rtol=0)
+    graph = torch.cuda.CUDAGraph()
+    with torch.cuda.graph(graph):
+        launch()
+    for _ in range(3):
+        a.normal_()
+        b.normal_()
+        graph.replay()
+        torch.testing.assert_close(out, a + b, atol=0, rtol=0)
+
+
+@pytest.mark.parametrize("batch", [1, 4])
+def test_vendor_triton_activation(batch):
+    import torch
+    from tokenspeed_kernel.ops.activation.triton import silu_and_mul
+
+    assert torch.cuda.is_available()
+    gate = torch.randn(batch, 2048, device="cuda", dtype=torch.bfloat16)
+    actual = silu_and_mul(gate)
+    expected = (
+        torch.nn.functional.silu(gate[:, :1024].float()) * gate[:, 1024:].float()
+    ).to(gate.dtype)
+    torch.testing.assert_close(actual, expected, rtol=0.01, atol=0.02)
 
 
 @pytest.mark.parametrize("patch_eol", [b"\n", b"\r\n"])
@@ -241,6 +332,9 @@ def test_installed_native_packages():
     assert host.is_file()
     assert pe_machine(host.read_bytes()) == 0xAA64
     assert importlib.metadata.version("tokenspeed")
+    kernel_requirements = importlib.metadata.requires("tokenspeed-kernel")
+    assert "tokenspeed-triton==3.9.10.post20261023" in kernel_requirements
+    assert not any(name.startswith("triton-windows") for name in kernel_requirements)
     licenses = [
         Path(module.__file__).parent / "licenses" / "OPENSSL-LICENSE.txt"
         for module in (tokenspeed_engine, tokenspeed_scheduler)
