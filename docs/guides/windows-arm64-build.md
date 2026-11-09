@@ -258,7 +258,8 @@ repeat ten fixed prompts per run and are not an answer-accuracy score.
 The retest does not attribute sequence mismatches to the vendor compiler.
 
 The [vendor build-input release](https://github.com/kujin66/windows-tokenspeed/releases/tag/windows-arm64-build-deps-20261109)
-contains compiler provenance and a retest evidence archive. The archive separates
-historical runtime measurements from current PR native validation, retains failed
-attempts, and documents any path redactions in the public copy. Earlier PR3
-throughput and CuTe DSL sections remain preserved in PR3.
+contains the compiler wheels, source provenance and SHA256 checksums. The tables
+above summarize the retest; raw local measurements and reference-input records
+are retained separately and are not included in that dependency release.
+Current-source native CI publishes its own build manifest and JUnit results.
+Earlier PR3 throughput and CuTe DSL sections remain preserved in PR3.
