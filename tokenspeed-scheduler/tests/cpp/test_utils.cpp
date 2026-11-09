@@ -47,13 +47,19 @@ TEST(ChecksTest, AFailedAssertThrowsWithTheCallersLocation) {
 }
 
 TEST(ChecksDeathTest, AFailedFatalCheckAbortsWithTheCallersLocation) {
+#if GTEST_USES_SIMPLE_RE
+    // GoogleTest's Windows regex engine supports \d, but not character classes.
+    const char* pattern = "Fatal check failed: the pool is corrupt at .*test_utils\\.cpp:\\d+ in .*TestBody";
+#else
+    const char* pattern = "Fatal check failed: the pool is corrupt at .*test_utils\\.cpp:[0-9]+ in .*TestBody";
+#endif
     EXPECT_DEATH(
         {
             // The default logger writes to stdout; the death test reads stderr.
             spdlog::set_default_logger(spdlog::stderr_logger_mt("fatal-check-test"));
             FatalCheck(false, "the pool is corrupt");
         },
-        "Fatal check failed: the pool is corrupt at .*test_utils\\.cpp:[0-9]+ in .*TestBody");
+        pattern);
 }
 
 }  // namespace

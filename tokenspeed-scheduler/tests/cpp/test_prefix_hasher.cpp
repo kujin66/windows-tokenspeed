@@ -106,6 +106,14 @@ TEST(HashPrefixPageTest, EmptyPageMatchesKnownSha256) {
     EXPECT_EQ(HashPrefixPage(Tokens(none), ""), kEmptyFramedSha256);
 }
 
+TEST(HashPrefixPageTest, SignedTokensAndUtf8SaltMatchReference) {
+    const std::vector<std::int32_t> tokens = {-1, 0, INT32_MIN, INT32_MAX};
+    const std::vector<std::string> keys = {"", "salt-\xe4\xb8\xad\xe6\x96\x87"};
+    // SHA256 reference over the little-endian framing and UTF-8 key bytes.
+    EXPECT_EQ(HashPrefixPage(Tokens(tokens), "00ff", Keys(keys)),
+              "6a94e49cef37f606e88a35aabc48a6e1279f7e429a3cdae6fd7d0185f47171a3");
+}
+
 TEST(HashPrefixPageTest, OutputIs64HexChars) {
     std::vector<std::int32_t> toks = {1, 2, 3};
     std::string h = HashPrefixPage(Tokens(toks), "");
