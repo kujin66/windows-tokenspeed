@@ -103,6 +103,10 @@ jobs:
               [Environment]::SetEnvironmentVariable($name, $value.Replace($installedMsvc, $preparedMsvc), 'Process')
             }
             $env:VCToolsInstallDir = $preparedMsvc + [char]92
+            # Vendor JIT discovery uses VCINSTALLDIR + Tools/MSVC + version.
+            # Keep those variables consistent with the selected compiler.
+            $env:VCToolsVersion = Split-Path $preparedMsvc -Leaf
+            $env:VCINSTALLDIR = (Get-Item -LiteralPath $preparedMsvc).Parent.Parent.Parent.FullName + [char]92
           }
           $nativeTools = Join-Path $env:VCToolsInstallDir 'bin/Hostarm64/arm64'
           if (-not (Test-Path (Join-Path $nativeTools 'cl.exe'))) { throw 'Native ARM64 MSVC host tools are required' }
@@ -112,7 +116,7 @@ jobs:
           if (-not $env:OPENSSL_LICENSE_FILE -or -not (Test-Path -LiteralPath $env:OPENSSL_LICENSE_FILE)) { throw 'OPENSSL_LICENSE_FILE must identify the external OpenSSL license' }
           if (-not $env:OPENSSL_ROOT_DIR) { throw 'OPENSSL_ROOT_DIR must identify the prepared ARM64 static OpenSSL /MD install' }
           foreach ($item in (Get-ChildItem Env:)) {
-            if ($item.Name -in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH', 'VCToolsInstallDir', 'VCINSTALLDIR', 'WindowsSdkDir', 'OPENSSL_ROOT_DIR', 'VSCMD_ARG_HOST_ARCH', 'VSCMD_ARG_TGT_ARCH')) {
+            if ($item.Name -in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH', 'VCToolsInstallDir', 'VCToolsVersion', 'VCINSTALLDIR', 'WindowsSdkDir', 'WindowsSDKVersion', 'WindowsSDKLibVersion', 'UniversalCRTSdkDir', 'UCRTVersion', 'OPENSSL_ROOT_DIR', 'VSCMD_ARG_HOST_ARCH', 'VSCMD_ARG_TGT_ARCH')) {
               ('{0}={1}' -f $item.Name, $item.Value) >> $env:GITHUB_ENV
             }
           }
@@ -129,6 +133,16 @@ jobs:
           .venv/Scripts/python @pipArgs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ('PATH={0};{1}' -f (Resolve-Path .venv/Scripts).Path, $env:PATH) >> $env:GITHUB_ENV
+      - name: Validate vendor JIT before native build
+        shell: pwsh
+        env:
+          PYTHONPATH: tokenspeed-kernel/python
+        run: |
+          foreach ($name in @('VCINSTALLDIR', 'VCToolsVersion', 'WindowsSdkDir', 'WindowsSDKVersion')) {
+            if (-not [Environment]::GetEnvironmentVariable($name, 'Process')) { throw ('Missing vendor JIT toolchain variable: ' + $name) }
+          }
+          .venv/Scripts/python -m pytest -q --confcutdir=test/windows test/windows/test_native_build.py -k vendor_triton --junitxml=outputs/vendor-jit-tests.xml --basetemp=outputs/vendor-jit-tmp
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Build, audit and test TokenSpeed wheels
         shell: pwsh
         env:
@@ -146,4 +160,5 @@ jobs:
             outputs/windows-arm64-*/build.json
             outputs/windows-arm64-*/*tests.xml
             outputs/public-dependencies/public-dependencies.json
+            outputs/vendor-jit-tests.xml
           if-no-files-found: warn

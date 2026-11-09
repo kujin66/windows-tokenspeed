@@ -103,6 +103,13 @@ public sources in an online prepared environment.
 
 ## Build and validate
 
+The native workflow preserves VCToolsVersion and WindowsSDKVersion across job
+steps. When selecting TOKENSPEED_MSVC_ROOT, its VCINSTALLDIR/version pair must
+identify that same standard VC/Tools/MSVC/version tree. A vendor JIT preflight
+runs before the full native build, then the installed-wheel suite repeats the
+checks against the newly built packages. Missing toolchain-discovery variables
+must fail the preflight rather than being hidden by cached compiler helpers.
+
 Use a dedicated venv: the entrypoint installs the newly built wheels into it.
 Keep checkout/output paths short. Set CARGO_TARGET_DIR to a short cache path
 when a deep checkout would exceed MSVC object/PDB path limits.
