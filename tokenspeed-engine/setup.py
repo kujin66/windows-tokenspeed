@@ -62,18 +62,30 @@ class BuildPyWithRust(build_py):
     """``build_py``, then the two Rust artifacts into the built package."""
 
     def run(self) -> None:
+        license_file = None
+        if os.name == "nt":
+            value = os.environ.get("OPENSSL_LICENSE_FILE")
+            if not value or not Path(value).is_file():
+                raise ValueError(
+                    "Set OPENSSL_LICENSE_FILE to the license accompanying the static OpenSSL build"
+                )
+            license_file = Path(value)
         super().run()
         # An editable install imports from the source tree, not build_lib.
         root = ROOT / "python" if self.editable_mode else Path(self.build_lib)
         package = root / "tokenspeed_engine"
         release = _cargo_build("tokenspeed-py", extension_module=True)
         shutil.copy2(
-            release / "lib_native.so",
+            release / ("_native.dll" if os.name == "nt" else "lib_native.so"),
             package / f"_native{sysconfig.get_config_var('EXT_SUFFIX')}",
         )
         release = _cargo_build("tokenspeed-host", extension_module=False)
         (package / "bin").mkdir(exist_ok=True)
-        shutil.copy2(release / "ts-host", package / "bin" / "ts-host")
+        binary = "ts-host.exe" if os.name == "nt" else "ts-host"
+        shutil.copy2(release / binary, package / "bin" / binary)
+        if license_file is not None:
+            (package / "licenses").mkdir(exist_ok=True)
+            shutil.copy2(license_file, package / "licenses" / "OPENSSL-LICENSE.txt")
 
 
 class BinaryDistribution(Distribution):

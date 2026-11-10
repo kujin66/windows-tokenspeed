@@ -1,0 +1,169 @@
+name: Windows ARM64 build validation
+
+on:
+  push:
+    branches: ['build/windows-arm64-*']
+  pull_request:
+    branches: [main]
+    paths:
+      - 'tools/windows/**'
+      - 'requirements/windows-arm64-build.txt'
+      - 'test/windows/**'
+      - 'tokenspeed-engine/**'
+      - 'tokenspeed-scheduler/**'
+      - 'tokenspeed-kernel/**'
+      - '.github/workflows/windows-arm64-build.yml'
+  workflow_dispatch:
+    inputs:
+      native_cuda:
+        description: Run the prepared Windows ARM64 CUDA runner
+        type: boolean
+        required: true
+        default: false
+      cuda_arch:
+        description: nvcc architecture for the native runner GPU
+        type: string
+        required: true
+      runner_label:
+        description: Unique label of the prepared GPU runner for this manual run
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  build-tools:
+    name: Build tool checks (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install pytest
+      - name: Prepare pinned FlashInfer patch regression input
+        run: |
+          python -m pip download --only-binary=:all: --no-deps flashinfer-python==0.6.17 --dest outputs/public-dependencies
+      - name: Validate PE wheel audit behavior
+        env:
+          TOKENSPEED_FLASHINFER_TEST_WHEEL: outputs/public-dependencies/flashinfer_python-0.6.17-py3-none-any.whl
+        run: python -m pytest -q --confcutdir=test/windows test/windows/test_native_build.py -k 'rejects_non_pe or wheel_machine_validation or build_command or header_patch' --junitxml=build-tools.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: build-tools-${{ matrix.os }}
+          path: build-tools.xml
+
+  native-cuda:
+    if: github.event_name == 'workflow_dispatch' && inputs.native_cuda
+    runs-on: [self-hosted, Windows, ARM64, tokenspeed-cuda, '${{ inputs.runner_label }}']
+    timeout-minutes: 90
+    env:
+      # Scope long-path support to this job, including checkout cleanup.
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.longpaths
+      GIT_CONFIG_VALUE_0: 'true'
+      CARGO_BUILD_JOBS: '2'
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+      MAX_JOBS: '1'
+      TRITON_DEFAULT_FP_FUSION: '1'
+      CMAKE_ARGS: '-DCMAKE_TRY_COMPILE_CONFIGURATION=Release'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Activate native ARM64 compiler
+        shell: pwsh
+        run: |
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+          $vs = & $vswhere -latest -products '*' -property installationPath
+          if (-not $vs) { throw 'Visual Studio with ARM64 C++ tools is required' }
+          # VS2022's PowerShell wrapper rejects HostArch=arm64; the batch
+          # entrypoint supports the native ARM64 host and target environment.
+          $vcvarsall = Join-Path $vs 'VC/Auxiliary/Build/vcvarsall.bat'
+          # A prepared runner may point VCINSTALLDIR at a portable toolset.
+          # Let the installed activation script discover its own VC tree first.
+          $compilerEnv = & $env:ComSpec /d /c ('set "VCINSTALLDIR=" && set "VCToolsInstallDir=" && set "VCToolsVersion=" && call "{0}" arm64 && set' -f $vcvarsall)
+          if ($LASTEXITCODE -ne 0) {
+            $compilerEnv | Write-Output
+            throw 'Native ARM64 compiler environment initialization failed'
+          }
+          foreach ($line in $compilerEnv) {
+            if ($line -match '^([^=]+)=(.*)$') {
+              [Environment]::SetEnvironmentVariable($Matches[1], $Matches[2], 'Process')
+            }
+          }
+          # ring uses Clang for its Windows ARM64 assembly sources.
+          $llvm = Join-Path $vs 'VC/Tools/Llvm/ARM64/bin'
+          if (Test-Path (Join-Path $llvm 'clang.exe')) { $env:PATH = $llvm + ';' + $env:PATH }
+          if (-not (Get-Command clang.exe -ErrorAction SilentlyContinue)) { throw 'LLVM clang.exe is required by ring on Windows ARM64; add its bin directory to PATH' }
+          if ($env:TOKENSPEED_MSVC_ROOT) {
+            $installedMsvc = $env:VCToolsInstallDir.TrimEnd([char]92)
+            $preparedMsvc = $env:TOKENSPEED_MSVC_ROOT.TrimEnd([char]92)
+            if (-not (Test-Path (Join-Path $preparedMsvc 'bin/Hostarm64/arm64/cl.exe'))) { throw 'Prepared ARM64 MSVC compiler is missing' }
+            foreach ($name in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH')) {
+              $value = [Environment]::GetEnvironmentVariable($name, 'Process')
+              [Environment]::SetEnvironmentVariable($name, $value.Replace($installedMsvc, $preparedMsvc), 'Process')
+            }
+            $env:VCToolsInstallDir = $preparedMsvc + [char]92
+            # Vendor JIT discovery uses VCINSTALLDIR + Tools/MSVC + version.
+            # Keep those variables consistent with the selected compiler.
+            $env:VCToolsVersion = Split-Path $preparedMsvc -Leaf
+            $env:VCINSTALLDIR = (Get-Item -LiteralPath $preparedMsvc).Parent.Parent.Parent.FullName + [char]92
+          }
+          $nativeTools = Join-Path $env:VCToolsInstallDir 'bin/Hostarm64/arm64'
+          if (-not (Test-Path (Join-Path $nativeTools 'cl.exe'))) { throw 'Native ARM64 MSVC host tools are required' }
+          $env:PATH = $nativeTools + ';' + $env:PATH
+          $env:VSCMD_ARG_HOST_ARCH = 'arm64'
+          $env:VSCMD_ARG_TGT_ARCH = 'arm64'
+          if (-not $env:OPENSSL_LICENSE_FILE -or -not (Test-Path -LiteralPath $env:OPENSSL_LICENSE_FILE)) { throw 'OPENSSL_LICENSE_FILE must identify the external OpenSSL license' }
+          if (-not $env:OPENSSL_ROOT_DIR) { throw 'OPENSSL_ROOT_DIR must identify the prepared ARM64 static OpenSSL /MD install' }
+          foreach ($item in (Get-ChildItem Env:)) {
+            if ($item.Name -in @('PATH', 'INCLUDE', 'LIB', 'LIBPATH', 'VCToolsInstallDir', 'VCToolsVersion', 'VCINSTALLDIR', 'WindowsSdkDir', 'WindowsSDKVersion', 'WindowsSDKLibVersion', 'UniversalCRTSdkDir', 'UCRTVersion', 'OPENSSL_ROOT_DIR', 'VSCMD_ARG_HOST_ARCH', 'VSCMD_ARG_TGT_ARCH')) {
+              ('{0}={1}' -f $item.Name, $item.Value) >> $env:GITHUB_ENV
+            }
+          }
+      - name: Prepare public build dependencies
+        shell: pwsh
+        run: |
+          python -m venv .venv
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          .venv/Scripts/python tools/windows/prepare_public_dependencies.py --output outputs/public-dependencies
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ('TOKENSPEED_FLASHINFER_DATA_DIR={0}' -f (Resolve-Path outputs/public-dependencies/flashinfer-headers).Path) >> $env:GITHUB_ENV
+          $pipArgs = @('-m', 'pip', 'install', '--find-links', 'outputs/public-dependencies', '-r', 'requirements/windows-arm64-build.txt')
+          if ($env:TOKENSPEED_WINDOWS_WHEELHOUSE) { $pipArgs += @('--find-links', $env:TOKENSPEED_WINDOWS_WHEELHOUSE) }
+          .venv/Scripts/python @pipArgs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ('PATH={0};{1}' -f (Resolve-Path .venv/Scripts).Path, $env:PATH) >> $env:GITHUB_ENV
+      - name: Validate vendor JIT before native build
+        shell: pwsh
+        env:
+          PYTHONPATH: tokenspeed-kernel/python
+        run: |
+          foreach ($name in @('VCINSTALLDIR', 'VCToolsVersion', 'WindowsSdkDir', 'WindowsSDKVersion')) {
+            if (-not [Environment]::GetEnvironmentVariable($name, 'Process')) { throw ('Missing vendor JIT toolchain variable: ' + $name) }
+          }
+          .venv/Scripts/python -m pytest -q --confcutdir=test/windows test/windows/test_native_build.py -k vendor_triton --junitxml=outputs/vendor-jit-tests.xml --basetemp=outputs/vendor-jit-tmp
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build, audit and test TokenSpeed wheels
+        shell: pwsh
+        env:
+          BUILD_CUDA_ARCH: ${{ inputs.cuda_arch }}
+        run: |
+          $buildOutput = 'outputs/windows-arm64-${{ github.run_id }}-${{ github.run_attempt }}'
+          .venv/Scripts/python tools/windows/build_wheels.py --cuda-arch $env:BUILD_CUDA_ARCH --output $buildOutput
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tokenspeed-windows-arm64
+          path: |
+            outputs/windows-arm64-*/wheels/*.whl
+            outputs/windows-arm64-*/build.json
+            outputs/windows-arm64-*/*tests.xml
+            outputs/public-dependencies/public-dependencies.json
+            outputs/vendor-jit-tests.xml
+          if-no-files-found: warn
