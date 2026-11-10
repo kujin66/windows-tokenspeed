@@ -191,6 +191,6 @@ SM90/SM100/SM107 multi-GPU, AMD or Ascend coverage.
 
 ## Source baseline and validation
 
-This port is based on upstream main at 6023794d37a8f44b48e7f04522a807c39f43a839 (2026-11-09). The Windows ARM64 compiler changes are reapplied from PR4. The upstream runtime, test-scope selection helper and Linux release workflows come from that main snapshot. Only the additional opt-in Windows ARM64 build workflow is added; the original Linux lint workflow and pre-commit configuration are unchanged.
+This port is based on upstream main at 6023794d37a8f44b48e7f04522a807c39f43a839 (2026-11-09). The Windows ARM64 compiler changes are reapplied from PR4. The upstream runtime, test-scope selection helper and Linux release workflows come from that main snapshot. The additional opt-in Windows ARM64 build workflow is added. Lint pins Ubuntu 24.04 and clang-format/clang-tidy 18 to match the unchanged pre-commit hook, and allows explicit full manual validation. Linux runtime, dependency and release paths remain unchanged.
 
 Historical PR3/PR4 throughput results are not validation of this source. Fresh native build, JIT, numerical and Linux regression results are recorded in the pull request with their exact source and Actions links. Do not infer full Windows inference support from compiler checks.
