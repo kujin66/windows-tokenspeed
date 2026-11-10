@@ -30,7 +30,6 @@ import logging.config
 import os
 import random
 import re
-import resource
 import subprocess
 import sys
 import tempfile
@@ -59,6 +58,9 @@ from tokenspeed.runtime.utils.network import (  # noqa: F401
     get_free_port,
     is_valid_ipv6_address,
 )
+
+if os.name != "nt":
+    import resource
 
 if TYPE_CHECKING:
     import uvicorn
@@ -236,6 +238,9 @@ def set_random_seed(seed: int) -> None:
 
 
 def set_ulimit(target_soft_limit=65535):
+    if os.name == "nt":
+        logger.debug("POSIX file and stack limits are not available on Windows")
+        return
     # number of open files
     resource_type = resource.RLIMIT_NOFILE
     current_soft, current_hard = resource.getrlimit(resource_type)

@@ -83,8 +83,13 @@ jobs:
           # VS2022's PowerShell wrapper rejects HostArch=arm64; the batch
           # entrypoint supports the native ARM64 host and target environment.
           $vcvarsall = Join-Path $vs 'VC/Auxiliary/Build/vcvarsall.bat'
-          $compilerEnv = & $env:ComSpec /d /c ('call "{0}" arm64 >nul && set' -f $vcvarsall)
-          if ($LASTEXITCODE -ne 0) { throw 'Native ARM64 compiler environment initialization failed' }
+          # A prepared runner may point VCINSTALLDIR at a portable toolset.
+          # Let the installed activation script discover its own VC tree first.
+          $compilerEnv = & $env:ComSpec /d /c ('set "VCINSTALLDIR=" && set "VCToolsInstallDir=" && set "VCToolsVersion=" && call "{0}" arm64 && set' -f $vcvarsall)
+          if ($LASTEXITCODE -ne 0) {
+            $compilerEnv | Write-Output
+            throw 'Native ARM64 compiler environment initialization failed'
+          }
           foreach ($line in $compilerEnv) {
             if ($line -match '^([^=]+)=(.*)$') {
               [Environment]::SetEnvironmentVariable($Matches[1], $Matches[2], 'Process')

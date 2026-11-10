@@ -26,8 +26,11 @@ convenient for use when we just need to call a few functions.
 
 import ctypes
 import logging
+import os
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
+
+import psutil
 
 # this line makes it possible to directly load `libcudart.so` using `ctypes`
 import torch  # noqa
@@ -63,6 +66,14 @@ def find_loaded_library(lib_name) -> Optional[str]:
     shared libraries loaded by the process. We can use this file to find the path of the
     a loaded library.
     """  # noqa
+    if os.name == "nt":
+        # PyTorch loads cudart64_*.dll rather than libcudart.so on Windows.
+        prefix = lib_name.removeprefix("lib").lower()
+        for mapping in psutil.Process().memory_maps(grouped=False):
+            name = os.path.basename(mapping.path).lower()
+            if name.startswith(prefix) and name.endswith(".dll"):
+                return mapping.path
+        return None
     candidates = []
     with open("/proc/self/maps") as f:
         for line in f:

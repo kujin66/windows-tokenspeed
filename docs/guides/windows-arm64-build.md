@@ -1,8 +1,9 @@
 # Windows ARM64 native CUDA wheel build
 
 This guide covers four project wheels: scheduler, engine, kernel and runtime.
-The native build includes all 24 CUDA groups. Python runtime, model registration,
-quantization, operator selection and Linux release workflows retain upstream code.
+The native build includes all 24 CUDA groups. Model registration, quantization,
+operator selection and Linux release workflows retain upstream code. Windows
+startup excludes POSIX-only file/stack limit tuning; Linux retains that tuning.
 
 ## Prepared environment
 
@@ -157,7 +158,10 @@ above. The native job calls the same build entrypoint and uploads wheels,
 build manifest and JUnit. A hosted build-tool check is not native ARM64 CUDA
 compilation evidence. A native job requires an available configured runner.
 
-Existing upstream Linux workflows and runtime files are unchanged. Windows
+The upstream Linux build/release paths and POSIX setup remain intact. Windows
+startup uses process DLL mappings for CUDA runtime discovery and the per-user
+temporary directory for frontend sockets; configured socket paths are preserved.
+POSIX file/stack limit tuning remains active on Linux. Windows
 compiler/linker choices are gated by WIN32, _MSC_VER or Python target platform.
 The Linux toolchain retains dynamic crypto/stdC++ linking, original Marlin
 dispatch and CUDA compilation flags. RoPE FP8 dispatch retains its original

@@ -756,6 +756,9 @@ def _zmq_worker_url(engine_port: int) -> str:
     (``zmq_handshake_port``), is free now. A path whose port is taken —
     another instance's, or any listener's — is skipped for the next one."""
     base = os.path.join(zmq_socket_dir(), f"ts-serve-{engine_port}")
+    if os.name == "nt":
+        # The path is sent and hashed as an IPC URL by both peers.
+        base = Path(base).as_posix()
     for attempt in range(_HANDSHAKE_PORT_ATTEMPTS):
         url = f"ipc://{base}" if attempt == 0 else f"ipc://{base}-{attempt}"
         if _port_is_free(zmq_handshake_port(url)):

@@ -36,6 +36,7 @@ import contextlib
 import logging
 import os
 import sys
+import tempfile
 import time
 
 logger = logging.getLogger(__name__)
@@ -50,7 +51,12 @@ ZMQ_LOOPBACK_HOST = "127.0.0.1"
 def zmq_socket_dir() -> str:
     """The directory of the workers' ``ipc://`` sockets: SMG's own default,
     per user (``SMG_ZMQ_SOCKET_DIR`` overrides it, for SMG as for us)."""
-    return os.environ.get("SMG_ZMQ_SOCKET_DIR", f"/tmp/smg-zmq-{os.getuid()}")
+    override = os.environ.get("SMG_ZMQ_SOCKET_DIR")
+    if override is not None:
+        return override
+    if os.name == "nt":
+        return os.path.join(tempfile.gettempdir(), "smg-zmq")
+    return f"/tmp/smg-zmq-{os.getuid()}"
 
 
 def zmq_handshake_port(worker_url: str) -> int:
