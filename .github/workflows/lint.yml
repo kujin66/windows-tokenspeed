@@ -1,6 +1,7 @@
 name: Lint
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]
@@ -32,7 +33,9 @@ jobs:
           scheduler_cpp_config='^tokenspeed-scheduler/(\.clang-(format|tidy)|(.*/)?CMakeLists\.txt|.*\.cmake)$'
 
           list_changed_files() {
-            if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+              git ls-files
+            elif [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
               git fetch --no-tags --depth=1 origin "$PUSH_BEFORE" &&
                 git diff --name-only --no-renames "$PUSH_BEFORE" "$GITHUB_SHA"
             else
