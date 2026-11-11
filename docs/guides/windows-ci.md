@@ -150,7 +150,9 @@ package/index targets.
 
 First validate the PR source, its hosted jobs and the required Windows GPU
 task. Run the existing release workflow in dry-run mode, including the nightly
-channel. Then review and deploy the same source to main. The compiler PR targets
+channel. If the fork has not registered that workflow yet, first validate its
+controller tests, deploy the reviewed workflow to main, and run the complete
+dry run immediately after registration. The compiler PR targets
 an upstream baseline; merging it there alone does not deploy main. A deployment
 PR to main must expose the upstream synchronization separately from Windows
 adaptation, because the fork's older main is not the compiler baseline.
@@ -159,6 +161,11 @@ history and preserves commits reachable from its merge base with the PR source.
 It still checks newly contributed commits and verifies the current PR head.
 Historical upstream co-author addresses are not rewritten to satisfy a fork's
 current account lookup.
+
+Keep the upstream fake-PD-peer test agreement fix (43c3e740) with the CI
+baseline: held cancellation must retire on the same round across ranks. This
+prevents the known Rust serving-test collective desynchronization without
+changing production control-plane code or weakening pause/memory assertions.
 
 After deployment, inspect the default-branch workflow inventory and Actions API
 registration separately. Dispatch non-publishing validation workflows as needed;
