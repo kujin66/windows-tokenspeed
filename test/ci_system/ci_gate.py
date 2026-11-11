@@ -44,6 +44,12 @@ def main() -> None:
         json.loads(os.environ["CI_RESULTS"]),
         required=set(os.environ["CI_REQUIRED_JOBS"].split()),
     )
+    if os.environ.get("CI_HARDWARE_ENABLED") == "false":
+        summary += (
+            "\nHardware execution is disabled for this repository. Configure "
+            "TOKENSPEED_CI_REPOSITORY only after its GPU runners are available. "
+            "This check does not establish GPU or model coverage.\n"
+        )
     with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a", encoding="utf-8") as output:
         output.write(summary)
     print(summary)

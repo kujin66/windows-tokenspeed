@@ -18,6 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import json
+import os
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
 from ci_gate import evaluate
 
@@ -50,3 +56,26 @@ def test_all_required_jobs_pass():
         required={"scan", "native"},
     )
     assert failures == []
+
+
+@pytest.mark.parametrize("native_required", [False, True])
+def test_hardware_availability_report_cannot_waive_a_required_native_job(
+    tmp_path, native_required
+):
+    summary = tmp_path / "summary.md"
+    result = subprocess.run(
+        [sys.executable, str(Path(__file__).with_name("ci_gate.py"))],
+        env={
+            **os.environ,
+            "CI_HARDWARE_ENABLED": "false",
+            "CI_RESULTS": json.dumps(
+                {"scan": {"result": "success"}, "native": {"result": "skipped"}}
+            ),
+            "CI_REQUIRED_JOBS": "scan native" if native_required else "scan",
+            "GITHUB_STEP_SUMMARY": str(summary),
+        },
+        capture_output=True,
+        text=True,
+    )
+    assert (result.returncode != 0) is native_required
+    assert "does not establish GPU or model coverage" in summary.read_text()

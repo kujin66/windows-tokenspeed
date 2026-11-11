@@ -48,6 +48,7 @@ jobs:
       github.repository == vars.TOKENSPEED_CI_REPOSITORY
     runs-on: ubuntu-latest
     outputs:
+      hardware_enabled: ${{ github.repository == 'lightseekorg/tokenspeed' || github.repository == vars.TOKENSPEED_CI_REPOSITORY }}
       should_run: ${{ steps.changes.outputs.should_run }}
       kernel_benchmark_matrix: ${{ steps.scan.outputs.kernel_benchmark_matrix }}
       kernel_benchmark_has_tasks: ${{ steps.scan.outputs.kernel_benchmark_has_tasks }}
@@ -128,6 +129,7 @@ jobs:
   kernel-benchmark:
     needs: scan
     if: |
+      needs.scan.outputs.hardware_enabled == 'true' &&
       needs.scan.outputs.should_run == 'true' &&
       needs.scan.outputs.kernel_benchmark_has_tasks == 'true' &&
       (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
@@ -157,7 +159,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Report executed coverage and enforce required results
         env:
+          CI_HARDWARE_ENABLED: ${{ needs.scan.outputs.hardware_enabled }}
           CI_RESULTS: ${{ toJSON(needs) }}
           CI_REQUIRED_JOBS: >-
-            scan ${{ (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.kernel_benchmark_has_tasks == 'true' && 'kernel-benchmark' || '' }}
+            scan ${{ needs.scan.outputs.hardware_enabled == 'true' && (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.kernel_benchmark_has_tasks == 'true' && 'kernel-benchmark' || '' }}
         run: python3 test/ci_system/ci_gate.py

@@ -29,6 +29,13 @@ scans exclude Windows tasks; the Windows scan explicitly selects the
 windows-arm64 runner group. Windows serving tasks are rejected because the
 POSIX server lifecycle is not a validated Windows runtime implementation.
 
+Forks must explicitly opt in to upstream Linux GPU execution through
+TOKENSPEED_CI_REPOSITORY after preparing those runners. Making a PR ready for
+review does not enable unavailable AMD/NVIDIA hardware. Hosted scans still run
+and their summaries state that GPU/model coverage was not executed. The Windows
+required native gate is independent and remains mandatory for relevant trusted
+sources even while the PR is a Draft.
+
 The native build task lives in test/ci/ut/ut-windows-arm64-build.yaml. It runs
 the vendor preflight, builds and installs wheels using the package backends,
 runs CTest, installed-package tests, selected CUDA numerical tests and Rust
