@@ -5,7 +5,7 @@ inputs:
     description: Source checkout directory relative to the workspace.
     default: '.'
   profile:
-    description: cpu or cuda; cuda requires a prepared GPU runner.
+    description: cpu, cpu-openssl or cuda; cuda requires a prepared GPU runner.
     required: true
 runs:
   using: composite
@@ -16,6 +16,20 @@ runs:
       env:
         BUILD_PROFILE: ${{ inputs.profile }}
       run: ./tools/windows/activate_toolchain.ps1 -Profile $env:BUILD_PROFILE
+    - name: Prepare ARM64 static OpenSSL for CPU packages
+      if: inputs.profile == 'cpu-openssl'
+      shell: pwsh
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        $installRoot = Join-Path $env:RUNNER_TEMP 'tokenspeed-vcpkg'
+        vcpkg install openssl:arm64-windows-static-md "--x-install-root=$installRoot"
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        $prefix = Join-Path $installRoot 'arm64-windows-static-md'
+        $license = Join-Path $prefix 'share/openssl/copyright'
+        if (-not (Test-Path -LiteralPath $license)) { throw 'OpenSSL license is missing' }
+        "OPENSSL_ROOT_DIR=$prefix" >> $env:GITHUB_ENV
+        "OPENSSL_LICENSE_FILE=$license" >> $env:GITHUB_ENV
+        'CMAKE_GENERATOR=Ninja' >> $env:GITHUB_ENV
     - name: Prepare pinned CUDA build environment
       if: inputs.profile == 'cuda'
       shell: pwsh

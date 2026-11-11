@@ -19,7 +19,7 @@
 # SOFTWARE.
 
 # Windows ARM64 compiler environment shared by CPU and CUDA CI.
-param([Parameter(Mandatory)][ValidateSet('cpu', 'cuda')][string]$Profile)
+param([Parameter(Mandatory)][ValidateSet('cpu', 'cpu-openssl', 'cuda')][string]$Profile)
 
 $ErrorActionPreference = 'Stop'
 $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'

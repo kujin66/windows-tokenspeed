@@ -90,15 +90,10 @@ jobs:
           python-version: '3.13'
       - uses: ./.github/actions/windows-arm64-setup
         with:
-          profile: cpu
+          profile: cpu-openssl
       - name: Install native build dependencies
         run: |
           python -m pip install "nanobind>=2.13.0" tokenspeed-spdlog==1.15.1
-          vcpkg install openssl:arm64-windows-static-md
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          $prefix = Join-Path $env:VCPKG_INSTALLATION_ROOT 'installed/arm64-windows-static-md'
-          "OPENSSL_ROOT_DIR=$prefix" >> $env:GITHUB_ENV
-          "OPENSSL_LICENSE_FILE=$prefix/share/openssl/copyright" >> $env:GITHUB_ENV
           "PYO3_PYTHON=$((Get-Command python).Source)" >> $env:GITHUB_ENV
       - name: Install Rust toolchain
         run: |

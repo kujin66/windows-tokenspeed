@@ -66,7 +66,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: python -m pip install pytest PyYAML packaging cryptography
+      - run: python -m pip install pytest PyYAML packaging
+      - name: Install Linux release-controller dependencies
+        if: runner.os == 'Linux'
+        run: python -m pip install cryptography
       - name: Prepare pinned FlashInfer patch regression input
         run: >-
           python -m pip download --only-binary=:all: --no-deps flashinfer-python==0.6.17 --dest outputs/public-dependencies
