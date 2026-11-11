@@ -238,17 +238,10 @@ jobs:
     needs: [scan, import-check, unit-test, model-test]
     runs-on: ubuntu-latest
     steps:
-      - name: Finish
+      - uses: actions/checkout@v4
+      - name: Report executed coverage and enforce required results
         env:
-          SCAN_RESULT: ${{ needs.scan.result }}
-          IMPORT_CHECK_RESULT: ${{ needs.import-check.result }}
-          UNIT_TEST_RESULT: ${{ needs.unit-test.result }}
-          MODEL_TEST_RESULT: ${{ needs.model-test.result }}
-        run: |
-          for result in "$SCAN_RESULT" "$IMPORT_CHECK_RESULT" "$UNIT_TEST_RESULT" "$MODEL_TEST_RESULT"; do
-            if [[ "$result" != "success" && "$result" != "skipped" ]]; then
-              echo "PR Test did not finish successfully: dependency result=$result"
-              exit 1
-            fi
-          done
-          echo "PR Test finished."
+          CI_RESULTS: ${{ toJSON(needs) }}
+          CI_REQUIRED_JOBS: >-
+            scan ${{ (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.import_has_tasks == 'true' && 'import-check' || '' }} ${{ (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.unit_has_tasks == 'true' && 'unit-test' || '' }} ${{ (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.model_has_tasks == 'true' && 'model-test' || '' }}
+        run: python3 test/ci_system/ci_gate.py

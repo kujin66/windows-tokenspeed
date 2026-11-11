@@ -23,7 +23,13 @@
 import argparse
 import hashlib
 import json
+import zipfile
+from email.parser import Parser
 from pathlib import Path
+
+from packaging.requirements import Requirement
+from packaging.utils import canonicalize_name, parse_wheel_filename
+from packaging.version import Version
 
 PACKAGES = {
     "tokenspeed",
@@ -33,7 +39,7 @@ PACKAGES = {
 }
 
 
-def verify(directory: Path, *, source_sha: str) -> list[Path]:
+def verify(directory: Path, *, source_sha: str, nightly_date: str = "") -> list[Path]:
     def read_one(name: str) -> tuple[Path, dict]:
         matches = list(directory.rglob(name))
         if len(matches) != 1:
@@ -42,6 +48,8 @@ def verify(directory: Path, *, source_sha: str) -> list[Path]:
 
     manifest_path, manifest = read_one("build.json")
     result_path, result = read_one("result.json")
+    if manifest.get("nightly_date", "") != nightly_date:
+        raise ValueError("Build metadata must match the requested release channel/date")
     if manifest["revision"] != source_sha or result.get("source_sha") != source_sha:
         raise ValueError("Build and test evidence must match the release source SHA")
     if manifest.get("tracked_diff_sha256") != hashlib.sha256(b"").hexdigest():
@@ -65,6 +73,7 @@ def verify(directory: Path, *, source_sha: str) -> list[Path]:
         raise ValueError("Expected four project wheels")
     paths = []
     packages = set()
+    metadata = {}
     for item in inventories:
         filename = item["wheel"]
         if Path(filename).name != filename or not filename.endswith(".whl"):
@@ -79,6 +88,33 @@ def verify(directory: Path, *, source_sha: str) -> list[Path]:
         if package in packages:
             raise ValueError(f"Duplicate wheel package: {package}")
         packages.add(package)
+        with zipfile.ZipFile(path) as wheel:
+            entries = [
+                name
+                for name in wheel.namelist()
+                if name.endswith(".dist-info/METADATA")
+            ]
+            if len(entries) != 1:
+                raise ValueError(f"Expected one wheel metadata file: {filename}")
+            info = Parser().parsestr(wheel.read(entries[0]).decode("utf-8"))
+        wheel_package, wheel_version, _, _ = parse_wheel_filename(filename)
+        if (
+            canonicalize_name(info["Name"]) != wheel_package
+            or Version(info["Version"]) != wheel_version
+        ):
+            raise ValueError(f"Wheel metadata does not match its filename: {filename}")
+        metadata[str(wheel_package)] = info
+        if nightly_date:
+            expected = manifest.get("package_versions", {}).get(str(wheel_package))
+            if (
+                expected != str(wheel_version)
+                or wheel_version.post != int(nightly_date)
+                or wheel_version.dev is not None
+                or wheel_version.local is not None
+            ):
+                raise ValueError(
+                    f"Expected the coordinated nightly version: {filename}"
+                )
         if package != "tokenspeed" and not filename.endswith("-win_arm64.whl"):
             raise ValueError(f"Expected a Windows ARM64 native wheel: {filename}")
         paths.append(path)
@@ -86,6 +122,19 @@ def verify(directory: Path, *, source_sha: str) -> list[Path]:
         raise ValueError(
             "Release inventory must contain exactly the four project packages"
         )
+    if nightly_date:
+        dependencies = {
+            canonicalize_name(requirement.name): str(requirement.specifier)
+            for value in metadata["tokenspeed"].get_all("Requires-Dist", [])
+            for requirement in [Requirement(value)]
+        }
+        for package in (
+            "tokenspeed-kernel",
+            "tokenspeed-engine",
+            "tokenspeed-scheduler",
+        ):
+            if dependencies.get(package) != f"=={metadata[package]['Version']}":
+                raise ValueError(f"Runtime nightly must pin the tested {package} wheel")
     return [*paths, manifest_path, result_path]
 
 
@@ -93,8 +142,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("directory", type=Path)
     parser.add_argument("--source-sha", required=True)
+    parser.add_argument("--nightly-date", default="")
     args = parser.parse_args()
-    for path in verify(args.directory, source_sha=args.source_sha):
+    for path in verify(
+        args.directory, source_sha=args.source_sha, nightly_date=args.nightly_date
+    ):
         print(path.as_posix())
 
 

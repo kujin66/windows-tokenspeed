@@ -23,6 +23,7 @@ import json
 import os
 import runpy
 import shutil
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -74,7 +75,10 @@ def test_linux_scans_do_not_dispatch_windows_tasks(group):
 
 
 def test_unconfigured_and_untrusted_sources_do_not_dispatch_gpu():
-    assert native_plan(runner_label="")["enabled"] is False
+    missing = native_plan(runner_label="")
+    assert missing["enabled"] is False
+    assert missing["required"] is True
+    assert missing["coverage"] == "missing-resource"
     assert native_plan(trusted=False)["enabled"] is False
     assert native_plan(event="workflow_dispatch")["enabled"] is False
     with pytest.raises(ValueError, match="trusted"):
@@ -152,8 +156,12 @@ def release_bundle(tmp_path):
         "tokenspeed_scheduler",
     ):
         filename = f"{package}-0.1.0-cp313-cp313-win_arm64.whl"
-        payload = package.encode()
-        (tmp_path / filename).write_bytes(payload)
+        with zipfile.ZipFile(tmp_path / filename, "w") as archive:
+            archive.writestr(
+                f"{package}-0.1.0.dist-info/METADATA",
+                f"Name: {package}\nVersion: 0.1.0\n",
+            )
+        payload = (tmp_path / filename).read_bytes()
         inventories.append(
             {"wheel": filename, "sha256": hashlib.sha256(payload).hexdigest()}
         )
@@ -232,14 +240,26 @@ def test_windows_index_reuses_upstream_writer_and_preserves_linux_history(
         "tokenspeed-scheduler",
     ):
         update_windows_index(
-            wheelhouse, release, release_bundle, package, "example/wheels", False
+            wheelhouse,
+            release,
+            release_bundle,
+            package,
+            "example/wheels",
+            False,
+            nightly=False,
         )
         index = wheelhouse / "windows-arm64" / package / "index.html"
         first = index.read_text(encoding="utf-8")
         assert "https://github.com/example/wheels/releases/download/" in first
         assert "#sha256=" in first
         update_windows_index(
-            wheelhouse, release, release_bundle, package, "example/wheels", False
+            wheelhouse,
+            release,
+            release_bundle,
+            package,
+            "example/wheels",
+            False,
+            nightly=False,
         )
         assert index.read_text(encoding="utf-8") == first
     assert linux.read_text(encoding="utf-8") == "existing Linux index"
@@ -282,5 +302,45 @@ def test_windows_index_rejects_unverified_release_before_writing(
             "tokenspeed-kernel",
             "example/wheels",
             False,
+            nightly=False,
         )
     assert not wheelhouse.exists()
+
+
+@pytest.mark.parametrize("event", ["push", "pull_request"])
+def test_missing_gpu_resource_cannot_disable_required_native_coverage(event):
+    missing = native_plan(event=event, runner_label="")
+    assert missing["required"] is True
+    assert missing["enabled"] is False
+    assert missing["coverage"] == "missing-resource"
+
+
+def test_cross_repository_and_hosted_manual_runs_report_not_applicable():
+    for result in (native_plan(trusted=False), native_plan(event="workflow_dispatch")):
+        assert result["required"] is False
+        assert result["coverage"] == "not-applicable"
+
+
+def test_windows_nightly_index_does_not_change_stable_or_linux_indexes(
+    release_bundle, tmp_path
+):
+    wheelhouse = tmp_path / "index"
+    stable = wheelhouse / "windows-arm64/tokenspeed/index.html"
+    linux = wheelhouse / "nightly/index.html"
+    for path in (stable, linux):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("existing index", encoding="utf-8")
+    update_windows_index(
+        wheelhouse,
+        index_release(release_bundle, "example/wheels"),
+        release_bundle,
+        "tokenspeed",
+        "example/wheels",
+        False,
+        nightly=True,
+    )
+    assert stable.read_text() == linux.read_text() == "existing index"
+    assert (
+        "#sha256="
+        in (wheelhouse / "nightly/windows-arm64/tokenspeed/index.html").read_text()
+    )

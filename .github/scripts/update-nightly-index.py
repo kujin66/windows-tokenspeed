@@ -64,6 +64,8 @@ def update_windows_index(
     package: str,
     repository: str,
     replace: bool,
+    *,
+    nightly: bool,
 ) -> None:
     if package not in {
         "tokenspeed",
@@ -93,7 +95,7 @@ def update_windows_index(
         release,
         {wheel.name for wheel in wheels},
         package,
-        "win_arm64",
+        "win_arm64_nightly" if nightly else "win_arm64",
         replace,
         repository,
     )
@@ -115,6 +117,8 @@ def _update_links(
     nightly = wheelhouse / ("windows-arm64" if variant == "win_arm64" else "nightly")
     if variant == "rocm72":
         nightly /= "rocm7.2"
+    elif variant == "win_arm64_nightly":
+        nightly /= "windows-arm64"
     index = nightly / package / "index.html"
     previous = index.read_text() if index.exists() else "<!DOCTYPE html>\n"
     entries = []
@@ -178,7 +182,9 @@ if __name__ == "__main__":
         required=True,
     )
     parser.add_argument(
-        "--variant", choices=("cu130", "rocm72", "win_arm64"), required=True
+        "--variant",
+        choices=("cu130", "rocm72", "win_arm64", "win_arm64_nightly"),
+        required=True,
     )
     parser.add_argument(
         "--repository", help="Required source release repository for Windows indexes"
@@ -189,7 +195,7 @@ if __name__ == "__main__":
     parser.add_argument("distributions", type=Path)
     args = parser.parse_args()
     release = json.loads(args.release_json.read_text())
-    if args.variant == "win_arm64":
+    if args.variant in {"win_arm64", "win_arm64_nightly"}:
         if not args.repository:
             parser.error("--repository is required for Windows indexes")
         update_windows_index(
@@ -199,6 +205,7 @@ if __name__ == "__main__":
             args.package,
             args.repository,
             args.replace,
+            nightly=args.variant == "win_arm64_nightly",
         )
     else:
         if args.repository:

@@ -23,14 +23,17 @@
 import argparse
 import hashlib
 import importlib.metadata
+import io
 import json
 import os
 import platform
+import runpy
 import shlex
 import shutil
 import struct
 import subprocess
 import sys
+import tarfile
 import time
 import zipfile
 from pathlib import Path
@@ -141,6 +144,37 @@ def main() -> None:
         [*git_command, "rev-parse", "HEAD"], cwd=ROOT, text=True
     ).strip()
     env.setdefault("TOKENSPEED_KERNEL_GIT_SHA", revision)
+    source = ROOT
+    nightly_date = env.get("TOKENSPEED_WINDOWS_NIGHTLY_DATE", "")
+    package_versions = {}
+    if nightly_date:
+        env.update(
+            TOKENSPEED_KERNEL_NIGHTLY="true",
+            TOKENSPEED_KERNEL_VERSION_DATE=nightly_date,
+        )
+        # Generate release metadata in an archive of the exact source revision;
+        # the checked-out and tested source remains clean for provenance checks.
+        source = output / "source"
+        source.mkdir()
+        archive = subprocess.check_output([*git_command, "archive", "HEAD"], cwd=ROOT)
+        with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
+            bundle.extractall(source, filter="data")
+        kernel_version = (
+            subprocess.check_output(
+                [sys.executable, "setup.py", "--version"],
+                cwd=source / "tokenspeed-kernel/python",
+                env=env,
+                text=True,
+            )
+            .strip()
+            .splitlines()[-1]
+        )
+        prepare = runpy.run_path(str(ROOT / "tools/windows/prepare_nightly.py"))[
+            "prepare"
+        ]
+        package_versions = prepare(
+            source, date=nightly_date, kernel_version=kernel_version
+        )
     env.update(
         PYTHONPATH="",
         PYO3_PYTHON=sys.executable,
@@ -168,7 +202,7 @@ def main() -> None:
             "-m",
             "pip",
             "wheel",
-            str(ROOT / component),
+            str(source / component),
             "--no-build-isolation",
             "--no-deps",
             "--no-index",
@@ -212,6 +246,8 @@ def main() -> None:
     diff = subprocess.check_output([*git_command, "diff", "HEAD", "--binary"], cwd=ROOT)
     report = {
         "revision": revision,
+        "nightly_date": nightly_date,
+        "package_versions": package_versions,
         "build_dependencies": {
             name: importlib.metadata.version(name)
             for name in ("torch", "apache-tvm-ffi", "tokenspeed-triton")

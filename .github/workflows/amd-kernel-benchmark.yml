@@ -154,18 +154,10 @@ jobs:
     needs: [scan, kernel-benchmark]
     runs-on: ubuntu-latest
     steps:
-      - name: Finish
+      - uses: actions/checkout@v4
+      - name: Report executed coverage and enforce required results
         env:
-          SCAN_RESULT: ${{ needs.scan.result }}
-          KERNEL_BENCHMARK_RESULT: ${{ needs.kernel-benchmark.result }}
-        run: |
-          # A failed scan skips the benchmark; do not let that pass the gate.
-          if [[ "$SCAN_RESULT" != "success" ]]; then
-            echo "Kernel benchmark scan did not succeed: result=$SCAN_RESULT"
-            exit 1
-          fi
-          if [[ "$KERNEL_BENCHMARK_RESULT" != "success" && "$KERNEL_BENCHMARK_RESULT" != "skipped" ]]; then
-            echo "Kernel benchmark did not finish successfully: result=$KERNEL_BENCHMARK_RESULT"
-            exit 1
-          fi
-          echo "Kernel benchmark finished."
+          CI_RESULTS: ${{ toJSON(needs) }}
+          CI_REQUIRED_JOBS: >-
+            scan ${{ (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.kernel_benchmark_has_tasks == 'true' && 'kernel-benchmark' || '' }}
+        run: python3 test/ci_system/ci_gate.py

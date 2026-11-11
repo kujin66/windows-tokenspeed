@@ -15,6 +15,10 @@ on:
         description: Explicit Windows nvcc architecture.
         type: string
         default: ''
+      windows_nightly_date:
+        description: Explicit date for Windows nightly metadata, empty for an ordinary CI build.
+        type: string
+        default: ''
       matrix:
         description: "JSON matrix for this CI stage"
         required: true
@@ -301,6 +305,7 @@ jobs:
       TRITON_DEFAULT_FP_FUSION: '1'
       CMAKE_ARGS: '-DCMAKE_TRY_COMPILE_CONFIGURATION=Release'
       TOKENSPEED_CUDA_ARCH: ${{ inputs.windows_cuda_arch }}
+      TOKENSPEED_WINDOWS_NIGHTLY_DATE: ${{ inputs.windows_nightly_date }}
     steps:
       - uses: actions/checkout@v4
         with:

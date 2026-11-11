@@ -42,10 +42,11 @@ def plan(
     cuda_arch: str,
 ) -> dict:
     automatic = event in {"push", "pull_request"}
-    enabled = trusted and (requested or (automatic and bool(runner_label)))
+    required = trusted and (requested or automatic)
+    enabled = required and bool(runner_label)
     if requested and not trusted:
         raise ValueError("Native builds require a trusted same-repository source")
-    if enabled:
+    if enabled or requested:
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", runner_label):
             raise ValueError("Configure a prepared Windows ARM64 runner label")
         if not re.fullmatch(r"[0-9]{2,3}[af]?", cuda_arch):
@@ -73,7 +74,13 @@ def plan(
             "No Windows tasks selected; refusing an empty native validation"
         )
     return {
+        "required": required,
         "enabled": enabled,
+        "coverage": (
+            "selected"
+            if enabled
+            else "missing-resource" if required else "not-applicable"
+        ),
         "runner_label": runner_label,
         "cuda_arch": cuda_arch,
         "matrix": matrix,
