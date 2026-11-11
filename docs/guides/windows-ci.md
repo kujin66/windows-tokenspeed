@@ -72,7 +72,10 @@ the same Windows CI workflow, waits for hosted and native checks, downloads
 the successful run's artifact and verifies the source SHA, complete task
 result, clean tracked source, four-package inventory, wheel metadata and SHA256
 hashes before creating a release. Failed or partially executed tasks cannot
-publish. Publication requires main or a release branch; dry_run=true validates
+publish. Nightly publication requires main or a release branch; stable Windows
+packages require a release branch, following the upstream kernel backend's
+version convention. A development CI wheel cannot be relabeled as stable.
+dry_run=true validates
 review branches without creating releases or updating indexes.
 
 For an ordinary build, source_run_id can select a successful Windows ARM64
@@ -95,6 +98,9 @@ packages receive the same dated suffix; the runtime pins all three exact
 versions. Tests run against the installed wheels. The original source checkout
 remains unmodified, and publication checks wheel metadata, all four dates and
 the runtime dependency pins. No Windows nightly is uploaded to PyPI.
+The upstream release_candidate input is forwarded to all four Windows package
+versions. Windows rejects replace_nightly requests before building; select a new
+date or release candidate to retain immutable published assets.
 
 | Variable | Meaning |
 | --- | --- |

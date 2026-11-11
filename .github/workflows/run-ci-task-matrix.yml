@@ -3,6 +3,10 @@ name: Run CI Task Matrix
 on:
   workflow_call:
     inputs:
+      release_candidate:
+        description: Optional nightly release candidate passed to the upstream kernel backend.
+        type: string
+        default: ''
       platform:
         description: Explicit execution platform, linux or windows.
         type: string
@@ -305,6 +309,7 @@ jobs:
       TRITON_DEFAULT_FP_FUSION: '1'
       CMAKE_ARGS: '-DCMAKE_TRY_COMPILE_CONFIGURATION=Release'
       TOKENSPEED_CUDA_ARCH: ${{ inputs.windows_cuda_arch }}
+      TOKENSPEED_KERNEL_RELEASE_CANDIDATE: ${{ inputs.release_candidate }}
       TOKENSPEED_WINDOWS_NIGHTLY_DATE: ${{ inputs.windows_nightly_date }}
     steps:
       - uses: actions/checkout@v4

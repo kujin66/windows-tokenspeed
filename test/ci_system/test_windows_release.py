@@ -49,6 +49,8 @@ def release_plan(**overrides):
         index=False,
         token_configured=False,
         source_run="",
+        release_candidate="",
+        replace_nightly=False,
     )
     values.update(overrides)
     return RELEASE["plan"](**values)
@@ -242,3 +244,41 @@ def test_cross_source_or_failed_artifact_run_cannot_be_promoted(change):
     run.update(change)
     with pytest.raises(ValueError):
         RELEASE["verify_run"](run, source_sha=SHA, repository="example/source")
+
+
+@pytest.mark.parametrize(
+    "overrides",
+    [
+        {"release_candidate": "bad"},
+        {"release_candidate": "rc1", "nightly": False, "date": ""},
+        {"replace_nightly": True},
+        {"nightly": False, "date": "", "dry_run": False},
+    ],
+)
+def test_unsupported_publication_inputs_fail_before_building(overrides):
+    with pytest.raises(ValueError):
+        release_plan(**overrides)
+
+
+def test_release_candidate_and_stable_release_branch_follow_upstream_rules():
+    assert release_plan(release_candidate="rc2") == "20261111"
+    assert (
+        release_plan(
+            nightly=False, date="", dry_run=False, ref="refs/heads/release/windows"
+        )
+        == ""
+    )
+
+
+def test_stable_publication_cannot_relabel_an_ordinary_ci_development_wheel():
+    paths = [
+        Path("tokenspeed-0.1.1-py3-none-any.whl"),
+        Path(
+            "tokenspeed_kernel-0.1.4.dev20261111+gitaaaaaaaa-cp313-cp313-win_arm64.whl"
+        ),
+    ]
+    with pytest.raises(ValueError, match="development wheel"):
+        RELEASE["publication_version"](paths, nightly_date="", dry_run=False)
+    assert (
+        RELEASE["publication_version"](paths, nightly_date="", dry_run=True) == "0.1.1"
+    )

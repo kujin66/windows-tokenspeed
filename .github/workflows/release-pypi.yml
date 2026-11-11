@@ -423,6 +423,8 @@ jobs:
     with:
       windows_arm64: true
       nightly: ${{ github.event_name == 'schedule' || inputs.nightly }}
+      release_candidate: ${{ inputs.release_candidate || '' }}
+      replace_nightly: ${{ inputs.replace_nightly || false }}
       version_date: ${{ inputs.version_date || '' }}
       dry_run: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_PUBLISH != 'true' || github.event_name != 'schedule' && inputs.windows_dry_run }}
       publish_windows_index: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_INDEX == 'true' || inputs.publish_windows_index }}

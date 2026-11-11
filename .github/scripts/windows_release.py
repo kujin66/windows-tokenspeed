@@ -34,6 +34,24 @@ from packaging.utils import parse_wheel_filename
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def publication_version(paths: list[Path], *, nightly_date: str, dry_run: bool) -> str:
+    versions = {
+        str(name): version
+        for path in paths
+        if path.suffix == ".whl"
+        for name, version, _, _ in [parse_wheel_filename(path.name)]
+    }
+    if (
+        not nightly_date
+        and not dry_run
+        and any(version.is_prerelease or version.local for version in versions.values())
+    ):
+        raise ValueError(
+            "An ordinary CI development wheel cannot be promoted as a stable release"
+        )
+    return str(versions["tokenspeed"])
+
+
 def plan(
     *,
     repository: str,
@@ -45,7 +63,20 @@ def plan(
     index: bool,
     token_configured: bool,
     source_run: str,
+    release_candidate: str,
+    replace_nightly: bool,
 ) -> str:
+    if replace_nightly:
+        raise ValueError(
+            "Windows publication is immutable; select a new date or release candidate"
+        )
+    if release_candidate and (
+        not nightly
+        or not re.fullmatch(r"(?:rc)?[0-9]+", release_candidate, flags=re.IGNORECASE)
+    ):
+        raise ValueError(
+            "A Windows release candidate requires nightly mode and a number such as 1 or rc1"
+        )
     if source_run and (not windows or not re.fullmatch(r"[1-9][0-9]*", source_run)):
         raise ValueError("An artifact source must be a positive Windows CI run ID")
     if (nightly or index) and not windows:
@@ -61,6 +92,15 @@ def plan(
     if not windows and repository != "lightseekorg/tokenspeed":
         raise ValueError(
             "The upstream release page requires the official source repository"
+        )
+    if (
+        windows
+        and not nightly
+        and not dry_run
+        and not ref.startswith("refs/heads/release/")
+    ):
+        raise ValueError(
+            "Stable Windows package builds require a release branch, as the upstream kernel backend does"
         )
     if index and not dry_run and not token_configured:
         raise ValueError("Pages publication requires TOKENSPEED_RELEASE_TOKEN")
@@ -115,6 +155,8 @@ def main() -> None:
             index=os.environ["PUBLISH_INDEX"] == "true",
             token_configured=os.environ["INDEX_TOKEN_CONFIGURED"] == "true",
             source_run=os.environ["SOURCE_RUN_ID"],
+            release_candidate=os.environ["RELEASE_CANDIDATE"],
+            replace_nightly=os.environ["REPLACE_NIGHTLY"] == "true",
         )
         with output.open("a", encoding="utf-8") as target:
             print(f"nightly_date={date}", file=target)
@@ -129,8 +171,11 @@ def main() -> None:
             source_sha=os.environ["GITHUB_SHA"],
             nightly_date=os.environ["NIGHTLY_DATE"],
         )
-        runtime = next(path for path in paths if path.name.startswith("tokenspeed-"))
-        version = str(parse_wheel_filename(runtime.name)[1])
+        version = publication_version(
+            paths,
+            nightly_date=os.environ["NIGHTLY_DATE"],
+            dry_run=os.environ["DRY_RUN"] == "true",
+        )
     else:
         version = tomllib.loads((ROOT / "python/pyproject.toml").read_text())[
             "project"

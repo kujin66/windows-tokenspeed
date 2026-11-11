@@ -35,6 +35,14 @@ on:
         description: Optional explicit nvcc architecture for the prepared runner.
         type: string
         default: ''
+      release_candidate:
+        description: Optional nightly release candidate N or rcN, using upstream version rules.
+        type: string
+        default: ''
+      replace_nightly:
+        description: Windows assets are immutable; replacement requests fail before building.
+        type: boolean
+        default: false
   workflow_call:
     inputs: *release_inputs
     secrets:
@@ -69,6 +77,8 @@ jobs:
           DRY_RUN: ${{ inputs.dry_run }}
           PUBLISH_INDEX: ${{ inputs.publish_windows_index }}
           INDEX_TOKEN_CONFIGURED: ${{ secrets.TOKENSPEED_RELEASE_TOKEN != '' }}
+          RELEASE_CANDIDATE: ${{ inputs.release_candidate }}
+          REPLACE_NIGHTLY: ${{ inputs.replace_nightly }}
           SOURCE_RUN_ID: ${{ inputs.source_run_id }}
         run: python .github/scripts/windows_release.py plan
       - name: Verify the selected CI run before downloading its artifact
@@ -89,6 +99,7 @@ jobs:
       runner_label: ${{ inputs.runner_label || vars.TOKENSPEED_WINDOWS_ARM64_RUNNER_LABEL }}
       cuda_arch: ${{ inputs.cuda_arch || vars.TOKENSPEED_WINDOWS_CUDA_ARCH }}
       nightly_date: ${{ needs.plan.outputs.nightly_date }}
+      release_candidate: ${{ inputs.release_candidate }}
 
   release:
     needs: [plan, windows-build]
@@ -118,6 +129,7 @@ jobs:
       - name: Verify source, tests, wheel hashes, versions and dependency pairing
         id: metadata
         env:
+          DRY_RUN: ${{ inputs.dry_run }}
           WINDOWS_ARM64: ${{ inputs.windows_arm64 }}
         run: |
           args=()
@@ -143,7 +155,12 @@ jobs:
           options=()
           if [ "$NIGHTLY" = true ]; then options+=(--prerelease); fi
           if [ "$RELEASE_REPOSITORY" = "$GITHUB_REPOSITORY" ]; then
-            options+=(--target "$GITHUB_SHA")
+            if ! gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f ref="refs/tags/$TAG_NAME" -f sha="$GITHUB_SHA"; then
+              actual=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG_NAME" --jq '.object.sha')
+              test "$actual" = "$GITHUB_SHA"
+            fi
+            options+=(--verify-tag)
           fi
           gh release create "$TAG_NAME" "${assets[@]}" --repo "$RELEASE_REPOSITORY" \
             --title "TokenSpeed $VERSION" --notes-file release-notes.txt "${options[@]}"
