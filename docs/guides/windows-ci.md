@@ -154,6 +154,11 @@ channel. Then review and deploy the same source to main. The compiler PR targets
 an upstream baseline; merging it there alone does not deploy main. A deployment
 PR to main must expose the upstream synchronization separately from Windows
 adaptation, because the fork's older main is not the compiler baseline.
+During fork synchronization, the attribution check fetches the official main
+history and preserves commits reachable from its merge base with the PR source.
+It still checks newly contributed commits and verifies the current PR head.
+Historical upstream co-author addresses are not rewritten to satisfy a fork's
+current account lookup.
 
 After deployment, inspect the default-branch workflow inventory and Actions API
 registration separately. Dispatch non-publishing validation workflows as needed;

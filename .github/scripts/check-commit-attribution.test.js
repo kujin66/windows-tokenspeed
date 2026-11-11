@@ -39,10 +39,11 @@ function pr(commits, next, headRefOid) {
   return { repository: { pullRequest: { headRefOid, commits: page(commits, next) } } };
 }
 
-async function run(graphql) {
+async function run(graphql, upstreamCommits = new Set()) {
   const errors = [];
   const failures = [];
   await check({
+    upstreamCommits,
     github: { graphql },
     context: {
       repo: { owner: 'example', repo: 'project' },
@@ -107,4 +108,19 @@ test('checks later pages of both commits and co-authors', async () => {
 test('does not pass when the PR head changed or GitHub is unavailable', async () => {
   await assert.rejects(run(async () => pr([], null, 'b'.repeat(40))), /PR head changed/);
   await assert.rejects(run(async () => { throw new Error('API unavailable'); }), /API unavailable/);
+});
+
+test('preserves verified upstream history while checking newly contributed commits', async () => {
+  const upstream = 'b'.repeat(40);
+  const result = await run(async () => pr([
+    commit(upstream, [linked, unlinked], null),
+    commit(head, [linked, unlinked], null),
+  ], null, head), new Set([upstream]));
+  assert.equal(result.errors.length, 1);
+  assert.match(result.errors[0], /Commit a{40}: Co-authored-by email/);
+  assert.equal(result.failures.length, 1);
+});
+
+test('upstream history does not waive the current-head consistency check', async () => {
+  await assert.rejects(run(async () => pr([], null, 'b'.repeat(40)), new Set([head])), /PR head changed/);
 });
