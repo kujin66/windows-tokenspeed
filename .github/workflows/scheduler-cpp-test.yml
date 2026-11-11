@@ -6,11 +6,15 @@ on:
     paths:
       - "tokenspeed-scheduler/**"
       - ".github/workflows/scheduler-cpp-test.yml"
+      - ".github/actions/windows-arm64-setup/**"
+      - "tools/windows/activate_toolchain.ps1"
   pull_request:
-    branches: [main]
+    branches: [main, 'baseline/upstream-*']
     paths:
       - "tokenspeed-scheduler/**"
       - ".github/workflows/scheduler-cpp-test.yml"
+      - ".github/actions/windows-arm64-setup/**"
+      - "tools/windows/activate_toolchain.ps1"
   workflow_dispatch:
 
 concurrency:
@@ -19,7 +23,11 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-11-arm]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,23 +35,36 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.12"
+          python-version: "3.13"
 
-      - name: Install dependencies
+      - name: Activate Windows compiler
+        if: runner.os == 'Windows'
+        uses: ./.github/actions/windows-arm64-setup
+        with:
+          profile: cpu
+
+      - name: Install Linux build tools
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build
+
+      - name: Install dependencies
+        run: |
           python -m pip install "nanobind>=2.13.0" tokenspeed-spdlog==1.15.1
 
       - name: Configure scheduler C++ tests
         run: |
-          cmake -S tokenspeed-scheduler -B tokenspeed-scheduler/build \
-            -G Ninja \
-            -DTOKENSPEED_SCHEDULER_BUILD_TESTS=ON \
-            -DTOKENSPEED_SCHEDULER_BUILD_PYTHON=OFF
+          cmake -S tokenspeed-scheduler -B tokenspeed-scheduler/build -G Ninja -DTOKENSPEED_SCHEDULER_BUILD_TESTS=ON -DTOKENSPEED_SCHEDULER_BUILD_PYTHON=OFF
 
       - name: Build scheduler C++ tests
         run: cmake --build tokenspeed-scheduler/build --target tokenspeed_scheduler_tests
 
       - name: Run scheduler C++ tests
-        run: ./tokenspeed-scheduler/build/tokenspeed_scheduler_tests
+        run: ctest --test-dir tokenspeed-scheduler/build --no-tests=error --output-on-failure --output-junit '${{ github.workspace }}/scheduler-cpp.xml'
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scheduler-cpp-${{ matrix.os }}
+          path: scheduler-*.xml

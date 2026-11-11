@@ -13,3 +13,4 @@ pytest==9.1.1
 torch==2.16.0.dev20261101+cu134
 apache-tvm-ffi==0.1.15.post2
 tokenspeed-triton==3.9.10.post20261023
+PyYAML==6.0.3

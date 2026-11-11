@@ -113,16 +113,17 @@ must fail the preflight rather than being hidden by cached compiler helpers.
 Use a dedicated venv: the entrypoint installs the newly built wheels into it.
 Keep checkout/output paths short. Set CARGO_TARGET_DIR to a short cache path
 when a deep checkout would exceed MSVC object/PDB path limits.
-Each output directory must be new. Supply the architecture explicitly.
+The task output directory outputs/windows-arm64 must be new. Supply the architecture explicitly.
 The Windows entrypoint retries a command at most twice only when Rust reports a
 temporary-archive cleanup sharing violation (OS error 32). It preserves command
 output and exit codes; other build/compiler failures are not retried.
 
 ```powershell
-.venv/Scripts/python tools/windows/build_wheels.py --cuda-arch 121a --output outputs/windows-arm64-1
+$env:TOKENSPEED_CUDA_ARCH = '121a'
+.venv/Scripts/python test/ci_system/pipeline.py execute --config test/ci/ut/ut-windows-arm64-build.yaml --runner windows-arm64-cuda --work-dir . --print-plan --result-json .ci-artifacts/result.json
 ```
 
-The entrypoint builds the four wheels with `--no-build-isolation --no-deps
+The shared CI task builds the four wheels with `--no-build-isolation --no-deps
 --no-index`, builds/runs scheduler CTest, audits ARM64 PE payloads and wheel tags,
 requires all 24 CUDA groups, then installs its own output wheels. It runs native
 package/OpenSSL SHA256 checks, changed-input CUDA Graph checks, selected Marlin
@@ -145,19 +146,13 @@ compiled group. Retain source commit/diff hashes with results.
 
 ## CI and Linux regression
 
-`.github/workflows/windows-arm64-build.yml` runs portable PE audit behavior tests
-on Linux and Windows hosted runners. Its separate native CUDA job is an explicit
-manual opt-in requiring `[self-hosted, Windows, ARM64, tokenspeed-cuda]`. Use
-an additional label unique to the intended runner and supply it as runner_label
-when dispatching with native_cuda=true and an explicit cuda_arch. An ephemeral
-runner can execute one manual job and deregister afterward; a Windows service
-installation is not required. Keep its workspace and Cargo cache paths short.
-Configure the runner with the SDKs, native Python, OpenSSL prefix/license and source inputs
-above. The native job calls the same build entrypoint and uploads wheels,
-build manifest and JUnit. A hosted build-tool check is not native ARM64 CUDA
-compilation evidence. A native job requires an available configured runner.
+Windows tasks use the upstream scanner, executor and reusable task workflow.
+Scheduler C++/Python and selected engine Rust checks also run on hosted
+Windows ARM64 runners. See [Windows CI and releases](windows-ci.md) for
+trigger branches, automatic/manual GPU runner configuration, coverage and
+the release path. Hosted checks do not establish native CUDA coverage.
 
-Existing upstream Linux workflows and runtime files are unchanged. Windows
+Linux runtime files remain unchanged; relevant PR workflows also accept the upstream baseline review branches. Windows
 compiler/linker choices are gated by WIN32, _MSC_VER or Python target platform.
 The Linux toolchain retains dynamic crypto/stdC++ linking, original Marlin
 dispatch and CUDA compilation flags. RoPE FP8 dispatch retains its original
@@ -191,6 +186,6 @@ SM90/SM100/SM107 multi-GPU, AMD or Ascend coverage.
 
 ## Source baseline and validation
 
-This port is based on upstream main at 6023794d37a8f44b48e7f04522a807c39f43a839 (2026-11-09). The Windows ARM64 compiler changes are reapplied from PR4. The upstream runtime, test-scope selection helper and Linux release workflows come from that main snapshot. The additional opt-in Windows ARM64 build workflow is added. Lint pins Ubuntu 24.04 and clang-format/clang-tidy 18 to match the unchanged pre-commit hook, and allows explicit full manual validation. Linux runtime, dependency and release paths remain unchanged.
+This port is based on upstream main at 6023794d37a8f44b48e7f04522a807c39f43a839 (2026-11-09). The Windows ARM64 compiler changes are reapplied from PR4. The upstream runtime, test-scope selection helper and Linux release workflows come from that main snapshot. Windows ARM64 uses the shared CI task workflow with platform-specific setup. Lint pins Ubuntu 24.04 and clang-format/clang-tidy 18 to match the unchanged pre-commit hook, and allows explicit full manual validation. Linux runtime and dependency paths remain unchanged. The existing GitHub release workflow can attach validated Windows artifacts.
 
 Historical PR3/PR4 throughput results are not validation of this source. Fresh native build, JIT, numerical and Linux regression results are recorded in the pull request with their exact source and Actions links. Do not infer full Windows inference support from compiler checks.

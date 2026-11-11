@@ -20,7 +20,7 @@ on:
       - ".github/workflows/run-ci-task-matrix.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [main]
+    branches: [main, 'baseline/upstream-*']
     paths:
       - "python/pyproject.toml"
       - "python/tokenspeed/**"
@@ -179,6 +179,7 @@ jobs:
       )
     uses: ./.github/workflows/run-ci-task-matrix.yml
     with:
+      platform: linux
       matrix: ${{ needs.scan.outputs.import_matrix }}
       install_tokenspeed_mla_from_source: ${{ needs.scan.outputs.install_tokenspeed_mla_from_source }}
       b200_runner_label: ${{ vars.TOKENSPEED_B200_RUNNER_LABEL }}
@@ -201,6 +202,7 @@ jobs:
       )
     uses: ./.github/workflows/run-ci-task-matrix.yml
     with:
+      platform: linux
       matrix: ${{ needs.scan.outputs.unit_matrix }}
       install_tokenspeed_mla_from_source: ${{ needs.scan.outputs.install_tokenspeed_mla_from_source }}
       b200_runner_label: ${{ vars.TOKENSPEED_B200_RUNNER_LABEL }}
@@ -220,6 +222,7 @@ jobs:
       needs.scan.outputs.model_has_tasks == 'true'
     uses: ./.github/workflows/run-ci-task-matrix.yml
     with:
+      platform: linux
       matrix: ${{ needs.scan.outputs.model_matrix }}
       install_tokenspeed_mla_from_source: ${{ needs.scan.outputs.install_tokenspeed_mla_from_source }}
       b200_runner_label: ${{ vars.TOKENSPEED_B200_RUNNER_LABEL }}

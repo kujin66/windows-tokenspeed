@@ -1269,7 +1269,8 @@ def test_mi450_sim_uses_direct_runner_and_bounded_timeout():
     assert job["runs-on"] == "${{ matrix.runner }}"
     assert job["timeout-minutes"] == (
         "${{ matrix.runner == 'amd-mi45x-cpu-test'"
-        " && 30 || inputs.timeout_minutes }}"
+        " && 30 || (matrix.name == 'ut-tokenspeed-kernel'"
+        " && inputs.timeout_minutes < 90 && 90 || inputs.timeout_minutes) }}"
     )
 
 
@@ -1305,7 +1306,8 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
     isolated_variables = tuple(
         variable
         for variable in cache_variables
-        if variable != "TRITON_CACHE_DIR" or task_type == "eval"
+        if (variable == "TRITON_CACHE_DIR" and task_type in {"ut", "eval"})
+        or (workflow_stage == "model-test" and variable != "TRITON_CACHE_DIR")
     )
     job_envs = []
     for attempt in (1, 2):
@@ -1336,12 +1338,16 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
         assert "MIOPEN_FIND_MODE" not in job_env
         assert "MIOPEN_FIND_ENFORCE" not in job_env
         if workflow_stage != "model-test":
-            assert all(variable not in job_env for variable in cache_variables)
+            assert all(
+                variable not in job_env
+                for variable in cache_variables
+                if variable not in isolated_variables
+            )
             assert "EVALSCOPE_UV_CACHE_DIR" not in job_env
-            continue
-        assert job_env["EVALSCOPE_UV_CACHE_DIR"] == str(
-            persistent_hf_home / ".uv-cache" / "evalscope"
-        )
+        else:
+            assert job_env["EVALSCOPE_UV_CACHE_DIR"] == str(
+                persistent_hf_home / ".uv-cache" / "evalscope"
+            )
         if task_type == "perf":
             assert "TRITON_CACHE_DIR" not in job_env
         for variable in isolated_variables:
@@ -1352,9 +1358,6 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
             (cache / "download").touch()
         job_envs.append(job_env)
 
-    if workflow_stage != "model-test":
-        assert sentinel.exists()
-        return
     first, second = job_envs
     assert all(first[variable] != second[variable] for variable in isolated_variables)
     script = cleanup["run"].replace("${{ env.WORK_DIR }}", first["WORK_DIR"])

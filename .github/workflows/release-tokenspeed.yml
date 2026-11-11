@@ -2,17 +2,47 @@ name: Release TokenSpeed
 
 on:
   workflow_dispatch:
+    inputs:
+      windows_arm64:
+        description: Build, test and attach all four Windows ARM64 wheels before release.
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: write
 
 jobs:
+  windows-build:
+    if: inputs.windows_arm64
+    uses: ./.github/workflows/windows-arm64-build.yml
+    with:
+      native_cuda: true
+      runner_label: ${{ vars.TOKENSPEED_WINDOWS_ARM64_RUNNER_LABEL }}
+      cuda_arch: ${{ vars.TOKENSPEED_WINDOWS_CUDA_ARCH }}
+
   release:
-    if: github.repository == 'lightseekorg/tokenspeed'
+    needs: windows-build
+    if: >-
+      !cancelled() &&
+      (!inputs.windows_arm64 || needs.windows-build.result == 'success')
     runs-on: ubuntu-latest
+    env:
+      RELEASE_REPOSITORY: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Download validated Windows distributions
+        if: inputs.windows_arm64
+        uses: actions/download-artifact@v4
+        with:
+          name: tokenspeed-windows-arm64
+          path: windows-dist
+
+      - name: Verify native source, task completion and artifact hashes
+        if: inputs.windows_arm64
+        run: python .github/scripts/verify_windows_release.py windows-dist --source-sha "$GITHUB_SHA" > windows-assets.txt
 
       - name: Resolve release metadata
         id: metadata
@@ -44,16 +74,25 @@ jobs:
 
       - name: Create GitHub release
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.TOKENSPEED_RELEASE_TOKEN || github.token }}
           VERSION: ${{ steps.metadata.outputs.version }}
+          WINDOWS_ARM64: ${{ inputs.windows_arm64 }}
         run: |
+          set -euo pipefail
           tag="v${VERSION}"
-          gh api --method POST \
-            "repos/${GITHUB_REPOSITORY}/git/refs" \
-            -f ref="refs/tags/${tag}" \
-            -f sha="${GITHUB_SHA}"
-          gh release create "${tag}" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --title "TokenSpeed ${VERSION}" \
-            --generate-notes \
-            --verify-tag
+          assets=()
+          if [ "$WINDOWS_ARM64" = true ]; then
+            mapfile -t assets < windows-assets.txt
+          fi
+          printf 'Source: https://github.com/%s/commit/%s\n' "$GITHUB_REPOSITORY" "$GITHUB_SHA" > release-notes.txt
+          if [ "$RELEASE_REPOSITORY" = "$GITHUB_REPOSITORY" ]; then
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f ref="refs/tags/$tag" -f sha="$GITHUB_SHA"
+            gh release create "$tag" "${assets[@]}" --repo "$RELEASE_REPOSITORY" \
+              --title "TokenSpeed $VERSION" --notes-file release-notes.txt --generate-notes --verify-tag
+          else
+            # A wheelhouse repository has its own history; the source commit is
+            # recorded in the release notes and the verified build manifest.
+            gh release create "$tag" "${assets[@]}" --repo "$RELEASE_REPOSITORY" \
+              --title "TokenSpeed $VERSION" --notes-file release-notes.txt
+          fi

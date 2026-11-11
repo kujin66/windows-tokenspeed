@@ -197,24 +197,6 @@ def main() -> None:
                 ]
             )
         run(*command)
-    run(
-        "cmake",
-        "--build",
-        str(output / "scheduler"),
-        "--target",
-        "tokenspeed_scheduler_tests",
-        "--config",
-        "Release",
-    )
-    run(
-        "ctest",
-        "--test-dir",
-        str(output / "scheduler"),
-        "--no-tests=error",
-        "--output-on-failure",
-        "--output-junit",
-        str(output / "scheduler-tests.xml"),
-    )
     built = sorted(wheels.glob("*.whl"))
     if len(built) != 4:
         raise RuntimeError(f"Expected four wheels, found {len(built)}")
@@ -252,45 +234,6 @@ def main() -> None:
         "--no-index",
         "--force-reinstall",
         *map(str, built),
-    )
-    run(
-        sys.executable,
-        "-m",
-        "pytest",
-        "-q",
-        "--confcutdir=test/windows",
-        "test/windows/test_native_build.py",
-        "--basetemp",
-        str(output / "pytest-tmp"),
-        f"--junitxml={output / 'tests.xml'}",
-    )
-    run(
-        sys.executable,
-        "-m",
-        "pytest",
-        "-q",
-        "--confcutdir=tokenspeed-kernel/test/nvidia/thirdparty",
-        "tokenspeed-kernel/test/nvidia/thirdparty/test_collective_sentinels.py",
-        "tokenspeed-kernel/test/nvidia/thirdparty/test_marlin_native.py",
-        "--basetemp",
-        str(output / "collective-pytest-tmp"),
-        f"--junitxml={output / 'collective-tests.xml'}",
-    )
-    run(
-        "cargo",
-        "test",
-        "--manifest-path",
-        str(ROOT / "tokenspeed-engine/Cargo.toml"),
-        "--release",
-        "--locked",
-        "-p",
-        "tokenspeed-metrics",
-        "-p",
-        "tokenspeed-host",
-        "-p",
-        "tokenspeed-scheduler",
-        "--lib",
-        "--bins",
     )
 
 

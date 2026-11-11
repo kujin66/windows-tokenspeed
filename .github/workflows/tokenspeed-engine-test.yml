@@ -7,12 +7,16 @@ on:
       - "tokenspeed-engine/**"
       - "tokenspeed-scheduler/**"
       - ".github/workflows/tokenspeed-engine-test.yml"
+      - ".github/actions/windows-arm64-setup/**"
+      - "tools/windows/activate_toolchain.ps1"
   pull_request:
-    branches: [main]
+    branches: [main, 'baseline/upstream-*']
     paths:
       - "tokenspeed-engine/**"
       - "tokenspeed-scheduler/**"
       - ".github/workflows/tokenspeed-engine-test.yml"
+      - ".github/actions/windows-arm64-setup/**"
+      - "tools/windows/activate_toolchain.ps1"
   workflow_dispatch:
 
 permissions:
@@ -66,3 +70,43 @@ jobs:
           python -m pip wheel . --no-deps -w dist
           python -m pip install --no-deps dist/tokenspeed_engine-*.whl
           cd /tmp && python -c 'import os, tokenspeed_engine; assert os.access(tokenspeed_engine.host_binary(), os.X_OK)'
+
+  windows-test:
+    name: Windows ARM64 Rust compiler checks
+    runs-on: windows-11-arm
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: tokenspeed-engine
+    env:
+      CARGO_BUILD_JOBS: '2'
+      CMAKE_BUILD_PARALLEL_LEVEL: '2'
+      CMAKE_GENERATOR: Ninja
+      CMAKE_ARGS: '-DCMAKE_TRY_COMPILE_CONFIGURATION=Release'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: ./.github/actions/windows-arm64-setup
+        with:
+          profile: cpu
+      - name: Install native build dependencies
+        run: |
+          python -m pip install "nanobind>=2.13.0" tokenspeed-spdlog==1.15.1
+          vcpkg install openssl:arm64-windows-static-md
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $prefix = Join-Path $env:VCPKG_INSTALLATION_ROOT 'installed/arm64-windows-static-md'
+          "OPENSSL_ROOT_DIR=$prefix" >> $env:GITHUB_ENV
+          "OPENSSL_LICENSE_FILE=$prefix/share/openssl/copyright" >> $env:GITHUB_ENV
+          "PYO3_PYTHON=$((Get-Command python).Source)" >> $env:GITHUB_ENV
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt,clippy
+          rustup default stable
+      - name: Check formatting
+        run: cargo fmt --all --check
+      - name: Lint supported native crates
+        run: cargo clippy --locked -p tokenspeed-metrics -p tokenspeed-host -p tokenspeed-scheduler --lib --bins -- -D warnings
+      - name: Test supported native crates
+        run: cargo test --locked -p tokenspeed-metrics -p tokenspeed-host -p tokenspeed-scheduler --lib --bins

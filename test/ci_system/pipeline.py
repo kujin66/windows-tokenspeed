@@ -65,6 +65,7 @@ SUPPORTED_PRIORITIES = ("high", "normal", "low")
 DEFAULT_PRIORITY = "normal"
 SUPPORTED_RUNNER_GROUPS = (
     "all",
+    "windows-arm64",
     "amd",
     "amd-mi350",
     "amd-mi450",
@@ -144,9 +145,17 @@ def is_nvidia_arm_runner(runner: str) -> bool:
     return runner.startswith(NVIDIA_ARM_RUNNER_PREFIXES)
 
 
+def is_windows_runner(runner: str) -> bool:
+    return runner == "windows-arm64-cuda"
+
+
 def runner_matches_group(runner: str, runner_group: str) -> bool:
     if runner_group == "all":
         return True
+    if runner_group == "windows-arm64":
+        return is_windows_runner(runner)
+    if is_windows_runner(runner):
+        return False
     if runner_group == "npu":
         return is_npu_runner(runner)
     if is_npu_runner(runner):
@@ -185,7 +194,7 @@ def should_run_perf_diagnostics(task: Dict[str, Any], runner: str) -> bool:
 
 
 def load_yaml(path: Path) -> Dict[str, Any]:
-    with path.open() as handle:
+    with path.open(encoding="utf-8") as handle:
         data = yaml.safe_load(handle)
     if not isinstance(data, dict):
         raise ValueError(f"{path}: top-level YAML document must be a mapping")
@@ -228,6 +237,15 @@ def validate_task(data: Dict[str, Any], path: Path) -> None:
         or not all(isinstance(label, str) and label for label in labels)
     ):
         raise ValueError(f"{path}: runner.labels must be a non-empty string list")
+    if any(is_windows_runner(label) for label in labels):
+        if not all(is_windows_runner(label) for label in labels):
+            raise ValueError(
+                f"{path}: Windows and Linux runners require separate tasks"
+            )
+        if data["type"] != "ut":
+            raise ValueError(
+                f"{path}: Windows currently supports only unit/build tasks"
+            )
     if workflow_stage == "import-check" and not all(
         is_amd_runner(label) for label in labels
     ):
@@ -529,9 +547,25 @@ def shell_run(
     print(f"$ {command}", flush=True)
     if dry_run:
         return {"command": command, "returncode": 0, "output": "", "dry_run": True}
+    # Windows tasks use PowerShell explicitly; cmd.exe cannot execute their
+    # environment expressions. Native failures must stop a multi-line command.
+    use_pwsh = is_windows_runner(env.get("CI_RUNNER_LABEL", ""))
+    invocation = (
+        [
+            "pwsh",
+            "-NoLogo",
+            "-NoProfile",
+            "-NonInteractive",
+            "-Command",
+            "$ErrorActionPreference = 'Stop'; "
+            "$PSNativeCommandUseErrorActionPreference = $true; " + command,
+        ]
+        if use_pwsh
+        else command
+    )
     process = subprocess.Popen(
-        command,
-        shell=True,
+        invocation,
+        shell=not use_pwsh,
         cwd=cwd,
         env=env,
         stdout=subprocess.PIPE,
@@ -829,6 +863,12 @@ def setup_runner(
         return local_env, pgm
     if setup_mode != "ci":
         raise ValueError(f"unsupported setup mode: {setup_mode!r}")
+    if is_windows_runner(runner):
+        if os.name != "nt":
+            raise ValueError("Windows tasks require a native Windows runner")
+        # The platform action prepares the job-local venv and compiler. Do not
+        # apply Linux host cleanup or install CUDA Linux packages here.
+        return local_env, pgm
     if is_npu_runner(runner):
         # The existing NPU entry owns its deployed environment and host lock.
         return local_env, pgm
@@ -1861,6 +1901,8 @@ def filter_stage_commands(
 def cleanup_runner(
     env: Dict[str, str], cwd: Path, dry_run: bool, pgm: ProcessGroupManager = None
 ) -> None:
+    if is_windows_runner(env.get("CI_RUNNER_LABEL", "")):
+        return
     if pgm is None:
         kill_stale_processes(env, cwd, dry_run)
 
