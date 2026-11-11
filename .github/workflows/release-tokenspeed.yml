@@ -8,6 +8,11 @@ on:
         type: boolean
         required: true
         default: false
+      publish_windows_index:
+        description: Update the configured Windows ARM64 pip index after publishing verified wheels.
+        type: boolean
+        required: true
+        default: false
 
 permissions:
   contents: write
@@ -27,11 +32,24 @@ jobs:
       !cancelled() &&
       (!inputs.windows_arm64 || needs.windows-build.result == 'success')
     runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ format('v{0}', steps.metadata.outputs.version) }}
     env:
       RELEASE_REPOSITORY: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Validate index request
+        if: inputs.publish_windows_index
+        env:
+          WINDOWS_ARM64: ${{ inputs.windows_arm64 }}
+          INDEX_TOKEN_CONFIGURED: ${{ secrets.TOKENSPEED_RELEASE_TOKEN != '' }}
+        run: |
+          if [ "$WINDOWS_ARM64" != true ] || [ "$INDEX_TOKEN_CONFIGURED" != true ]; then
+            echo 'The Windows index requires windows_arm64=true and TOKENSPEED_RELEASE_TOKEN for Pages deployment.' >&2
+            exit 1
+          fi
 
       - name: Download validated Windows distributions
         if: inputs.windows_arm64
@@ -84,6 +102,7 @@ jobs:
           if [ "$WINDOWS_ARM64" = true ]; then
             mapfile -t assets < windows-assets.txt
           fi
+
           printf 'Source: https://github.com/%s/commit/%s\n' "$GITHUB_REPOSITORY" "$GITHUB_SHA" > release-notes.txt
           if [ "$RELEASE_REPOSITORY" = "$GITHUB_REPOSITORY" ]; then
             gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
@@ -96,3 +115,63 @@ jobs:
             gh release create "$tag" "${assets[@]}" --repo "$RELEASE_REPOSITORY" \
               --title "TokenSpeed $VERSION" --notes-file release-notes.txt
           fi
+
+  publish-windows-index:
+    needs: release
+    if: inputs.publish_windows_index
+    runs-on: ubuntu-latest
+    concurrency:
+      group: wheelhouse-publication
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ secrets.TOKENSPEED_RELEASE_TOKEN }}
+      RELEASE_REPOSITORY: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+      INDEX_BRANCH: ${{ vars.TOKENSPEED_RELEASE_INDEX_BRANCH || 'gh-pages' }}
+      TAG_NAME: ${{ needs.release.outputs.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/download-artifact@v4
+        with:
+          name: tokenspeed-windows-arm64
+          path: windows-dist
+      - name: Checkout wheel index
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.TOKENSPEED_RELEASE_INDEX_REPOSITORY || vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+          ref: ${{ vars.TOKENSPEED_RELEASE_INDEX_BRANCH || 'gh-pages' }}
+          path: wheelhouse
+          token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN }}
+      - name: Update Windows index with the upstream publisher
+        run: |
+          set -euo pipefail
+          gh api "repos/$RELEASE_REPOSITORY/releases/tags/$TAG_NAME" > published-release.json
+          for package in tokenspeed tokenspeed-kernel tokenspeed-scheduler tokenspeed-engine; do
+            python .github/scripts/update-nightly-index.py --package "$package" \
+              --variant win_arm64 --repository "$RELEASE_REPOSITORY" \
+              wheelhouse published-release.json windows-dist
+          done
+      - name: Publish wheel index
+        run: |
+          set -euo pipefail
+          cd wheelhouse
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add windows-arm64
+          git diff --cached --check
+          if git diff --cached --quiet; then exit 0; fi
+          if [ -f .pre-commit-config.yaml ] || [ -f .pre-commit-config.yml ]; then
+            python -m pip install pre-commit
+            pre-commit run --all-files
+            git add windows-arm64
+          fi
+          git commit -s -m "Publish Windows ARM64 wheel index"
+          for attempt in 1 2 3; do
+            if git push origin "HEAD:$INDEX_BRANCH"; then exit 0; fi
+            git fetch origin "$INDEX_BRANCH"
+            git rebase "origin/$INDEX_BRANCH"
+          done
+          echo 'Could not publish the Windows wheel index after three attempts.' >&2
+          exit 1

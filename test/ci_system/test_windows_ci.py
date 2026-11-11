@@ -35,6 +35,9 @@ verify = runpy.run_path(str(ROOT / ".github/scripts/verify_windows_release.py"))
     "verify"
 ]
 SHA = "a" * 40
+update_windows_index = runpy.run_path(
+    str(ROOT / ".github/scripts/update-nightly-index.py")
+)["update_windows_index"]
 
 
 def native_plan(
@@ -199,3 +202,85 @@ def test_release_rejects_failed_stale_partial_or_modified_artifacts(
     result_path.write_text(json.dumps(result), encoding="utf-8")
     with pytest.raises(ValueError):
         verify(release_bundle, source_sha=SHA)
+
+
+def index_release(directory, repository):
+    return {
+        "assets": [
+            {
+                "name": path.name,
+                "browser_download_url": f"https://github.com/{repository}/releases/download/v0.1.0/{path.name}",
+                "digest": "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+            for path in directory.glob("*.whl")
+        ]
+    }
+
+
+def test_windows_index_reuses_upstream_writer_and_preserves_linux_history(
+    release_bundle, tmp_path
+):
+    wheelhouse = tmp_path / "index"
+    linux = wheelhouse / "nightly/index.html"
+    linux.parent.mkdir(parents=True)
+    linux.write_text("existing Linux index", encoding="utf-8")
+    release = index_release(release_bundle, "example/wheels")
+    for package in (
+        "tokenspeed",
+        "tokenspeed-engine",
+        "tokenspeed-kernel",
+        "tokenspeed-scheduler",
+    ):
+        update_windows_index(
+            wheelhouse, release, release_bundle, package, "example/wheels", False
+        )
+        index = wheelhouse / "windows-arm64" / package / "index.html"
+        first = index.read_text(encoding="utf-8")
+        assert "https://github.com/example/wheels/releases/download/" in first
+        assert "#sha256=" in first
+        update_windows_index(
+            wheelhouse, release, release_bundle, package, "example/wheels", False
+        )
+        assert index.read_text(encoding="utf-8") == first
+    assert linux.read_text(encoding="utf-8") == "existing Linux index"
+    assert (wheelhouse / "windows-arm64/index.html").read_text().count("<a href=") == 4
+
+
+@pytest.mark.parametrize(
+    "problem", ["repository", "digest", "missing-asset", "platform"]
+)
+def test_windows_index_rejects_unverified_release_before_writing(
+    release_bundle, tmp_path, problem
+):
+    wheelhouse = tmp_path / "index"
+    if problem == "platform":
+        original = next(release_bundle.glob("tokenspeed_kernel-*.whl"))
+        original.rename(
+            original.with_name(
+                original.name.replace("win_arm64", "manylinux_2_28_aarch64")
+            )
+        )
+    release = index_release(release_bundle, "example/wheels")
+    kernel = next(
+        asset
+        for asset in release["assets"]
+        if asset["name"].startswith("tokenspeed_kernel-")
+    )
+    if problem == "repository":
+        kernel["browser_download_url"] = kernel["browser_download_url"].replace(
+            "example/wheels", "other/wheels"
+        )
+    elif problem == "digest":
+        kernel["digest"] = "sha256:" + "b" * 64
+    elif problem == "missing-asset":
+        release["assets"].remove(kernel)
+    with pytest.raises(ValueError):
+        update_windows_index(
+            wheelhouse,
+            release,
+            release_bundle,
+            "tokenspeed-kernel",
+            "example/wheels",
+            False,
+        )
+    assert not wheelhouse.exists()

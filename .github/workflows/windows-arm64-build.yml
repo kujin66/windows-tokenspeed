@@ -16,6 +16,8 @@ on:
       - '.github/actions/windows-arm64-setup/**'
       - '.github/scripts/windows_ci_plan.py'
       - '.github/scripts/verify_windows_release.py'
+      - '.github/scripts/update-nightly-index.py'
+      - '.github/workflows/release-tokenspeed.yml'
       - '.github/workflows/windows-arm64-build.yml'
       - '.github/workflows/run-ci-task-matrix.yml'
   pull_request:

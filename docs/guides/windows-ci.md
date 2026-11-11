@@ -69,17 +69,38 @@ the successful run's artifact and verifies the source SHA, complete task
 result, clean tracked source, four-package inventory and wheel SHA256 hashes
 before creating a release. Failed or partially executed tasks cannot publish.
 
-The target is the current repository by default. Set
+The release target is the current repository by default. Set
 TOKENSPEED_RELEASE_REPOSITORY to an owner/repository wheelhouse and provide
 the TOKENSPEED_RELEASE_TOKEN secret when publication needs cross-repository
 write access. The default repository uses the workflow's GitHub token. Source
 provenance is retained in release notes, build.json and result.json.
 
-This Windows path publishes GitHub release assets. It does not publish to the
-official PyPI projects or update the official lightseekorg/whl index. Those
+For a pip Simple API index, also select publish_windows_index=true. This
+reuses the upstream index publisher, validates GitHub asset digests against
+the tested wheels and writes only windows-arm64/package/index.html and its
+Windows package listing. Existing Linux nightly indexes are preserved.
+
+| Variable | Meaning |
+| --- | --- |
+| TOKENSPEED_RELEASE_REPOSITORY | GitHub repository receiving verified release assets; defaults to this repository |
+| TOKENSPEED_RELEASE_INDEX_REPOSITORY | GitHub Pages index repository; defaults to the release repository |
+| TOKENSPEED_RELEASE_INDEX_BRANCH | Existing index branch; defaults to gh-pages |
+
+The configured index branch must exist and have Pages deployment configured.
+Index publication requires TOKENSPEED_RELEASE_TOKEN with write access to that
+repository, including when it is the source repository: pushes using the
+default GITHUB_TOKEN do not trigger a Pages build
+([GitHub token behavior](https://docs.github.com/en/actions/concepts/security/github_token)).
+Its pip index URL is the Pages site URL followed by
+windows-arm64/. The publisher changes no root Pages document. On an index
+publication failure, rerun the failed index job; verified release assets do
+not need to be rebuilt or replaced.
+
+This Windows path publishes GitHub release assets and an optional configured
+Windows index. It does not publish to the official PyPI projects. Existing
 Linux nightly/index controllers retain their upstream destinations and
-credentials; enabling them in a fork requires a separate deployment with
-ownership of the corresponding package/index targets.
+credentials; enabling those in a fork requires ownership of the corresponding
+package/index targets.
 
 Adding workflows on a PR branch does not update the default branch. The
 Actions sidebar can include historical workflow paths and dynamic entries;
