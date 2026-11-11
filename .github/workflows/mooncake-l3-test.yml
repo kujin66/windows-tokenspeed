@@ -23,7 +23,7 @@ on:
       - "test/test_l3_kvstore.py"
       - ".github/workflows/mooncake-l3-test.yml"
   pull_request:
-    branches: [main]
+    branches: [main, 'baseline/upstream-*']
     paths:
       - "python/tokenspeed/runtime/cache/l3/**"
       - "python/tokenspeed/runtime/cache/l2/executor.py"

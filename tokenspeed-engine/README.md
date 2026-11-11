@@ -46,7 +46,31 @@ and update the `ts-wire` structs to match. Give every new field a distinct,
 non-default value in the generator: a field decoded into the wrong slot still
 re-encodes to the same bytes, so only the value checks catch it.
 
+The optional `output_token_cumulative_probs_val` tail carries each selected
+token's cumulative probability diagnostic alongside its logprob. The control
+plane retains the same token ordering, stop truncation and streaming slices
+for both columns, and emits diagnostics only for requests returning logprobs.
+Once a request has any value, each of its outputs carries one per token, NaN
+for a token that came without one, so the column never misaligns with the
+tokens. An older producer defaults this column to empty; older readers skip
+it.
+
+The appended `reasoning_tokens` column is cumulative per request, like
+`completion_tokens`, and excludes reasoning-block delimiters. The control plane
+counts committed token ids before detokenization, including a PD prefill's
+bootstrap token. An older producer defaults the column to empty and its output
+rows report zero; older readers skip the appended column. `ts-client` output
+chunks, the Python chunk dictionaries, and `WireDriver.Completion` expose the
+same cumulative count.
+
 ## Building
+
+Snapshot SDK updates carry a complete publication directory in the optional
+`UpdateWeightsFromMooncakeReqInput.snapshot` map. The native host and Python
+runtime must be built together to transport this field. The existing global
+commit and memory-saver rules still apply. The configured SDK updater receives
+`update_weights(models, version=..., snapshot=...)`. Tensor data remains in the
+SDK's store. Requests without a snapshot retain the existing SDK protocol.
 
 The native crates target Linux and need a C++ compiler, CMake, OpenSSL
 development headers, and Python development headers. Set `PYO3_PYTHON` to
@@ -69,6 +93,30 @@ build instead, put `_native` on the Python path and point
 `TOKENSPEED_HOST_BINARY` at the binary. `TS_HOST_LOG` sets the Rust log
 filter (`info` by default; `ts_control=debug` logs admissions and cache-op
 acknowledgments).
+
+## Releasing Python wheels
+
+Use **Release TokenSpeed Engine** in GitHub Actions. Select `dry-run` to
+build and test wheels, or `publish` on `main` to upload them to PyPI. The
+workflow uses the version in `pyproject.toml`; merge a version bump before
+each release. An interrupted publication can be rerun to upload missing files.
+
+Wheels support Linux with glibc 2.28 or newer, x86_64 and aarch64, and
+CPython 3.10–3.13. They contain the Python extension, `ts-host`, and a private
+CPython shared library for the host process, including its built-in native
+stdlib modules. The host uses the launching interpreter's Python library
+paths and environment. Installing a wheel needs no
+Rust toolchain. Each wheel is tested in a separate Python container and venv
+by importing the extension and starting the embedded scheduler and Python.
+
+The build uses a full checkout because the engine also compiles the sibling
+scheduler source. No source distribution is published; source builds must
+use the repository checkout and the dependencies described above.
+
+Configure the `tokenspeed-engine` project's PyPI Trusted Publisher with
+owner `lightseekorg`, repository `tokenspeed`, workflow filename
+`release-tokenspeed-engine.yml`, and GitHub environment `pypi`. Publication
+uses GitHub OIDC and does not require a stored PyPI token.
 
 ## Releasing Rust crates
 

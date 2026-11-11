@@ -18,7 +18,7 @@ on:
       - ".github/workflows/run-ci-task-matrix.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [main]
+    branches: [main, 'baseline/upstream-*']
     paths:
       - "python/pyproject.toml"
       - "python/tokenspeed/**"
@@ -36,7 +36,7 @@ env:
 
 concurrency:
   group: pr-test-amd-kernel-benchmark-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   scan:
@@ -48,6 +48,7 @@ jobs:
       github.repository == vars.TOKENSPEED_CI_REPOSITORY
     runs-on: ubuntu-latest
     outputs:
+      hardware_enabled: ${{ github.repository == 'lightseekorg/tokenspeed' || github.repository == vars.TOKENSPEED_CI_REPOSITORY }}
       should_run: ${{ steps.changes.outputs.should_run }}
       kernel_benchmark_matrix: ${{ steps.scan.outputs.kernel_benchmark_matrix }}
       kernel_benchmark_has_tasks: ${{ steps.scan.outputs.kernel_benchmark_has_tasks }}
@@ -92,7 +93,18 @@ jobs:
               : > "$changed_files"
               ;;
           esac
-          python3 test/ci_system/ci_path_filter.py \
+          full_tests=false
+          if [ "${{ github.event_name }}" = pull_request ]; then
+            # Reviewers widen the tests with a label or description lines.
+            full_tests=$(python3 test/ci_system/pr_test_scope.py \
+              --repository "${{ github.repository }}" \
+              --pull-request "${{ github.event.pull_request.number }}" \
+              --changed-files "$changed_files")
+          fi
+          echo "full_tests=$full_tests" >> "$GITHUB_OUTPUT"
+          full_tests_flag=
+          if [ "$full_tests" = true ]; then full_tests_flag=--full-tests; fi
+          python3 test/ci_system/ci_path_filter.py $full_tests_flag \
             --runner-group amd-mi350 \
             --event-name "${{ github.event_name }}" \
             --repo-root "$GITHUB_WORKSPACE" \
@@ -107,6 +119,7 @@ jobs:
           matrix=$(python3 test/ci_system/pipeline.py scan \
             --root test/ci \
             --changed-files "$RUNNER_TEMP/tokenspeed-changed-files.txt" \
+            ${{ steps.changes.outputs.full_tests == 'true' && '--full-tests' || '' }} \
             --trigger "${{ github.event_name == 'workflow_dispatch' && 'manual' || github.event_name == 'push' && 'post-submit' || 'per-commit' }}" \
             --runner-group amd-mi350 \
             --workflow-stage "kernel-benchmark")
@@ -116,11 +129,13 @@ jobs:
   kernel-benchmark:
     needs: scan
     if: |
+      needs.scan.outputs.hardware_enabled == 'true' &&
       needs.scan.outputs.should_run == 'true' &&
       needs.scan.outputs.kernel_benchmark_has_tasks == 'true' &&
       (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
     uses: ./.github/workflows/run-ci-task-matrix.yml
     with:
+      platform: linux
       matrix: ${{ needs.scan.outputs.kernel_benchmark_matrix }}
       install_tokenspeed_mla_from_source: ${{ needs.scan.outputs.install_tokenspeed_mla_from_source }}
       comparison_base_ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event_name == 'push' && github.event.before || github.sha }}
@@ -141,18 +156,11 @@ jobs:
     needs: [scan, kernel-benchmark]
     runs-on: ubuntu-latest
     steps:
-      - name: Finish
+      - uses: actions/checkout@v4
+      - name: Report executed coverage and enforce required results
         env:
-          SCAN_RESULT: ${{ needs.scan.result }}
-          KERNEL_BENCHMARK_RESULT: ${{ needs.kernel-benchmark.result }}
-        run: |
-          # A failed scan skips the benchmark; do not let that pass the gate.
-          if [[ "$SCAN_RESULT" != "success" ]]; then
-            echo "Kernel benchmark scan did not succeed: result=$SCAN_RESULT"
-            exit 1
-          fi
-          if [[ "$KERNEL_BENCHMARK_RESULT" != "success" && "$KERNEL_BENCHMARK_RESULT" != "skipped" ]]; then
-            echo "Kernel benchmark did not finish successfully: result=$KERNEL_BENCHMARK_RESULT"
-            exit 1
-          fi
-          echo "Kernel benchmark finished."
+          CI_HARDWARE_ENABLED: ${{ needs.scan.outputs.hardware_enabled }}
+          CI_RESULTS: ${{ toJSON(needs) }}
+          CI_REQUIRED_JOBS: >-
+            scan ${{ needs.scan.outputs.hardware_enabled == 'true' && (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.kernel_benchmark_has_tasks == 'true' && 'kernel-benchmark' || '' }}
+        run: python3 test/ci_system/ci_gate.py

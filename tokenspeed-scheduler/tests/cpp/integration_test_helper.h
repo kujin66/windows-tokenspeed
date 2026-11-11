@@ -62,6 +62,7 @@ protected:
         cfg.prefix_granularity = 2;
         cfg.device_allocator.total_pages = 32;
         cfg.host_allocator.total_pages = 32;
+        cfg.host_write_policy = SchedulerConfig::HostWritePolicy::kWriteThrough;
         cfg.max_scheduled_tokens = 64;
         cfg.max_batch_size = 8;
         cfg.enable_l3_storage = false;
@@ -76,7 +77,7 @@ protected:
     }
 
     void SetUp() override {
-        config_ = MakeConfig();
+        config_ = WithHostPackingFromDevice(MakeConfig());
         scheduler_ = std::make_unique<Scheduler>(config_);
     }
 
@@ -172,6 +173,15 @@ protected:
         scheduler_->Advance(std::move(event));
     }
 
+    // The PD transport's report that a failed or cancelled transfer stopped:
+    // a request an abort or a failure parked in PdTransferring returns its
+    // pages. Ignored for any other request.
+    void SendTransferStopped(const std::string& request_id) {
+        ExecutionEvent event;
+        event.With(pd::TransferStoppedEvent{request_id});
+        scheduler_->Advance(std::move(event));
+    }
+
     void SendSnapshotDone(std::uint32_t op_id) {
         ExecutionEvent event;
         event.With(cache::SnapshotDone{.op_id = op_id});
@@ -240,6 +250,21 @@ inline const ForwardBatch* FindForwardBatch(const ExecutionPlan& plan) {
 // D-side remote admissions ride the plan's own stream, beside the batch.
 inline const ForwardBatch* FindRemoteAdmission(const ExecutionPlan& plan) {
     return plan.remote_prefill ? &*plan.remote_prefill : nullptr;
+}
+
+// Whether the prefills whose chunk reaches their prompt's end form a prefix of
+// `batch`'s prefill rows, as the runtime's output layout requires
+// (ForwardOutputLayout.from_prefill, docs/design/unified_path.md).
+inline bool CompletingPrefillsFormAPrefix(const ForwardBatch& batch) {
+    bool incomplete_seen = false;
+    for (std::size_t i = 0; i < batch.NumExtends(); ++i) {
+        const bool completes = batch.extend_prefix_lens[i] + batch.input_lengths[i] == batch.prefill_lengths[i];
+        if (completes && incomplete_seen) {
+            return false;
+        }
+        incomplete_seen = incomplete_seen || !completes;
+    }
+    return true;
 }
 
 // Inserts every real (>0) page id found in `rows` into `seen`, expecting each

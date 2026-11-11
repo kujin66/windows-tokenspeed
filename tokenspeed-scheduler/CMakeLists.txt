@@ -32,7 +32,15 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT
 )
 find_package(nanobind CONFIG REQUIRED)
-find_package(OpenSSL REQUIRED)
+if(WIN32)
+    add_compile_definitions(NOMINMAX WIN32_LEAN_AND_MEAN)
+    add_compile_options($<$<CXX_COMPILER_ID:MSVC>:/utf-8> $<$<CXX_COMPILER_ID:MSVC>:/permissive->)
+    # Keep OpenSSL in the wheel without requiring an external crypto DLL.
+    set(OPENSSL_USE_STATIC_LIBS TRUE)
+    find_package(OpenSSL REQUIRED COMPONENTS Crypto)
+else()
+    find_package(OpenSSL REQUIRED)
+endif()
 
 add_library(tokenspeed_scheduler_core STATIC
     csrc/core/token_container.cpp
@@ -56,6 +64,7 @@ add_library(tokenspeed_scheduler_core STATIC
     csrc/cache/core/cache_config.cpp
     csrc/cache/coordinator/cache_admission.cpp
     csrc/cache/coordinator/cache_coordinator.cpp
+    csrc/cache/coordinator/host_segments.cpp
     csrc/cache/core/cache_block_ref.cpp
     csrc/scheduler/operations/cache.cpp
     csrc/cache/tier/transfer_manager.cpp
@@ -98,10 +107,24 @@ if(TOKENSPEED_SCHEDULER_BUILD_PYTHON)
 
     install(TARGETS tokenspeed_scheduler_ext
         LIBRARY DESTINATION tokenspeed_scheduler
+        # CMake classifies Windows DLLs as RUNTIME artifacts.
+        RUNTIME DESTINATION tokenspeed_scheduler
     )
+    if(WIN32)
+        set(OPENSSL_LICENSE_FILE "$ENV{OPENSSL_LICENSE_FILE}" CACHE FILEPATH "License supplied with the external OpenSSL build")
+        if(NOT EXISTS "${OPENSSL_LICENSE_FILE}")
+            message(FATAL_ERROR "Set OPENSSL_LICENSE_FILE to the license accompanying the static OpenSSL build")
+        endif()
+        install(FILES "${OPENSSL_LICENSE_FILE}" DESTINATION tokenspeed_scheduler/licenses RENAME OPENSSL-LICENSE.txt)
+    endif()
 endif()
 
 if(TOKENSPEED_SCHEDULER_BUILD_TESTS)
+    # CTest registration is platform independent and remains opt-in.
+    enable_testing()
+    if(WIN32)
+        set(gtest_force_shared_crt ON CACHE BOOL "Use the same CRT as the scheduler" FORCE)
+    endif()
     FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
@@ -113,12 +136,15 @@ if(TOKENSPEED_SCHEDULER_BUILD_TESTS)
         tests/cpp/test_prefix_hasher.cpp
         tests/cpp/test_prefix_index.cpp
         tests/cpp/test_tail_table.cpp
+        tests/cpp/test_boundary_tree.cpp
         tests/cpp/test_block_pool.cpp
         tests/cpp/test_cache_block_ref.cpp
         tests/cpp/test_full_attn_group.cpp
         tests/cpp/test_swa_group.cpp
         tests/cpp/test_match_host_pages.cpp
         tests/cpp/test_cache_coordinator.cpp
+        tests/cpp/test_checkpoint_retention.cpp
+        tests/cpp/test_checkpoint_demotion.cpp
         tests/cpp/test_storage_query.cpp
         tests/cpp/test_state_checkpoints.cpp
         tests/cpp/test_joint_match_invariants.cpp
@@ -131,10 +157,20 @@ if(TOKENSPEED_SCHEDULER_BUILD_TESTS)
         tests/cpp/test_scheduler_plan.cpp
         tests/cpp/test_token_level_hits.cpp
         tests/cpp/test_outside_event_handler.cpp
+        tests/cpp/test_pd_replayable.cpp
         tests/cpp/test_cache_operations.cpp
+        tests/cpp/test_pending_prefix_store.cpp
         tests/cpp/test_req_pool_allocator.cpp
         tests/cpp/test_capacity_model.cpp
+        tests/cpp/test_shadow_occupancy.cpp
+        tests/cpp/test_closed_loop_random.cpp
+        tests/cpp/test_utils.cpp
     )
+
+    if(MSVC)
+        # Large GoogleTest translation units exceed standard COFF section limits.
+        target_compile_options(tokenspeed_scheduler_tests PRIVATE /bigobj)
+    endif()
 
     target_link_libraries(tokenspeed_scheduler_tests
         PRIVATE
@@ -182,5 +218,29 @@ if(TOKENSPEED_SCHEDULER_BUILD_TESTS)
         PRIVATE
             csrc
             tests/cpp
+    )
+
+    add_executable(tokenspeed_scheduler_group_allocator_benchmark EXCLUDE_FROM_ALL
+        tests/cpp/benchmark_group_allocator.cpp
+    )
+
+    target_link_libraries(tokenspeed_scheduler_group_allocator_benchmark
+        PRIVATE
+            tokenspeed_scheduler_core
+    )
+
+    target_include_directories(tokenspeed_scheduler_group_allocator_benchmark
+        PRIVATE
+            csrc
+            tests/cpp
+    )
+
+    add_executable(tokenspeed_scheduler_forward_batch_benchmark EXCLUDE_FROM_ALL
+        tests/cpp/benchmark_forward_batch.cpp
+    )
+
+    target_link_libraries(tokenspeed_scheduler_forward_batch_benchmark
+        PRIVATE
+            tokenspeed_scheduler_core
     )
 endif()

@@ -24,12 +24,11 @@ PR_TEST_WORKFLOWS = (
     "amd-mi350-tests.yml",
     "amd-mi450-tests.yml",
     "nvidia-b200-tests.yml",
-    "pr-test-nvidia-arm.yml",
+    "nvidia-arm-tests.yml",
 )
 MI450_STACK_KEYS = (
     "ROCM_NIGHTLY_INDEX",
     "ROCM_SDK_VERSION",
-    "ROCM_SYSTEMS_REF",
     "TORCH_DEVICE_PACKAGE",
     "TORCH_INDEX_URL",
     "TORCH_VERSION",
@@ -46,6 +45,28 @@ def workflow_dispatch_inputs(name: str) -> dict:
 
 def load_yaml(path: Path) -> dict:
     return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+@pytest.mark.parametrize(
+    "name",
+    (
+        "amd-kernel-benchmark.yml",
+        "amd-mi350-tests.yml",
+        "amd-mi450-tests.yml",
+        "nvidia-b200-tests.yml",
+        "nvidia-gb200-tests.yml",
+        "nvidia-gb300-tests.yml",
+        "ascend-npu-tests.yml",
+        "nvidia-arm-tests.yml",
+    ),
+)
+def test_test_workflows_cancel_only_pull_request_runs(name: str):
+    workflow = load_yaml(REPO_ROOT / ".github" / "workflows" / name)
+
+    assert (
+        workflow["concurrency"]["cancel-in-progress"]
+        == "${{ github.event_name == 'pull_request' }}"
+    )
 
 
 @pytest.mark.parametrize("name", PR_TEST_WORKFLOWS)
@@ -134,6 +155,11 @@ def test_amd_workflow_builds_architecture_matrices(
         .replace(
             "${{ steps.changes.outputs.should_run_import_check }}", str(imports).lower()
         )
+        # No reviewer asked for every test.
+        .replace(
+            "${{ steps.changes.outputs.full_tests == 'true' && '--full-tests' || '' }}",
+            "",
+        )
     )
     script = re.sub(r"\$\{\{ github.event_name.*?\}\}", "per-commit", script)
     output = tmp_path / "outputs"
@@ -170,15 +196,26 @@ def test_amd_workflow_builds_architecture_matrices(
 @pytest.mark.parametrize("failed", [None, "SCAN_RESULT", "IMPORT_CHECK_RESULT"])
 def test_amd_finish_rejects_scan_and_import_failures(tmp_path, name, failed):
     workflow = load_yaml(REPO_ROOT / ".github/workflows" / name)
-    step = workflow["jobs"]["finish"]["steps"][0]
-    env = {**os.environ, **{key: "skipped" for key in step["env"]}}
-    env["SCAN_RESULT"] = "success"
+    step = workflow["jobs"]["finish"]["steps"][-1]
+    jobs = {
+        "scan": {"result": "success"},
+        "import-check": {"result": "skipped"},
+        "unit-test": {"result": "skipped"},
+        "model-test": {"result": "skipped"},
+    }
     if failed is not None:
-        env[failed] = "failure"
+        jobs[{"SCAN_RESULT": "scan", "IMPORT_CHECK_RESULT": "import-check"}[failed]][
+            "result"
+        ] = "failure"
     result = subprocess.run(
         ["bash", "-c", step["run"]],
-        cwd=tmp_path,
-        env=env,
+        cwd=REPO_ROOT,
+        env={
+            **os.environ,
+            "CI_RESULTS": json.dumps(jobs),
+            "CI_REQUIRED_JOBS": "scan",
+            "GITHUB_STEP_SUMMARY": str(tmp_path / "summary.md"),
+        },
         capture_output=True,
         text=True,
     )
@@ -409,8 +446,8 @@ def test_k8s_dispatch_lists_every_supported_ci_yaml():
 
 
 def test_kernel_ut_tasks_cover_every_test_once_per_runner():
-    # NVIDIA runners split the kernel suite across part-i and part-ii; AMD
-    # runs it in a single task.
+    # NVIDIA runners split the kernel suite across part-i, part-ii and the
+    # post-submit task; AMD runs it in a single task.
     root = REPO_ROOT / "tokenspeed-kernel/test"
     files = {
         path
@@ -420,7 +457,7 @@ def test_kernel_ut_tasks_cover_every_test_once_per_runner():
     assert files
     tasks = [
         load_yaml(REPO_ROOT / f"test/ci/ut/ut-tokenspeed-kernel{suffix}.yaml")
-        for suffix in ("-part-i", "-part-ii", "")
+        for suffix in ("-part-i", "-part-ii", "-post-submit", "")
     ]
     labels = {label for task in tasks for label in task["runner"]["labels"]}
     # Pin the runner set so dropping a runner from every task fails here.
@@ -458,10 +495,9 @@ def test_kernel_ut_tasks_cover_every_test_once_per_runner():
 
 
 def test_runtime_1gpu_tasks_run_every_partition_once_per_runner():
-    # AMD splits the runtime-1gpu suite across part-i and part-ii; other
-    # runners run it whole in ut-runtime-1gpu.
+    # Every runner splits the runtime-1gpu suite across part-i and part-ii.
     partitions = {}
-    for suffix in ("", "-part-i", "-part-ii"):
+    for suffix in ("-part-i", "-part-ii"):
         task = load_yaml(REPO_ROOT / f"test/ci/ut/ut-runtime-1gpu{suffix}.yaml")
         for command in task["ut"]["commands"]:
             tokens = shlex.split(command)
@@ -544,20 +580,24 @@ def test_amd_kernel_benchmarks_run_in_their_own_workflow():
         ("cancelled", "skipped", False),
     ],
 )
-def test_amd_kernel_benchmark_gate_blocks_on_failure(scan, benchmark, passes):
+def test_amd_kernel_benchmark_gate_blocks_on_failure(tmp_path, scan, benchmark, passes):
     workflow = load_yaml(REPO_ROOT / ".github/workflows/amd-kernel-benchmark.yml")
     # The default-branch ruleset requires a check named `finish`; a renamed
     # gate job would stop blocking merges.
     finish = workflow["jobs"]["finish"]
     assert "name" not in finish
     assert finish["needs"] == ["scan", "kernel-benchmark"]
-    (step,) = finish["steps"]
+    step = finish["steps"][-1]
     completed = subprocess.run(
         ["bash", "-c", step["run"]],
+        cwd=REPO_ROOT,
         env={
             **os.environ,
-            "SCAN_RESULT": scan,
-            "KERNEL_BENCHMARK_RESULT": benchmark,
+            "CI_RESULTS": json.dumps(
+                {"scan": {"result": scan}, "kernel-benchmark": {"result": benchmark}}
+            ),
+            "CI_REQUIRED_JOBS": "scan",
+            "GITHUB_STEP_SUMMARY": str(tmp_path / "summary.md"),
         },
         capture_output=True,
         text=True,
@@ -1127,7 +1167,6 @@ def test_gb300_slurm_per_commit_workflow_is_isolated_and_automatic():
     assert set(triggers) == {"push", "pull_request"}
     assert submit["name"] == "${{ matrix.name }}"
     assert submit["runs-on"] == "slurm-dispatch-gb300"
-    assert workflow["concurrency"]["cancel-in-progress"] is True
     assert '--runner "$RUNNER"' in submit_script
     assert "--runner-alias" not in submit_script
     assert '--source-pr "$PR_NUMBER"' in submit_script
@@ -1213,7 +1252,7 @@ def test_gb300_slurm_per_commit_matrix_excludes_nightly_tp8_tasks(monkeypatch):
 
 
 def test_nvidia_arm_workflow_excludes_multi_node_tasks():
-    workflow = load_yaml(REPO_ROOT / ".github/workflows/pr-test-nvidia-arm.yml")
+    workflow = load_yaml(REPO_ROOT / ".github/workflows/nvidia-arm-tests.yml")
     scan_script = next(
         step["run"]
         for step in workflow["jobs"]["scan"]["steps"]
@@ -1233,7 +1272,7 @@ def test_qwen35_agentic_allows_declared_80k_context():
 
 
 def test_nvidia_arm_model_tests_allow_runner_wait_time():
-    workflow = load_yaml(REPO_ROOT / ".github/workflows/pr-test-nvidia-arm.yml")
+    workflow = load_yaml(REPO_ROOT / ".github/workflows/nvidia-arm-tests.yml")
 
     assert workflow["jobs"]["model-test"]["with"]["timeout_minutes"] >= 120
 
@@ -1245,7 +1284,8 @@ def test_mi450_sim_uses_direct_runner_and_bounded_timeout():
     assert job["runs-on"] == "${{ matrix.runner }}"
     assert job["timeout-minutes"] == (
         "${{ matrix.runner == 'amd-mi45x-cpu-test'"
-        " && 30 || inputs.timeout_minutes }}"
+        " && 30 || (matrix.name == 'ut-tokenspeed-kernel'"
+        " && inputs.timeout_minutes < 90 && 90 || inputs.timeout_minutes) }}"
     )
 
 
@@ -1281,7 +1321,8 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
     isolated_variables = tuple(
         variable
         for variable in cache_variables
-        if variable != "TRITON_CACHE_DIR" or task_type == "eval"
+        if (variable == "TRITON_CACHE_DIR" and task_type in {"ut", "eval"})
+        or (workflow_stage == "model-test" and variable != "TRITON_CACHE_DIR")
     )
     job_envs = []
     for attempt in (1, 2):
@@ -1312,12 +1353,16 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
         assert "MIOPEN_FIND_MODE" not in job_env
         assert "MIOPEN_FIND_ENFORCE" not in job_env
         if workflow_stage != "model-test":
-            assert all(variable not in job_env for variable in cache_variables)
+            assert all(
+                variable not in job_env
+                for variable in cache_variables
+                if variable not in isolated_variables
+            )
             assert "EVALSCOPE_UV_CACHE_DIR" not in job_env
-            continue
-        assert job_env["EVALSCOPE_UV_CACHE_DIR"] == str(
-            persistent_hf_home / ".uv-cache" / "evalscope"
-        )
+        else:
+            assert job_env["EVALSCOPE_UV_CACHE_DIR"] == str(
+                persistent_hf_home / ".uv-cache" / "evalscope"
+            )
         if task_type == "perf":
             assert "TRITON_CACHE_DIR" not in job_env
         for variable in isolated_variables:
@@ -1328,9 +1373,6 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
             (cache / "download").touch()
         job_envs.append(job_env)
 
-    if workflow_stage != "model-test":
-        assert sentinel.exists()
-        return
     first, second = job_envs
     assert all(first[variable] != second[variable] for variable in isolated_variables)
     script = cleanup["run"].replace("${{ env.WORK_DIR }}", first["WORK_DIR"])
@@ -1405,10 +1447,14 @@ def test_mi450_sim_uses_bounded_smoke_suite():
 
     assert task["env"]["MI450_SIM_RUN_TIMEOUT"] == "600"
     assert task["env"]["MI450_SIM_THREADS_PER_WORKER"] == "2"
-    assert 'config["cpu_thread_budget"] = thread_budget' in setup_script
+    assert 'config["max_ticks"] = 0' in setup_script
+    assert "rocm-systems" not in setup_script
+    assert "UV_CACHE_DIR=${UV_CACHE_DIR:-${PIP_CACHE_DIR}/uv}" in setup_script
     assert 'threads_per_emulator="${MI450_SIM_THREADS_PER_WORKER:-2}"' in (
         parallel_script
     )
+    assert '-n "${workers}"' in parallel_script
+    assert "--tx" not in parallel_script
     assert "/sys/fs/cgroup/cpu.max" in parallel_script
     assert task["env"]["MI450_SIM_TEST_ROOT"] != "tokenspeed-kernel/test"
     assert "tokenspeed-kernel/test/amd/ops/attention" in task["env"]["MI450_SIM_TESTS"]
@@ -1445,14 +1491,14 @@ def test_mi450_installers_receive_shared_stack(tmp_path, task_name, case):
         # A shared-file edit must reach both installers without task YAML edits.
         profile.write_text(
             (REPO_ROOT / "test/ci_system/mi450_sim_env.sh").read_text()
-            + "\nexport ROCM_SYSTEMS_REF=test-shared-revision\n"
+            + "\nexport ROCM_SDK_VERSION=test-shared-version\n"
         )
     # Replace only the installers that need root and external package downloads.
     (scripts / "setup_mi450_sim.sh").write_text(
         f"{mi450_env_dump_command()} > setup-env.json\n"
         f"exit {73 if case == 'setup-failure' else 0}\n"
     )
-    (scripts / "install_deps_rocm.sh").write_text(
+    (scripts / "install_kernel_deps_rocm.sh").write_text(
         'test "$WORKSPACE" = "$PWD" || exit 1\n'
         'test "$GFX_ARCH" = gfx1250 || exit 1\n'
         f"{mi450_env_dump_command()} > deps-env.json\n"
@@ -1502,6 +1548,10 @@ def test_standalone_mi450_setup_loads_shared_stack(tmp_path):
 def test_mi450_sim_pins_one_rocm_nightly():
     env = read_mi450_sim_env(REPO_ROOT / "test/ci_system/mi450_sim_env.sh")
 
+    assert env["ROCM_SDK_VERSION"] == "10.3.0a20261107"
+    assert env["TORCH_VERSION"] == "2.14.0+rocm10.3.0a20261107"
+    assert env["TORCHVISION_VERSION"] == "0.29.0+rocm10.3.0a20261107"
+
     # PyTorch requires the exact ROCm SDK build it was built against.
     rocm_build = f"+rocm{env['ROCM_SDK_VERSION']}"
     for name in ("TORCH_VERSION", "TORCHVISION_VERSION", "TORCH_DEVICE_PACKAGE"):
@@ -1509,9 +1559,31 @@ def test_mi450_sim_pins_one_rocm_nightly():
     assert env["TORCH_INDEX_URL"] == env["ROCM_NIGHTLY_INDEX"]
 
 
-def test_mi450_sim_uses_stock_triton_compatible_libhip_path():
+def test_mi450_sim_uses_stock_mirage_and_triton_compatible_libhip_path():
     script = (REPO_ROOT / "test/ci_system/run_mi450_rocjitsu.sh").read_text()
 
+    assert 'mirage="${rocm_root}/bin/mirage"' in script
+    assert "run --in-process" in script
+    assert "--cpu-thread-budget" in script
     assert 'libhip_path="${rocm_root}/lib/libamdhip64.so"' in script
     assert 'test -f "${libhip_path}"' in script
     assert 'export TRITON_LIBHIP_PATH="${libhip_path}"' in script
+
+
+def test_pr_test_finish_ignores_the_union_of_gpu_workflow_paths():
+    gpu_workflows = (
+        "amd-kernel-benchmark",
+        "amd-mi350-tests",
+        "amd-mi450-tests",
+        "nvidia-b200-tests",
+        "nvidia-arm-tests",
+    )
+    union = set()
+    for name in gpu_workflows:
+        workflow = load_yaml(REPO_ROOT / f".github/workflows/{name}.yml")
+        triggers = workflow.get("on") or workflow.get(True)
+        union |= set(triggers["pull_request"]["paths"])
+
+    workflow = load_yaml(REPO_ROOT / ".github/workflows/pr-test-finish.yml")
+    triggers = workflow.get("on") or workflow.get(True)
+    assert set(triggers["pull_request"]["paths-ignore"]) == union

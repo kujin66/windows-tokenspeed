@@ -57,6 +57,7 @@ import ctypes
 import importlib
 import json
 import os
+import re
 import shlex
 import shutil
 import site
@@ -66,7 +67,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 
-from setuptools import Command, find_packages, setup
+from setuptools import Command, Distribution, find_packages, setup
 from setuptools.command.build_ext import build_ext
 from setuptools.command.build_py import build_py
 from setuptools.command.develop import develop
@@ -86,9 +87,20 @@ CUDA_OBJS_DIR = THIRDPARTY_DIR / "cuda" / "objs"
 
 # JIT kernels source directory (no pre-compilation, just need sources available)
 
-CUDA_HOME = os.environ.get("CUDA_HOME", "/usr/local/cuda")
-NVCC = os.environ.get("FLASHINFER_NVCC", f"{CUDA_HOME}/bin/nvcc")
-CXX = os.environ.get("CXX", "g++")
+IS_WINDOWS = sys.platform == "win32"
+CUDA_HOME = os.environ.get(
+    "CUDA_HOME",
+    os.environ.get("CUDA_PATH", "/usr/local/cuda") if IS_WINDOWS else "/usr/local/cuda",
+)
+NVCC = os.environ.get(
+    "FLASHINFER_NVCC",
+    (
+        str(Path(CUDA_HOME) / "bin" / "nvcc.exe")
+        if IS_WINDOWS
+        else f"{CUDA_HOME}/bin/nvcc"
+    ),
+)
+CXX = os.environ.get("CXX", "cl" if IS_WINDOWS else "g++")
 
 
 def _version_date() -> str:
@@ -151,6 +163,29 @@ def _git_branch() -> str:
         return ""
 
 
+def _nightly_release_candidate() -> str:
+    """Return the release-candidate part of a manual nightly's version, or "".
+
+    TOKENSPEED_KERNEL_RELEASE_CANDIDATE=N (or rcN) builds 0.1.4rcN.post20261108
+    instead of that date's nightly 0.1.4.post20261108. A release candidate sorts
+    below every 0.1.4 nightly, so it neither collides with the scheduled nightly
+    of its date nor shadows a nightly of its release: an install that such a
+    nightly satisfies still gets the nightly.
+
+    Raises:
+        ValueError: If the value is set but is not a release-candidate number.
+    """
+    raw = os.environ.get("TOKENSPEED_KERNEL_RELEASE_CANDIDATE", "")
+    if not raw:
+        return ""
+    match = re.fullmatch(r"(?:rc)?([0-9]+)", raw.strip(), flags=re.IGNORECASE)
+    if match is None:
+        raise ValueError(
+            "Nightly release candidate must be a number such as 1 (or rc1)"
+        )
+    return f"rc{int(match.group(1))}"
+
+
 def _package_version() -> str:
     if os.environ.get("TOKENSPEED_KERNEL_NIGHTLY") == "true":
         version_date = _version_date()
@@ -161,8 +196,12 @@ def _package_version() -> str:
         ):
             raise ValueError("Nightly version date must be YYYYMMDD")
         datetime.strptime(version_date, "%Y%m%d")
-        return f"{BASE_VERSION}.post{version_date}"
+        return f"{BASE_VERSION}{_nightly_release_candidate()}.post{version_date}"
 
+    if os.environ.get("TOKENSPEED_KERNEL_RELEASE_CANDIDATE"):
+        raise ValueError(
+            "TOKENSPEED_KERNEL_RELEASE_CANDIDATE applies to nightly builds only"
+        )
     if _git_branch().startswith("release/"):
         return BASE_VERSION
 
@@ -267,6 +306,8 @@ def _read_requirements(path: Path, seen=None) -> list[str]:
 
 def _selected_install_requires() -> list[str]:
     backend = _selected_backend()
+    if backend == "cuda" and IS_WINDOWS:
+        return _read_requirements(REQUIREMENTS_DIR / "windows-cuda.txt")
     requirements = _read_requirements(REQUIREMENTS_DIR / f"{backend}.txt")
     requirements.extend(
         _read_requirements(REQUIREMENTS_DIR / f"{backend}-thirdparty.txt")
@@ -321,6 +362,10 @@ def _refresh_python_install_paths() -> None:
 
 def _install_backend_build_requirements(verbose) -> None:
     backend = _selected_backend()
+    if IS_WINDOWS:
+        # Prepared builds supply their torch/FFI and build tools explicitly;
+        # the Linux dependency recipe is not a Windows bootstrap procedure.
+        return
     if (
         backend == "cuda"
         and os.environ.get("TOKENSPEED_KERNEL_CUDA_VARIANT") == "cu129"
@@ -375,11 +420,12 @@ KERNEL_GROUPS = [
     (
         "dsv4_attention",
         [
-            CUDA_CSRC_DIR / "dsv4_attention.cu",
             CUDA_CSRC_DIR / "dsv4_topk.cu",
             CUDA_CSRC_DIR / "dsv4_attention_binding.cu",
         ],
         [],
+        # Persistent top-k uses C++20 designated initializers.
+        ["-std=c++20"] if IS_WINDOWS else [],
     ),
     (
         "dsv3_gemm",
@@ -742,9 +788,30 @@ class CudaKernelBuilder:
         # (tensorrt_llm/kernels/quantization_utils.cuh: cvt_warp_fp16_to_fp4,
         # silu_and_mul, cvt_quant_to_fp4_get_sf_out_offset). Expose them so
         # our own fused silu+mul+nvfp4 kernel can reuse them.
-        try:
-            flashinfer = importlib.import_module("flashinfer")
-            fi_root = Path(flashinfer.__file__).parent / "data"
+        if IS_WINDOWS:
+            try:
+                flashinfer_spec = importlib.util.find_spec("flashinfer")
+            except ImportError:
+                flashinfer_spec = None
+            fi_data_dir = os.environ.get("TOKENSPEED_FLASHINFER_DATA_DIR")
+            if fi_data_dir:
+                fi_root = Path(fi_data_dir).resolve()
+                if not all(
+                    (fi_root / name).is_dir()
+                    for name in ("include", "cutlass/include", "spdlog/include")
+                ):
+                    raise ValueError(f"Incomplete FlashInfer build data: {fi_root}")
+            elif flashinfer_spec is not None and flashinfer_spec.origin is not None:
+                fi_root = Path(flashinfer_spec.origin).parent / "data"
+            else:
+                fi_root = None
+        else:
+            try:
+                flashinfer = importlib.import_module("flashinfer")
+                fi_root = Path(flashinfer.__file__).parent / "data"
+            except ImportError:
+                fi_root = None
+        if fi_root is not None:
             for sub in (
                 fi_root / "csrc" / "nv_internal",
                 fi_root / "csrc" / "nv_internal" / "include",
@@ -756,14 +823,20 @@ class CudaKernelBuilder:
             if (spdlog / "spdlog" / "spdlog.h").exists():
                 _add_dir(spdlog)
                 return dirs
-        except ImportError:
-            pass
         if (Path("/usr/include") / "spdlog" / "spdlog.h").exists():
             _add_dir(Path("/usr/include"))
 
         return dirs
 
     def _resolve_cuda_lib_flags(self):
+        if IS_WINDOWS:
+            import platform
+
+            arch = (
+                "arm64" if platform.machine().lower() in {"arm64", "aarch64"} else "x64"
+            )
+            self._cuda_library_dirs = [Path(CUDA_HOME) / "lib" / arch]
+            return [f"/LIBPATH:{self._cuda_library_dirs[0]}", "cudart.lib", "cuda.lib"]
         cuda_home = Path(CUDA_HOME)
         lib_candidates = []
         for cuda_root in self._cuda_toolkit_roots():
@@ -809,6 +882,8 @@ class CudaKernelBuilder:
         return flags
 
     def _resolve_library_ldflag(self, ldflag):
+        if IS_WINDOWS and ldflag.startswith("-l"):
+            return f"{ldflag[2:]}.lib"
         if not ldflag.startswith("-l") or ldflag.startswith("-l:"):
             return ldflag
 
@@ -898,14 +973,26 @@ class CudaKernelBuilder:
             "-DNDEBUG",
             "-use_fast_math",
             "--expt-relaxed-constexpr",
-            "--compiler-options=-fPIC",
+            (
+                "--compiler-options=/MD,/EHsc,/utf-8,/Zc:__cplusplus,/Zc:preprocessor"
+                if IS_WINDOWS
+                else "--compiler-options=-fPIC"
+            ),
             "-DFLASHINFER_ENABLE_BF16",
             "-DFLASHINFER_ENABLE_F16",
             "-DENABLE_BF16",
             "-DENABLE_FP8",
         ] + gencode_flags
+        if IS_WINDOWS:
+            # The selected MSVC environment is already prepared by the recipe.
+            nvcc_flags.append("--use-local-env")
         include_dirs = self._resolve_include_dirs()
-        ldflags = ["-shared"] + self._resolve_cuda_lib_flags()
+        ldflags = (
+            ["/DLL"] if IS_WINDOWS else ["-shared"]
+        ) + self._resolve_cuda_lib_flags()
+        if IS_WINDOWS:
+            tvm_ffi = importlib.import_module("tvm_ffi")
+            ldflags.append(str(Path(tvm_ffi.__file__).parent / "lib" / "tvm_ffi.lib"))
         build_identity = self._build_identity(nvcc_flags, include_dirs, ldflags)
 
         # Ensure output directory exists
@@ -1004,7 +1091,17 @@ class CudaKernelBuilder:
                 # Relocatable device code links its device side with nvcc first.
                 dlink = so_path.parent / f"{name}_dlink.o"
                 subprocess.check_call(
-                    [NVCC, *gencode_flags, "--compiler-options=-fPIC", "-dlink"]
+                    [
+                        NVCC,
+                        *gencode_flags,
+                        (
+                            "--compiler-options=/MD"
+                            if IS_WINDOWS
+                            else "--compiler-options=-fPIC"
+                        ),
+                        *(["--use-local-env"] if IS_WINDOWS else []),
+                        "-dlink",
+                    ]
                     + [str(o) for o in objects]
                     + [*extra_ldflags, "-o", str(dlink)]
                 )
@@ -1013,11 +1110,11 @@ class CudaKernelBuilder:
                 self._resolve_library_ldflag(ldflag) for ldflag in (extra_ldflags or [])
             ]
             link_cmd = (
-                [CXX]
+                (["link.exe"] if IS_WINDOWS else [CXX])
                 + [str(o) for o in objects]
                 + ldflags
                 + extra_ldflags
-                + ["-o", str(so_path)]
+                + ([f"/OUT:{so_path}"] if IS_WINDOWS else ["-o", str(so_path)])
             )
             subprocess.check_call(link_cmd)
             if identity is not None:
@@ -1087,7 +1184,15 @@ class BuildPyWithBuild(build_py):
         super().run()
 
 
+class KernelDistribution(Distribution):
+    def has_ext_modules(self):
+        return (
+            IS_WINDOWS and _selected_backend() == "cuda"
+        ) or super().has_ext_modules()
+
+
 setup(
+    distclass=KernelDistribution,
     name="tokenspeed_kernel",
     version=_package_version(),
     install_requires=_selected_install_requires(),
@@ -1099,6 +1204,7 @@ setup(
         ],
         "tokenspeed_kernel.thirdparty.cuda": [
             "objs/**/*.so",
+            "csrc/kimi3_router.cu",
             # Vendored Lamport protocol and FFI headers for the optional JIT extension.
             "csrc/tvm_ffi_utils.h",
             "csrc/include/**/*.h",

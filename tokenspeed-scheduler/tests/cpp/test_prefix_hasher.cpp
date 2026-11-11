@@ -22,10 +22,13 @@
 
 #include <cstdint>
 #include <span>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
 #include "cache/prefix/prefix_hasher.h"
+#include "core/token_container.h"
+#include "scheduler/request.h"
 
 namespace tokenspeed::test {
 namespace {
@@ -42,6 +45,34 @@ token_span Tokens(const std::vector<std::int32_t>& v) {
 }
 key_span Keys(const std::vector<std::string>& v) {
     return key_span(v.data(), v.size());
+}
+
+TEST(RequestPromptHashesTest, RepeatedQueriesKeepTheFullInputPageChain) {
+    Request request(RequestSpec{.request_id = "prompt", .tokens = {1, 2, 3, 4, 5, 6, 7, 8, 9}},
+                    /*prefix_granularity=*/4, Role::kFused);
+    const std::string first = HashPrefixPage(Tokens({1, 2, 3, 4}), "");
+    const std::string second = HashPrefixPage(Tokens({5, 6, 7, 8}), first);
+    const std::vector<std::string> expected{first, second};
+    for (int retry = 0; retry < 3; ++retry) {
+        const auto hashes = request.PromptPrefixHashes();
+        EXPECT_EQ(std::vector<std::string>(hashes.begin(), hashes.end()), expected);
+    }
+}
+
+TEST(RequestPromptHashesTest, AnAlignedInputKeepsItsLastFullPageForDecodeRoleMatching) {
+    Request request(RequestSpec{.request_id = "decode", .tokens = {1, 2, 3, 4}},
+                    /*prefix_granularity=*/2, Role::kD);
+    const std::string first = HashPrefixPage(Tokens({1, 2}), "");
+    const std::string second = HashPrefixPage(Tokens({3, 4}), first);
+    const auto hashes = request.PromptPrefixHashes();
+    EXPECT_EQ(std::vector<std::string>(hashes.begin(), hashes.end()), (std::vector<std::string>{first, second}));
+}
+
+TEST(RequestPromptHashesTest, AShortInputHasNoFullPageHashes) {
+    Request request(RequestSpec{.request_id = "short", .tokens = {1, 2, 3}},
+                    /*prefix_granularity=*/4, Role::kFused);
+    EXPECT_TRUE(request.PromptPrefixHashes().empty());
+    EXPECT_TRUE(request.PromptPrefixHashes().empty());
 }
 
 // ---- hex helpers --------------------------------------------------------
@@ -73,6 +104,14 @@ TEST(PageHasherHexTest, HexToBytesAcceptsUppercase) {
 TEST(HashPrefixPageTest, EmptyPageMatchesKnownSha256) {
     std::vector<std::int32_t> none;
     EXPECT_EQ(HashPrefixPage(Tokens(none), ""), kEmptyFramedSha256);
+}
+
+TEST(HashPrefixPageTest, SignedTokensAndUtf8SaltMatchReference) {
+    const std::vector<std::int32_t> tokens = {-1, 0, INT32_MIN, INT32_MAX};
+    const std::vector<std::string> keys = {"", "salt-\xe4\xb8\xad\xe6\x96\x87"};
+    // SHA256 reference over the little-endian framing and UTF-8 key bytes.
+    EXPECT_EQ(HashPrefixPage(Tokens(tokens), "00ff", Keys(keys)),
+              "6a94e49cef37f606e88a35aabc48a6e1279f7e429a3cdae6fd7d0185f47171a3");
 }
 
 TEST(HashPrefixPageTest, OutputIs64HexChars) {
@@ -255,22 +294,21 @@ TEST(ComputePrefixHashesTest, IncrementalChainEqualsOneShot) {
     EXPECT_EQ(incremental, one_shot);
 }
 
-TEST(ComputePrefixHashesTest, AdvancePrefixHashesReturnsOnlyNewPages) {
-    std::vector<std::int32_t> tokens(12);
-    for (std::int32_t i = 0; i < 12; ++i) {
-        tokens[i] = 100 + i;
-    }
-    std::vector<token_span> pages;
-    for (std::size_t start = 0; start < tokens.size(); start += 2) {
-        pages.push_back(token_span(tokens.data() + start, 2));
-    }
+// A step hashes the pages it completed, sliced alone rather than out of a view
+// of every page of the context.
+TEST(PrefixPagesTest, SlicesOnlyTheAskedCompletePages) {
+    const TokenContainer tokens{std::vector<std::int32_t>{1, 2, 3, 4, 5, 6, 7}};
 
-    const std::vector<std::string> one_shot = ComputePrefixHashes(pages, "");
-    const std::vector<std::string> first = AdvancePrefixHashes(pages, 0, "", 2);
-    const std::vector<std::string> second = AdvancePrefixHashes(pages, 2, first.back(), 5);
+    const std::vector<token_span> pages = tokens.PrefixPages(/*prefix_granularity=*/2, 1, 3);
 
-    EXPECT_EQ(first, std::vector<std::string>(one_shot.begin(), one_shot.begin() + 2));
-    EXPECT_EQ(second, std::vector<std::string>(one_shot.begin() + 2, one_shot.begin() + 5));
+    ASSERT_EQ(pages.size(), 2u);
+    EXPECT_EQ(std::vector<std::int32_t>(pages[0].begin(), pages[0].end()), (std::vector<std::int32_t>{3, 4}));
+    EXPECT_EQ(std::vector<std::int32_t>(pages[1].begin(), pages[1].end()), (std::vector<std::int32_t>{5, 6}));
+    EXPECT_TRUE(tokens.PrefixPages(2, 3, 3).empty());
+    EXPECT_THROW(tokens.PrefixPages(2, 3, 4), std::runtime_error) << "token 7 starts a partial page";
+    const TokenContainer aligned{std::vector<std::int32_t>{1, 2, 3, 4}};
+    EXPECT_EQ(aligned.FullPrefixPages(2, /*except_last=*/false).size(), 2u);
+    EXPECT_EQ(aligned.FullPrefixPages(2, /*except_last=*/true).size(), 1u) << "the last token's page is left out";
 }
 
 }  // namespace
