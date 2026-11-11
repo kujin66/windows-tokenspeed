@@ -15,9 +15,12 @@ on:
       - 'tokenspeed-kernel/**'
       - '.github/actions/windows-arm64-setup/**'
       - '.github/scripts/windows_ci_plan.py'
+      - '.github/scripts/windows_release.py'
+      - '.github/scripts/ci_result_source.py'
       - '.github/scripts/verify_windows_release.py'
       - '.github/scripts/update-nightly-index.py'
       - '.github/workflows/release-tokenspeed.yml'
+      - '.github/workflows/release-pypi.yml'
       - '.github/workflows/windows-arm64-build.yml'
       - '.github/workflows/run-ci-task-matrix.yml'
   pull_request:
@@ -143,7 +146,9 @@ jobs:
       windows_cuda_arch: ${{ needs.scan.outputs.cuda_arch }}
       release_candidate: ${{ inputs.release_candidate || '' }}
       windows_nightly_date: ${{ inputs.nightly_date || '' }}
-      timeout_minutes: 120
+      # Cold four-package builds keep CUDA compilation serial on memory-limited
+      # ARM64 hosts, in addition to the embedded scheduler and Rust builds.
+      timeout_minutes: 240
 
   native-gate:
     name: Windows ARM64 required validation

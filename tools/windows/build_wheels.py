@@ -197,6 +197,7 @@ def main() -> None:
         "tokenspeed-kernel/python",
         "python",
     ):
+        print(f"Building project wheel: {component}", flush=True)
         command = [
             sys.executable,
             "-m",
