@@ -9,6 +9,18 @@ on:
       - "python/tokenspeed/version.py"
   workflow_dispatch:
     inputs:
+      windows_arm64:
+        description: Also validate the Windows package set through the shared release workflow.
+        type: boolean
+        default: false
+      windows_dry_run:
+        description: Validate Windows publication without publishing assets or indexes.
+        type: boolean
+        default: true
+      publish_windows_index:
+        description: Publish the configured Windows index after Windows asset publication.
+        type: boolean
+        default: false
       nightly:
         description: "Build a dated nightly with the same-date tokenspeed-kernel dependency."
         type: boolean
@@ -400,3 +412,20 @@ jobs:
           done
           echo "Could not publish the ROCm TokenSpeed nightly index after three attempts." >&2
           exit 1
+
+  windows-release:
+    name: Windows ARM64 packages
+    if: inputs.windows_arm64 || (github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_RELEASES == 'true')
+    uses: ./.github/workflows/release-tokenspeed.yml
+    permissions:
+      contents: write
+      actions: read
+    with:
+      windows_arm64: true
+      nightly: ${{ github.event_name == 'schedule' || inputs.nightly }}
+      release_candidate: ${{ inputs.release_candidate || '' }}
+      replace_nightly: ${{ inputs.replace_nightly || false }}
+      version_date: ${{ inputs.version_date || '' }}
+      dry_run: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_PUBLISH != 'true' || github.event_name != 'schedule' && inputs.windows_dry_run }}
+      publish_windows_index: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_INDEX == 'true' || inputs.publish_windows_index }}
+    secrets: inherit

@@ -452,7 +452,7 @@ impl TransferPeer for FakePeer {
             let prefill_ranks = wire.prefill_ranks;
             self.tracked
                 .iter()
-                .map(|(_, room, bootstrapped, _)| {
+                .flat_map(|(_, room, bootstrapped, _)| {
                     let room = wire.rooms.entry(*room).or_default();
                     let poll = if room.fails
                         || room.cancel_pending
@@ -482,7 +482,9 @@ impl TransferPeer for FakePeer {
                             TransferPoll::Bootstrapped
                         }
                     };
-                    poll as i64
+                    // Retirement must agree too: hold_cancel can change
+                    // between ranks polling the shared wire.
+                    [poll as i64, i64::from(!room.hold_cancel)]
                 })
                 .collect()
         };
@@ -494,10 +496,11 @@ impl TransferPeer for FakePeer {
 
         let mut wire = self.wire.lock().unwrap();
         let mut events = Vec::new();
-        let mut agreed = agreed.into_iter();
+        let mut agreed = agreed.chunks_exact(2);
         self.tracked
             .retain_mut(|(rid, room, bootstrapped, failed)| {
-                let poll = agreed.next().expect("one state per tracked request");
+                let state = agreed.next().expect("one state per tracked request");
+                let (poll, retired) = (state[0], state[1]);
                 let room = wire.rooms.entry(*room).or_default();
                 match TransferPoll::from_wire(poll).unwrap_or(TransferPoll::Failed) {
                     TransferPoll::Failed => {
@@ -507,7 +510,7 @@ impl TransferPeer for FakePeer {
                             events.push(PdEvent::Failed(rid.clone()));
                             *failed = true;
                         }
-                        if room.hold_cancel {
+                        if retired == 0 {
                             true
                         } else {
                             events.push(PdEvent::Stopped(rid.clone()));

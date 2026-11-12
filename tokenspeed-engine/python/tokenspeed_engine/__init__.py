@@ -34,6 +34,7 @@
   (``ts-pd``), which the launcher hosts.
 """
 
+import os
 from pathlib import Path
 
 from tokenspeed_engine._native import (
@@ -58,4 +59,8 @@ __all__ = [
 
 def host_binary() -> Path:
     """The ``ts-host`` executable installed with this package."""
-    return Path(__file__).resolve().parent / "bin" / "ts-host"
+    return (
+        Path(__file__).resolve().parent
+        / "bin"
+        / ("ts-host.exe" if os.name == "nt" else "ts-host")
+    )

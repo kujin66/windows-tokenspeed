@@ -294,16 +294,24 @@ bool is_valid_config(
   return cache_size + kSharedMemoryValidityMargin <= max_shared_mem;
 }
 
+#if defined(_MSC_VER)
+#define MARLIN_MATCH if
+#define MARLIN_SELECT return
+#else
+#define MARLIN_MATCH else if
+#define MARLIN_SELECT kernel =
+#endif
+
 #define _GET_IF(                                                                                                       \
     W_TYPE, THREAD_M_BLOCKS, THREAD_N_BLOCKS, THREAD_K_BLOCKS, M_BLOCK_SIZE_8, GROUP_BLOCKS, NUM_THREADS, IS_ZP_FLOAT) \
-  else if (                                                                                                            \
+  MARLIN_MATCH (                                                                                                            \
       q_type == W_TYPE && thread_m_blocks == THREAD_M_BLOCKS && thread_n_blocks == THREAD_N_BLOCKS &&                  \
       thread_k_blocks == THREAD_K_BLOCKS && m_block_size_8 == M_BLOCK_SIZE_8 && group_blocks == GROUP_BLOCKS &&        \
       num_threads == NUM_THREADS && is_zp_float == IS_ZP_FLOAT) {                                                      \
     constexpr auto S_TYPE = W_TYPE == host::kFE2M1f                                                                    \
                                 ? (GROUP_BLOCKS == 1 ? host::kFE4M3fn : host::kFE8M0fnu)                               \
                                 : (std::is_same<scalar_t, half>::value ? host::kFloat16 : host::kBFloat16);            \
-    kernel = Marlin<                                                                                                   \
+    MARLIN_SELECT Marlin<                                                                                                   \
         scalar_t,                                                                                                      \
         W_TYPE.id(),                                                                                                   \
         S_TYPE.id(),                                                                                                   \
@@ -454,8 +462,10 @@ MarlinFuncPtr get_marlin_kernel(
     bool is_zp_float) {
   int num_bits = q_type.size_bits();
   auto kernel = MarlinDefault;
+#if !defined(_MSC_VER)
   if (false) {
   }
+#endif
 
   COMMON_GET_IF(host::kU4)
   COMMON_GET_IF(host::kU4B8)
@@ -468,8 +478,10 @@ MarlinFuncPtr get_marlin_kernel(
   ACT_GET_IF(host::kU4B8)
   ACT_GET_IF(host::kU8B128)
   if (std::is_same<scalar_t, nv_bfloat16>::value) {
+#if !defined(_MSC_VER)
     if (false) {
     }
+#endif
     MXFP4_GET_IF(host::kFE2M1f)
   }
 

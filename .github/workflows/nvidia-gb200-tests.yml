@@ -14,7 +14,7 @@ on:
       - ".github/workflows/nvidia-gb200-tests.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [main]
+    branches: [main, 'baseline/upstream-*']
     paths:
       - "python/pyproject.toml"
       - "python/tokenspeed/**"
