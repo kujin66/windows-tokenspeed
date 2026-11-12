@@ -203,6 +203,7 @@ def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path, patch
         "error[E0308]: mismatched types",
         "failed to remove temporary directory: (os error 5) at x.temp-archive",
         "failed to open output file: (os error 32)",
+        "test result: FAILED. 0 passed; 1 failed; failed to remove temporary directory: (os error 32) at x.temp-archive",
     ],
 )
 def test_build_command_preserves_failure(tmp_path, message):

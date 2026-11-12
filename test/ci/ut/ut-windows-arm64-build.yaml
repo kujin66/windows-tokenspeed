@@ -19,8 +19,13 @@ install:
 ut:
   commands:
     - >-
-      python tools/windows/build_wheels.py --cuda-arch $env:TOKENSPEED_CUDA_ARCH
+      python tools/windows/build_wheels.py prepare --cuda-arch $env:TOKENSPEED_CUDA_ARCH
       --output outputs/windows-arm64
+    - python tools/windows/build_wheels.py build --component tokenspeed-scheduler --output outputs/windows-arm64
+    - python tools/windows/build_wheels.py build --component tokenspeed-engine --output outputs/windows-arm64
+    - python tools/windows/build_wheels.py build --component tokenspeed-kernel --output outputs/windows-arm64
+    - python tools/windows/build_wheels.py build --component tokenspeed --output outputs/windows-arm64
+    - python tools/windows/build_wheels.py finalize --output outputs/windows-arm64
     - >-
       cmake --build outputs/windows-arm64/scheduler
       --target tokenspeed_scheduler_tests --config Release

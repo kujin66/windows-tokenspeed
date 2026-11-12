@@ -14,6 +14,7 @@ on:
       - 'tokenspeed-scheduler/**'
       - 'tokenspeed-kernel/**'
       - '.github/actions/windows-arm64-setup/**'
+      - '.github/actions/windows-component-release/**'
       - '.github/scripts/windows_ci_plan.py'
       - '.github/scripts/windows_release.py'
       - '.github/scripts/ci_result_source.py'
@@ -21,10 +22,13 @@ on:
       - '.github/scripts/update-nightly-index.py'
       - '.github/workflows/release-tokenspeed.yml'
       - '.github/workflows/release-pypi.yml'
+      - '.github/workflows/release-tokenspeed-kernel.yml'
+      - '.github/workflows/release-tokenspeed-engine.yml'
+      - '.github/workflows/release-tokenspeed-scheduler.yml'
       - '.github/workflows/windows-arm64-build.yml'
       - '.github/workflows/run-ci-task-matrix.yml'
   pull_request:
-    branches: [main, 'baseline/upstream-*']
+    branches: [main, 'baseline/upstream-*', 'build/windows-arm64-vendor-triton-refresh-20261110']
     paths: *windows_paths
   workflow_dispatch:
     inputs:
