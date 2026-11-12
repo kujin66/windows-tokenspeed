@@ -66,10 +66,6 @@ if _IS_NPU:
                 return partial(_UnavailableGluonKernel, options=options)
             return _UnavailableGluonKernel(fn, options)
 
-        @staticmethod
-        def constexpr_function(fn):
-            return _UnavailableGluonKernel(fn, {})
-
     gluon = _UnavailableGluon()
 else:
     import tokenspeed_triton as triton

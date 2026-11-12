@@ -508,7 +508,6 @@ def prepare_gqa_prologue(
             norm=norm,
             rotary=rotary,
             cache=cache,
-            query_dtype=q.dtype,
             return_kv=return_kv,
             solution=request.solution,
             override=request.registration,

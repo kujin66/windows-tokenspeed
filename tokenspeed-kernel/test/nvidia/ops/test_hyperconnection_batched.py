@@ -94,7 +94,6 @@ def mix(values, scale, independent):
     )
 
 
-# The boundary graph test below covers bf16 with PDL on, including the Triton rows.
 @pytest.mark.parametrize(
     ("rows", "expected_kernel"),
     [
@@ -105,13 +104,12 @@ def mix(values, scale, independent):
         (255, "cute_fused_hyperconnection_mix"),
         (256, "cute_fused_hyperconnection_mix"),
         (257, "triton_hyperconnection_mix"),
+        (512, "triton_hyperconnection_mix"),
         (1024, "triton_hyperconnection_mix"),
     ],
 )
-@pytest.mark.parametrize(
-    ("dtype", "enable_pdl"),
-    [(torch.bfloat16, False), (torch.float16, False), (torch.float16, True)],
-)
+@pytest.mark.parametrize("dtype", [torch.bfloat16, torch.float16])
+@pytest.mark.parametrize("enable_pdl", [False, True])
 def test_batched_default_dispatch_respects_row_limit(
     rows, expected_kernel, dtype, enable_pdl
 ):
@@ -600,21 +598,19 @@ def test_exact_override_rejects_unvalidated_row_count():
         mix(values, 1.0, True)
 
 
-# Plan reuse is dtype independent; the output-guard test builds the other fp16 plans.
 @pytest.mark.parametrize(
-    ("row_counts", "dtype"),
+    "row_counts",
     [
-        ((1, 3, 7), torch.bfloat16),
-        ((9, 13, 15), torch.bfloat16),
-        ((17, 24, 31), torch.bfloat16),
-        ((33, 47, 63), torch.bfloat16),
-        ((97, 111, 127), torch.bfloat16),
-        ((193, 207, 223), torch.bfloat16),
-        ((225, 239, 255), torch.bfloat16),
-        ((9, 13, 15), torch.float16),
-        ((97, 111, 127), torch.float16),
+        (1, 3, 7),
+        (9, 13, 15),
+        (17, 24, 31),
+        (33, 47, 63),
+        (97, 111, 127),
+        (193, 207, 223),
+        (225, 239, 255),
     ],
 )
+@pytest.mark.parametrize("dtype", [torch.bfloat16, torch.float16])
 def test_dynamic_rows_reuse_plan_in_eager_and_capture(row_counts, dtype, monkeypatch):
     _reset_caches(monkeypatch)
     values = [inputs(rows, dtype, True) for rows in row_counts]
@@ -706,14 +702,11 @@ def test_startup_warms_full_tail_tiles_and_rounds(monkeypatch):
     assert cute_fused._PLANS == plans
 
 
-# Both override sources hide the call-site override alike; pair each with one setting.
+@pytest.mark.parametrize("override_source", ["environment", "context"])
 @pytest.mark.parametrize(
-    ("override_source", "override", "solution"),
-    [
-        ("environment", None, None),
-        ("context", "triton_hyperconnection_mix", "triton"),
-    ],
-    ids=["environment-default", "context-conflicting"],
+    ("override", "solution"),
+    [(None, None), ("triton_hyperconnection_mix", "triton")],
+    ids=["default", "conflicting"],
 )
 def test_startup_warms_global_fused_override(
     monkeypatch, override_source, override, solution

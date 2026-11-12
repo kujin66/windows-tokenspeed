@@ -70,14 +70,9 @@ def _kda_recurrent_step(
 
 @triton.heuristics(
     {
-        # From eight tokens, the preloaded window spills 16-row tiles past maxnreg.
         "BV": lambda args: min(
             triton.next_power_of_2(args["V"]),
-            (
-                4
-                if args["BATCH"] <= 4
-                else 8 if args["BATCH"] <= 8 or args["SPEC_QUERY_LEN"] >= 8 else 16
-            ),
+            4 if args["BATCH"] <= 4 else 8 if args["BATCH"] <= 8 else 16,
         )
     }
 )
@@ -677,7 +672,7 @@ def _commit_kda_state_kernel(
     tl.store(final_ptrs, state, mask=mask_state)
 
 
-def check_recoverssm_verify_inputs(
+def kda_recoverssm_verify(
     q: torch.Tensor,
     k: torch.Tensor,
     v: torch.Tensor,
@@ -685,6 +680,7 @@ def check_recoverssm_verify_inputs(
     raw_beta: torch.Tensor,
     A_log: torch.Tensor,
     dt_bias: torch.Tensor,
+    lower_bound: float | None,
     checkpoint_state: torch.Tensor,
     correction_cache: torch.Tensor,
     kg_cache: torch.Tensor,
@@ -694,8 +690,8 @@ def check_recoverssm_verify_inputs(
     out: torch.Tensor,
     record_metadata: torch.Tensor | None,
     record_stamps: torch.Tensor | None,
-) -> None:
-    """Raise ValueError unless the verify inputs match the shared contract."""
+) -> torch.Tensor:
+    """Verify a KDA speculative window without modifying its checkpoint."""
     if q.ndim != 4 or q.shape[0] != 1:
         raise ValueError("KDA RecoverSSM q must have shape [1, tokens, heads, dim]")
     _, total_tokens, num_heads, key_dim = q.shape
@@ -795,50 +791,6 @@ def check_recoverssm_verify_inputs(
         )
     ):
         raise ValueError("KDA RecoverSSM inputs must be on the same device")
-
-
-def kda_recoverssm_verify(
-    q: torch.Tensor,
-    k: torch.Tensor,
-    v: torch.Tensor,
-    raw_g: torch.Tensor,
-    raw_beta: torch.Tensor,
-    A_log: torch.Tensor,
-    dt_bias: torch.Tensor,
-    lower_bound: float | None,
-    checkpoint_state: torch.Tensor,
-    correction_cache: torch.Tensor,
-    kg_cache: torch.Tensor,
-    query_start_loc: torch.Tensor,
-    state_indices: torch.Tensor,
-    spec_query_len: int,
-    out: torch.Tensor,
-    record_metadata: torch.Tensor | None,
-    record_stamps: torch.Tensor | None,
-) -> torch.Tensor:
-    """Verify a KDA speculative window without modifying its checkpoint."""
-    check_recoverssm_verify_inputs(
-        q,
-        k,
-        v,
-        raw_g,
-        raw_beta,
-        A_log,
-        dt_bias,
-        checkpoint_state,
-        correction_cache,
-        kg_cache,
-        query_start_loc,
-        state_indices,
-        spec_query_len,
-        out,
-        record_metadata,
-        record_stamps,
-    )
-    _, total_tokens, num_heads, key_dim = q.shape
-    value_dim = v.shape[-1]
-    batch = state_indices.shape[0]
-    capacity = correction_cache.shape[2]
     if total_tokens == 0:
         return out
     block_k = triton.next_power_of_2(key_dim)

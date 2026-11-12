@@ -55,6 +55,9 @@ def _kpool_cache_views(
 
 
 if current_platform().is_hopper_plus:
+    from tokenspeed_kernel.ops.attention.dsa.deep_gemm import (
+        deep_gemm_dsa_prefill_topk,
+    )
 
     @register_kernel(
         "attention",
@@ -165,11 +168,6 @@ if current_platform().is_hopper_plus:
                 out=out,
                 lens_out=lens_out,
             )
-
-        # The all-pools path above does not need the native scoring backend.
-        from tokenspeed_kernel.ops.attention.dsa.deep_gemm import (
-            deep_gemm_dsa_prefill_topk,
-        )
 
         values, scales = _kpool_cache_views(
             pooled_k_cache,

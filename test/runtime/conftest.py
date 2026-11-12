@@ -41,15 +41,8 @@ def kimi_recipe(
     speculative_algorithm: str | None = None,
     speculative_num_draft_tokens: int = 1,
     kv_cache_dtype: torch.dtype = torch.float8_e4m3fn,
-    mamba_ssm_dtype: str = "float32",
-    dsa_index_k_format: str | None = None,
 ):
-    """A Kimi-K3 recipe over the reference config, with tiny scheduler limits.
-
-    ``dsa_index_k_format`` builds the Kimi-K3.1 target instead: a DSA
-    component (indexer geometry of the K3.1 checkpoint) storing index keys in
-    that format. The draft stays an ordinary MLA view either way.
-    """
+    """A Kimi-K3 recipe over the reference config, with tiny scheduler limits."""
     import dataclasses
     from types import SimpleNamespace
 
@@ -89,40 +82,23 @@ def kimi_recipe(
         scaling=(text_config.qk_nope_head_dim + text_config.qk_rope_head_dim) ** -0.5,
         kv_cache_dim=text_config.kv_lora_rank + text_config.qk_rope_head_dim,
     )
-    target_softmax = mla
-    if dsa_index_k_format is not None:
-        from tokenspeed.runtime.layers.attention.configs.dsa import DSAConfig
-
-        target_softmax = DSAConfig(
-            **{
-                field.name: getattr(mla, field.name)
-                for field in dataclasses.fields(mla)
-            },
-            index_topk=2048,
-            index_head_dim=128,
-            index_n_heads=32,
-            index_k_format=dsa_index_k_format,
-        )
     attn_config = AttnConfig(
         device="cpu",
         dtype=torch.bfloat16,
         kv_cache_dtype=kv_cache_dtype,
         kv_cache_quant_method=None,
+        prefix_granularity=128,
         max_bs=max_bs,
         # K3's per-group demand reads the scheduler's concurrency through
         # CacheRecipe.scheduler_limits, context length included.
         context_len=context_len,
         pd_disaggregation_enabled=pd_enabled,
         speculative_num_draft_tokens=speculative_num_draft_tokens,
-        components=(target_softmax, linear_attn),
+        components=(mla, linear_attn),
     )
     # The real K3 draft is BF16 MLA over the FP8 target arena.
     draft_attn_config = (
-        dataclasses.replace(
-            attn_config,
-            kv_cache_dtype=torch.bfloat16,
-            components=(mla, linear_attn),
-        )
+        dataclasses.replace(attn_config, kv_cache_dtype=torch.bfloat16)
         if draft_layers
         else None
     )
@@ -135,7 +111,6 @@ def kimi_recipe(
             enable_prefix_caching=True,
             speculative_algorithm=speculative_algorithm,
             speculative_num_draft_tokens=speculative_num_draft_tokens,
-            mamba_ssm_dtype=mamba_ssm_dtype,
         ),
         model_config=SimpleNamespace(hf_text_config=text_config),
         attn_config=attn_config,
@@ -152,14 +127,9 @@ def kimi_recipe(
 
 def kimi_tp8_layout(**recipe_kwargs):
     """The capacity-independent K3 layout: group, then pack."""
-    recipe = kimi_recipe(**recipe_kwargs)
-    return (recipe, *kimi_layout(recipe))
-
-
-def kimi_layout(recipe):
-    """``recipe``'s groups and capacity-independent layout."""
     from tokenspeed.runtime.layers.attention.kv_cache.recipes.plan import pack
 
+    recipe = kimi_recipe(**recipe_kwargs)
     groups = recipe.groups()
     layout = pack(
         groups,
@@ -170,7 +140,7 @@ def kimi_layout(recipe):
     )
     # Same order as CacheRecipe.setup: group, pack, check, then bind.
     recipe.check_layout(layout)
-    return groups, layout
+    return recipe, groups, layout
 
 
 def kimi_tp8_plan(*, num_lcm_blocks: int = 7):
@@ -233,20 +203,6 @@ def kda_layer_id(pool) -> int:
     return min(pool.state_group_by_layer)
 
 
-def whole_row_windows(arrays):
-    return {group_id: (array, array.shape[1]) for group_id, array in arrays.items()}
-
-
-def whole_row_spans(arrays):
-    """Block-table row spans covering every column, exact for any table."""
-    return {
-        group_id: np.tile(
-            np.array([0, array.shape[1]], dtype=np.int32), (len(array), 1)
-        )
-        for group_id, array in arrays.items()
-    }
-
-
 def cache_metadata_for(contract, tables, device, *, filler_page: int = 1):
     from tokenspeed.runtime.layers.attention.backends.cache_metadata import (
         CacheBatchMetadata,
@@ -259,18 +215,9 @@ def cache_metadata_for(contract, tables, device, *, filler_page: int = 1):
             arrays[spec.group_id] = np.asarray(tables[spec.group_id], dtype=np.int32)
         else:
             arrays[spec.group_id] = np.full((bs, 1), filler_page, dtype=np.int32)
-    spans = whole_row_spans(arrays)
-    forward_op = SimpleNamespace(
-        block_table_windows=lambda: whole_row_windows(arrays),
-        block_table_spans=lambda: spans,
-    )
+    forward_op = SimpleNamespace(block_tables_arrays=lambda: arrays)
     metadata = CacheBatchMetadata.from_forward_op(
-        forward_op,
-        device=device,
-        contract=contract,
-        num_requests=bs,
-        validate_page_ids=True,
-        host_tables=True,
+        forward_op, device=device, contract=contract, num_requests=bs
     )
     return metadata, forward_op
 

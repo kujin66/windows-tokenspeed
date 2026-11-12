@@ -98,6 +98,7 @@ def _mamba_config_pair(
         dtype=torch.bfloat16,
         kv_cache_dtype=torch.bfloat16,
         kv_cache_quant_method="none",
+        prefix_granularity=64,
         context_len=4096,
         max_bs=max_bs,
         speculative_num_draft_tokens=spec_tokens,

@@ -49,7 +49,6 @@ from tokenspeed_kernel.ops.ple.triton import (
     _ple_page_scatter_kernel,
 )
 from tokenspeed_kernel.platform import current_platform, pdl_enabled
-from tokenspeed_kernel.warmup import kernel_launcher
 
 __all__ = [
     "ple_conv_sequences",
@@ -221,7 +220,7 @@ def ple_ngram_ids(
     work_items *= ngram_heads
     block = min(256, max(32, _triton.next_power_of_2(work_items)))
     use_pdl = pdl_enabled()
-    kernel_launcher(_ngram_ids_kernel, (_triton.cdiv(work_items, block),))(
+    _ngram_ids_kernel[(_triton.cdiv(work_items, block),)](
         input_ids.contiguous(),
         initial.contiguous(),
         req,
@@ -469,7 +468,7 @@ def ple_conv_sequences(
     work_items = max(total_tokens, batch_size if write_final or scatter_windows else 0)
     if work_items:
         grid = (work_items, _triton.cdiv(channels, block_c))
-        kernel_launcher(_ple_conv_state_kernel, grid)(
+        _ple_conv_state_kernel[grid](
             values_c,
             initial_c,
             weight.contiguous(),

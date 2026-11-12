@@ -27,8 +27,7 @@ restores each one. Each tag is released and restored independently, so the
 RL loop can resume weights (and NCCL), push fresh weights, then resume the KV
 cache:
 
-- ``weights``: model parameters (CPU backup, or discard until a complete
-  replica-committed update; frozen draft allocations retain CPU backup);
+- ``weights``: model parameters (restored from their CPU backup);
 - ``kv_cache``: the cache arena (discarded; zeroed on resume);
 - ``cuda_graph``: the decode CUDA graph memory pool (discarded; every replay
   rewrites it before reading);
@@ -76,7 +75,6 @@ def memory_regions(
         adapter.pause(tag="kv_cache")
 
     def resume_kv_cache() -> None:
-        device.before_kv_resume()
         adapter.resume(tag="kv_cache")
         # Re-mapped memory holds garbage: zero it, then register it with
         # the PD transfer engine again.
@@ -91,10 +89,7 @@ def memory_regions(
 
     regions = {
         "kv_cache": MemoryRegion(release=release_kv_cache, resume=resume_kv_cache),
-        "weights": MemoryRegion(
-            release=lambda: device.release_weights(adapter),
-            resume=lambda: device.resume_weights(adapter),
-        ),
+        "weights": allocator_region("weights"),
         "cuda_graph": allocator_region("cuda_graph"),
     }
     if nccl_suspendable:

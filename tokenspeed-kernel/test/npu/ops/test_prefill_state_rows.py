@@ -64,9 +64,7 @@ def test_index_alignment_without_recompile():
         sources = torch.full((8,), 2, dtype=dtype, device="npu")
         targets = torch.zeros(8, dtype=dtype, device="npu")
         targets[:2].copy_(torch.tensor([4, 5], dtype=dtype, device="npu"))
-        state, _ = prepare_prefill_state_inputs(
-            conv, slab, sources[:2], targets[:2], dtype=slab.dtype
-        )
+        state, _ = prepare_prefill_state_inputs(conv, slab, sources[:2], targets[:2])
         store_state_rows(state, slab, targets[:2])
         torch.npu.synchronize()
         with (
@@ -78,9 +76,7 @@ def test_index_alignment_without_recompile():
                     src = sources[source_offset : source_offset + 2]
                     dst = targets[target_offset : target_offset + 2]
                     dst.copy_(torch.tensor([4, 5], dtype=dtype, device="npu"))
-                    state, flags = prepare_prefill_state_inputs(
-                        conv, slab, src, dst, dtype=slab.dtype
-                    )
+                    state, flags = prepare_prefill_state_inputs(conv, slab, src, dst)
                     store_state_rows(state, slab, dst)
                     exact(state, slab[2].unsqueeze(0).expand(2, -1, -1, -1))
                     exact(flags, torch.ones(2, dtype=torch.bool))
@@ -115,13 +111,11 @@ def test_changed_graph():
     src = torch.tensor([0, 2, 2], dtype=torch.int32, device="npu")
     dst = torch.tensor([1, 3, 4], dtype=torch.int32, device="npu")
     for _ in range(3):
-        prepare_prefill_state_inputs(conv, state, src, dst, dtype=state.dtype)
+        prepare_prefill_state_inputs(conv, state, src, dst)
     torch.npu.synchronize()
     graph = torch.npu.NPUGraph()
     with torch.npu.graph(graph):
-        result, flags = prepare_prefill_state_inputs(
-            conv, state, src, dst, dtype=state.dtype
-        )
+        result, flags = prepare_prefill_state_inputs(conv, state, src, dst)
         store_state_rows(result, state, dst)
     for sources in [[2, 0, 2], [0, 2, 0], [2, 2, 2]]:
         conv.copy_(conv_cpu)
@@ -164,7 +158,7 @@ def test_large_offset():
         backing.narrow(0, b * stride + width, 32).fill_(71)
     src = torch.tensor([2100, 0], dtype=torch.int64, device="npu")
     dst = torch.tensor([2200, 1], dtype=torch.int32, device="npu")
-    actual, flags = prepare_prefill_state_inputs(conv, slab, src, dst, dtype=slab.dtype)
+    actual, flags = prepare_prefill_state_inputs(conv, slab, src, dst)
     exact(actual, torch.stack([sample, torch.zeros_like(sample)]))
     exact(flags, torch.tensor([True, False]))
     store_state_rows(actual, slab, dst)

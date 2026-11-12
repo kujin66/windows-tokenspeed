@@ -20,14 +20,8 @@
 from functools import wraps
 from inspect import signature
 
-import torch
-from tokenspeed_kernel.platform import (
-    CapabilityRequirement,
-    current_platform,
-    pdl_enabled,
-)
-from tokenspeed_kernel.registry import Priority, error_fn, register_kernel
-from tokenspeed_kernel.signature import format_signatures
+from tokenspeed_kernel.platform import current_platform, pdl_enabled
+from tokenspeed_kernel.registry import error_fn
 
 fused_add_rmsnorm = error_fn
 gemma_fused_add_rmsnorm = error_fn
@@ -72,28 +66,6 @@ if current_platform().is_nvidia:
         gemma_fused_add_rmsnorm = _with_pdl_default(_gemma_fused_add_rmsnorm)
         gemma_rmsnorm = _with_pdl_default(_gemma_rmsnorm)
         rmsnorm = _with_pdl_default(_rmsnorm)
-
-        @register_kernel(
-            "layernorm",
-            "gemma_rmsnorm",
-            name="flashinfer_gemma_rmsnorm",
-            solution="flashinfer",
-            capability=CapabilityRequirement(vendors=frozenset({"nvidia"})),
-            signatures=format_signatures("x", "dense", {torch.bfloat16, torch.float16}),
-            priority=Priority.PERFORMANT,
-        )
-        def flashinfer_gemma_rmsnorm(
-            x: torch.Tensor,
-            weight: torch.Tensor,
-            eps: float,
-            residual: torch.Tensor | None,
-        ) -> torch.Tensor | tuple[torch.Tensor, torch.Tensor]:
-            """FlashInfer kernel of :func:`tokenspeed_kernel.ops.layernorm.gemma_rmsnorm`."""
-            if residual is None:
-                return gemma_rmsnorm(x, weight, eps)
-            gemma_fused_add_rmsnorm(x, residual, weight, eps)
-            return x, residual
-
     except ImportError:
         pass
 

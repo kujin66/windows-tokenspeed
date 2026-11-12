@@ -234,24 +234,6 @@ def test_contract_wire_form_has_no_version_field() -> None:
     assert "version" not in contract_payload
 
 
-def test_contract_distinguishes_checkpoint_granularity() -> None:
-    ordinary = _layout()
-    aligned = replace(
-        ordinary,
-        group_specs=tuple(
-            (
-                replace(spec, checkpoint_granularity=4096)
-                if spec.attn_kind == "state"
-                else spec
-            )
-            for spec in ordinary.group_specs
-        ),
-    )
-    assert ordinary.to_wire_bytes() != aligned.to_wire_bytes()
-    payload = json.loads(aligned.to_wire_bytes())
-    assert payload["group_specs"][1]["checkpoint_granularity"] == 4096
-
-
 def _two_plane_lcm_plan(num_lcm_blocks: int) -> CacheMemoryPlan:
     plane_bytes = 512
     lcm_block_bytes = 1024
@@ -357,7 +339,7 @@ def test_pd_derives_ordinary_transfer_metadata_from_physical_plan(
             kv_cache_dim=8,
         )
     if family == "dsa":
-        # fp8_scaled: the (64, 132) uint8 index plane asserted below.
+        # fp8_scaled: the (16, 132) uint8 index plane asserted below.
         extras.update(
             index_topk=4,
             index_head_dim=128,
@@ -373,6 +355,7 @@ def test_pd_derives_ordinary_transfer_metadata_from_physical_plan(
         device="cpu",
         dtype=torch.bfloat16,
         kv_cache_dtype=torch.bfloat16,
+        prefix_granularity=16,
         context_len=256,
         max_bs=4,
         kv_cache_quant_method="none",
@@ -395,7 +378,7 @@ def test_pd_derives_ordinary_transfer_metadata_from_physical_plan(
     groups = recipe.groups()
     layout = _recipe_contract(
         groups,
-        q=recipe.prefix_granularity,
+        q=config.prefix_granularity,
         cache_blocks_per_lcm_block=recipe.packing(groups),
         alignment=1,
     )
@@ -412,8 +395,7 @@ def test_pd_derives_ordinary_transfer_metadata_from_physical_plan(
         ),
     )
 
-    # The ordinary recipe's 64-token grain: no leaf here pins a wider page.
-    assert layout.plan.prefix_granularity == 64
+    assert layout.plan.prefix_granularity == 16
     assert len(layout.group_specs) == 1
     group = layout.group_specs[0]
     assert (group.group_id, group.attn_kind) == ("full_attention", "full_history")
@@ -437,9 +419,9 @@ def test_pd_derives_ordinary_transfer_metadata_from_physical_plan(
     for field_id, field in fields_by_id.items():
         is_index = field_id.endswith(".index_k")
         expected_shape = (
-            (64, 132)
+            (16, 132)
             if family == "dsa" and is_index
-            else (64, 1, 8) if field_id.endswith(".latent_kv") else (64, 2, 8)
+            else (16, 1, 8) if field_id.endswith(".latent_kv") else (16, 2, 8)
         )
         # The recipe put the dtype in the plan; the contract reads it back.
         expected_dtype = "uint8" if family == "dsa" and is_index else "bfloat16"

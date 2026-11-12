@@ -59,8 +59,6 @@ from tokenspeed.runtime.engine.io_struct import (
     RebalanceExpertsReqOutput,
     ReleaseMemoryOccupationReqInput,
     ReleaseMemoryOccupationReqOutput,
-    ReloadForwardReqInput,
-    ReloadForwardReqOutput,
     ResumeMemoryOccupationReqInput,
     ResumeMemoryOccupationReqOutput,
     ResumeSchedulerReqInput,
@@ -107,7 +105,6 @@ CONTROL_REQUESTS = (
     GetInternalStateReq,
     SetInternalStateReq,
     ProfileReq,
-    ReloadForwardReqInput,
 )
 CONTROL_OUTPUTS = (
     FlushCacheReqOutput,
@@ -127,7 +124,6 @@ CONTROL_OUTPUTS = (
     GetInternalStateReqOutput,
     SetInternalStateReqOutput,
     ProfileReqOutput,
-    ReloadForwardReqOutput,
 )
 
 

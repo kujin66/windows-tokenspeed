@@ -39,7 +39,6 @@ from tokenspeed_kernel.workspace import capture_session
 
 from tokenspeed.runtime.multimodal.encoder_batching import pack_encoder_batches
 from tokenspeed.runtime.utils import logger
-from tokenspeed.runtime.utils.host_sync import host_to_device
 
 # Longest sequence the padding rows of a budget graph run as, which bounds their attention cost.
 PADDING_SEQUENCE_ROWS = 256
@@ -70,7 +69,7 @@ def pad_cu_seqlens(
     cu = torch.cat(
         [
             cu_seqlens,
-            host_to_device(padding, dtype=cu_seqlens.dtype, device=cu_seqlens.device),
+            torch.tensor(padding, dtype=cu_seqlens.dtype, device=cu_seqlens.device),
         ]
     )
     target = metadata_sequence_budget + 1 + ceil(budget_rows / PADDING_SEQUENCE_ROWS)

@@ -28,9 +28,6 @@
 
 namespace flashinfer {
 
-// Use the same double constant on platforms without the M_PI extension.
-constexpr double kRopePi = 3.14159265358979323846;
-
 /*!
  * \brief An enumeration class that defines different modes for applying RoPE
  *   (Rotary Positional Embeddings).
@@ -387,7 +384,7 @@ __global__ void RopeQuantizeKernel(
     // 2. if not interleave
     //  - cos = cos_cache[pos_id][(tx * vec_size) % (rot_dim // 2)]
     //  - sin = sin_cache[pos_id][(rot_dim // 2) + (tx * vec_size) % (rot_dim // 2)]
-    if ((tx * vec_size < rope_dim) && (by < k_rope_end)) {
+    if ((tx * vec_size < rope_dim) and (by < k_rope_end)) {
       int sin_offset = rope_dim / 2;
       int vec_idx;
       if constexpr (interleave) {
@@ -1057,7 +1054,7 @@ cudaError_t BatchQKApplyLlama31Rotary(
     cudaStream_t stream = nullptr) {
   float rope_rcp_scale = 1.0f / rope_scale;
   float rope_rcp_theta = 1.0f / rope_theta;
-  float smooth_a = old_context_length / (2 * kRopePi * high_freq_factor - 2 * kRopePi * low_freq_factor);
+  float smooth_a = old_context_length / (2 * M_PI * high_freq_factor - 2 * M_PI * low_freq_factor);
   float smooth_b = -1.0f / (high_freq_factor / low_freq_factor - 1.0f);
 
   DISPATCH_INTERLEAVE(interleave, INTERLEAVE, {
@@ -1108,7 +1105,7 @@ cudaError_t BatchQKApplyLlama31RotaryPosIds(
     float high_freq_factor, float old_context_length, cudaStream_t stream = nullptr) {
   float rope_rcp_scale = 1.0f / rope_scale;
   float rope_rcp_theta = 1.0f / rope_theta;
-  float smooth_a = old_context_length / (2 * kRopePi * high_freq_factor - 2 * kRopePi * low_freq_factor);
+  float smooth_a = old_context_length / (2 * M_PI * high_freq_factor - 2 * M_PI * low_freq_factor);
   float smooth_b = -1.0f / (high_freq_factor / low_freq_factor - 1.0f);
 
   DISPATCH_INTERLEAVE(interleave, INTERLEAVE, {

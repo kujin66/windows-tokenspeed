@@ -23,7 +23,7 @@ const authorsFields = `
   pageInfo { hasNextPage endCursor }
 `;
 
-module.exports = async function checkCommitAttribution({ github, core, context, upstreamCommits = new Set() }) {
+module.exports = async function checkCommitAttribution({ github, core, context }) {
   const pullRequest = context.payload.pull_request;
   let cursor = null;
   let failures = 0;
@@ -54,10 +54,6 @@ module.exports = async function checkCommitAttribution({ github, core, context, 
     }
 
     for (const { commit } of current.commits.nodes) {
-      if (upstreamCommits.has(commit.oid)) {
-        core.info('Preserving attribution of upstream commit ' + commit.oid + '.');
-        continue;
-      }
       let authors = commit.authors;
       let authorIndex = 0;
       do {

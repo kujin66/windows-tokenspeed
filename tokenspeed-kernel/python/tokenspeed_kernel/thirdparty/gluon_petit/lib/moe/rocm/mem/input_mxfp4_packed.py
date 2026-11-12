@@ -6,13 +6,11 @@ from lib.gemm.rocm.intrinsics import (
     BufferResource,
     amdgcn_s_waitcnt_barrier,
     amdgcn_thread_id,
-    lds_load,
-    lds_store,
 )
 from lib.moe.rocm.memory_ops import _load_vector4, _register_array_get
 from lib.tal.device import DeviceTemplate, device_method
 from lib.tal.tensor_ops import transpose_packed_bytes
-from tokenspeed_kernel._triton import gl as l
+from triton.experimental.gluon import language as l
 
 
 class PackedInputState(NamedTuple):
@@ -176,7 +174,7 @@ class MxFp4InputPacked(DeviceTemplate):
         if wave_m is None:
             wid = amdgcn_thread_id(wtid) // 64
             wave_m = wid // self.kWarpsN
-        return lds_load(
+        return l.load(
             shm_scale
             + (state.scale_tile_ // self.kScaleStages * self.kWarpsM + wave_m) * 64
             + wtid
@@ -250,7 +248,7 @@ class MxFp4InputPacked(DeviceTemplate):
             half = quad_lane >> 1
             raw_word = row * self.kScaleWordsPerRow + tile * 2 + half
             raw_stage = raw_word // self.kScaleWordsPerStage
-            raw = lds_load(
+            raw = l.load(
                 shm
                 + raw_stage * self.kShmStageWords
                 + self.kShmActWords
@@ -265,7 +263,7 @@ class MxFp4InputPacked(DeviceTemplate):
             tile, wave_m, row16 = block // self.kWarpsM, block % self.kWarpsM, task % 16
             stage = tile % self.kScaleStages
             stage_tile = tile // self.kScaleStages * self.kWarpsM + wave_m
-            lds_store(
+            l.store(
                 shm
                 + stage * self.kShmStageWords
                 + self.kShmActWords

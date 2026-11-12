@@ -112,7 +112,6 @@ from tokenspeed.runtime.layers.linear import (
     RowParallelLinear,
 )
 from tokenspeed.runtime.layers.logits_processor import LogitsMetadata, LogitsProcessor
-from tokenspeed.runtime.layers.mlp import GatedMLP
 from tokenspeed.runtime.layers.moe.expert import MoELayer
 from tokenspeed.runtime.layers.moe.topk import StandardTopKOutput, TopK
 from tokenspeed.runtime.layers.paged_attention import (
@@ -129,10 +128,12 @@ from tokenspeed.runtime.models.deepseek_v3 import MoEGate as _DSV3MoEGate
 from tokenspeed.runtime.multimodal.embedder import (
     EncoderSpec,
     VisionEmbedder,
+    pad_input_tokens,
 )
 from tokenspeed.runtime.multimodal.inputs import (
     Modality,
     MultimodalDataItem,
+    MultimodalInputs,
 )
 from tokenspeed.runtime.utils import add_prefix, make_layers
 from tokenspeed.runtime.utils.common import set_weight_attrs
@@ -386,10 +387,10 @@ def _sconv_apply(
         checkpoint_group = "kvconv"
         checkpoint_buffers = ctx.token_to_kv_pool.kvconv_checkpoint_buffers(layer_id)
     elif conv_group in ("attnconv", "mlpconv"):
-        checkpoint_group, buffer = ctx.token_to_kv_pool.hiddenconv_checkpoint(
-            layer_id, conv_group
+        checkpoint_group = "hiddenconv"
+        checkpoint_buffers = (
+            ctx.token_to_kv_pool.hiddenconv_checkpoint_buffer(layer_id, conv_group),
         )
-        checkpoint_buffers = (buffer,)
     else:
         raise ValueError(f"unknown sconv stream group {conv_group!r}")
     backend.register_shortconv_checkpoint_stream(
@@ -632,7 +633,7 @@ class InklingAttention(nn.Module):
         return output
 
 
-class InklingDenseMLP(GatedMLP):
+class InklingDenseMLP(nn.Module):
     """Dense SwiGLU MLP for the first ``dense_mlp_idx`` layers."""
 
     def __init__(
@@ -642,10 +643,11 @@ class InklingDenseMLP(GatedMLP):
         quant_config: QuantizationConfig | None = None,
         prefix: str = "",
     ):
+        super().__init__()
         tp_rank = mapping.attn.tp_rank
         tp_size = mapping.attn.tp_size
         tp_group = mapping.attn.tp_group
-        gate_up_proj = MergedColumnParallelLinear(
+        self.gate_up_proj = MergedColumnParallelLinear(
             config.hidden_size,
             [config.dense_intermediate_size] * 2,
             bias=False,
@@ -655,7 +657,7 @@ class InklingDenseMLP(GatedMLP):
             tp_group=tp_group,
             prefix=add_prefix("gate_up_proj", prefix),
         )
-        down_proj = RowParallelLinear(
+        self.down_proj = RowParallelLinear(
             config.dense_intermediate_size,
             config.hidden_size,
             bias=False,
@@ -666,15 +668,17 @@ class InklingDenseMLP(GatedMLP):
             reduce_results=True,
             prefix=add_prefix("down_proj", prefix),
         )
-        super().__init__(gate_up_proj, down_proj, SiluAndMul(), fusions=())
         self.global_scale = (
             nn.Parameter(torch.empty(1), requires_grad=False)
             if config.use_global_scale
             else None
         )
+        self.act_fn = SiluAndMul()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = super().forward(x)
+        gate_up, _ = self.gate_up_proj(x)
+        x = self.act_fn(gate_up)
+        x, _ = self.down_proj(x)
         if self.global_scale is not None:
             x = x * self.global_scale
         return x
@@ -1611,6 +1615,10 @@ class InklingForConditionalGeneration(nn.Module):
     def get_embed_and_head(self) -> tuple[torch.Tensor, torch.Tensor]:
         """Weights the MTP draft model shares (see inkling_nextn.py)."""
         return self.model.embed_tokens.weight, self.lm_head.weight
+
+    def pad_input_ids(self, input_ids: list[int], mm_inputs: MultimodalInputs):
+        """Rewrite each placeholder run to the item's content-derived pad id."""
+        return pad_input_tokens(input_ids, mm_inputs)
 
     def get_image_feature(self, items: list[MultimodalDataItem]) -> torch.Tensor:
         """Encode image patch features to LM embeddings.

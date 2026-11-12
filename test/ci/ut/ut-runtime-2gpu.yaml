@@ -5,7 +5,6 @@ workflow_stage: unit-test
 triggers:
   - per-commit
   - manual
-changed_paths: true
 runner:
   labels:
     - h100-2gpu

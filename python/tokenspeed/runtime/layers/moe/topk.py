@@ -123,8 +123,7 @@ class ExpertLocationDispatchInfo:
             layer_id=layer_id,
             ep_dispatch_algorithm=ep_dispatch_algorithm,
             # The per-rank static map is computed on first request, so a
-            # replicated-input EP server never builds it; all-to-all serving
-            # builds it with the placement (build_expert_placement).
+            # replicated-input EP server never builds it.
             partial_logical_to_rank_dispatch_physical_map=(
                 expert_location_metadata.rank_dispatch_map()[layer_id]
                 if static and all_to_all_ep

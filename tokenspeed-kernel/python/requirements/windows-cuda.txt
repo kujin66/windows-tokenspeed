@@ -1,9 +1,0 @@
-# Build/FFI dependencies for Windows CUDA compilation.
-# Torch is downloaded from the NVIDIA nvtorch_oot_nightly feed; TVM is on PyPI.
-torch==2.16.0.dev20261101+cu134
-numpy
-packaging
-psutil
-apache-tvm-ffi==0.1.15.post2
-nvidia-ml-py
-tokenspeed-triton==3.9.10.post20261023

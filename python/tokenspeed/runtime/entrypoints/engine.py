@@ -61,11 +61,7 @@ from tokenspeed.runtime.utils import (
     set_prometheus_multiproc_dir,
     set_ulimit,
 )
-from tokenspeed.runtime.utils.launcher import (
-    interface_for_host,
-    set_pinned_allocator_default,
-    set_rocm_tool_registration_default,
-)
+from tokenspeed.runtime.utils.launcher import interface_for_host
 from tokenspeed.runtime.utils.process import (
     kill_process_tree,
     receive_ready_messages,
@@ -113,9 +109,6 @@ def _force_env(owner: str, key: str, value: str) -> None:
 
 def _set_envs_and_config(server_args: ServerArgs):
     # Set global environments
-    if server_args.device == "cuda":
-        set_pinned_allocator_default()
-        set_rocm_tool_registration_default()
     os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
     if server_args.disable_symm_mem:
         os.environ["NCCL_CUMEM_ENABLE"] = "0"
@@ -123,7 +116,7 @@ def _set_envs_and_config(server_args: ServerArgs):
         os.environ["NCCL_NVLS_ENABLE"] = "0"
     os.environ["CUDA_DEVICE_MAX_CONNECTIONS"] = "4"
     os.environ["CUDA_MODULE_LOADING"] = "AUTO"
-    if server_args._beam_checkpoint is None:
+    if getattr(server_args, "_beam_checkpoint", False) is None:
         # A hub id the local cache does not hold yet (a first launch): fetch
         # its config.json now, before any process starts.
         server_args.resolve_model_defaults(download=True)
@@ -147,7 +140,7 @@ def _set_envs_and_config(server_args: ServerArgs):
         # explicit env wins; --disable-tf32 is the documented opt-out.
         os.environ.setdefault("NVIDIA_TF32_OVERRIDE", "1")
         os.environ.setdefault("TORCH_ALLOW_TF32_CUBLAS_OVERRIDE", "1")
-    if server_args._beam_checkpoint:
+    if getattr(server_args, "_beam_checkpoint", False):
         # Beam serves without TF32 (ServerArgs.resolve_model_defaults): both
         # switches off for the processes started below, whatever the caller
         # exported.

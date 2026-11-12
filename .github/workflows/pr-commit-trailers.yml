@@ -25,16 +25,6 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Identify unchanged official history during fork synchronization
-        if: github.repository != 'lightseekorg/tokenspeed'
-        run: |
-          set -euo pipefail
-          git fetch --no-tags --filter=blob:none https://github.com/lightseekorg/tokenspeed.git main
-          upstream_base=$(git merge-base HEAD FETCH_HEAD)
-          accepted="$RUNNER_TEMP/official-history.txt"
-          git rev-list "$upstream_base" > "$accepted"
-          echo "UPSTREAM_COMMITS_FILE=$accepted" >> "$GITHUB_ENV"
-
       - name: Check commit co-authors
         env:
           BASE_REF: ${{ github.event.pull_request.base.ref }}
@@ -48,9 +38,6 @@ jobs:
 
           failed=false
           while IFS= read -r commit; do
-            if [ -n "${UPSTREAM_COMMITS_FILE:-}" ] && grep -Fxq "$commit" "$UPSTREAM_COMMITS_FILE"; then
-              continue
-            fi
             git log -1 --format=%B "$commit" > "$message"
             if grep -qiE "$forbidden" "$message"; then
               echo "::error::Commit $commit has a Co-authored-by trailer blocked by the attribution policy."
@@ -71,9 +58,5 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const fs = require('node:fs');
             const check = require('./.github/scripts/check-commit-attribution.js');
-            const upstreamCommits = new Set(process.env.UPSTREAM_COMMITS_FILE
-              ? fs.readFileSync(process.env.UPSTREAM_COMMITS_FILE, 'utf8').trim().split(/\s+/)
-              : []);
-            await check({ github, core, context, upstreamCommits });
+            await check({ github, core, context });

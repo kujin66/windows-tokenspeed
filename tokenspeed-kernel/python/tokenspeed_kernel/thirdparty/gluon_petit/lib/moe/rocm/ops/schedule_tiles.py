@@ -6,7 +6,7 @@ from lib.moe.rocm.memory_ops import TargetWeightLoadPolicy
 from lib.moe.rocm.ops.mxfp4_activation import MxFp4InputRegs
 from lib.moe.rocm.ops.schedule_matmul import NativeMxFp4Matmul
 from lib.tal.device import DeviceTemplate, device_method
-from tokenspeed_kernel._triton import gl as l
+from triton.experimental.gluon import language as l
 
 
 class MxFp4Tile(NamedTuple):

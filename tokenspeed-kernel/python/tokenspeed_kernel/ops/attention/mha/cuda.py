@@ -20,7 +20,6 @@
 import math
 
 import torch
-from tokenspeed_kernel._optional import has_fa4_cute, has_optional_package
 from tokenspeed_kernel.platform import (
     ArchVersion,
     CapabilityRequirement,
@@ -49,13 +48,13 @@ platform = current_platform()
 # ------------------------------------------------------------------------------
 
 
-if platform.is_blackwell_plus and has_fa4_cute():
+if platform.is_blackwell_plus:
     from flash_attn.cute import (
         flash_attn_func,
         flash_attn_varlen_func,
     )
 
-if platform.is_nvidia and platform.is_blackwell and has_fa4_cute():
+if platform.is_nvidia and platform.is_blackwell:
     # FA4 on Blackwell supports prefill head_dim in [8, 256] divisible by 8,
     # but the 256-wide MHA path mishandles non-contiguous V split views, so we
     # restrict it to <256 for now until that is resolved.
@@ -516,11 +515,7 @@ if platform.is_nvidia and platform.is_blackwell and has_fa4_cute():
             )
             return out.to(torch.bfloat16)
 
-elif (
-    platform.is_nvidia
-    and platform.is_hopper
-    and has_optional_package("flash_attn_interface")
-):
+elif platform.is_nvidia and platform.is_hopper:
     from flash_attn_interface import (
         flash_attn_func,
         flash_attn_varlen_func,

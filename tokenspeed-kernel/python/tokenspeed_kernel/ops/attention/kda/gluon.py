@@ -83,6 +83,8 @@ if current_platform().is_amd:
     )
     def gluon_kda_paged_prefill_gfx950(**kwargs) -> KdaPrefillResult:
         """Run specialized gfx950 KDA prefill with V-major state."""
+        # Host-boundary hint is consumed only by the CuteDSL wrapper.
+        kwargs.pop("cu_seqlens_cpu", None)
         output, final_state = _kda_prefill_impl(**kwargs)
         return KdaPrefillResult(out=output, final_state=final_state)
 
@@ -105,6 +107,8 @@ if current_platform().is_amd:
     )
     def gluon_kda_paged_prefill_gfx1250(**kwargs) -> KdaPrefillResult:
         """Run specialized gfx1250 KDA prefill with V-major state."""
+        # Host-boundary hint is consumed only by the CuteDSL wrapper.
+        kwargs.pop("cu_seqlens_cpu", None)
         output, final_state = _kda_prefill_gfx1250_impl(**kwargs)
         return KdaPrefillResult(out=output, final_state=final_state)
 
@@ -306,7 +310,6 @@ if current_platform().is_amd:
         lower_bound: float | None,
         record_metadata: torch.Tensor | None,
         record_stamps: torch.Tensor | None,
-        state_dtype: torch.dtype,
     ) -> None:
         """Recover accepted prefixes from FP32 U and activation-dtype K/raw-g records."""
         _kda_fused_replay_impl(
@@ -329,7 +332,6 @@ if current_platform().is_amd:
             lower_bound=lower_bound,
             record_metadata=record_metadata,
             record_stamps=record_stamps,
-            state_dtype=state_dtype,
         )
 
     @register_kernel(
@@ -530,7 +532,6 @@ if current_platform().is_amd:
         lower_bound: float | None,
         record_metadata: torch.Tensor | None,
         record_stamps: torch.Tensor | None,
-        state_dtype: torch.dtype,
     ) -> None:
         """Recover accepted prefixes from FP32 U and activation-dtype K/raw-g records."""
         _kda_fused_replay_gfx1250_impl(
@@ -553,5 +554,4 @@ if current_platform().is_amd:
             lower_bound=lower_bound,
             record_metadata=record_metadata,
             record_stamps=record_stamps,
-            state_dtype=state_dtype,
         )

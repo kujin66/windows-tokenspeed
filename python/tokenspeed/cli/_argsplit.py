@@ -106,25 +106,14 @@ class SplitResult:
     opts: OrchestratorOpts = field(default_factory=OrchestratorOpts)
 
 
-def _normalize(
-    argv: Iterable[str], engine_flags: set[str]
-) -> list[tuple[str, list[str] | str | None]]:
+def _normalize(argv: Iterable[str]) -> list[tuple[str, list[str] | str | None]]:
     """Convert raw argv into a list of (name, value) pairs.
 
     Handles both ``--flag value`` and ``--flag=value`` forms. Aliases are
-    resolved to their canonical names. Gateway-only options keep all consecutive
-    values; SMG validates their arity. Known scalar options still take one value.
+    resolved to their canonical names.
     """
     items: list[tuple[str, list[str] | str | None]] = []
     tokens = list(argv)
-    scalar_flags = (
-        engine_flags
-        | _ORCH_FLAGS
-        | _FANOUT_FLAGS
-        | _GATEWAY_USER_FACING
-        | _GATEWAY_OVERRIDE
-        | _ENGINE_EXPLICIT
-    )
     i = 0
     while i < len(tokens):
         raw = tokens[i]
@@ -140,7 +129,7 @@ def _normalize(
             if nxt is None or nxt.startswith("--"):
                 value = None
                 i += 1
-            elif name in _ENGINE_MULTI_VALUE_FLAGS or name not in scalar_flags:
+            elif name in _ENGINE_MULTI_VALUE_FLAGS:
                 values = []
                 i += 1
                 while i < len(tokens) and not tokens[i].startswith("--"):
@@ -220,7 +209,7 @@ def split_argv(argv: list[str]) -> SplitResult:
             (e.g. ``--model`` with no path), if a timeout flag is
             non-positive, if the model is given both positionally and via
             ``--model``/``--model-path``, or if a positional arg appears
-            after the leading model without belonging to a gateway option.
+            after the leading model.
     """
 
     argv = list(argv)
@@ -234,9 +223,9 @@ def split_argv(argv: list[str]) -> SplitResult:
             )
         argv = ["--model", model, *rest]
 
-    engine_flags = _engine_recognized_flags()
-    items = _normalize(argv, engine_flags)
+    items = _normalize(argv)
     result = SplitResult()
+    engine_flags = _engine_recognized_flags()
 
     for name, value in items:
         if name in _ORCH_FLAGS:

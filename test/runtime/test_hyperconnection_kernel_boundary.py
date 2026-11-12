@@ -329,9 +329,7 @@ def test_attention_to_mlp_fusion_after_communication(communication: str) -> None
     layer = SimpleNamespace(
         attn_hyper_connection=attention,
         mlp_hyper_connection=mlp,
-        comm_manager=SimpleNamespace(
-            post_attn_comm=post_attn_comm, needs_pre_attn_all_gather=lambda: False
-        ),
+        comm_manager=SimpleNamespace(post_attn_comm=post_attn_comm),
     )
     ctx = SimpleNamespace(
         forward_mode=SimpleNamespace(is_idle=lambda: communication == "idle")
@@ -528,13 +526,7 @@ class _TailFusionLayer(torch.nn.Module, _Qwen4ExpDecoderMixin):
             pre_attn_comm=lambda value, ctx: (
                 torch.cat((value, value.flip(0)), dim=0) if pre_gather else value
             ),
-            # Model rank 0 of a two-rank RSAG leg: gather before attention,
-            # then keep the same local rows of its output and HC residual.
-            slice_scattered_rows=lambda value, ctx: value[: value.shape[0] // 2],
-            post_attn_comm=lambda value, residual, ctx: (
-                value[: value.shape[0] // 2] if pre_gather else value,
-                residual,
-            ),
+            post_attn_comm=lambda value, residual, ctx: (value, residual),
             pre_mlp_comm=lambda value, ctx: value,
             post_mlp_comm=lambda value, residual, ctx: (value, residual),
             post_final_norm_comm=lambda value, residual, ctx: (
@@ -586,7 +578,6 @@ def _tail_fusion_model(
     model.hyper_connection_mixer = GatedResidualSimple(
         config, use_mix=True, use_combine=False
     )
-    model.monokernel_state = None
     model = model.to(device="cuda", dtype=dtype)
     with torch.no_grad():
         for module in model.modules():

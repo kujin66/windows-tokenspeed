@@ -84,8 +84,7 @@ void AllocateAndRelease() {
                 const auto start = Clock::now();
                 for (int round = 0; round < rounds; ++round) {
                     for (auto& table : tables) {
-                        Require(allocator.Acquire(pool, table, AcquirePlan{.num_blocks = 1},
-                                                  /*first_placed_slot=*/table.NumBlocks(), /*placed=*/{}),
+                        Require(allocator.Acquire(pool, table, AcquirePlan{.num_blocks = 1}),
                                 "benchmark workload exceeds configured capacity");
                     }
                 }

@@ -6,15 +6,11 @@ on:
     paths:
       - "tokenspeed-scheduler/**"
       - ".github/workflows/scheduler-python-test.yml"
-      - ".github/actions/windows-arm64-setup/**"
-      - "tools/windows/activate_toolchain.ps1"
   pull_request:
-    branches: [main, 'baseline/upstream-*']
+    branches: [main]
     paths:
       - "tokenspeed-scheduler/**"
       - ".github/workflows/scheduler-python-test.yml"
-      - ".github/actions/windows-arm64-setup/**"
-      - "tools/windows/activate_toolchain.ps1"
   workflow_dispatch:
 
 concurrency:
@@ -23,45 +19,21 @@ concurrency:
 
 jobs:
   test:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            python: '3.12'
-          - os: windows-11-arm
-            python: '3.13'
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python }}
-
-      - name: Activate Windows compiler
-        if: runner.os == 'Windows'
-        uses: ./.github/actions/windows-arm64-setup
-        with:
-          profile: cpu-openssl
-
-      - name: Install Linux build tools
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cmake ninja-build
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
           python -m pip install -e 'tokenspeed-scheduler[test]'
 
       - name: Run scheduler Python tests
-        run: python -m pytest tokenspeed-scheduler/python/tests --junitxml=scheduler-python.xml
-
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: scheduler-python-${{ matrix.os }}
-          path: scheduler-*.xml
+        run: python -m pytest tokenspeed-scheduler/python/tests

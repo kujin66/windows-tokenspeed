@@ -39,7 +39,6 @@ from tokenspeed_kernel.signature import (
     format_signature,
     format_signatures,
 )
-from tokenspeed_kernel.warmup import kernel_launcher, register_triton_warmup
 
 _DTYPES = {torch.float16, torch.bfloat16, torch.float32}
 _MIX_SIGNATURES = format_signatures(
@@ -742,11 +741,7 @@ def _mhc_post_hc4_triton_kernel(
     out,
     hidden_size: tl.constexpr,
     block_h: tl.constexpr,
-    ENABLE_PDL: tl.constexpr,
 ):
-    # No early trigger: releasing the next kernel at exit measured faster.
-    if ENABLE_PDL:
-        tl.extra.cuda.gdc_wait()
     token_id = tl.program_id(0)
     hidden_block_id = tl.program_id(1)
     hidden_offsets = hidden_block_id * block_h + tl.arange(0, block_h)
@@ -1194,7 +1189,6 @@ def triton_mhc_post(
     num_tokens = residual_flat.shape[0]
     if hc_mult == 4:
         block_h = 256
-        enable_pdl = pdl_enabled()
         _mhc_post_hc4_triton_kernel[(num_tokens, triton.cdiv(hidden_size, block_h))](
             comb_flat,
             residual_flat,
@@ -1203,9 +1197,7 @@ def triton_mhc_post(
             out,
             hidden_size=hidden_size,
             block_h=block_h,
-            ENABLE_PDL=enable_pdl,
             num_warps=4,
-            **({"launch_pdl": True} if enable_pdl else {}),
         )
         return out
 
@@ -1368,9 +1360,7 @@ def mhc_prefill_project_hc4(
     )
 
 
-@triton.jit(
-    do_not_specialize=["num_tokens"], do_not_specialize_on_alignment=["n_splits"]
-)
+@triton.jit
 def _mhc_pre_mix_hc4_kernel(
     gemm_out_mul,
     gemm_out_sqrsum,
@@ -1383,15 +1373,11 @@ def _mhc_pre_mix_hc4_kernel(
     rms_eps: tl.constexpr,
     hc_eps: tl.constexpr,
     sinkhorn_iters: tl.constexpr,
-    # Keep the single-split fast path; other batch-derived split counts share
-    # one runtime loop, with partials summed in the same order.
+    # The split count follows the batch's token count; a runtime loop bound
+    # keeps one binary per kernel (the partials are summed in the same order).
     n_splits,
     num_tokens,
-    ENABLE_PDL: tl.constexpr,
 ):
-    if ENABLE_PDL:
-        tl.extra.cuda.gdc_wait()
-        tl.extra.cuda.gdc_launch_dependents()
     token_id = tl.program_id(0)
     pre_post_offsets = tl.arange(0, 8)
     comb_offsets = tl.arange(0, 16)
@@ -1484,8 +1470,7 @@ def mhc_pre_mix_hc4(
     Returns:
         None. The three output buffers are written in place.
     """
-    enable_pdl = pdl_enabled()
-    kernel_launcher(_mhc_pre_mix_hc4_kernel, (num_tokens,))(
+    _mhc_pre_mix_hc4_kernel[(num_tokens,)](
         gemm_out_mul,
         gemm_out_sqrsum,
         hc_scale,
@@ -1499,9 +1484,7 @@ def mhc_pre_mix_hc4(
         sinkhorn_iters=sinkhorn_iters,
         n_splits=n_splits,
         num_tokens=num_tokens,
-        ENABLE_PDL=enable_pdl,
         num_warps=1,
-        **({"launch_pdl": True} if enable_pdl else {}),
     )
 
 
@@ -1707,10 +1690,7 @@ def _mhc_pre_layer_norm_hc4_kernel(
     hidden_size: tl.constexpr,
     eps: tl.constexpr,
     block_h: tl.constexpr,
-    ENABLE_PDL: tl.constexpr,
 ):
-    if ENABLE_PDL:
-        tl.extra.cuda.gdc_wait()
     token_id = tl.program_id(0)
     hidden_offsets = tl.arange(0, block_h)
     hidden_mask = hidden_offsets < hidden_size
@@ -1739,10 +1719,6 @@ def _mhc_pre_layer_norm_hc4_kernel(
         layer_input * norm_scale * norm_weight,
         mask=hidden_mask,
     )
-    # Releasing the next kernel only after the store measured faster than at
-    # the start, where its early CTAs slow this kernel down.
-    if ENABLE_PDL:
-        tl.extra.cuda.gdc_launch_dependents()
 
 
 def mhc_pre_layer_norm_hc4(
@@ -1787,7 +1763,6 @@ def mhc_pre_layer_norm_hc4(
     if num_tokens == 0:
         return
     block_h = triton.next_power_of_2(hidden_size)
-    enable_pdl = pdl_enabled()
     _mhc_pre_layer_norm_hc4_kernel[(num_tokens,)](
         pre_mix,
         residual,
@@ -1796,9 +1771,7 @@ def mhc_pre_layer_norm_hc4(
         hidden_size=hidden_size,
         eps=eps,
         block_h=block_h,
-        ENABLE_PDL=enable_pdl,
         num_warps=8,
-        **({"launch_pdl": True} if enable_pdl else {}),
     )
 
 
@@ -2043,7 +2016,3 @@ def normalized_dot_gate(residual, key_value, query_weight, key_weight, mask, eps
             enable_fp_fusion=False,
         )
     return out
-
-
-# Preserve the fast single-split specialization; all other counts share a key.
-register_triton_warmup(_mhc_pre_mix_hc4_kernel, variants=({"n_splits": (1, 2)},))

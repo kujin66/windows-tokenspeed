@@ -29,13 +29,11 @@ import torch
 from tokenspeed_kernel._triton import tl, triton
 from tokenspeed_kernel.compile_monitor import (
     CompileMonitor,
-    ServingJitError,
     UnboundedSpecializationError,
 )
 
 KERNEL = "ops.example._kernel"
 SITE = "runtime/models/example.py:12 (forward)"
-OTHER_SITE = "runtime/models/example.py:40 (forward)"
 
 
 @pytest.fixture(autouse=True)
@@ -46,7 +44,6 @@ def startup(monkeypatch):
 
 def _record(monitor, n, block=64, site=SITE):
     monitor.record(
-        "Triton",
         KERNEL,
         {"X": "*fp32 divisibility=16", "N": repr(n), "BLOCK": repr(block)},
         {"N": n, "BLOCK": block},
@@ -77,7 +74,7 @@ def test_serving_compile_names_what_changed(caplog):
     with caplog.at_level(logging.INFO, logger=compile_monitor.__name__):
         _record(monitor, 1483)
     (message,) = [r.message for r in caplog.records]
-    assert f"Triton JIT compiled {KERNEL} while serving in 100 ms" in message
+    assert f"compiled {KERNEL} while serving in 100 ms" in message
     assert f"(N: 33 -> 1483) from {SITE}" in message
     assert "BLOCK" not in message
     assert monitor.stats().serving_compiles == 1
@@ -132,10 +129,10 @@ def test_powers_of_two_and_startup_values_are_not_counted(caplog):
     with caplog.at_level(logging.WARNING, logger=compile_monitor.__name__):
         # Already compiled at startup, or a power-of-two bucket.
         for n in (48, 97, 130, 256, 512, 1024, 2048, 4096):
-            _record(monitor, n, block=128)
+            _record(monitor, n)
         # Only a bool changes; flags are bounded.
-        monitor.record("Triton", KERNEL, {"FLAG": "True"}, {"FLAG": True}, 0.0, SITE)
-        monitor.record("Triton", KERNEL, {"FLAG": "False"}, {"FLAG": False}, 0.0, SITE)
+        monitor.record(KERNEL, {"FLAG": "True"}, {"FLAG": True}, 0.0, SITE)
+        monitor.record(KERNEL, {"FLAG": "False"}, {"FLAG": False}, 0.0, SITE)
     assert not _warnings(caplog)
 
 
@@ -145,7 +142,6 @@ def test_float_parameters_are_counted(caplog):
     with caplog.at_level(logging.WARNING, logger=compile_monitor.__name__):
         for temperature in (0.6, 0.7, 0.8):
             monitor.record(
-                "Triton",
                 KERNEL,
                 {"TEMP": repr(temperature)},
                 {"TEMP": temperature},
@@ -166,62 +162,6 @@ def test_error_mode_raises():
         _record(monitor, 7)
 
 
-def test_recompiling_known_specializations_is_reported(caplog):
-    monitor = CompileMonitor("warn", 2)
-    _record(monitor, 33)
-    monitor.serving = True
-    with caplog.at_level(logging.INFO, logger=compile_monitor.__name__):
-        # A caller whose compile cache keys on a runtime value compiles the
-        # same specialization again; another call site counts separately.
-        for site in (SITE, SITE, OTHER_SITE, OTHER_SITE):
-            _record(monitor, 33, site=site)
-        assert not _warnings(caplog)
-        _record(monitor, 33)
-    assert "(same specialization recompiled)" in caplog.records[0].message
-    (message,) = _warnings(caplog)
-    assert (
-        f"{KERNEL} has compiled specializations it already had 3 times while "
-        f"serving from {SITE}"
-    ) in message
-    assert monitor.stats().serving_compiles == 5
-
-
-def test_error_mode_raises_on_recompiled_specializations():
-    monitor = CompileMonitor("error", 2)
-    _record(monitor, 33)
-    monitor.serving = True
-    _record(monitor, 33)
-    _record(monitor, 33)
-    with pytest.raises(ServingJitError, match="already had 3 times"):
-        _record(monitor, 33)
-
-
-def test_direct_calls_are_reported_once_per_call_site_while_serving(caplog):
-    monitor = CompileMonitor("warn", 2)
-    with caplog.at_level(logging.WARNING, logger=compile_monitor.__name__):
-        monitor.record_direct_call(KERNEL, 0.005, SITE)
-        assert not _warnings(caplog)
-        monitor.serving = True
-        for site in (SITE, SITE, OTHER_SITE, SITE):
-            monitor.record_direct_call(KERNEL, 0.005, site)
-    first, second = _warnings(caplog)
-    assert (
-        f"{KERNEL} was called directly as a @cute.jit function while serving "
-        f"from {SITE}, taking 5 ms"
-    ) in first
-    assert f"from {OTHER_SITE}" in second
-    # A trace that reuses a cached binary is not a compilation.
-    assert monitor.stats().serving_compiles == 0
-
-
-def test_error_mode_raises_on_a_direct_call():
-    monitor = CompileMonitor("error", 2)
-    monitor.record_direct_call(KERNEL, 0.005, SITE)
-    monitor.serving = True
-    with pytest.raises(ServingJitError, match="called directly"):
-        monitor.record_direct_call(KERNEL, 0.005, SITE)
-
-
 def test_serving_mark_closes_the_compile_switch_without_a_monitor(monkeypatch):
     monkeypatch.setattr(compile_monitor, "_hooks", None)
     assert not compile_monitor.is_serving()
@@ -230,23 +170,20 @@ def test_serving_mark_closes_the_compile_switch_without_a_monitor(monkeypatch):
 
 
 def test_rejects_unknown_mode():
-    with pytest.raises(ValueError, match="on_violation"):
+    with pytest.raises(ValueError, match="on_unbounded"):
         CompileMonitor("loud", 8)
 
 
-@pytest.mark.parametrize(
-    "package", ["tokenspeed_kernel_amd", "tokenspeed_mla", "flashinfer", "cutlass"]
-)
-def test_call_sites_skip_kernel_libraries(monkeypatch, tmp_path, package):
-    package_dir = str(tmp_path / package)
-    spec = importlib.machinery.ModuleSpec(package, None)
-    spec.submodule_search_locations = [package_dir]
+def test_call_sites_skip_the_amd_kernel_package(monkeypatch, tmp_path):
+    amd_dir = str(tmp_path / "tokenspeed_kernel_amd")
+    spec = importlib.machinery.ModuleSpec("tokenspeed_kernel_amd", None)
+    spec.submodule_search_locations = [amd_dir]
     monkeypatch.setattr(
         importlib.util,
         "find_spec",
-        lambda name: spec if name == package else None,
+        lambda name: spec if name == "tokenspeed_kernel_amd" else None,
     )
-    assert package_dir + os.sep in compile_monitor._internal_dirs()
+    assert amd_dir + os.sep in compile_monitor._internal_dirs()
 
 
 @triton.jit
@@ -299,17 +236,6 @@ def test_hooks_report_triton_compilations(device, installed, caplog):
     stats = compile_monitor.compile_stats()
     assert (stats.startup_compiles, stats.serving_compiles) == (1, 11)
     assert stats.serving_seconds > 0
-
-
-def test_launch_options_distinguish_triton_specializations(device, installed, caplog):
-    x = torch.empty(64, device=device)
-    scale = float(torch.randint(1, 1 << 20, ()).item())
-    _fill_kernel[(1,)](x, 64, 33, scale, 64, num_warps=4)
-    compile_monitor.mark_serving()
-    with caplog.at_level(logging.INFO, logger=compile_monitor.__name__):
-        _fill_kernel[(1,)](x, 64, 33, scale, 64, num_warps=8)
-    (message,) = [r.message for r in caplog.records]
-    assert "(num_warps: 4 -> 8)" in message
 
 
 def test_error_mode_raises_from_the_launch(device):
@@ -387,24 +313,3 @@ def test_launch_options_are_plain_values():
                     and kw.value.id in constexprs
                 ]
     assert not offenders, offenders
-
-
-def test_forgetting_a_reloaded_kernel_resets_its_repeat_count(caplog):
-    kept, forgotten = CompileMonitor("warn", 1), CompileMonitor("warn", 1)
-    for monitor in (kept, forgotten):
-        _record(monitor, 64)
-        monitor.serving = True
-    forgotten.forget(["ops.example"])
-    with caplog.at_level(logging.WARNING, logger=compile_monitor.__name__):
-        for _ in range(2):
-            _record(forgotten, 64)
-        assert not _warnings(caplog)
-        for _ in range(2):
-            _record(kept, 64)
-    assert any("already had" in warning for warning in _warnings(caplog))
-
-
-def test_reopening_startup_reopens_the_compile_switch():
-    compile_monitor.mark_serving()
-    compile_monitor.reopen_startup([])
-    assert not compile_monitor.is_serving()

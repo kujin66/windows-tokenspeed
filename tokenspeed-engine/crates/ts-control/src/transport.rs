@@ -152,37 +152,14 @@ async fn dial(
     Ok((input, output))
 }
 
-/// A message for the output socket.
-enum Outgoing {
-    /// Encoded where it was made: a control reply, the shutdown sentinel.
-    Frames(Vec<Bytes>),
-    /// One round's outputs and the scheduler's load, encoded on the I/O
-    /// runtime's thread: at a large batch, encoding them is a sizable part
-    /// of a round, which the loop then does not wait for.
-    Batch(Vec<StreamedOutput>, Load),
-}
-
-impl Outgoing {
-    /// The message's frames, with `engine_index` naming the producer.
-    fn into_frames(self, engine_index: u16) -> Vec<Bytes> {
-        match self {
-            Outgoing::Frames(frames) => frames,
-            Outgoing::Batch(outputs, load) => {
-                EngineOutput::Batch(Box::new(output_batch(outputs, engine_index, load))).to_frames()
-            }
-        }
-    }
-}
-
-type OutgoingSender = tokio::sync::mpsc::UnboundedSender<Outgoing>;
-
-/// Push every message from the returned channel on `output`, as engine
-/// `engine_index`'s.
-fn spawn_output(runtime: &Runtime, mut output: PushSocket, engine_index: u16) -> OutgoingSender {
-    let (outputs, mut output_rx) = tokio::sync::mpsc::unbounded_channel::<Outgoing>();
+/// Push every message from the returned channel on `output`.
+fn spawn_output(
+    runtime: &Runtime,
+    mut output: PushSocket,
+) -> tokio::sync::mpsc::UnboundedSender<Vec<Bytes>> {
+    let (outputs, mut output_rx) = tokio::sync::mpsc::unbounded_channel::<Vec<Bytes>>();
     runtime.spawn(async move {
-        while let Some(outgoing) = output_rx.recv().await {
-            let frames = outgoing.into_frames(engine_index);
+        while let Some(frames) = output_rx.recv().await {
             if let Err(error) = output.send(message(frames)).await {
                 tracing::warn!(%error, "output send failed");
                 return;
@@ -194,8 +171,8 @@ fn spawn_output(runtime: &Runtime, mut output: PushSocket, engine_index: u16) ->
 
 /// Tell the frontend this engine is gone, so it fails what waits on it, and
 /// close the sockets.
-fn hang_up(outputs: &OutgoingSender, runtime: Option<Runtime>) {
-    let _ = outputs.send(Outgoing::Frames(EngineOutput::Dead.to_frames()));
+fn hang_up(outputs: &tokio::sync::mpsc::UnboundedSender<Vec<Bytes>>, runtime: Option<Runtime>) {
+    let _ = outputs.send(EngineOutput::Dead.to_frames());
     if let Some(runtime) = runtime {
         // Give the sentinel a moment to leave before the sockets close.
         runtime.block_on(async { tokio::time::sleep(Duration::from_millis(100)).await });
@@ -231,7 +208,7 @@ pub struct EngineTransport {
     /// The input socket closed: the frontend is gone, and the socket does
     /// not reconnect.
     closed: bool,
-    outputs: OutgoingSender,
+    outputs: tokio::sync::mpsc::UnboundedSender<Vec<Bytes>>,
     /// By reply tag, who asked for each operation the loop has of that
     /// kind, in the order it received them.
     askers: HashMap<&'static str, VecDeque<Asker>>,
@@ -274,7 +251,7 @@ impl EngineTransport {
                 }
             }
         });
-        let outputs = spawn_output(&runtime, output, engine_index);
+        let outputs = spawn_output(&runtime, output);
         Ok(Self {
             engine_index,
             requests,
@@ -348,9 +325,7 @@ impl EngineTransport {
         };
         if self
             .outputs
-            .send(Outgoing::Frames(
-                EngineOutput::ControlReply(reply).to_frames(),
-            ))
+            .send(EngineOutput::ControlReply(reply).to_frames())
             .is_err()
         {
             tracing::warn!("output channel closed; dropping a control reply");
@@ -383,10 +358,8 @@ pub fn output_batch(
         prompt_tokens: Vec::with_capacity(n),
         completion_tokens: Vec::with_capacity(n),
         cached_tokens: Vec::with_capacity(n),
-        reasoning_tokens: Vec::with_capacity(n),
         output_token_logprobs_val: Vec::with_capacity(n),
         output_token_logprobs_idx: Vec::with_capacity(n),
-        output_token_cumulative_probs_val: Vec::with_capacity(n),
         engine_index: i64::from(engine_index),
         num_running: load.num_running,
         num_waiting: load.num_waiting,
@@ -418,12 +391,8 @@ pub fn output_batch(
         batch.prompt_tokens.push(output.prompt_tokens);
         batch.completion_tokens.push(output.completion_tokens);
         batch.cached_tokens.push(output.cached_tokens);
-        batch.reasoning_tokens.push(output.reasoning_tokens);
         batch.output_token_logprobs_val.push(output.output_logprobs);
         batch.output_token_logprobs_idx.push(logprob_ids);
-        batch
-            .output_token_cumulative_probs_val
-            .push(output.output_token_cumulative_probs);
         batch.finish_reason_details.push(output.finish_details);
         if let Some((verify_ct, accepted)) = output.spec {
             batch.spec_verify_ct.push(verify_ct);
@@ -455,7 +424,6 @@ pub fn output_batch(
     frame_column(&mut batch.input_top_logprobs_idx);
     frame_column(&mut batch.output_top_logprobs_val);
     frame_column(&mut batch.output_top_logprobs_idx);
-    frame_column(&mut batch.output_token_cumulative_probs_val);
     batch
 }
 
@@ -494,15 +462,14 @@ impl Frontend for EngineTransport {
     }
 
     fn send(&mut self, outputs: Vec<StreamedOutput>, load: Load) {
-        if self.outputs.send(Outgoing::Batch(outputs, load)).is_err() {
+        let frames = EngineOutput::Batch(Box::new(output_batch(outputs, self.engine_index, load)))
+            .to_frames();
+        if self.outputs.send(frames).is_err() {
             tracing::warn!("output channel closed; dropping a batch");
         }
     }
 
-    fn reply(&mut self, mut output: ControlOutput) {
-        if let ControlOutput::GetAdmission(snapshot) = &mut output {
-            snapshot.dp_rank = i64::from(self.engine_index);
-        }
+    fn reply(&mut self, output: ControlOutput) {
         let asker = self
             .askers
             .get_mut(output.tag())
@@ -516,7 +483,7 @@ impl Frontend for EngineTransport {
         } = &asker
         else {
             let frames = EngineOutput::Control(Box::new(output)).to_frames();
-            if self.outputs.send(Outgoing::Frames(frames)).is_err() {
+            if self.outputs.send(frames).is_err() {
                 tracing::warn!("output channel closed; dropping a control reply");
             }
             return;
@@ -552,7 +519,7 @@ impl Drop for EngineTransport {
 /// other message is dropped.
 pub struct EncodeIntake {
     messages: mpsc::Receiver<Vec<Bytes>>,
-    outputs: OutgoingSender,
+    outputs: tokio::sync::mpsc::UnboundedSender<Vec<Bytes>>,
     runtime: Option<Runtime>,
 }
 
@@ -568,7 +535,7 @@ impl EncodeIntake {
         let runtime = runtime("ts-encode-intake")?;
         let (mut input, output) =
             runtime.block_on(dial(handshake_address, engine_index, &ready, init_timeout))?;
-        let outputs = spawn_output(&runtime, output, engine_index);
+        let outputs = spawn_output(&runtime, output);
         let (incoming, messages) = mpsc::channel();
         let replies = outputs.clone();
         runtime.spawn(async move {
@@ -598,9 +565,7 @@ impl EncodeIntake {
                                 )),
                                 engine_index: i64::from(engine_index),
                             };
-                            let _ = replies.send(Outgoing::Frames(
-                                EngineOutput::ControlReply(reply).to_frames(),
-                            ));
+                            let _ = replies.send(EngineOutput::ControlReply(reply).to_frames());
                         }
                         _ => tracing::warn!(
                             "dropping a control message: an encode server takes none"
@@ -647,7 +612,7 @@ mod tests {
 
     use super::*;
 
-    type Sent = tokio::sync::mpsc::UnboundedReceiver<Outgoing>;
+    type Sent = tokio::sync::mpsc::UnboundedReceiver<Vec<Bytes>>;
 
     fn transport(engine_index: u16) -> (EngineTransport, mpsc::Sender<EngineRequest>, Sent) {
         let (request_tx, requests) = mpsc::channel();
@@ -682,8 +647,8 @@ mod tests {
 
     fn sent(sent: &mut Sent) -> Vec<EngineOutput> {
         let mut outputs = Vec::new();
-        while let Ok(outgoing) = sent.try_recv() {
-            outputs.push(EngineOutput::from_frames(&outgoing.into_frames(2)).unwrap());
+        while let Ok(frames) = sent.try_recv() {
+            outputs.push(EngineOutput::from_frames(&frames).unwrap());
         }
         outputs
     }
@@ -795,43 +760,6 @@ mod tests {
         };
         assert_eq!((refusal.call_id, refusal.success), (5, false));
         assert!(refusal.message.unwrap().contains("not idle"));
-    }
-
-    #[test]
-    fn a_round_s_outputs_go_out_with_the_engine_index_and_load() {
-        let (mut transport, _requests, mut outputs) = transport(2);
-        let output = StreamedOutput {
-            rid: "r0".to_owned(),
-            output_ids: vec![7, 8],
-            finish_reason: None,
-            prompt_tokens: 4,
-            completion_tokens: 2,
-            cached_tokens: 0,
-            reasoning_tokens: 1,
-            output_logprobs: Vec::new(),
-            output_token_cumulative_probs: Vec::new(),
-            finish_details: None,
-            spec: None,
-            input_logprobs: None,
-            output_top_logprobs: None,
-        };
-        let load = Load {
-            num_running: 1,
-            num_waiting: 3,
-            kv_active_pages: 5,
-            kv_total_pages: 64,
-            kv_used_pages: 9,
-        };
-        transport.send(vec![output.clone()], load);
-        let [EngineOutput::Batch(batch)] = <[_; 1]>::try_from(sent(&mut outputs)).unwrap() else {
-            panic!("one output batch");
-        };
-        assert_eq!(*batch, output_batch(vec![output], 2, load));
-        assert_eq!(batch.reasoning_tokens, [1]);
-        assert_eq!(
-            (batch.engine_index, batch.num_waiting, batch.kv_used_pages),
-            (2, 3, 9)
-        );
     }
 
     #[test]

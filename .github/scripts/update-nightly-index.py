@@ -18,10 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""Add published wheels to the platform Simple API indexes."""
+"""Add published wheels to the nightly Simple API index."""
 
 import argparse
-import hashlib
 import json
 import re
 from html import escape
@@ -40,8 +39,6 @@ def update_index(
         raise ValueError(f"Unsupported nightly variant: {variant}")
     if package == "tokenspeed-kernel-amd" and variant != "rocm72":
         raise ValueError("AMD kernel nightlies require the ROCm index")
-    if package not in {"tokenspeed", "tokenspeed-kernel", "tokenspeed-kernel-amd"}:
-        raise ValueError(f"Unsupported Linux nightly package: {package}")
     pattern = {
         "tokenspeed": "tokenspeed-dist/*.whl",
         "tokenspeed-kernel-amd": "tokenspeed-kernel-amd-dist/*.whl",
@@ -52,73 +49,13 @@ def update_index(
         ),
     }[package]
     expected = {path.name for path in distributions.glob(pattern)}
-    _update_links(
-        wheelhouse, release, expected, package, variant, replace, "lightseekorg/whl"
-    )
-
-
-def update_windows_index(
-    wheelhouse: Path,
-    release: dict,
-    distributions: Path,
-    package: str,
-    repository: str,
-    replace: bool,
-    *,
-    nightly: bool,
-) -> None:
-    if package not in {
-        "tokenspeed",
-        "tokenspeed-engine",
-        "tokenspeed-kernel",
-        "tokenspeed-scheduler",
-    }:
-        raise ValueError(f"Unsupported Windows package: {package}")
-    if not re.fullmatch(
-        r"[A-Za-z0-9][A-Za-z0-9-]*/[A-Za-z0-9_.-]+", repository
-    ) or repository.split("/")[-1] in {".", ".."}:
-        raise ValueError(
-            "An explicit owner/repository is required for the Windows index"
-        )
-    wheels = list(distributions.rglob(package.replace("-", "_") + "-*.whl"))
-    assets = {asset["name"]: asset for asset in release["assets"]}
-    for wheel in wheels:
-        if package != "tokenspeed" and not wheel.name.endswith("-win_arm64.whl"):
-            raise ValueError(f"Expected a Windows ARM64 wheel: {wheel.name}")
-        digest = hashlib.sha256(wheel.read_bytes()).hexdigest()
-        if assets.get(wheel.name, {}).get("digest") != f"sha256:{digest}":
-            raise ValueError(
-                f"Published digest differs from the verified wheel: {wheel.name}"
-            )
-    _update_links(
-        wheelhouse,
-        release,
-        {wheel.name for wheel in wheels},
-        package,
-        "win_arm64_nightly" if nightly else "win_arm64",
-        replace,
-        repository,
-    )
-
-
-def _update_links(
-    wheelhouse: Path,
-    release: dict,
-    expected: set[str],
-    package: str,
-    variant: str,
-    replace: bool,
-    repository: str,
-) -> None:
     assets = {asset["name"]: asset for asset in release["assets"]}
     if not expected or not expected <= assets.keys():
-        raise ValueError("Release is missing expected wheels")
+        raise ValueError("Release is missing expected nightly wheels")
 
-    nightly = wheelhouse / ("windows-arm64" if variant == "win_arm64" else "nightly")
+    nightly = wheelhouse / "nightly"
     if variant == "rocm72":
         nightly /= "rocm7.2"
-    elif variant == "win_arm64_nightly":
-        nightly /= "windows-arm64"
     index = nightly / package / "index.html"
     previous = index.read_text() if index.exists() else "<!DOCTYPE html>\n"
     entries = []
@@ -126,8 +63,8 @@ def _update_links(
         asset = assets[name]
         url = asset["browser_download_url"]
         digest = asset["digest"]
-        if not url.startswith(f"https://github.com/{repository}/releases/download/"):
-            raise ValueError(f"Wheel URL must belong to {repository}")
+        if not url.startswith("https://github.com/lightseekorg/whl/releases/download/"):
+            raise ValueError("Nightly wheel URL must belong to lightseekorg/whl")
         if not re.fullmatch(r"sha256:[0-9a-f]{64}", digest or ""):
             raise ValueError(f"Missing SHA256 digest for {name}")
         existing = re.search(
@@ -172,49 +109,20 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--package",
-        choices=(
-            "tokenspeed",
-            "tokenspeed-kernel",
-            "tokenspeed-kernel-amd",
-            "tokenspeed-engine",
-            "tokenspeed-scheduler",
-        ),
+        choices=("tokenspeed", "tokenspeed-kernel", "tokenspeed-kernel-amd"),
         required=True,
     )
-    parser.add_argument(
-        "--variant",
-        choices=("cu130", "rocm72", "win_arm64", "win_arm64_nightly"),
-        required=True,
-    )
-    parser.add_argument(
-        "--repository", help="Required source release repository for Windows indexes"
-    )
+    parser.add_argument("--variant", choices=("cu130", "rocm72"), required=True)
     parser.add_argument("--replace", action="store_true")
     parser.add_argument("wheelhouse", type=Path)
     parser.add_argument("release_json", type=Path)
     parser.add_argument("distributions", type=Path)
     args = parser.parse_args()
-    release = json.loads(args.release_json.read_text())
-    if args.variant in {"win_arm64", "win_arm64_nightly"}:
-        if not args.repository:
-            parser.error("--repository is required for Windows indexes")
-        update_windows_index(
-            args.wheelhouse,
-            release,
-            args.distributions,
-            args.package,
-            args.repository,
-            args.replace,
-            nightly=args.variant == "win_arm64_nightly",
-        )
-    else:
-        if args.repository:
-            parser.error("Linux nightlies retain their official release repository")
-        update_index(
-            args.wheelhouse,
-            release,
-            args.distributions,
-            args.package,
-            args.variant,
-            args.replace,
-        )
+    update_index(
+        args.wheelhouse,
+        json.loads(args.release_json.read_text()),
+        args.distributions,
+        args.package,
+        args.variant,
+        args.replace,
+    )

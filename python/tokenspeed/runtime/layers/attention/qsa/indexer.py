@@ -130,8 +130,7 @@ class QSAIndexer(nn.Module):
             tuple[torch.Tensor, torch.Tensor, torch.Tensor],
         ] = {}
 
-    def cache_fields(self, pool):
-        """``(raw_key, compressed, rope_position)`` views of this layer."""
+    def _fields(self, pool):
         layer_id = pool._field_layer_id(self.layer_id)
         raw = pool.arena.field(qsa_raw_key_field(layer_id))
         compressed = pool.arena.field(qsa_compressed_field(layer_id))
@@ -163,42 +162,29 @@ class QSAIndexer(nn.Module):
         )
         return values.reshape(3, -1).T
 
-    def draft_scratch(
-        self, bs: int, key_dtype: torch.dtype, device: torch.device
+    def _draft_scratch_buffers(
+        self,
+        token_k: torch.Tensor,
+        position_values: torch.Tensor,
+        bs: int,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """The request-local raw-key ring of one draft MTP round: raw keys
-        ``[bs, compress_ratio, 1, dim]``, int64 group-start positions ``[bs,
-        3]`` and int64 position tags ``[bs, compress_ratio]``. One set per
-        batch size and device, shared by the regular path and the
-        monokernel."""
+        """Return the request-local raw-key ring for one draft MTP round."""
 
-        key = (bs, device)
+        key = (bs, token_k.device)
         scratch = self._draft_scratch.get(key)
         if scratch is None:
             scratch = (
-                torch.empty(
-                    (bs, self.compress_ratio, 1, self.index_head_dim),
-                    dtype=key_dtype,
-                    device=device,
-                ),
-                torch.empty((bs, 3), dtype=torch.int64, device=device),
+                token_k.new_empty((bs, self.compress_ratio, 1, self.index_head_dim)),
+                position_values.new_empty((bs, 3)),
                 torch.full(
                     (bs, self.compress_ratio),
                     _DRAFT_INVALID_POSITION,
                     dtype=torch.int64,
-                    device=device,
+                    device=token_k.device,
                 ),
             )
             self._draft_scratch[key] = scratch
-        elif scratch[0].dtype != key_dtype:
-            raise RuntimeError("QSA draft scratch requested with another key dtype")
         return scratch
-
-    def reset_draft_tags(
-        self, bs: int, key_dtype: torch.dtype, device: torch.device
-    ) -> None:
-        """Start a draft round: no staged key of an earlier round matches."""
-        self.draft_scratch(bs, key_dtype, device)[2].fill_(_DRAFT_INVALID_POSITION)
 
     @staticmethod
     def _draft_accepted_write_mask(
@@ -241,7 +227,7 @@ class QSAIndexer(nn.Module):
             tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor] | None
         ),
     ) -> torch.Tensor | None:
-        raw, compressed, position_cache = self.cache_fields(pool)
+        raw, compressed, position_cache = self._fields(pool)
         position_values = self._position_values(rope_positions)
         rotary = self.rotary_emb
         if query is not None and not rotary.is_neox_style:
@@ -394,7 +380,7 @@ class QSAIndexer(nn.Module):
         pool = ctx.token_to_kv_pool
         if pool.layerwise_load_tracker is not None:
             pool.layerwise_load_tracker.wait_for_layer(self.layer_id)
-        _, compressed, _ = self.cache_fields(pool)
+        _, compressed, _ = self._fields(pool)
         backend = qwen4_exp_backend(ctx.attn_backend).indexer_backend
         if backend is None:
             raise RuntimeError("QSA requires an indexer backend")
@@ -414,7 +400,11 @@ class QSAIndexer(nn.Module):
         if is_draft_decode_step and token_k.shape[0] != ctx.bs:
             raise RuntimeError("QSA draft decode requires one row per request")
         if is_draft_first_step or is_draft_decode_step:
-            draft_scratch = self.draft_scratch(ctx.bs, token_k.dtype, token_k.device)
+            draft_scratch = self._draft_scratch_buffers(
+                token_k,
+                self._position_values(positions),
+                ctx.bs,
+            )
         layout = qsa_forward_layout(
             ctx,
             hidden_states.shape[0],

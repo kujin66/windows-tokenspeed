@@ -72,24 +72,17 @@ def _load_adapter(*, is_npu):
 
 
 class TestGluonAdapter:
-    @pytest.mark.parametrize(
-        ("source_file", "function_name"),
-        [
-            ("gemm/_gluon/gemv.py", "_simt_gemm_kernel"),
-            ("attention/gdn/triton.py", "_prefetch_l1_asm"),
-        ],
-    )
-    def test_ascend_decorates_gpu_kernel_without_importing_gluon(
-        self, subtests, source_file, function_name
-    ):
+    def test_ascend_decorates_gpu_kernel_without_importing_gluon(self, subtests):
         adapter, modules = _load_adapter(is_npu=True)
         assert adapter["triton"] is modules["tokenspeed_kernel_npu._triton"].triton
-        path = ROOT / "tokenspeed-kernel/python/tokenspeed_kernel/ops" / source_file
+        path = (
+            ROOT / "tokenspeed-kernel/python/tokenspeed_kernel/ops/gemm/_gluon/gemv.py"
+        )
         source = ast.parse(path.read_text())
         kernel = next(
             node
             for node in source.body
-            if isinstance(node, ast.FunctionDef) and node.name == function_name
+            if isinstance(node, ast.FunctionDef) and node.name == "_simt_gemm_kernel"
         )
         # Execute the real decorated definition, retaining its deferred Gluon
         # annotations. Its GPU body must never execute under the Ascend adapter.
@@ -103,7 +96,7 @@ class TestGluonAdapter:
             type_ignores=[],
         )
         exec(compile(ast.fix_missing_locations(definition), str(path), "exec"), adapter)
-        decorated = adapter[function_name]
+        decorated = adapter["_simt_gemm_kernel"]
         original = decorated.fn
         options = {"do_not_specialize": ["M"], "launch_metadata": object()}
         configured = adapter["gluon"].jit(**options)(original)

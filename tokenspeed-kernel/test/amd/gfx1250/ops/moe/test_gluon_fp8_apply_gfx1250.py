@@ -148,8 +148,7 @@ def _reference(
     )
 
 
-# 100 and 2048 tokens run the persistent down kernel's medium and large tiles.
-@pytest.mark.parametrize("num_tokens", [1, 33, 100, 2048])
+@pytest.mark.parametrize("num_tokens", [1, 33, 2048])
 @pytest.mark.parametrize(
     ("activation", "swiglu_limit"), [("silu", None), ("swiglu", 1.5)]
 )
@@ -275,7 +274,6 @@ def test_gluon_fp8_moe_gfx1250_token_count() -> None:
     with assert_no_triton_compile(
         block_experts._fp8_block_gate_up_gfx1250,
         block_experts._fp8_block_down_gfx1250,
-        block_experts._fp8_block_down_persistent_gfx1250,
         _common._routing_kernel,
         _common._combine_kernel,
     ):
@@ -323,9 +321,5 @@ def test_gluon_fp8_block_experts_launch_metadata() -> None:
     )
     assert (
         block_experts._fp8_block_down_gfx1250.launch_metadata
-        is block_experts._down_launch_metadata
-    )
-    assert (
-        block_experts._fp8_block_down_persistent_gfx1250.launch_metadata
         is block_experts._down_launch_metadata
     )

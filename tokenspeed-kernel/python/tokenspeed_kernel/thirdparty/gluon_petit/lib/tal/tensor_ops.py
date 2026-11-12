@@ -22,10 +22,10 @@
 
 """Tensor register views and explicitly masked native memory instructions."""
 
+import triton.experimental.gluon as g
+import triton.language as tl
 from lib.gemm.rocm.intrinsics import _native_call, _resource_content
-from tokenspeed_kernel._triton import gl as l
-from tokenspeed_kernel._triton import gluon as g
-from tokenspeed_kernel._triton import tl
+from triton.experimental.gluon import language as l
 
 
 @g.jit
@@ -37,8 +37,7 @@ def group_gather(value, index, width: l.constexpr):
     indices = (l.full_like(value, 0, dtype=l.int32) + index % width).reshape(
         [value.numel // width, width]
     )
-    result = l.gather(values, indices, axis=1).reshape(value.shape)
-    return l.convert_layout(result, value.type.layout)
+    return l.gather(values, indices, axis=1).reshape(value.shape)
 
 
 @g.jit
@@ -46,8 +45,7 @@ def wave_inclusive_sum(value):
     """Prefix-sum each 64-element row without communication between waves."""
     l.static_assert(value.numel % 64 == 0)
     values = value.reshape([value.numel // 64, 64])
-    result = l.associative_scan(values, axis=1, combine_fn=_sum).reshape(value.shape)
-    return l.convert_layout(result, value.type.layout)
+    return l.associative_scan(values, axis=1, combine_fn=_sum).reshape(value.shape)
 
 
 @g.jit
@@ -62,8 +60,7 @@ def group_max(value, width: l.constexpr):
     l.static_assert(value.numel % width == 0)
     values = value.reshape([value.numel // width, width])
     maximum = l.reduce(values, axis=1, combine_fn=_maximum)
-    result = l.broadcast(maximum[:, None], values)[0].reshape(value.shape)
-    return l.convert_layout(result, value.type.layout)
+    return l.broadcast(maximum[:, None], values)[0].reshape(value.shape)
 
 
 @g.jit

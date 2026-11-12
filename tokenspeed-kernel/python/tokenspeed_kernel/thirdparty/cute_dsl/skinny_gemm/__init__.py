@@ -13,7 +13,6 @@ from dataclasses import dataclass
 from typing import Any
 
 import torch
-from tokenspeed_kernel._optional import has_optional_package
 from tokenspeed_kernel.platform import pdl_enabled
 
 MAX_M = 16
@@ -42,8 +41,6 @@ class SkinnyGemmConfig:
 
 
 def _cutedsl_available() -> bool:
-    if not has_optional_package("quack"):
-        return False
     try:
         import cutlass  # noqa: F401
         import cutlass.cute  # noqa: F401

@@ -38,8 +38,7 @@ export default defineConfig({
         items: [
           { text: "Getting Started", link: "/guides/getting-started" },
           { text: "Launching a Server", link: "/guides/launching" },
-          { text: "InstantTensor Loading", link: "/guides/instanttensor" },
-          { text: "Reloading the Forward Pass", link: "/guides/forward-reload" }
+          { text: "InstantTensor Loading", link: "/guides/instanttensor" }
         ]
       },
       {
@@ -60,8 +59,7 @@ export default defineConfig({
         text: "Serving",
         items: [
           { text: "Parallelism", link: "/serving/parallelism" },
-          { text: "Disaggregated Serving", link: "/serving/disaggregation" },
-          { text: "Weight Memory Policies", link: "/serving/weight-memory" }
+          { text: "Disaggregated Serving", link: "/serving/disaggregation" }
         ]
       }
     ],

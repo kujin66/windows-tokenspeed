@@ -322,13 +322,12 @@ def triton_bf16x3_gemm_fp32(
         enable_fp_fusion=False,
     )
     if use_ws:
-        # 128-element blocks give a decode step's partials enough CTAs to hide latency.
-        _bf16x3_splitk_reduce_kernel[(triton.cdiv(m * n, 128),)](
+        _bf16x3_splitk_reduce_kernel[(triton.cdiv(m * n, 1024),)](
             ws,
             out,
             m * n,
             SPLIT=cfg.split,
-            BLOCK=128,
+            BLOCK=1024,
             num_warps=4,
             enable_fp_fusion=False,
         )

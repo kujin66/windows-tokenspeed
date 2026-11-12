@@ -2,12 +2,10 @@
 
 from typing import NamedTuple
 
+import triton.language as tl
 from lib.gemm.rocm.intrinsics import (
     BufferResource,
     _native_call,
-    lds_load,
-    lds_load_masked,
-    lds_store_masked,
 )
 from lib.moe.rocm.comm.barrier import (
     compiler_memory_barrier,
@@ -31,8 +29,7 @@ from lib.tal.tensor_ops import (
     wave_id,
     wave_inclusive_sum,
 )
-from tokenspeed_kernel._triton import gl as l
-from tokenspeed_kernel._triton import tl
+from triton.experimental.gluon import language as l
 
 
 class Shm(NamedTuple):
@@ -132,13 +129,13 @@ class DirectPushTokenShuffle(DeviceTemplate):
             BufferResource.kAtomicScopeAgent,
             tid == 0,
         )
-        lds_store_masked(
+        l.store(
             state.shm_.generation + l.full(tid.shape, 0, l.uint32, tid.type.layout),
             generation,
-            tid == 0,
+            mask=tid == 0,
         )
         l.barrier()
-        epoch = lds_load(state.shm_.generation) + 1
+        epoch = l.load(state.shm_.generation) + 1
         state = DirectPushState(
             state.num_tokens_,
             state.workspace_,
@@ -415,7 +412,7 @@ class DirectPushTokenShuffle(DeviceTemplate):
         ):
             expert = tid + i * self.kThreads
             valid = expert < self.kNumExperts
-            count = lds_load_masked(state.shm_.expert_count + expert, valid)
+            count = l.load(state.shm_.expert_count + expert, mask=valid, other=0)
             store_words(
                 state.workspace_.br_,
                 self.Workspace.SendCounterOffset(expert),
@@ -438,7 +435,7 @@ class DirectPushTokenShuffle(DeviceTemplate):
                 self.kSystemStore,
                 valid,
             )
-            lds_store_masked(state.shm_.expert_count + expert, 0, valid)
+            l.store(state.shm_.expert_count + expert, 0, mask=valid)
         complete_scoped_vmem()
         l.barrier()
         destination = (state.workspace_.rank_id_ + tid) % self.kNumRanks
@@ -497,12 +494,12 @@ class DirectPushTokenShuffle(DeviceTemplate):
                         self.kPeerCoherent,
                         plan_valid,
                     )
-                    lds_store_masked(
+                    l.store(
                         state.shm_.source_count
                         + source * self.kExpertsPerRank
                         + plan_expert,
                         count,
-                        plan_valid,
+                        mask=plan_valid,
                     )
                     total += count
                 padded = l.where(plan_valid, (total + 31) // 32 * 32, 0)
@@ -532,11 +529,12 @@ class DirectPushTokenShuffle(DeviceTemplate):
                         self.kSystemStore,
                         plan_valid,
                     )
-                    source_prefix += lds_load_masked(
+                    source_prefix += l.load(
                         state.shm_.source_count
                         + source * self.kExpertsPerRank
                         + plan_expert,
-                        plan_valid,
+                        mask=plan_valid,
+                        other=0,
                     )
                 pool_rows += group_gather(inclusive, 63, 64)
             pool_rows = first(pool_rows)
@@ -662,17 +660,13 @@ class DirectPushTokenShuffle(DeviceTemplate):
                         self.kPeerCoherent,
                         valid,
                     )
-                    lds_store_masked(
-                        state.shm_.expert_count + local_expert, count, valid
-                    )
-                    lds_store_masked(
-                        state.shm_.source_count + local_expert, base, valid
-                    )
+                    l.store(state.shm_.expert_count + local_expert, count, mask=valid)
+                    l.store(state.shm_.source_count + local_expert, base, mask=valid)
             l.barrier()
             for local_expert in range(self.kExpertsPerRank):
                 plan = (
-                    lds_load(state.shm_.expert_count + local_expert),
-                    lds_load(state.shm_.source_count + local_expert),
+                    l.load(state.shm_.expert_count + local_expert),
+                    l.load(state.shm_.source_count + local_expert),
                 )
                 workers = l.where(plan[0] >= 64, kProducersPerDestination, 1).to(
                     l.uint32

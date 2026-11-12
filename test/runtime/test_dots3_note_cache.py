@@ -83,6 +83,7 @@ def _recipe(*, draft_layers: int, pd: bool):
         dtype=torch.bfloat16,
         kv_cache_dtype=torch.float8_e4m3fn,
         kv_cache_quant_method="none",
+        prefix_granularity=128,
         context_len=8192,
         max_bs=2,
         pd_disaggregation_enabled=pd,
@@ -223,13 +224,11 @@ def test_unsupported_cache_encoding_is_rejected_before_allocation():
         recipe.groups()
 
 
-def test_prefix_grain_holds_whole_history_pages_without_flattening_them():
+def test_prefix_grain_cannot_flatten_strided_history_pages():
     recipe = _recipe(draft_layers=0, pd=False)
-    spans = [spec.block_granularity for spec, _ in recipe.groups()]
-    assert spans == [64, 32]
-    # A grain equal to a field's page size would request a flat view.
-    assert recipe.prefix_granularity == 128
-    assert all(recipe.prefix_granularity % span == 0 for span in spans)
+    recipe.attn_config = replace(recipe.attn_config, prefix_granularity=64)
+    with pytest.raises(ValueError, match="128"):
+        recipe.groups()
 
 
 def test_pool_views_keep_layer_geometry_and_draft_ownership():

@@ -67,7 +67,6 @@ from tokenspeed.runtime.multimodal.encoder_cudagraph import (
 )
 from tokenspeed.runtime.multimodal.inputs import Modality, MultimodalDataItem
 from tokenspeed.runtime.utils import add_prefix
-from tokenspeed.runtime.utils.host_sync import host_to_device
 
 
 @dataclass(frozen=True)
@@ -712,8 +711,8 @@ class MoonViT3dEncoder(nn.Module):
         cu_seqlens_np = np.concatenate(
             [np.zeros(1, dtype=np.int32), real_seq_lens.cumsum(dtype=np.int32)]
         )
-        cu_seqlens = host_to_device(
-            torch.from_numpy(cu_seqlens_np), dtype=torch.int32, device=device
+        cu_seqlens = torch.from_numpy(cu_seqlens_np).to(
+            device=device, dtype=torch.int32, non_blocking=True
         )
 
         return {
@@ -965,10 +964,7 @@ class MoonViTVisionPath(nn.Module):
         pixel_values = torch.cat(
             [item.feature.to(device, non_blocking=True) for item in items], dim=0
         ).to(dtype=target_dtype)
-        # The grid stays on the host: every consumer (position embedding,
-        # RoPE table, cu_seqlens, patch merger) reads it there, and uploading
-        # it would wait for the step in flight.
-        grid_thws = torch.cat([item.grid_thws for item in items], dim=0)
+        grid_thws = torch.cat([item.grid_thws for item in items], dim=0).to(device)
         hidden_states = self.vision_tower.patch_embed(pixel_values, grid_thws)
         return hidden_states, grid_thws
 

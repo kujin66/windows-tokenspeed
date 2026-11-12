@@ -75,12 +75,7 @@ _SHARDED_STATE_DEFAULT_PATTERN = "model-rank-{rank}-part-{part}.safetensors"
 _SHARDED_STATE_FIELD_RE = re.compile(r"\{(?:rank|part)(?::[^}]*)?\}")
 
 
-def cache_layout_signature(
-    layout: Any,
-    *,
-    cache_dtype: str,
-    checkpoint_granularities: tuple[tuple[str, int], ...] = (),
-) -> str:
+def cache_layout_signature(layout: Any, *, cache_dtype: str) -> str:
     """Return a stable fingerprint of the bytes stored in one L3 page.
 
     The signature is the packed Host CacheBlock: dtype, group packing, and
@@ -107,11 +102,8 @@ def cache_layout_signature(
                 "fields": fields,
             }
         )
-    identity = {"cache_dtype": str(cache_dtype), "groups": groups}
-    if checkpoint_granularities:
-        identity["checkpoint_granularities"] = sorted(checkpoint_granularities)
     payload = json.dumps(
-        identity,
+        {"cache_dtype": str(cache_dtype), "groups": groups},
         sort_keys=True,
         separators=(",", ":"),
     )

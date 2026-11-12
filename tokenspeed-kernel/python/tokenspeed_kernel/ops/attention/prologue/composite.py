@@ -143,7 +143,6 @@ def composite_gqa_prologue(
     norm: HeadNorm | None,
     rotary: Rotary | None,
     cache: HeadKVCache,
-    query_dtype: torch.dtype,
     return_kv: bool,
     enable_pdl: bool,
 ) -> GQAPrologueOutput:
@@ -169,9 +168,7 @@ def composite_gqa_prologue(
         )
     _write_kv(cache, k, v, enable_pdl)
     return GQAPrologueOutput(
-        q=q.to(query_dtype),
-        k=k if return_kv else None,
-        v=v if return_kv else None,
+        q=q, k=k if return_kv else None, v=v if return_kv else None
     )
 
 

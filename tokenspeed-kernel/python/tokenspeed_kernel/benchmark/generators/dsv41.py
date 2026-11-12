@@ -548,14 +548,6 @@ def prepare_dsv41_index_topk(
     )
 
     def invoke() -> object:
-        from tokenspeed_kernel.ops.attention.dsv41 import new_index_metadata
-
-        # Shared tables are one prefill request (dense); others score paged.
-        metadata = (
-            new_index_metadata(page_table, visible, None, history_rows=(tokens,))
-            if parameters.get("shared_table", False)
-            else None
-        )
         return kernel(
             index_q,
             weights,
@@ -570,7 +562,7 @@ def prepare_dsv41_index_topk(
             _SCORE_CHUNK_SIZE,
             None,
             out,
-            index_metadata=metadata,
+            index_metadata=None,
         )
 
     return PreparedBenchmark(

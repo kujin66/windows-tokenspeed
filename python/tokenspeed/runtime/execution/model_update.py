@@ -155,9 +155,7 @@ class ModelUpdateAdapter:
         )
         return updater
 
-    def update(
-        self, models: list[nn.Module], version: int, *, snapshot: dict | None = None
-    ) -> str:
+    def update(self, models: list[nn.Module], version: int) -> str:
         """Stream one committed version into ``models``.
 
         Args:
@@ -165,18 +163,10 @@ class ModelUpdateAdapter:
                 SDK's partial ``load_weights`` calls; wrap them in a
                 weight-update session before calling.
             version: The committed weight-store version to read.
-            snapshot: Optional publication metadata passed unchanged to the SDK.
-                Tensor data remains in the selected weight store. Omission keeps
-                the existing version-only SDK call.
 
         Returns:
             The SDK's result rendered as a string, for the reply message.
         """
-        if snapshot is not None and not isinstance(snapshot, dict):
-            raise TypeError("snapshot must be a dictionary or None")
         updater = self._ensure_updater()
-        if snapshot is None:
-            result = updater.update_weights(models, version=version)
-        else:
-            result = updater.update_weights(models, version=version, snapshot=snapshot)
+        result = updater.update_weights(models, version=version)
         return str(result)

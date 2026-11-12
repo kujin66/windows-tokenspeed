@@ -127,7 +127,6 @@ HIDDEN = 8
 def _runtime_states(*, draft_probs: bool, trees: bool, history: bool) -> RuntimeStates:
     states = RuntimeStates(
         req_pool_size=MAX_REQ_POOL_SIZE,
-        input_vocab_size=VOCAB,
         vocab_size=VOCAB,
         output_length=SPEC_TOKENS,
         device="cpu",

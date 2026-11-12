@@ -46,15 +46,12 @@ constexpr unsigned FULL_WARP_MASK = 0xffffffff;
 
 #ifdef __CUDA_ARCH__
 using ::atomicAdd;
-#ifndef _WIN32
-// Windows size_t already has CUDA's unsigned-long-long atomicAdd overload.
 inline __device__ size_t atomicAdd(size_t* address, size_t value) {
     static_assert(sizeof(size_t) == sizeof(unsigned long long int));
     return atomicAdd(
         reinterpret_cast<unsigned long long int*>(address),
         static_cast<unsigned long long int>(value));
 }
-#endif
 #endif
 
 template<int BitsPerPass>

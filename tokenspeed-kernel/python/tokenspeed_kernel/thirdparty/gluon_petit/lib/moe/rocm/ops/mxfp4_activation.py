@@ -2,9 +2,9 @@
 
 from dataclasses import dataclass
 
+import triton.experimental.gluon as g
 from lib.tal.host_device import host_device
-from tokenspeed_kernel._triton import gl as l
-from tokenspeed_kernel._triton import gluon as g
+from triton.experimental.gluon import language as l
 
 
 @dataclass(frozen=True)

@@ -176,13 +176,7 @@ def test_the_loader_checks_the_scale_file_of_an_fp8_cache(
     )
     with pytest.raises(RuntimeError, match="would load now"):
         weight_loader.WeightLoader.load_model(
-            None,
-            server_args,
-            "cuda",
-            0,
-            None,
-            checkpoint_load_group=None,
-            is_draft_worker=False,
+            None, server_args, "cuda", 0, None, checkpoint_load_group=None
         )
     assert checks == ([path] if checked else [])
 

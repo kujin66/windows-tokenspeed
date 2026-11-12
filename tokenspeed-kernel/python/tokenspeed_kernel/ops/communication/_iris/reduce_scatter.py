@@ -23,6 +23,7 @@
 
 from tokenspeed_kernel._triton import gl, gluon
 from tokenspeed_kernel.ops.communication._iris.all_reduce import (
+    _iris_drain_subgroup_vmem,
     _iris_peer_pointers,
     _iris_rendezvous,
 )
@@ -42,7 +43,6 @@ def iris_pull_reduce_scatter(
     NUM_WARPS: gl.constexpr,
     EXIT_BARRIER: gl.constexpr,
     PRODUCER_WRITES_THROUGH: gl.constexpr,
-    WAIT_VMEM: gl.constexpr,
 ):
     """Reduce BF16 contributions into consecutive, possibly uneven rows.
 
@@ -92,7 +92,7 @@ def iris_pull_reduce_scatter(
             cache=".wt",
         )
     if EXIT_BARRIER:
-        WAIT_VMEM(args=[], constraints="=r,~{memory}")
+        _iris_drain_subgroup_vmem()
         gl.barrier()
         done = (
             gl.atomic_add(

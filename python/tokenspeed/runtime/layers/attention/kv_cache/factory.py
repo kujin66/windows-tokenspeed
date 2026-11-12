@@ -6,10 +6,7 @@ from tokenspeed.runtime.layers.attention.configs.base import (
     AttnConfig,
     SoftmaxAttnConfig,
 )
-from tokenspeed.runtime.layers.attention.configs.dsa import (
-    DSAConfig,
-    dsa_kernel_page_size,
-)
+from tokenspeed.runtime.layers.attention.configs.dsa import DSAConfig
 from tokenspeed.runtime.layers.attention.configs.mha import MHAConfig
 from tokenspeed.runtime.layers.attention.configs.mla import MLAConfig
 from tokenspeed.runtime.layers.attention.configs.msa import MSAConfig
@@ -286,12 +283,11 @@ def _hybrid_kda_pool(
     field_layer_offset: int,
 ) -> CachePool:
     from tokenspeed.runtime.layers.attention.kv_cache.hybrid_kda import (
-        HybridKDADSATokenToKVPool,
         HybridKDATokenToKVPool,
     )
 
     softmax_attn = _softmax_config(config, spec.family, MLAConfig)
-    common = dict(
+    return HybridKDATokenToKVPool(
         arena=arena,
         dtype=config.kv_cache_dtype,
         model_dtype=config.dtype,
@@ -303,14 +299,6 @@ def _hybrid_kda_pool(
         layer_types=spec.layer_types,
         field_layer_offset=field_layer_offset,
     )
-    if isinstance(softmax_attn, DSAConfig):
-        # Kimi-K3.1: MLA layers carry index-K planes in the DSA leaf's kernel pages.
-        return HybridKDADSATokenToKVPool(
-            index_head_dim=softmax_attn.index_head_dim,
-            index_k_page_size=dsa_kernel_page_size(config),
-            **common,
-        )
-    return HybridKDATokenToKVPool(**common)
 
 
 # family -> the pool its recipe's plan binds to. A factory takes

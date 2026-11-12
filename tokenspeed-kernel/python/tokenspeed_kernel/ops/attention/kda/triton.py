@@ -14,14 +14,9 @@ from __future__ import annotations
 from collections.abc import Callable
 
 import torch
-from tokenspeed_kernel.ops.attention.kda import (
-    KdaPrefillResult,
-    KdaReplayRecords,
-    _attention_format_signature,
-)
+from tokenspeed_kernel.ops.attention.kda import KdaPrefillResult, KdaReplayRecords
 from tokenspeed_kernel.platform import CapabilityRequirement, pdl_enabled
 from tokenspeed_kernel.registry import Priority, register_kernel
-from tokenspeed_kernel.selection import select_kernel
 from tokenspeed_kernel.signature import format_signatures
 
 _DENSE_HALF_SIGNATURES = format_signatures(
@@ -398,6 +393,10 @@ def triton_nvidia_kda_fused_paged_verify_split(
 ) -> torch.Tensor:
     """Run target verify with split convolution and gate producers."""
     if replay_records is not None:
+        from tokenspeed_kernel.ops.attention.kda.vllm_recoverssm import (
+            vllm_triton_kda_recoverssm_verify,
+        )
+
         if conv_qkv is None or g_raw is None:
             raise ValueError("record verify requires precomputed conv and gates")
         if replay_records.original_qkv is not None:
@@ -425,19 +424,7 @@ def triton_nvidia_kda_fused_paged_verify_split(
         q, k, v = (
             part.view(1, -1, num_heads, head_dim) for part in conv_qkv.chunk(3, dim=-1)
         )
-        verify = select_kernel(
-            "attention",
-            "kda_recoverssm_verify",
-            _attention_format_signature(q=q, k=k, v=v),
-            traits={
-                "head_dim": head_dim,
-                "spec_query_len": draft_token_num,
-                "paged_state": True,
-                "recurrent_layout": "v_major",
-                "state_dtype": state_pool.dtype,
-            },
-        )
-        return verify(
+        return vllm_triton_kda_recoverssm_verify(
             q,
             k,
             v,
@@ -597,7 +584,6 @@ def triton_nvidia_kda_batched_replay_commit(
     lower_bound: float | None,
     record_metadata: torch.Tensor,
     record_stamps: torch.Tensor,
-    state_dtype: torch.dtype,
 ) -> None:
     """Recover every KDA layer from FP32 U and saved K/raw-gate records.
 
@@ -619,10 +605,6 @@ def triton_nvidia_kda_batched_replay_commit(
         state_stride: Page stride of the recurrent state.
         conv_width: Width of the depthwise convolution kernel.
         lower_bound: Bound used to transform saved raw gates during commit.
-        record_metadata: Per-request RecoverSSM record metadata.
-        record_stamps: Per-layer RecoverSSM record stamps.
-        state_dtype: Element type of every described recurrent-state pool
-            (FP32 or BF16); the replay itself accumulates in FP32.
 
     Returns:
         None.
@@ -651,7 +633,6 @@ def triton_nvidia_kda_batched_replay_commit(
         record_metadata=record_metadata,
         record_stamps=record_stamps,
         lower_bound=lower_bound,
-        state_dtype=state_dtype,
     )
 
 

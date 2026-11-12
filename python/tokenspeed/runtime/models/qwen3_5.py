@@ -23,8 +23,7 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Iterable, Iterator
-from typing import Any
+from collections.abc import Iterable
 
 import torch
 import torch.nn as nn
@@ -61,7 +60,6 @@ from tokenspeed.runtime.layers.linear import (
 from tokenspeed.runtime.layers.logits_processor import LogitsMetadata
 from tokenspeed.runtime.layers.moe import (
     ExpertCheckpointSchema,
-    MoECheckpointLoader,
     build_moe_checkpoint_loader,
 )
 from tokenspeed.runtime.layers.paged_attention import PagedAttention
@@ -74,6 +72,7 @@ from tokenspeed.runtime.layers.quantization.utils import check_equal_or_regex_ma
 from tokenspeed.runtime.layers.rotary_embedding import get_rope
 from tokenspeed.runtime.layers.vocab_parallel_embedding import VocabParallelEmbedding
 from tokenspeed.runtime.model_loader.weight_utils import (
+    default_weight_loader,
     mamba_v2_sharded_weight_loader,
     sharded_weight_loader,
 )
@@ -90,6 +89,7 @@ from tokenspeed.runtime.moe.expert_location import ModelConfigForExpertLocation
 from tokenspeed.runtime.multimodal.embedder import (
     EncoderSpec,
     VisionEmbedder,
+    pad_input_tokens,
 )
 from tokenspeed.runtime.multimodal.encoder_cudagraph import (
     EncoderForwardStepRunner,
@@ -98,6 +98,7 @@ from tokenspeed.runtime.multimodal.encoder_cudagraph import (
 from tokenspeed.runtime.multimodal.inputs import (
     Modality,
     MultimodalDataItem,
+    MultimodalInputs,
 )
 from tokenspeed.runtime.utils import (
     add_prefix,
@@ -107,6 +108,25 @@ from tokenspeed.runtime.utils import (
 from tokenspeed.runtime.utils.env import envs
 
 logger = logging.getLogger(__name__)
+
+
+def _is_ignored_checkpoint_param(model, name: str) -> bool:
+    """Whether ``name`` is a checkpoint tensor the owning module's quant method
+    deliberately does not consume (e.g. a residual A16 ``input_scale``).
+
+    The decision is owned by the layer's quant method via its
+    ``ignored_checkpoint_params`` attribute, so a method that genuinely uses the
+    tensor (e.g. static FP8 ``input_scale``) still loads it.
+    """
+    parent, _, leaf = name.rpartition(".")
+    if not parent:
+        return False
+    try:
+        module = model.get_submodule(parent)
+    except AttributeError:
+        return False
+    quant_method = getattr(module, "quant_method", None)
+    return leaf in getattr(quant_method, "ignored_checkpoint_params", ())
 
 
 def _gdn_group_unquantized(prefix, shard_names, quant_config) -> bool:
@@ -721,7 +741,7 @@ class Qwen3_5LinearDecoderLayer(nn.Module):
             )
         else:
             hidden_states = self.comm_manager.pre_mlp_comm(hidden_states, ctx)
-            hidden_states = self.mlp(hidden_states, hidden_fp4)
+            hidden_states = self.mlp.forward_prequantized(hidden_states, hidden_fp4)
             hidden_states, residual = self.comm_manager.post_mlp_fused(
                 hidden_states, residual, ctx
             )
@@ -991,7 +1011,7 @@ class Qwen3_5AttentionDecoderLayer(nn.Module):
             )
         else:
             hidden_states = self.comm_manager.pre_mlp_comm(hidden_states, ctx)
-            hidden_states = self.mlp(hidden_states, hidden_fp4)
+            hidden_states = self.mlp.forward_prequantized(hidden_states, hidden_fp4)
             hidden_states, residual = self.comm_manager.post_mlp_fused(
                 hidden_states, residual, ctx
             )
@@ -1003,15 +1023,6 @@ class Qwen3_5ForCausalLM(nn.Module):
 
     ATTENTION_LAYER_CLS: type = Qwen3_5AttentionDecoderLayer
     LINEAR_LAYER_CLS: type = Qwen3_5LinearDecoderLayer
-
-    def decoder_layer_cls(self, layer_type: str) -> type:
-        """The decoder layer class that ``make_layers`` builds for a layer of
-        ``layer_type`` (an entry of ``config.layers_block_type``). A model
-        overrides it to build another implementation of the layer."""
-        return {
-            "attention": self.ATTENTION_LAYER_CLS,
-            "linear_attention": self.LINEAR_LAYER_CLS,
-        }[layer_type]
 
     def __init__(
         self,
@@ -1042,9 +1053,14 @@ class Qwen3_5ForCausalLM(nn.Module):
             tp_group=self.mapping.attn.tp_group,
         )
 
+        layer_cls_by_type = {
+            "attention": self.ATTENTION_LAYER_CLS,
+            "linear_attention": self.LINEAR_LAYER_CLS,
+        }
+
         def get_layer(idx: int, prefix: str):
             layer_type = config.layers_block_type[idx]
-            layer_class = self.decoder_layer_cls(layer_type)
+            layer_class = layer_cls_by_type[layer_type]
             if layer_type == "attention":
                 prefix = add_prefix("self_attn", prefix)
             else:
@@ -1144,15 +1160,187 @@ class Qwen3_5ForCausalLM(nn.Module):
 
         return hidden_states, aux_hidden_states
 
+    def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]):
+        stacked_params_mapping = [
+            # (param_name, shard_name, shard_id)
+            ("qkv_proj", "q_proj", "q"),
+            ("qkv_proj", "k_proj", "k"),
+            ("qkv_proj", "v_proj", "v"),
+            ("gate_up_proj", "gate_proj", 0),
+            ("gate_up_proj", "up_proj", 1),
+        ]
+        stacked_params_mapping += _gdn_in_proj_stacked_mapping(
+            name for name, _ in self.named_parameters(remove_duplicate=False)
+        )
+
+        loaded_params: set[str] = set()
+        params_dict = dict(self.named_parameters(remove_duplicate=False))
+        for name, loaded_weight in weights:
+            if "rotary_emb.inv_freq" in name:
+                continue
+            if "mtp" in name:
+                continue
+            if "visual" in name:
+                continue
+            if "language_model" in name:
+                name = name.replace(r"model.language_model.", r"model.")
+            if ".self_attn." in name:
+                name = name.replace(".self_attn", "")
+
+            for param_name, weight_name, shard_id in stacked_params_mapping:
+                if weight_name not in name:
+                    continue
+
+                if "mlp.experts" in name:
+                    continue
+
+                name = name.replace(weight_name, param_name)
+                # Skip loading extra bias for GPTQ models.
+                if name.endswith(".bias") and name not in params_dict:
+                    continue
+                if name not in params_dict:
+                    continue
+                param = params_dict[name]
+                weight_loader = getattr(param, "weight_loader")
+                weight_loader(param, loaded_weight, shard_id)
+                break
+            else:
+                # Skip loading extra bias for GPTQ models.
+                if name.endswith(".bias") and name not in params_dict:
+                    continue
+                if name not in params_dict:
+                    logger.warning(f"Parameter {name!s} not found in params_dict")
+                    continue
+                param = params_dict[name]
+
+                weight_loader = getattr(param, "weight_loader", default_weight_loader)
+                weight_loader(param, loaded_weight)
+            loaded_params.add(name)
+        return loaded_params
+
 
 class Qwen3_5MoeModel(Qwen3_5ForCausalLM):
     """MoE backbone (internal). The ``Qwen3_5MoeForCausalLM`` name is taken by
     the registry entry class for text-only flat checkpoints below."""
 
+    def __init__(
+        self,
+        config: Qwen3_5TextConfig,
+        mapping: Mapping,
+        quant_config: QuantizationConfig | None = None,
+        prefix: str = "",
+    ) -> None:
+        super().__init__(
+            config=config, mapping=mapping, quant_config=quant_config, prefix=prefix
+        )
+
+    def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]):
+        stacked_params_mapping = [
+            # (param_name, shard_name, shard_id)
+            ("qkv_proj", "q_proj", "q"),
+            ("qkv_proj", "k_proj", "k"),
+            ("qkv_proj", "v_proj", "v"),
+            ("gate_up_proj", "gate_proj", 0),
+            ("gate_up_proj", "up_proj", 1),
+        ]
+        stacked_params_mapping += _gdn_in_proj_stacked_mapping(
+            name for name, _ in self.named_parameters(remove_duplicate=False)
+        )
+
+        # Skip loading extra parameters for GPTQ/nvfp4 models.
+        ignore_suffixes = (
+            ".bias",
+            "_bias",
+            ".k_scale",
+            "_k_scale",
+            ".v_scale",
+            "_v_scale",
+            ".weight_scale",
+            "_weight_scale",
+            ".input_scale",
+            "_input_scale",
+        )
+        loaded_params: set[str] = set()
+        params_dict = dict(self.named_parameters(remove_duplicate=False))
+        # MoE expert weights, scales, and activation scales are handled
+        # by the checkpoint loader.
+        moe_loader = build_moe_checkpoint_loader(
+            params_dict=params_dict,
+            expert_schema=ExpertCheckpointSchema(
+                gate_proj_name="gate_proj",
+                down_proj_name="down_proj",
+                up_proj_name="up_proj",
+            ),
+            fused_schema=ExpertCheckpointSchema(
+                gate_up_fused_name="gate_up_proj",
+                down_proj_name="down_proj",
+            ),
+            num_experts=self.config.num_experts,
+            ep_rank=self.mapping.moe.ep_rank,
+            ep_size=self.mapping.moe.ep_size,
+        )
+
+        for name, loaded_weight in weights:
+            if "rotary_emb.inv_freq" in name:
+                continue
+            if "mtp" in name:
+                continue
+            if "visual" in name:
+                continue
+            if "language_model" in name:
+                name = name.replace(r"model.language_model.", r"model.")
+            if ".self_attn." in name:
+                name = name.replace(".self_attn", "")
+
+            for param_name, weight_name, shard_id in stacked_params_mapping:
+                if weight_name not in name:
+                    continue
+
+                if "mlp.experts" in name:
+                    continue
+                name = name.replace(weight_name, param_name)
+
+                # Skip loading extra parameters for GPTQ/nvfp4 models.
+                if name.endswith(ignore_suffixes) and name not in params_dict:
+                    continue
+
+                if name not in params_dict:
+                    continue
+
+                param = params_dict[name]
+                weight_loader = param.weight_loader
+                weight_loader(param, loaded_weight, shard_id)
+                break
+            else:
+                # Skip loading extra bias for GPTQ models.
+                if name.endswith((".bias", "_bias")) and name not in params_dict:
+                    continue
+                if moe_loader.matches(name):
+                    mapped_name = moe_loader.load(name, loaded_weight)
+                    loaded_params.add(mapped_name)
+                    continue
+                if moe_loader.is_expert_checkpoint_weight(name):
+                    continue
+
+                # Skip loading extra parameters for GPTQ/nvfp4 models.
+                if name.endswith(ignore_suffixes) and name not in params_dict:
+                    continue
+
+                if name in params_dict.keys():
+                    param = params_dict[name]
+                    weight_loader = getattr(
+                        param, "weight_loader", default_weight_loader
+                    )
+                    weight_loader(param, loaded_weight)
+                else:
+                    logger.warning(f"Parameter {name!s} not found in params_dict")
+            loaded_params.add(name)
+
+        return loaded_params
+
 
 class Qwen3_5ForConditionalGeneration(BaseCausalLM):
     model_cls = Qwen3_5ForCausalLM
-    supports_aux_capture = True
 
     def __init__(
         self,
@@ -1208,6 +1396,9 @@ class Qwen3_5ForConditionalGeneration(BaseCausalLM):
         input_embeds = embedding[:, :separate_index]
         input_deepstack_embeds = embedding[:, separate_index:]
         return input_embeds, input_deepstack_embeds
+
+    def pad_input_ids(self, input_ids: list[int], mm_inputs: MultimodalInputs):
+        return pad_input_tokens(input_ids, mm_inputs)
 
     def get_image_feature(self, items: list[MultimodalDataItem]) -> torch.Tensor:
         """Eager image encode via the ``pre_encode`` / ``forward_blocks`` /
@@ -1341,7 +1532,6 @@ class Qwen3_5ForConditionalGeneration(BaseCausalLM):
         return self.model.embed_tokens
 
     def set_dflash_layers_to_capture(self, layer_ids: list[int]) -> None:
-        self.require_aux_capture()
         # DFLASH checkpoints name 0-indexed target layer outputs. A layer
         # captures the residual entering it, so capture at i + 1 for layer i's output.
         num_layers = len(self.model.layers)
@@ -1418,29 +1608,23 @@ class Qwen3_5ForConditionalGeneration(BaseCausalLM):
             prefix=add_prefix("model.language_model", prefix),
         )
 
-    def get_stacked_params_mapping(
-        self,
-    ) -> list[tuple[str, str, int | str | tuple[int, ...]]]:
-        # Dots keep the vision tower's qkv_proj from matching v_proj.
-        return [
-            (".qkv_proj.", ".q_proj.", "q"),
-            (".qkv_proj.", ".k_proj.", "k"),
-            (".qkv_proj.", ".v_proj.", "v"),
-            (".gate_up_proj.", ".gate_proj.", 0),
-            (".gate_up_proj.", ".up_proj.", 1),
-        ] + _gdn_in_proj_stacked_mapping(
+    def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]):
+        stacked_params_mapping = [
+            ("qkv_proj", "q_proj", "q"),
+            ("qkv_proj", "k_proj", "k"),
+            ("qkv_proj", "v_proj", "v"),
+            ("gate_up_proj", "gate_proj", 0),
+            ("gate_up_proj", "up_proj", 1),
+        ]
+        stacked_params_mapping += _gdn_in_proj_stacked_mapping(
             name for name, _ in self.named_parameters(remove_duplicate=False)
         )
 
-    def load_weights(
-        self, weights: Iterable[tuple[str, torch.Tensor]], **kwargs: Any
-    ) -> set[str]:
-        return super().load_weights(self._rename_checkpoint_weights(weights), **kwargs)
-
-    def _rename_checkpoint_weights(
-        self, weights: Iterable[tuple[str, torch.Tensor]]
-    ) -> Iterator[tuple[str, torch.Tensor]]:
+        loaded_params: set[str] = set()
+        params_dict = dict(self.named_parameters(remove_duplicate=False))
         for name, loaded_weight in weights:
+            if "rotary_emb.inv_freq" in name:
+                continue
             if "mtp" in name:
                 continue
             if not self.is_multimodal_active and "visual" in name:
@@ -1458,7 +1642,42 @@ class Qwen3_5ForConditionalGeneration(BaseCausalLM):
             if "visual" in name:
                 name = name.replace(r"attn.qkv.", r"attn.qkv_proj.")
                 name = name.replace(r"model.visual.", r"visual.")
-            yield name, loaded_weight
+
+            for param_name, weight_name, shard_id in stacked_params_mapping:
+                if weight_name not in name:
+                    continue
+                if "visual" in name or "mlp.experts" in name:
+                    continue
+                name = name.replace(weight_name, param_name)
+                # Skip loading extra bias for GPTQ models.
+                if name.endswith(".bias") and name not in params_dict:
+                    continue
+                if name not in params_dict:
+                    if _is_ignored_checkpoint_param(self, name):
+                        break
+                    continue
+                param = params_dict[name]
+                weight_loader = getattr(param, "weight_loader")
+                weight_loader(param, loaded_weight, shard_id)
+                break
+            else:
+                if "visual" in name:
+                    name = name.replace(r"attn.qkv.", r"attn.qkv_proj.")
+                    name = name.replace(r"model.visual.", r"visual.")
+                # Skip loading extra bias for GPTQ models.
+                if name.endswith(".bias") and name not in params_dict:
+                    continue
+                if name not in params_dict:
+                    if _is_ignored_checkpoint_param(self, name):
+                        continue
+                    logger.warning(f"Parameter {name!s} not found in params_dict")
+                    continue
+                param = params_dict[name]
+                weight_loader = getattr(param, "weight_loader", default_weight_loader)
+                weight_loader(param, loaded_weight)
+            loaded_params.add(name)
+
+        return loaded_params
 
 
 class Qwen3_5MoeForConditionalGeneration(Qwen3_5ForConditionalGeneration):
@@ -1484,9 +1703,36 @@ class Qwen3_5MoeForConditionalGeneration(Qwen3_5ForConditionalGeneration):
             mm_attention_backend=mm_attention_backend,
         )
 
-    def get_expert_checkpoint_loader(self) -> MoECheckpointLoader:
-        return build_moe_checkpoint_loader(
-            params_dict=dict(self.named_parameters(remove_duplicate=False)),
+    def load_weights(self, weights: Iterable[tuple[str, torch.Tensor]]):
+        stacked_params_mapping = [
+            ("qkv_proj", "q_proj", "q"),
+            ("qkv_proj", "k_proj", "k"),
+            ("qkv_proj", "v_proj", "v"),
+            ("gate_up_proj", "gate_proj", 0),
+            ("gate_up_proj", "up_proj", 1),
+        ]
+        stacked_params_mapping += _gdn_in_proj_stacked_mapping(
+            name for name, _ in self.named_parameters(remove_duplicate=False)
+        )
+
+        ignore_suffixes = (
+            ".bias",
+            "_bias",
+            ".k_scale",
+            "_k_scale",
+            ".v_scale",
+            "_v_scale",
+            ".weight_scale",
+            "_weight_scale",
+            ".input_scale",
+            "_input_scale",
+        )
+        loaded_params: set[str] = set()
+        params_dict = dict(self.named_parameters(remove_duplicate=False))
+        # MoE expert weights, scales, and activation scales are handled
+        # by the checkpoint loader.
+        moe_loader = build_moe_checkpoint_loader(
+            params_dict=params_dict,
             expert_schema=ExpertCheckpointSchema(
                 gate_proj_name="gate_proj",
                 down_proj_name="down_proj",
@@ -1500,6 +1746,72 @@ class Qwen3_5MoeForConditionalGeneration(Qwen3_5ForConditionalGeneration):
             ep_rank=self.mapping.moe.ep_rank,
             ep_size=self.mapping.moe.ep_size,
         )
+
+        for name, loaded_weight in weights:
+            if "rotary_emb.inv_freq" in name:
+                continue
+            if "mtp" in name:
+                continue
+            if not self.is_multimodal_active and "visual" in name:
+                continue
+            # Vision-only role: drop every non-visual (LM / lm_head / norm /
+            # embed / expert) weight up front, before any rename, params_dict
+            # lookup, or moe_loader.load (which would KeyError on a missing
+            # expert param). self.model is None here, so named_parameters()
+            # exposes only visual params.
+            if self.encoder_only and "visual" not in name:
+                continue
+            if "language_model" in name:
+                name = name.replace(r"model.language_model.", r"model.")
+            if ".self_attn." in name:
+                name = name.replace(".self_attn", "")
+            if "visual" in name:
+                name = name.replace(r"attn.qkv.", r"attn.qkv_proj.")
+                name = name.replace(r"model.visual.", r"visual.")
+
+            for param_name, weight_name, shard_id in stacked_params_mapping:
+                if weight_name not in name:
+                    continue
+                if "visual" in name:
+                    continue
+                if "mlp.experts" in name:
+                    continue
+                name = name.replace(weight_name, param_name)
+                # Skip loading extra parameters for GPTQ/nvfp4 models.
+                if name.endswith(ignore_suffixes) and name not in params_dict:
+                    continue
+                if name not in params_dict:
+                    continue
+                param = params_dict[name]
+                weight_loader = param.weight_loader
+                weight_loader(param, loaded_weight, shard_id)
+                break
+            else:
+                # Skip loading extra bias for GPTQ models.
+                if name.endswith((".bias", "_bias")) and name not in params_dict:
+                    continue
+                if moe_loader.matches(name):
+                    mapped_name = moe_loader.load(name, loaded_weight)
+                    loaded_params.add(mapped_name)
+                    continue
+                if moe_loader.is_expert_checkpoint_weight(name):
+                    continue
+
+                # Skip loading extra parameters for GPTQ/nvfp4 models.
+                if name.endswith(ignore_suffixes) and name not in params_dict:
+                    continue
+
+                if name in params_dict.keys():
+                    param = params_dict[name]
+                    weight_loader = getattr(
+                        param, "weight_loader", default_weight_loader
+                    )
+                    weight_loader(param, loaded_weight)
+                else:
+                    logger.warning(f"Parameter {name!s} not found in params_dict")
+            loaded_params.add(name)
+
+        return loaded_params
 
     @classmethod
     def get_model_config_for_expert_location(cls, config):

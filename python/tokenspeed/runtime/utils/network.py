@@ -89,7 +89,7 @@ def get_local_ip_by_remote() -> str | None:
     try:
         hostname = socket.gethostname()
         ip = socket.gethostbyname(hostname)
-        if ip and ip != "0.0.0.0" and not ipaddress.ip_address(ip).is_loopback:
+        if ip and ip != "127.0.0.1" and ip != "0.0.0.0":
             return ip
     except Exception:
         pass
@@ -112,8 +112,7 @@ def get_ip() -> str:
     try:
         hostname = socket.gethostname()
         ip = socket.gethostbyname(hostname)
-        # Debian-style /etc/hosts maps the hostname to 127.0.1.1, which no peer can reach.
-        if ip and ip != "0.0.0.0" and not ipaddress.ip_address(ip).is_loopback:
+        if ip and ip != "127.0.0.1" and ip != "0.0.0.0":
             return ip
     except Exception:
         pass

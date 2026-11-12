@@ -42,7 +42,6 @@ import json
 import threading
 from contextlib import nullcontext
 from dataclasses import replace
-from test.ci_system.ci_register import register_cuda_ci
 from types import SimpleNamespace
 from unittest import mock
 
@@ -79,8 +78,6 @@ from tokenspeed.runtime.multimodal.inputs import (
 )
 from tokenspeed.runtime.pd.host_peer import build_host_peer  # noqa: E402
 
-register_cuda_ci(est_time=20, suite="runtime-2gpu")
-
 
 def _execute(handle, plan, planned):
     return handle.execute(plan, planned, cache_ops=cache_ops_from_plan(plan).device)
@@ -97,8 +94,6 @@ def _execute(handle, plan, planned):
         ("DFLASH", True, False, False, False, False),
     ],
 )
-# Only a checkpoint with the DSA padded-replay contract runs the aggregated plan check.
-@pytest.mark.parametrize("declares_padded_replay", [True, False])
 def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
     monkeypatch,
     algorithm,
@@ -107,16 +102,10 @@ def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
     reserve,
     warmup_fails,
     expected_rewarm,
-    declares_padded_replay,
 ):
     """Drive real startup/rebind; substitute unavailable weights/cache/device work."""
     from tokenspeed.runtime.engine import scheduler_utils
-    from tokenspeed.runtime.execution import (
-        cudagraph_memory,
-        device,
-        factory,
-        prefill_graph,
-    )
+    from tokenspeed.runtime.execution import cudagraph_memory, device, factory
     from tokenspeed.runtime.layers.attention import registry
 
     events = []
@@ -129,8 +118,6 @@ def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
 
     class Executor:
         attn_backend = draft_attn_backend = None
-        # Read by Kimi-K3.1's aggregated plan agreement, faked out below.
-        prefill_graph = None
 
         def __init__(self):
             self.config = SimpleNamespace(prefill_only=prefill_only)
@@ -144,8 +131,7 @@ def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
             if self.generation and warmup_fails:
                 raise WarmupFailure("rebound initialization failed")
 
-        def autotune(self, *, keep_loaded_tactics):
-            assert not keep_loaded_tactics
+        def autotune(self):
             if has_draft and not prefill_only:
                 self.warmup_decode_path(batch_sizes=(1,), graph_phase=False)
 
@@ -195,12 +181,6 @@ def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
     )
     monkeypatch.setattr(registry, "create_attn_components", build)
     monkeypatch.setattr(cudagraph_memory, "probe_cudagraph_memory", probe)
-    # The aggregated role checks the prefill plan too: eager DSA breaks run collectives.
-    monkeypatch.setattr(
-        prefill_graph,
-        "check_rank_uniform_prefill_plan",
-        lambda owner, server_args: events.append(("plan-check",)),
-    )
     monkeypatch.setattr(device, "probe_arena_floor", lambda *args, **kwargs: 1)
     monkeypatch.setattr(
         device,
@@ -217,9 +197,6 @@ def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
     monkeypatch.setattr(scheduler_utils, "pool_to_cache_groups", lambda pool: [])
     args = SimpleNamespace(
         disaggregation_mode="null",
-        mapping=Mapping(rank=0, world_size=1),
-        # Read by the EPD receive pool sizing (#2714): no external encoder here.
-        enable_external_encoder=False,
         chunked_prefill_size=8192,
         attention_backend=None,
         drafter_attention_backend=None,
@@ -233,11 +210,7 @@ def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
     with pytest.raises(failure):
         device.build_device_side(
             server_args=args,
-            model_config=SimpleNamespace(
-                context_len=4096,
-                is_multimodal_active=False,
-                dsa_padded_prefill_replay=declares_padded_replay,
-            ),
+            model_config=SimpleNamespace(context_len=4096, is_multimodal_active=False),
             draft_model_config=None,
             gpu_id=0,
             global_rank=0,
@@ -248,10 +221,6 @@ def test_dflash_rebound_stream_is_eagerly_warmed_before_final_capture(
             max_batch_size=16,
             kv_transfer_builder=functools.partial(build_host_peer, outbox=None),
         )
-    # Once, before tuning and capture, only where the checkpoint declares the contract.
-    assert events.count(("plan-check",)) == int(declares_padded_replay)
-    if declares_padded_replay:
-        assert events[0] == ("plan-check",)
     rebound_warmup = ("warmup", 1, (1,), False)
     assert (rebound_warmup in events) == expected_rewarm
     if reserve:
@@ -662,7 +631,7 @@ def test_page_copies_follow_the_stores_and_precede_the_zeroing(wire_ops):
     # A plan with no pairs runs no copy at all.
     trace.clear()
     _execute(handle, _plan(pages_to_zero=[2], pages_to_copy={"kv": []}), None)
-    assert trace == [("zero", {"kv": (2,)}), ("load_backs", ())]
+    assert trace == [("zero", {"kv": (2,)})]
 
 
 def test_a_failed_page_copy_fails_the_plan(wire_ops):
@@ -795,24 +764,13 @@ def test_page_zeroing_without_l2_runs_only_zeroing():
     assert trace == [("zero", {"kv": (3, 4)})]
 
 
-def test_a_plan_with_no_device_work_only_points_the_load_waits_at_no_load():
-    """A plan with no device work enqueues nothing, and it settles no pending
-    draft round; it still reaches the Host cache's load-back submission,
-    which points the layerwise load waits at the plan's (absent) load."""
+def test_a_plan_with_no_device_work_touches_nothing():
     trace: list = []
-    handle = _handle(
-        trace,
-        host_cache_executor=SimpleNamespace(
-            submit_load_backs=lambda ops, *, prerequisite_stream: trace.append(
-                ("load_backs", ops, prerequisite_stream)
-            ),
-        ),
-    )
-    handle._executor.complete_pending_drafting = lambda: trace.append("settle")
+    handle = _handle(trace, host_cache_executor=SimpleNamespace())
 
     _execute(handle, _plan(), None)
 
-    assert trace == [("load_backs", (), "default-stream")]
+    assert trace == []
 
 
 def test_a_failed_cache_submission_fails_the_plan(wire_ops):

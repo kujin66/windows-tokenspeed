@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from functools import cache
 
+import triton.experimental.gluon as g
 from lib.moe.rocm.fused_moe import (
     IsGfx950,
     MegaMoEProducerGeometry,
@@ -29,8 +30,7 @@ from lib.moe.rocm.mega_moe_config_selector import (
     kMegaMoETwoStageMxFp4SolutionId,
 )
 from lib.moe.rocm.quantization import MxFp4Scale, NativeMxFp4Quantization
-from tokenspeed_kernel._triton import gl as l
-from tokenspeed_kernel._triton import gluon as g
+from triton.experimental.gluon import language as l
 
 
 @dataclass

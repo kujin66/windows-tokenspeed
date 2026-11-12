@@ -154,6 +154,7 @@ class ExtensibleLM(nn.Module):
             self.ctx,
             output_processor_config,
         ).eval()
+        self.step = 0
 
     @property
     def logits_processor(self):
@@ -185,4 +186,5 @@ class ExtensibleLM(nn.Module):
         logits_output: LogitsProcessorOutput = self.output_processor(
             input_ids, positions, ctx, out_hidden_states
         )
+        self.step += 1
         return logits_output

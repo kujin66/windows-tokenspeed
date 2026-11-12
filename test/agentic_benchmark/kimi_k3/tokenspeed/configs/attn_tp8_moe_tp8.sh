@@ -13,7 +13,7 @@ exec ts serve \
     --cudagraph-capture-sizes {1..64} \
     --trust-remote-code \
     --attention-backend tokenspeed_mla \
-    --kda-backend cudnn \
+    --kda-backend cutedsl_kda \
     --moe-backend flashinfer_trtllm \
     --dense-gemm-backend trtllm_cutedsl \
     --kv-cache-dtype fp8 \

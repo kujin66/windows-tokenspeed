@@ -127,7 +127,6 @@ def test_chain_shaped_tree_verifies_like_chain(route):
     backend, req = _backend(route, TritonSamplingBackend)
     probe = backend._sample_verify_targets(
         logits,
-        None,
         req.int(),
         (
             backend._temperature_pool,
@@ -180,7 +179,6 @@ def test_nodes_sample_the_chain_draw_at_their_depth(route):
     chain = (
         backend._sample_verify_targets(
             by_depth.view(BS * N, VOCAB),
-            None,
             req.int(),
             (
                 backend._temperature_pool,
@@ -203,7 +201,7 @@ def test_nodes_sample_the_chain_draw_at_their_depth(route):
         BS * N, VOCAB
     )
     picks = backend._sample_tree_targets(
-        logits, None, req.int(), offsets, _batch(tree), BS
+        logits, req.int(), offsets, _batch(tree), BS
     ).view(BS, N)
     assert torch.equal(picks, torch.gather(chain, 1, depth))
 

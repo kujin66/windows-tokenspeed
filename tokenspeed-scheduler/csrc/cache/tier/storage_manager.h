@@ -29,14 +29,11 @@
 
 #include "cache/coordinator/cache_coordinator.h"
 #include "cache/tier/storage.h"
-#include "cache/tier/storage_lease.h"
 
 namespace tokenspeed {
 
 // Owns Host references, never request scheduling or SDK calls. All methods run
 // on the scheduler thread. Runtime workers receive only immutable descriptors.
-// A query or GET is started for a request and returned as its StorageLease;
-// backups (PUT) belong to no request and retire on their own.
 class StorageTransferManager {
 public:
     StorageTransferManager(CacheCoordinator& coordinator, StorageConfig config);
@@ -56,16 +53,13 @@ public:
     std::size_t NumNegativeKeys() const { return negative_.size(); }
     std::size_t NumBackupCandidates() const { return backup_candidates_.size(); }
     bool IsNegative(const CacheKey& key) const { return negative_.contains(key); }
-    // Returns an empty lease when nothing was started.
-    StorageLease StartQuery(std::vector<CacheKey> keys, std::vector<std::int32_t> key_tokens);
+    std::uint64_t StartQuery(std::vector<CacheKey> keys);
     bool Completed(std::uint64_t id) const;
     bool IsQuery(std::uint64_t id) const;
-    // Successful query hits, and the cumulative tokens they cover. Each hit counts once per operation.
-    std::vector<CacheKey> QueryHits(std::uint64_t id);
-    std::uint64_t QueryHitTokens() const { return query_hit_tokens_; }
-    // Returns an empty lease when nothing was started.
-    StorageLease StartRead(const CacheCoordinator::PromptPrefix& prompt, std::span<const CacheKey> hits);
+    std::vector<CacheKey> QueryHits(std::uint64_t id) const;
+    std::uint64_t StartRead(const CacheCoordinator::PromptPrefix& prompt, std::span<const CacheKey> hits);
     void Complete(const cache::StorageDone& event);
+    void Detach(std::uint64_t id);
     void QueueBackups(std::span<const CacheKey> keys);
     void StartBackups();
     void DropBackups();
@@ -73,13 +67,9 @@ public:
     std::vector<StorageOperation> TakeCommands();
 
 private:
-    friend class StorageLease;
-
     struct Ticket {
         StorageKind kind;
         std::vector<CacheKey> keys;
-        // Query tickets: tokens each key covers, parallel to `keys`.
-        std::vector<std::int32_t> key_tokens;
         std::vector<CacheBlockRef> blocks;
         std::vector<std::uint8_t> success;
         ContentHash tail_prior;
@@ -89,8 +79,6 @@ private:
         bool quarantined{false};
     };
     std::uint64_t nextId();
-    // What dropping the operation's lease does.
-    void detach(std::uint64_t id) noexcept;
     void rememberNegative(const CacheKey& key);
     std::size_t availableHostCredits() const;
     CacheCoordinator& coordinator_;
@@ -107,7 +95,5 @@ private:
     std::uint64_t unavailable_dropped_backup_keys_{0};
     std::uint64_t disabled_dropped_backup_keys_{0};
     std::uint64_t cleanup_dropped_backup_keys_{0};
-    // Cumulative tokens of keys storage queries found (L3 hits).
-    std::uint64_t query_hit_tokens_{0};
 };
 }  // namespace tokenspeed

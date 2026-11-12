@@ -60,8 +60,6 @@ struct StorageQueryOperation {
     static constexpr StorageKind kKind = StorageKind::kQuery;
     std::uint64_t op_id;
     std::vector<CacheKey> keys;
-
-    bool operator==(const StorageQueryOperation&) const = default;
 };
 
 struct StorageGetOperation {
@@ -69,8 +67,6 @@ struct StorageGetOperation {
     std::uint64_t op_id;
     std::vector<CacheKey> keys;
     std::vector<std::int32_t> host_blocks;  // Destinations held until native retirement.
-
-    bool operator==(const StorageGetOperation&) const = default;
 };
 
 struct StoragePutOperation {
@@ -78,15 +74,11 @@ struct StoragePutOperation {
     std::uint64_t op_id;
     std::vector<CacheKey> keys;
     std::vector<std::int32_t> host_blocks;  // Sources held until native retirement.
-
-    bool operator==(const StoragePutOperation&) const = default;
 };
 
 struct StorageCancelOperation {
     static constexpr StorageKind kKind = StorageKind::kCancel;
     std::uint64_t op_id;  // The original operation; no new ticket or completion.
-
-    bool operator==(const StorageCancelOperation&) const = default;
 };
 
 using StorageOperation =
