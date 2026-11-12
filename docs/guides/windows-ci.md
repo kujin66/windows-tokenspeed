@@ -99,8 +99,12 @@ official registry destinations retain their upstream behavior.
 
 For nightly=true, select version_date or let the controller select the UTC
 date once. The Windows builder extracts the exact Git revision into a staging
-directory and applies the upstream runtime nightly formatter there. Kernel
-versioning uses the existing package backend. Scheduler and engine Python
+directory and applies the upstream runtime nightly formatter there.
+Git archive symlinks are staged as link-text files, matching Windows Git
+checkouts with core.symlinks=false. This lets the existing Rust scheduler
+build resolve its root source without creating a Windows file symlink to a
+directory.
+Kernel versioning uses the existing package backend. Scheduler and engine Python
 packages receive the same dated suffix; the runtime pins all three exact
 versions. Tests run against the installed wheels. The original source checkout
 remains unmodified, and publication checks wheel metadata, all four dates and

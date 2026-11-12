@@ -41,6 +41,30 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def stage_git_source(root: Path, destination: Path) -> None:
+    """Extract the tracked source revision for Windows package versioning."""
+    archive = subprocess.check_output(
+        ["git", "-c", f"safe.directory={root.as_posix()}", "archive", "HEAD"],
+        cwd=root,
+    )
+    with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
+        # Match core.symlinks=false checkouts. tarfile creates file symlinks
+        # on Windows even when the target is a directory; Rust cannot resolve
+        # that reparse point. The package build already handles link-text files.
+        members = bundle.getmembers()
+        bundle.extractall(
+            destination,
+            members=[item for item in members if not item.issym()],
+            filter="data",
+        )
+        for item in members:
+            if item.issym():
+                validated = tarfile.data_filter(item, str(destination))
+                link = destination / validated.name
+                link.parent.mkdir(parents=True, exist_ok=True)
+                link.write_text(item.linkname, encoding="utf-8")
+
+
 def run_build_command(
     command: tuple[str, ...], *, cwd: Path, env: dict[str, str]
 ) -> None:
@@ -156,9 +180,7 @@ def main() -> None:
         # the checked-out and tested source remains clean for provenance checks.
         source = output / "source"
         source.mkdir()
-        archive = subprocess.check_output([*git_command, "archive", "HEAD"], cwd=ROOT)
-        with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
-            bundle.extractall(source, filter="data")
+        stage_git_source(ROOT, source)
         kernel_version = (
             subprocess.check_output(
                 [sys.executable, "setup.py", "--version"],

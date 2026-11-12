@@ -22,6 +22,7 @@ import hashlib
 import json
 import runpy
 import shutil
+import subprocess
 import tomllib
 import zipfile
 from pathlib import Path
@@ -36,6 +37,56 @@ VERIFY = runpy.run_path(str(ROOT / ".github/scripts/verify_windows_release.py"))
     "verify"
 ]
 SHA = "a" * 40
+STAGE = runpy.run_path(str(ROOT / "tools/windows/build_wheels.py"))["stage_git_source"]
+
+
+def test_nightly_archive_preserves_windows_git_link_blobs(tmp_path):
+    repository = tmp_path / "repository"
+    repository.mkdir()
+
+    def git(*arguments):
+        return subprocess.check_output(
+            ["git", "-c", f"safe.directory={repository.as_posix()}", *arguments],
+            cwd=repository,
+            text=True,
+        ).strip()
+
+    git("init", "--quiet")
+    scheduler = repository / "tokenspeed-scheduler"
+    scheduler.mkdir()
+    (scheduler / "CMakeLists.txt").write_text("project(scheduler)\n")
+    link_name = "tokenspeed-engine/crates/ts-scheduler/scheduler"
+    link = repository / link_name
+    link.parent.mkdir(parents=True)
+    link.write_text("../../../tokenspeed-scheduler")
+    git("add", ".")
+    blob = git("hash-object", "-w", link_name)
+    git("update-index", "--cacheinfo", "120000", blob, link_name)
+    git(
+        "-c",
+        "user.name=CI fixture",
+        "-c",
+        "user.email=ci@example.invalid",
+        "commit",
+        "--quiet",
+        "--no-gpg-sign",
+        "--signoff",
+        "-m",
+        "Archive fixture",
+    )
+    destination = tmp_path / "source"
+    destination.mkdir()
+    STAGE(repository, destination)
+    # Match a Windows Git checkout with core.symlinks=false: the Rust build
+    # uses the root scheduler when the bundled path is a link-text file.
+    staged_link = destination / link_name
+    assert staged_link.read_text() == "../../../tokenspeed-scheduler"
+    assert not (staged_link / "CMakeLists.txt").is_file()
+    scheduler_source = staged_link.parent / staged_link.read_text()
+    assert scheduler_source.resolve(strict=True) == (
+        destination / "tokenspeed-scheduler"
+    ).resolve(strict=True)
+    assert (scheduler_source / "CMakeLists.txt").read_text() == "project(scheduler)\n"
 
 
 def release_plan(**overrides):
