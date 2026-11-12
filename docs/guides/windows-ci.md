@@ -77,98 +77,126 @@ runner can execute the native job once and deregister; it does not constitute
 persistent automatic CI capacity. A manual native request with incomplete
 configuration fails rather than silently skipping the build.
 
-## Releases
+## Component builds and releases
 
-The existing Release TokenSpeed workflow accepts windows_arm64=true. It calls
-the same Windows CI workflow, waits for hosted and native checks, downloads
-the successful run's artifact and verifies the source SHA, complete task
-result, clean tracked source, four-package inventory, wheel metadata and SHA256
-hashes before creating a release. Failed or partially executed tasks cannot
-publish. Nightly publication requires main or a release branch; stable Windows
-packages require a release branch, following the upstream kernel backend's
-version convention. A development CI wheel cannot be relabeled as stable.
-dry_run=true validates
-review branches without creating releases or updating indexes.
+The upstream Release TokenSpeed workflow (release-tokenspeed.yml) keeps its
+original tag/Release-page role. Windows package validation and publication do
+not replace that entry point or its default behavior.
 
-For an ordinary build, source_run_id can select a successful Windows ARM64
-build-validation run for the exact release source. The controller checks the
-repository, workflow path, event, source SHA and completed result before
-downloading its artifact. It then verifies the artifact itself. A source from
-another commit cannot be promoted. Leaving the input empty builds and tests
-the package set through the same shared CI task.
+The existing Build and Release TokenSpeed workflow (release-pypi.yml) accepts
+windows_arm64=true. Its Windows path selects the date once, calls the shared
+Windows CI task once, then consumes the successful artifact through the existing
+kernel, scheduler and engine release workflows, followed by its runtime job.
+Those component workflows expose an explicit Windows workflow_call contract;
+their original Linux workflow_dispatch inputs, builds and PyPI publication
+remain separate. Official Linux publication stays restricted to the official
+repository, and Linux scheduled component jobs are not run in an unconfigured
+fork. No unavailable Linux GPU, NPU or cluster is represented as Windows coverage.
 
-The upstream Build and Release TokenSpeed workflow (release-pypi.yml) also
-accepts windows_arm64=true. Its Windows job calls Release TokenSpeed with
-windows_dry_run=true by default. The existing Linux publication jobs and
-official registry destinations retain their upstream behavior.
+The shared native task owns the component sequence: prepare source metadata,
+build scheduler, engine, kernel and runtime through their project backends, then
+finalize/audit/install the four wheels before all existing C++/package/CUDA/Rust
+tests. The Windows build helper adapts backend arguments and paths; it does not
+select tasks or silently orchestrate another four-package build loop. Component
+receipts reject stale source/interpreter/date state, missing components and
+wheel modification before finalization.
+The runtime backend receives README/LICENSE in a separate source staging area,
+matching the upstream runtime build. This supplies package metadata without
+changing tracked checkout files or archiving unrelated native source for an
+ordinary runtime wheel.
 
-For nightly=true, select version_date or let the controller select the UTC
-date once. The Windows builder extracts the exact Git revision into a staging
-directory and applies the upstream runtime nightly formatter there.
-Git archive symlinks are staged as link-text files, matching Windows Git
-checkouts with core.symlinks=false. This lets the existing Rust scheduler
-build resolve its root source without creating a Windows file symlink to a
-directory.
-Kernel versioning uses the existing package backend. Scheduler and engine Python
-packages receive the same dated suffix; the runtime pins all three exact
-versions. Tests run against the installed wheels. The original source checkout
-remains unmodified, and publication checks wheel metadata, all four dates and
-the runtime dependency pins. No Windows nightly is uploaded to PyPI.
-The upstream release_candidate input is forwarded to all four Windows package
-versions. Windows rejects replace_nightly requests before building; select a new
-date or release candidate to retain immutable published assets.
+The component release jobs share a platform composite action that downloads the
+tested package set, verifies its source SHA, complete task result, clean tracked
+source, four-package inventory, wheel metadata and hashes, then selects one
+component wheel plus its build/test evidence. A failed or partial native task
+cannot publish any component. The component calls are sequenced to avoid
+concurrent index writes. Their concurrency groups must not equal the enclosing
+release-pypi group: reusable workflows inherit the caller's github.workflow.
+
+The caller supplies platform=windows, source_run_id, nightly_date (or empty),
+dry_run and publish_windows_index explicitly. Internal calls use the completed
+shared build from the same parent run; requiring whole-run success would be
+circular while its publication jobs run. A different run must be a successful
+exact-source Windows validation run before download, and the artifact itself
+must still pass verification. A PR merge artifact cannot be relabeled as an
+unrelated release commit. Development wheels are not promoted to stable.
+
+Windows release validation remains dry-run by default. A dry run writes a
+separate publication-plan artifact for each component and creates no tags,
+releases or indexes. The original component entry points still provide their
+Linux build paths; Windows calls consume the validated shared artifact instead
+of independently rebuilding the same package set in every release job.
+
+### Windows-specific version policy retained for review
+
+This CI-only refactor does not silently change the existing Windows package
+dependency policy. Runtime/kernel nightly formatting calls the upstream helper.
+The existing Windows adapter also gives engine/scheduler the same date/RC suffix
+and pins all three native components from the runtime. These extra two suffixes
+are Windows-specific behavior, not an unchanged upstream Linux rule. They keep
+the tested same-source package set explicit. An alternative that consumes
+separately published stable Windows dependencies must be reviewed and validated
+before changing this contract. Retain the current policy only as an explicit
+review item before enabling actual publication; changing it requires its own
+compatibility evidence.
+
+Nightly metadata is prepared in a Git archive of the exact source revision;
+the original checkout remains clean. Archive symlinks are staged as link-text
+files, matching Windows core.symlinks=false and the Rust scheduler source
+fallback. Tests run against installed wheels. Publication verifies all four
+dates, source and runtime pins, including forwarded release candidates.
+Windows replace_nightly requests remain rejected before building.
+
+Each component uses a platform-qualified tag:
+component-nightly-vVERSION-win_arm64, or component-vVERSION-win_arm64 for an
+ordinary release. This is separate from the upstream runtime tag/Release page.
+An existing component tag/source or asset digest cannot be overwritten.
+Rerunning a failed publication/index job may add missing assets or retain
+identical bytes from its original artifact; rebuilding and replacing a published
+wheel with different bytes is rejected. No migration or rewrite of old tags
+is performed by this refactor.
+
+The ordinary index remains windows-arm64/ and the nightly index remains
+nightly/windows-arm64/. The upstream index writer verifies GitHub asset digests
+and updates only the selected component links. Linux indexes are preserved.
+On index failure, rerun the failed release/index job with the original artifact;
+do not rebuild or overwrite published assets.
 
 | Variable | Meaning |
 | --- | --- |
-| TOKENSPEED_WINDOWS_RELEASES | Set true to include Windows in the upstream daily release schedule |
-| TOKENSPEED_WINDOWS_PUBLISH | Set true to publish scheduled Windows assets; otherwise scheduled runs are dry runs |
-| TOKENSPEED_WINDOWS_INDEX | Set true to publish the scheduled Windows pip index; requires its destination and token |
-
-Nightly artifacts use a Windows-specific prerelease tag and the separate
-nightly/windows-arm64/ index. Ordinary assets use windows-arm64/. The upstream
-Linux nightly index and the Windows ordinary index are preserved. A conflicting
-already published wheel digest is rejected rather than overwritten.
-
-The release target is the current repository by default. Set
-TOKENSPEED_RELEASE_REPOSITORY to an owner/repository wheelhouse and provide
-the TOKENSPEED_RELEASE_TOKEN secret when publication needs cross-repository
-write access. The default repository uses the workflow's GitHub token. Source
-provenance is retained in release notes, build.json and result.json.
-
-For a pip Simple API index, also select publish_windows_index=true. This
-reuses the upstream index publisher, validates GitHub asset digests against
-the tested wheels and writes only windows-arm64/package/index.html and its
-Windows package listing. Existing Linux nightly indexes are preserved.
-
-| Variable | Meaning |
-| --- | --- |
-| TOKENSPEED_RELEASE_REPOSITORY | GitHub repository receiving verified release assets; defaults to this repository |
-| TOKENSPEED_RELEASE_INDEX_REPOSITORY | GitHub Pages index repository; defaults to the release repository |
+| TOKENSPEED_WINDOWS_RELEASES | Include Windows in the upstream daily runtime release schedule |
+| TOKENSPEED_WINDOWS_PUBLISH | Publish scheduled Windows assets; otherwise scheduled runs are dry runs |
+| TOKENSPEED_WINDOWS_INDEX | Publish scheduled Windows index links; requires target and token |
+| TOKENSPEED_RELEASE_REPOSITORY | Owned asset repository; defaults to the current repository |
+| TOKENSPEED_RELEASE_INDEX_REPOSITORY | Owned Pages index repository; defaults to the asset repository |
 | TOKENSPEED_RELEASE_INDEX_BRANCH | Existing index branch; defaults to gh-pages |
 
-The configured index branch must exist and have Pages deployment configured.
-Index publication requires TOKENSPEED_RELEASE_TOKEN with write access to that
-repository, including when it is the source repository: pushes using the
-default GITHUB_TOKEN do not trigger a Pages build
+Cross-repository assets require TOKENSPEED_RELEASE_TOKEN with write access.
+Actual index publication requires that token even for the source repository:
+default GITHUB_TOKEN pushes do not trigger a Pages build
 ([GitHub token behavior](https://docs.github.com/en/actions/concepts/security/github_token)).
-Its pip index URL is the Pages site URL followed by
-windows-arm64/ or nightly/windows-arm64/. The publisher changes no root Pages document. On an index
-publication failure, rerun the failed index job; verified release assets do
-not need to be rebuilt or replaced.
+Pages and the index branch must already exist. Windows packages are not uploaded
+to the official PyPI projects by this path. All actual publication/schedule
+switches remain off during branch validation and human review.
 
-This Windows path publishes GitHub release assets and an optional configured
-Windows index. It does not publish to the official PyPI projects. Existing
-Linux nightly/index controllers retain their upstream destinations and
-credentials; enabling those in a fork requires ownership of the corresponding
-package/index targets.
+### Cache boundary
+
+Keep the prepared Cargo cache and the project backends' own cache checks. This
+change does not introduce a cache of test results or blindly restore compiled
+CUDA libraries across jobs. The current backend identity plus source mtimes is
+not a sufficient cross-job cache key for changed headers. A future binary cache
+must include all native source/header inputs, dependency content, compiler/SDK,
+Python/ABI and architecture, and must still run every required test. Until that
+key is independently verified, correctness takes precedence over cache hits.
 
 ## Deploy and verify the default branch
 
 First validate the PR source, its hosted jobs and the required Windows GPU
-task. Run the existing release workflow in dry-run mode, including the nightly
-channel. If the fork has not registered that workflow yet, first validate its
-controller tests, deploy the reviewed workflow to main, and run the complete
-dry run immediately after registration. The compiler PR targets
+task. Run the existing runtime release workflow in dry-run mode on that same
+branch, including the nightly channel. The already-registered parent can load
+its reusable component workflows and platform action from the selected commit;
+they do not need an earlier default-branch merge. A missing Actions menu entry
+is not permission to deploy unvalidated code. The compiler PR targets
 an upstream baseline; merging it there alone does not deploy main. A deployment
 PR to main must expose the upstream synchronization separately from Windows
 adaptation, because the fork's older main is not the compiler baseline.

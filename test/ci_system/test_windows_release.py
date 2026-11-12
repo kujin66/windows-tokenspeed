@@ -20,9 +20,11 @@
 
 import hashlib
 import json
+import os
 import runpy
 import shutil
 import subprocess
+import sys
 import tomllib
 import zipfile
 from pathlib import Path
@@ -38,6 +40,56 @@ VERIFY = runpy.run_path(str(ROOT / ".github/scripts/verify_windows_release.py"))
 ]
 SHA = "a" * 40
 STAGE = runpy.run_path(str(ROOT / "tools/windows/build_wheels.py"))["stage_git_source"]
+STAGE_RUNTIME = runpy.run_path(str(ROOT / "tools/windows/build_wheels.py"))[
+    "stage_runtime_source"
+]
+
+
+def test_runtime_staging_reuses_upstream_readme_license_preparation(tmp_path):
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    (repository / "python").mkdir()
+    (repository / "README.md").write_bytes(b"# Runtime metadata\n")
+    (repository / "LICENSE").write_bytes(b"MIT fixture\n")
+    (repository / "python/pyproject.toml").write_text(
+        '[project]\nname="tokenspeed"\nversion="0.1.1"\nreadme="README.md"\n'
+    )
+    (repository / "unrelated-native.cpp").write_text("not part of runtime metadata")
+    git = ["git", "-c", f"safe.directory={repository.as_posix()}"]
+    subprocess.run([*git, "init", "--quiet"], cwd=repository, check=True)
+    subprocess.run([*git, "add", "."], cwd=repository, check=True)
+    subprocess.run(
+        [
+            *git,
+            "-c",
+            "user.name=CI fixture",
+            "-c",
+            "user.email=ci@example.invalid",
+            "commit",
+            "--quiet",
+            "--no-gpg-sign",
+            "--signoff",
+            "-m",
+            "Runtime source",
+        ],
+        cwd=repository,
+        check=True,
+    )
+    destination = tmp_path / "runtime"
+    STAGE_RUNTIME(repository, destination)
+    assert (destination / "python/README.md").read_bytes() == (
+        destination / "README.md"
+    ).read_bytes()
+    assert (destination / "python/LICENSE").read_bytes() == (
+        destination / "LICENSE"
+    ).read_bytes()
+    assert (destination / "python/README.md").read_text() == (
+        repository / "README.md"
+    ).read_text()
+    assert not (destination / "unrelated-native.cpp").exists()
+    assert not subprocess.check_output(
+        [*git, "status", "--porcelain"], cwd=repository
+    ).strip()
 
 
 def test_nightly_archive_preserves_windows_git_link_blobs(tmp_path):
@@ -76,7 +128,7 @@ def test_nightly_archive_preserves_windows_git_link_blobs(tmp_path):
     )
     destination = tmp_path / "source"
     destination.mkdir()
-    STAGE(repository, destination)
+    STAGE(repository, destination, paths=())
     # Match a Windows Git checkout with core.symlinks=false: the Rust build
     # uses the root scheduler when the bundled path is a link-text file.
     staged_link = destination / link_name
@@ -329,7 +381,145 @@ def test_stable_publication_cannot_relabel_an_ordinary_ci_development_wheel():
         ),
     ]
     with pytest.raises(ValueError, match="development wheel"):
-        RELEASE["publication_version"](paths, nightly_date="", dry_run=False)
+        RELEASE["publication_version"](
+            paths, component="tokenspeed", nightly_date="", dry_run=False
+        )
     assert (
-        RELEASE["publication_version"](paths, nightly_date="", dry_run=True) == "0.1.1"
+        RELEASE["publication_version"](
+            paths, component="tokenspeed", nightly_date="", dry_run=True
+        )
+        == "0.1.1"
+    )
+
+
+@pytest.mark.parametrize(
+    "component",
+    ["tokenspeed", "tokenspeed-kernel", "tokenspeed-engine", "tokenspeed-scheduler"],
+)
+def test_component_plan_selects_only_its_verified_wheel(nightly_bundle, component):
+    metadata = RELEASE["component_metadata"](
+        nightly_bundle,
+        component=component,
+        source_sha=SHA,
+        nightly_date="20261111",
+        dry_run=True,
+    )
+    wheels = [p for p in metadata["paths"] if p.suffix == ".whl"]
+    assert len(wheels) == 1 and wheels[0].name.startswith(
+        component.replace("-", "_") + "-"
+    )
+    assert {p.name for p in metadata["paths"] if p.suffix != ".whl"} == {
+        "build.json",
+        "result.json",
+    }
+    assert (
+        metadata["tag_name"] == f"{component}-nightly-v{metadata['version']}-win_arm64"
+    )
+
+
+def test_component_plan_requires_successful_whole_native_task(nightly_bundle):
+    result = nightly_bundle / "result.json"
+    data = json.loads(result.read_text())
+    data["ok"] = False
+    result.write_text(json.dumps(data))
+    with pytest.raises(ValueError, match="complete native task"):
+        RELEASE["component_metadata"](
+            nightly_bundle,
+            component="tokenspeed-kernel",
+            source_sha=SHA,
+            nightly_date="20261111",
+            dry_run=True,
+        )
+
+
+@pytest.mark.parametrize("change", ["source", "digest", "missing"])
+def test_component_asset_retry_preserves_published_bytes(nightly_bundle, change):
+    metadata = RELEASE["component_metadata"](
+        nightly_bundle,
+        component="tokenspeed-engine",
+        source_sha=SHA,
+        nightly_date="20261111",
+        dry_run=True,
+    )
+    url = f"https://github.com/example/source/commit/{SHA}"
+    release = dict(
+        body=f"Source: {url}",
+        assets=[
+            dict(
+                name=p.name,
+                digest="sha256:" + hashlib.sha256(p.read_bytes()).hexdigest(),
+            )
+            for p in metadata["paths"]
+        ],
+    )
+    assert (
+        RELEASE["missing_release_assets"](release, metadata["paths"], source_url=url)
+        == []
+    )
+    if change == "missing":
+        removed = release["assets"].pop()
+        assert [
+            p.name
+            for p in RELEASE["missing_release_assets"](
+                release, metadata["paths"], source_url=url
+            )
+        ] == [removed["name"]]
+    else:
+        if change == "source":
+            release["body"] = "Source: another commit"
+        else:
+            release["assets"][0]["digest"] = "sha256:" + "0" * 64
+        with pytest.raises(ValueError):
+            RELEASE["missing_release_assets"](
+                release, metadata["paths"], source_url=url
+            )
+
+
+def test_component_dry_run_cli_needs_no_publisher_or_network(nightly_bundle, tmp_path):
+    output = tmp_path / "github-output"
+    env = dict(
+        os.environ,
+        PATH="",
+        GITHUB_REPOSITORY="example/source",
+        GITHUB_REF="refs/heads/ci/review",
+        GITHUB_SHA=SHA,
+        GITHUB_OUTPUT=str(output),
+        NIGHTLY_DATE="20261111",
+        DRY_RUN="true",
+        PUBLISH_INDEX="false",
+        INDEX_TOKEN_CONFIGURED="false",
+    )
+    command = [
+        sys.executable,
+        str(ROOT / ".github/scripts/windows_release.py"),
+        "metadata",
+        "--directory",
+        str(nightly_bundle),
+        "--component",
+        "tokenspeed-scheduler",
+    ]
+    subprocess.run(command, cwd=tmp_path, env=env, check=True, capture_output=True)
+    assert (
+        "tag_name=tokenspeed-scheduler-nightly-v0.1.52.post20261111-win_arm64"
+        in output.read_text()
+    )
+    assert len((tmp_path / "windows-assets.txt").read_text().splitlines()) == 3
+    assert not (tmp_path / "published-release.json").exists()
+    command[2] = "publish"
+    result = subprocess.run(command, cwd=tmp_path, env=env, capture_output=True)
+    assert result.returncode != 0 and b"dry run cannot publish" in result.stderr
+
+
+def test_component_publication_does_not_promote_an_unrelated_package():
+    paths = [
+        Path("tokenspeed_engine-0.1.0-cp313-cp313-win_arm64.whl"),
+        Path(
+            "tokenspeed_kernel-0.1.4.dev20261111+gitaaaaaaaa-cp313-cp313-win_arm64.whl"
+        ),
+    ]
+    assert (
+        RELEASE["publication_version"](
+            paths, component="tokenspeed-engine", nightly_date="", dry_run=False
+        )
+        == "0.1.0"
     )

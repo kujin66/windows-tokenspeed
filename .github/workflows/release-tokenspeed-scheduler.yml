@@ -1,6 +1,28 @@
 name: Build and Release tokenspeed-scheduler
 
 on:
+  workflow_call:
+    inputs:
+      platform:
+        type: string
+        required: true
+      source_run_id:
+        type: string
+        required: true
+      nightly_date:
+        type: string
+        required: true
+      dry_run:
+        type: boolean
+        required: true
+      publish_windows_index:
+        type: boolean
+        required: true
+    secrets:
+      TOKENSPEED_RELEASE_TOKEN:
+        required: false
+      LIGHTSEEK_BOT_TOKEN:
+        required: false
   workflow_dispatch:
     inputs:
       tag_name:
@@ -19,6 +41,9 @@ permissions:
 
 jobs:
   build-wheel:
+    if: >-
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
+      (true)
     name: Build wheels (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -63,6 +88,9 @@ jobs:
           path: dist/*.whl
 
   build-sdist:
+    if: >-
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
+      (true)
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
@@ -88,6 +116,9 @@ jobs:
           path: dist/*.tar.gz
 
   release:
+    if: >-
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && github.repository == 'lightseekorg/tokenspeed' &&
+      (true)
     name: Create wheelhouse release
     needs: [build-wheel, build-sdist]
     runs-on: ubuntu-latest
@@ -151,6 +182,9 @@ jobs:
           fi
 
   publish-pypi:
+    if: >-
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && github.repository == 'lightseekorg/tokenspeed' &&
+      (true)
     name: Publish to PyPI
     needs: [build-wheel, build-sdist]
     runs-on: ubuntu-latest
@@ -167,3 +201,48 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist
+
+  invalid-windows-call:
+    if: >-
+      inputs.platform != 'windows' && !(inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true)
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Reusable component calls require platform=windows and an explicit tested source run.' >&2; exit 1
+
+  windows-component:
+    if: inputs.platform == 'windows'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: read
+    concurrency:
+      group: wheelhouse-publication
+      cancel-in-progress: false
+    outputs:
+      version: ${{ steps.component.outputs.version }}
+      tag_name: ${{ steps.component.outputs.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install packaging
+      - name: Verify or publish the tested Windows component
+        id: component
+        uses: ./.github/actions/windows-component-release
+        with:
+          component: tokenspeed-scheduler
+          source_run_id: ${{ inputs.source_run_id }}
+          nightly_date: ${{ inputs.nightly_date }}
+          dry_run: ${{ inputs.dry_run }}
+          publish_index: ${{ inputs.publish_windows_index }}
+          release_repository: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+          index_repository: ${{ vars.TOKENSPEED_RELEASE_INDEX_REPOSITORY || vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+          index_branch: ${{ vars.TOKENSPEED_RELEASE_INDEX_BRANCH || 'gh-pages' }}
+          read_token: ${{ github.token }}
+          release_token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN || github.token }}
+          index_token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN }}

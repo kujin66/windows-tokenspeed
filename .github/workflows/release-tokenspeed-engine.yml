@@ -1,6 +1,28 @@
 name: Release TokenSpeed Engine
 
 on:
+  workflow_call:
+    inputs:
+      platform:
+        type: string
+        required: true
+      source_run_id:
+        type: string
+        required: true
+      nightly_date:
+        type: string
+        required: true
+      dry_run:
+        type: boolean
+        required: true
+      publish_windows_index:
+        type: boolean
+        required: true
+    secrets:
+      TOKENSPEED_RELEASE_TOKEN:
+        required: false
+      LIGHTSEEK_BOT_TOKEN:
+        required: false
   workflow_dispatch:
     inputs:
       mode:
@@ -20,7 +42,9 @@ concurrency:
 
 jobs:
   build:
-    if: inputs.mode == 'dry-run' || (inputs.mode == 'publish' && github.repository == 'lightseekorg/tokenspeed' && github.ref == 'refs/heads/main')
+    if: >-
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
+      (inputs.mode == 'dry-run' || (inputs.mode == 'publish' && github.repository == 'lightseekorg/tokenspeed' && github.ref == 'refs/heads/main'))
     name: Wheel (${{ matrix.arch }}, Python ${{ matrix.python }})
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 60
@@ -72,7 +96,9 @@ jobs:
 
   publish:
     needs: build
-    if: inputs.mode == 'publish' && github.repository == 'lightseekorg/tokenspeed' && github.ref == 'refs/heads/main'
+    if: >-
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && github.repository == 'lightseekorg/tokenspeed' &&
+      (inputs.mode == 'publish' && github.repository == 'lightseekorg/tokenspeed' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: pypi
@@ -91,3 +117,48 @@ jobs:
         with:
           packages-dir: dist
           skip-existing: true
+
+  invalid-windows-call:
+    if: >-
+      inputs.platform != 'windows' && !(inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true)
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Reusable component calls require platform=windows and an explicit tested source run.' >&2; exit 1
+
+  windows-component:
+    if: inputs.platform == 'windows'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: read
+    concurrency:
+      group: wheelhouse-publication
+      cancel-in-progress: false
+    outputs:
+      version: ${{ steps.component.outputs.version }}
+      tag_name: ${{ steps.component.outputs.tag_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install packaging
+      - name: Verify or publish the tested Windows component
+        id: component
+        uses: ./.github/actions/windows-component-release
+        with:
+          component: tokenspeed-engine
+          source_run_id: ${{ inputs.source_run_id }}
+          nightly_date: ${{ inputs.nightly_date }}
+          dry_run: ${{ inputs.dry_run }}
+          publish_index: ${{ inputs.publish_windows_index }}
+          release_repository: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+          index_repository: ${{ vars.TOKENSPEED_RELEASE_INDEX_REPOSITORY || vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+          index_branch: ${{ vars.TOKENSPEED_RELEASE_INDEX_BRANCH || 'gh-pages' }}
+          read_token: ${{ github.token }}
+          release_token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN || github.token }}
+          index_token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN }}

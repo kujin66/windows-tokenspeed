@@ -23,6 +23,7 @@ import json
 import os
 import runpy
 import shutil
+import sys
 import zipfile
 from pathlib import Path
 
@@ -31,11 +32,137 @@ import yaml
 from pipeline import build_matrix, execute_task, merge_env, shell_run, validate_task
 
 ROOT = Path(__file__).resolve().parents[2]
+BUILD = runpy.run_path(str(ROOT / "tools/windows/build_wheels.py"))
 plan = runpy.run_path(str(ROOT / ".github/scripts/windows_ci_plan.py"))["plan"]
 verify = runpy.run_path(str(ROOT / ".github/scripts/verify_windows_release.py"))[
     "verify"
 ]
 SHA = "a" * 40
+
+
+@pytest.fixture
+def prepared_backend_output(tmp_path, monkeypatch):
+    monkeypatch.delenv("TOKENSPEED_WINDOWS_NIGHTLY_DATE", raising=False)
+    output = tmp_path / "backend-output"
+    output.mkdir()
+    (output / "wheels").mkdir()
+    (output / "build-state.json").write_text(
+        json.dumps(
+            dict(
+                revision=BUILD["revision"](),
+                python=sys.executable,
+                cuda_arch="121a",
+                cuda_home=str(tmp_path / "sdk"),
+                nightly_date="",
+                release_candidate=os.environ.get(
+                    "TOKENSPEED_KERNEL_RELEASE_CANDIDATE", ""
+                ),
+                source="root",
+                package_versions={},
+                completed={},
+            )
+        ),
+        encoding="utf-8",
+    )
+    return output
+
+
+def test_prepared_backend_state_cannot_be_overwritten(prepared_backend_output):
+    before = (prepared_backend_output / "build-state.json").read_bytes()
+    with pytest.raises(FileExistsError):
+        BUILD["prepare_build"](
+            prepared_backend_output, cuda_arch="100a", cuda_home="other-sdk"
+        )
+    assert (prepared_backend_output / "build-state.json").read_bytes() == before
+
+
+def test_backend_preparation_rejects_candidate_without_nightly(tmp_path, monkeypatch):
+    monkeypatch.delenv("TOKENSPEED_WINDOWS_NIGHTLY_DATE", raising=False)
+    monkeypatch.setenv("TOKENSPEED_KERNEL_RELEASE_CANDIDATE", "rc1")
+    output = tmp_path / "not-created"
+    with pytest.raises(ValueError, match="requires an explicit nightly date"):
+        BUILD["prepare_build"](output, cuda_arch="121a", cuda_home="sdk")
+    assert not output.exists()
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("revision", "b" * 40),
+        ("python", "other-python.exe"),
+        ("source", "other-layout"),
+    ],
+)
+def test_component_build_rejects_stale_prepared_state(
+    prepared_backend_output, field, value
+):
+    path = prepared_backend_output / "build-state.json"
+    state = json.loads(path.read_text(encoding="utf-8"))
+    state[field] = value
+    path.write_text(json.dumps(state), encoding="utf-8")
+    with pytest.raises(ValueError):
+        BUILD["load_context"](prepared_backend_output)
+
+
+def test_component_build_rejects_changed_channel(prepared_backend_output, monkeypatch):
+    monkeypatch.setenv("TOKENSPEED_WINDOWS_NIGHTLY_DATE", "20261112")
+    with pytest.raises(ValueError, match="channel/date"):
+        BUILD["load_context"](prepared_backend_output)
+
+
+def test_component_build_rejects_changed_release_candidate(
+    prepared_backend_output, monkeypatch
+):
+    monkeypatch.setenv("TOKENSPEED_KERNEL_RELEASE_CANDIDATE", "rc7")
+    with pytest.raises(ValueError, match="release candidate"):
+        BUILD["load_context"](prepared_backend_output)
+
+
+def test_component_environment_does_not_inherit_another_channel(
+    prepared_backend_output, monkeypatch
+):
+    state = BUILD["load_context"](prepared_backend_output)
+    monkeypatch.setenv("TOKENSPEED_KERNEL_NIGHTLY", "true")
+    monkeypatch.setenv("TOKENSPEED_KERNEL_VERSION_DATE", "19990101")
+    env = BUILD["build_environment"](state, prepared_backend_output)
+    assert env["TOKENSPEED_KERNEL_NIGHTLY"] == "false"
+    assert env["TOKENSPEED_KERNEL_VERSION_DATE"] == ""
+
+
+def test_component_finalization_requires_all_project_backends(prepared_backend_output):
+    with pytest.raises(ValueError, match="Every project component"):
+        BUILD["finalize_build"](prepared_backend_output)
+
+
+def test_component_cannot_be_built_twice(prepared_backend_output):
+    path = prepared_backend_output / "build-state.json"
+    state = json.loads(path.read_text(encoding="utf-8"))
+    state["completed"]["tokenspeed-scheduler"] = {}
+    path.write_text(json.dumps(state), encoding="utf-8")
+    with pytest.raises(ValueError, match="already built"):
+        BUILD["build_component"](
+            prepared_backend_output, component="tokenspeed-scheduler"
+        )
+
+
+def test_component_finalization_rejects_a_modified_completed_wheel(
+    prepared_backend_output,
+):
+    state_path = prepared_backend_output / "build-state.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    wheels = prepared_backend_output / "wheels"
+    for package in BUILD["COMPONENTS"]:
+        path = wheels / f"{package.replace('-', '_')}-0.1.0-cp313-cp313-win_arm64.whl"
+        with zipfile.ZipFile(path, "w") as archive:
+            archive.writestr("test.txt", package)
+        state["completed"][package] = BUILD["audit_wheel"](path)
+    state_path.write_text(json.dumps(state), encoding="utf-8")
+    with zipfile.ZipFile(next(wheels.glob("*.whl")), "a") as archive:
+        archive.writestr("changed.txt", "changed after successful backend build")
+    with pytest.raises(ValueError, match="wheel changed"):
+        BUILD["finalize_build"](prepared_backend_output)
+
+
 update_windows_index = runpy.run_path(
     str(ROOT / ".github/scripts/update-nightly-index.py")
 )["update_windows_index"]
