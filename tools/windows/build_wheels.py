@@ -126,6 +126,16 @@ def audit_wheel(path: Path) -> dict:
     }
 
 
+def command_main(arguments: list[str]) -> None:
+    """Run a native command with the same bounded archive-lock recovery."""
+    parser = argparse.ArgumentParser(description=command_main.__doc__)
+    parser.add_argument("command", nargs=argparse.REMAINDER)
+    args = parser.parse_args(arguments)
+    if not args.command:
+        parser.error("Supply a native build or test command")
+    run_build_command(tuple(args.command), cwd=ROOT, env=dict(os.environ))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -297,4 +307,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:2] == ["run"]:
+        command_main(sys.argv[2:])
+    else:
+        main()

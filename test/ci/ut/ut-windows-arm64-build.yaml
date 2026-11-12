@@ -38,6 +38,7 @@ ut:
       --basetemp=outputs/windows-arm64/collective-pytest-tmp
       --junitxml=outputs/windows-arm64/collective-tests.xml
     - >-
+      python tools/windows/build_wheels.py run
       cargo test --manifest-path tokenspeed-engine/Cargo.toml --release --locked
       -p tokenspeed-metrics -p tokenspeed-host -p tokenspeed-scheduler --lib --bins
 report:

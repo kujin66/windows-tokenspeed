@@ -218,6 +218,30 @@ def test_build_command_preserves_failure(tmp_path, message):
     assert message.encode() in failure.value.output
 
 
+def test_native_command_cli_preserves_real_test_failure(tmp_path):
+    marker = tmp_path / "attempt"
+    script = (
+        "from pathlib import Path; import sys; "
+        "Path(sys.argv[1]).open('a').write('attempt\\n'); "
+        "print('test result: FAILED. 0 passed; 1 failed;'); sys.exit(7)"
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parents[2] / "tools/windows/build_wheels.py"),
+            "run",
+            sys.executable,
+            "-c",
+            script,
+            str(marker),
+        ],
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert b"test result: FAILED. 0 passed; 1 failed;" in result.stdout
+    assert marker.read_text() == "attempt\n"
+
+
 @pytest.mark.skipif(sys.platform != "win32", reason="Windows file sharing semantics")
 @pytest.mark.parametrize("transient", [True, False])
 def test_build_command_handles_real_archive_lock(tmp_path, transient):

@@ -344,6 +344,7 @@ jobs:
         if: always()
         with:
           name: tokenspeed-windows-arm64
+          overwrite: true
           include-hidden-files: true
           path: |
             s/.ci-artifacts/

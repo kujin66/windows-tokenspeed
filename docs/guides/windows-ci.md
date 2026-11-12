@@ -41,6 +41,11 @@ the vendor preflight, builds and installs wheels using the package backends,
 runs CTest, installed-package tests, selected CUDA numerical tests and Rust
 tests. The Windows packaging helper owns packaging and PE auditing; test
 selection and failure reporting belong to the shared task executor.
+Wheel builds and the native Rust test command share bounded recovery for the
+specific Windows Rust temporary-archive sharing violation (OS error 32).
+Compilation errors, test failures and persistent locks still fail validation.
+Rerunning a failed native job replaces its CI artifact; published release
+assets remain immutable.
 
 ## Configure native GPU execution
 
