@@ -226,6 +226,9 @@ TEST(FullAttnManagerTest, SmallAppendsGrowBlockTableAmortized) {
     const std::int32_t first_page_id = mgr.BlockTablePageIds(table).front();
     std::uintptr_t data_address = reinterpret_cast<std::uintptr_t>(table.Blocks().data());
     std::int32_t relocations = 0;
+#if defined(_MSC_VER)
+    std::int32_t relocated_blocks = 0;
+#endif
 
     for (std::int32_t i = 1; i < num_appends; ++i) {
         ASSERT_TRUE(mgr.Acquire(pool, table, 4));
@@ -235,11 +238,20 @@ TEST(FullAttnManagerTest, SmallAppendsGrowBlockTableAmortized) {
         const std::uintptr_t new_data_address = reinterpret_cast<std::uintptr_t>(table.Blocks().data());
         if (new_data_address != data_address) {
             ++relocations;
+#if defined(_MSC_VER)
+            relocated_blocks += i;
+#endif
             data_address = new_data_address;
         }
     }
 
+#if defined(_MSC_VER)
+    // MSVC vector grows by 1.5x. Bound total moved blocks to check linear
+    // amortized work; reserving just one extra slot per append violates this.
+    EXPECT_LE(relocated_blocks, 4 * num_appends);
+#else
     EXPECT_LE(relocations, 16);
+#endif
     const std::vector<std::int32_t> page_ids = mgr.BlockTablePageIds(table);
     ASSERT_EQ(page_ids.size(), static_cast<std::size_t>(num_appends));
     EXPECT_EQ(page_ids.front(), first_page_id);

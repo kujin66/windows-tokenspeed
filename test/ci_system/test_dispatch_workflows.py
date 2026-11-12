@@ -196,15 +196,26 @@ def test_amd_workflow_builds_architecture_matrices(
 @pytest.mark.parametrize("failed", [None, "SCAN_RESULT", "IMPORT_CHECK_RESULT"])
 def test_amd_finish_rejects_scan_and_import_failures(tmp_path, name, failed):
     workflow = load_yaml(REPO_ROOT / ".github/workflows" / name)
-    step = workflow["jobs"]["finish"]["steps"][0]
-    env = {**os.environ, **{key: "skipped" for key in step["env"]}}
-    env["SCAN_RESULT"] = "success"
+    step = workflow["jobs"]["finish"]["steps"][-1]
+    jobs = {
+        "scan": {"result": "success"},
+        "import-check": {"result": "skipped"},
+        "unit-test": {"result": "skipped"},
+        "model-test": {"result": "skipped"},
+    }
     if failed is not None:
-        env[failed] = "failure"
+        jobs[{"SCAN_RESULT": "scan", "IMPORT_CHECK_RESULT": "import-check"}[failed]][
+            "result"
+        ] = "failure"
     result = subprocess.run(
         ["bash", "-c", step["run"]],
-        cwd=tmp_path,
-        env=env,
+        cwd=REPO_ROOT,
+        env={
+            **os.environ,
+            "CI_RESULTS": json.dumps(jobs),
+            "CI_REQUIRED_JOBS": "scan",
+            "GITHUB_STEP_SUMMARY": str(tmp_path / "summary.md"),
+        },
         capture_output=True,
         text=True,
     )
@@ -569,20 +580,24 @@ def test_amd_kernel_benchmarks_run_in_their_own_workflow():
         ("cancelled", "skipped", False),
     ],
 )
-def test_amd_kernel_benchmark_gate_blocks_on_failure(scan, benchmark, passes):
+def test_amd_kernel_benchmark_gate_blocks_on_failure(tmp_path, scan, benchmark, passes):
     workflow = load_yaml(REPO_ROOT / ".github/workflows/amd-kernel-benchmark.yml")
     # The default-branch ruleset requires a check named `finish`; a renamed
     # gate job would stop blocking merges.
     finish = workflow["jobs"]["finish"]
     assert "name" not in finish
     assert finish["needs"] == ["scan", "kernel-benchmark"]
-    (step,) = finish["steps"]
+    step = finish["steps"][-1]
     completed = subprocess.run(
         ["bash", "-c", step["run"]],
+        cwd=REPO_ROOT,
         env={
             **os.environ,
-            "SCAN_RESULT": scan,
-            "KERNEL_BENCHMARK_RESULT": benchmark,
+            "CI_RESULTS": json.dumps(
+                {"scan": {"result": scan}, "kernel-benchmark": {"result": benchmark}}
+            ),
+            "CI_REQUIRED_JOBS": "scan",
+            "GITHUB_STEP_SUMMARY": str(tmp_path / "summary.md"),
         },
         capture_output=True,
         text=True,
@@ -1269,7 +1284,8 @@ def test_mi450_sim_uses_direct_runner_and_bounded_timeout():
     assert job["runs-on"] == "${{ matrix.runner }}"
     assert job["timeout-minutes"] == (
         "${{ matrix.runner == 'amd-mi45x-cpu-test'"
-        " && 30 || inputs.timeout_minutes }}"
+        " && 30 || (matrix.name == 'ut-tokenspeed-kernel'"
+        " && inputs.timeout_minutes < 90 && 90 || inputs.timeout_minutes) }}"
     )
 
 
@@ -1305,7 +1321,8 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
     isolated_variables = tuple(
         variable
         for variable in cache_variables
-        if variable != "TRITON_CACHE_DIR" or task_type == "eval"
+        if (variable == "TRITON_CACHE_DIR" and task_type in {"ut", "eval"})
+        or (workflow_stage == "model-test" and variable != "TRITON_CACHE_DIR")
     )
     job_envs = []
     for attempt in (1, 2):
@@ -1336,12 +1353,16 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
         assert "MIOPEN_FIND_MODE" not in job_env
         assert "MIOPEN_FIND_ENFORCE" not in job_env
         if workflow_stage != "model-test":
-            assert all(variable not in job_env for variable in cache_variables)
+            assert all(
+                variable not in job_env
+                for variable in cache_variables
+                if variable not in isolated_variables
+            )
             assert "EVALSCOPE_UV_CACHE_DIR" not in job_env
-            continue
-        assert job_env["EVALSCOPE_UV_CACHE_DIR"] == str(
-            persistent_hf_home / ".uv-cache" / "evalscope"
-        )
+        else:
+            assert job_env["EVALSCOPE_UV_CACHE_DIR"] == str(
+                persistent_hf_home / ".uv-cache" / "evalscope"
+            )
         if task_type == "perf":
             assert "TRITON_CACHE_DIR" not in job_env
         for variable in isolated_variables:
@@ -1352,9 +1373,6 @@ def test_pr_task_caches_are_isolated_and_cleaned_with_their_job(
             (cache / "download").touch()
         job_envs.append(job_env)
 
-    if workflow_stage != "model-test":
-        assert sentinel.exists()
-        return
     first, second = job_envs
     assert all(first[variable] != second[variable] for variable in isolated_variables)
     script = cleanup["run"].replace("${{ env.WORK_DIR }}", first["WORK_DIR"])
@@ -1480,7 +1498,7 @@ def test_mi450_installers_receive_shared_stack(tmp_path, task_name, case):
         f"{mi450_env_dump_command()} > setup-env.json\n"
         f"exit {73 if case == 'setup-failure' else 0}\n"
     )
-    (scripts / "install_deps_rocm.sh").write_text(
+    (scripts / "install_kernel_deps_rocm.sh").write_text(
         'test "$WORKSPACE" = "$PWD" || exit 1\n'
         'test "$GFX_ARCH" = gfx1250 || exit 1\n'
         f"{mi450_env_dump_command()} > deps-env.json\n"

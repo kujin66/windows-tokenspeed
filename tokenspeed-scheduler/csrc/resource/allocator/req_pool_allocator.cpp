@@ -21,6 +21,9 @@
 #include "req_pool_allocator.h"
 
 #include <stdexcept>
+#if defined(_MSC_VER)
+#include <string>
+#endif
 
 namespace tokenspeed {
 

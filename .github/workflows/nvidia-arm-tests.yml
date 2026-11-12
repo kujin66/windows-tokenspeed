@@ -21,7 +21,7 @@ on:
       - ".github/workflows/run-ci-task-matrix.yml"
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [main]
+    branches: [main, 'baseline/upstream-*']
     paths:
       - "python/pyproject.toml"
       - "python/tokenspeed/**"
@@ -72,6 +72,7 @@ jobs:
       )
     runs-on: ubuntu-latest
     outputs:
+      hardware_enabled: ${{ github.repository == 'lightseekorg/tokenspeed' || github.repository == vars.TOKENSPEED_CI_REPOSITORY }}
       should_run: ${{ steps.changes.outputs.should_run }}
       unit_matrix: ${{ steps.scan.outputs.unit_matrix }}
       unit_has_tasks: ${{ steps.scan.outputs.unit_has_tasks }}
@@ -163,6 +164,7 @@ jobs:
   unit-test:
     needs: scan
     if: |
+      needs.scan.outputs.hardware_enabled == 'true' &&
       needs.scan.outputs.should_run == 'true' &&
       needs.scan.outputs.unit_has_tasks == 'true' &&
       (github.event_name != 'pull_request' || github.event.action != 'closed') &&
@@ -177,6 +179,7 @@ jobs:
       )
     uses: ./.github/workflows/run-ci-task-matrix.yml
     with:
+      platform: linux
       matrix: ${{ needs.scan.outputs.unit_matrix }}
       install_tokenspeed_mla_from_source: ${{ needs.scan.outputs.install_tokenspeed_mla_from_source }}
       b200_runner_label: ${{ vars.TOKENSPEED_B200_RUNNER_LABEL }}
@@ -185,6 +188,7 @@ jobs:
   model-test:
     needs: [scan, unit-test]
     if: |
+      needs.scan.outputs.hardware_enabled == 'true' &&
       !cancelled() &&
       needs.scan.result == 'success' &&
       needs.scan.outputs.should_run == 'true' &&
@@ -196,6 +200,7 @@ jobs:
       needs.scan.outputs.model_has_tasks == 'true'
     uses: ./.github/workflows/run-ci-task-matrix.yml
     with:
+      platform: linux
       matrix: ${{ needs.scan.outputs.model_matrix }}
       install_tokenspeed_mla_from_source: ${{ needs.scan.outputs.install_tokenspeed_mla_from_source }}
       b200_runner_label: ${{ vars.TOKENSPEED_B200_RUNNER_LABEL }}
@@ -212,18 +217,14 @@ jobs:
         github.repository == 'lightseekorg/tokenspeed' ||
         github.repository == vars.TOKENSPEED_CI_REPOSITORY
       )
-    needs: [unit-test, model-test]
+    needs: [scan, unit-test, model-test]
     runs-on: ubuntu-latest
     steps:
-      - name: Finish
+      - uses: actions/checkout@v4
+      - name: Report executed coverage and enforce required results
         env:
-          UNIT_TEST_RESULT: ${{ needs.unit-test.result }}
-          MODEL_TEST_RESULT: ${{ needs.model-test.result }}
-        run: |
-          for result in "$UNIT_TEST_RESULT" "$MODEL_TEST_RESULT"; do
-            if [[ "$result" != "success" && "$result" != "skipped" ]]; then
-              echo "NVIDIA ARM Tests did not finish successfully: dependency result=$result"
-              exit 1
-            fi
-          done
-          echo "NVIDIA ARM Tests finished."
+          CI_HARDWARE_ENABLED: ${{ needs.scan.outputs.hardware_enabled }}
+          CI_RESULTS: ${{ toJSON(needs) }}
+          CI_REQUIRED_JOBS: >-
+            scan ${{ needs.scan.outputs.hardware_enabled == 'true' && (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.unit_has_tasks == 'true' && 'unit-test' || '' }} ${{ needs.scan.outputs.hardware_enabled == 'true' && (github.event_name != 'pull_request' || !github.event.pull_request.draft) && needs.scan.outputs.model_has_tasks == 'true' && 'model-test' || '' }}
+        run: python3 test/ci_system/ci_gate.py
