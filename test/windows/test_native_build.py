@@ -203,6 +203,7 @@ def test_header_patch_is_independent_of_enclosing_git_repository(tmp_path, patch
         "error[E0308]: mismatched types",
         "failed to remove temporary directory: (os error 5) at x.temp-archive",
         "failed to open output file: (os error 32)",
+        "test result: FAILED. 0 passed; 1 failed; failed to remove temporary directory: (os error 32) at x.temp-archive",
     ],
 )
 def test_build_command_preserves_failure(tmp_path, message):
@@ -216,6 +217,30 @@ def test_build_command_preserves_failure(tmp_path, message):
         run_build_command(command, cwd=tmp_path, env=dict(os.environ))
     assert failure.value.returncode == 7
     assert message.encode() in failure.value.output
+
+
+def test_native_command_cli_preserves_real_test_failure(tmp_path):
+    marker = tmp_path / "attempt"
+    script = (
+        "from pathlib import Path; import sys; "
+        "Path(sys.argv[1]).open('a').write('attempt\\n'); "
+        "print('test result: FAILED. 0 passed; 1 failed;'); sys.exit(7)"
+    )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(Path(__file__).resolve().parents[2] / "tools/windows/build_wheels.py"),
+            "run",
+            sys.executable,
+            "-c",
+            script,
+            str(marker),
+        ],
+        capture_output=True,
+    )
+    assert result.returncode != 0
+    assert b"test result: FAILED. 0 passed; 1 failed;" in result.stdout
+    assert marker.read_text() == "attempt\n"
 
 
 @pytest.mark.skipif(sys.platform != "win32", reason="Windows file sharing semantics")

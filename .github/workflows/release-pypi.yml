@@ -413,19 +413,131 @@ jobs:
           echo "Could not publish the ROCm TokenSpeed nightly index after three attempts." >&2
           exit 1
 
-  windows-release:
-    name: Windows ARM64 packages
+  windows-metadata:
+    name: Windows package metadata
     if: inputs.windows_arm64 || (github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_RELEASES == 'true')
-    uses: ./.github/workflows/release-tokenspeed.yml
+    runs-on: ubuntu-latest
+    outputs:
+      nightly_date: ${{ steps.metadata.outputs.nightly_date }}
+      dry_run: ${{ steps.mode.outputs.dry_run }}
+      publish_index: ${{ steps.mode.outputs.publish_index }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install packaging
+      - name: Select explicit publication mode
+        id: mode
+        env:
+          DRY_RUN: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_PUBLISH != 'true' || github.event_name != 'schedule' && inputs.windows_dry_run }}
+          PUBLISH_INDEX: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_INDEX == 'true' || inputs.publish_windows_index }}
+        run: |
+          echo "dry_run=$DRY_RUN" >> "$GITHUB_OUTPUT"
+          echo "publish_index=$PUBLISH_INDEX" >> "$GITHUB_OUTPUT"
+      - name: Validate Windows metadata before building
+        id: metadata
+        env:
+          WINDOWS_ARM64: 'true'
+          NIGHTLY: ${{ github.event_name == 'schedule' || inputs.nightly }}
+          VERSION_DATE: ${{ inputs.version_date || '' }}
+          DRY_RUN: ${{ steps.mode.outputs.dry_run }}
+          PUBLISH_INDEX: ${{ steps.mode.outputs.publish_index }}
+          INDEX_TOKEN_CONFIGURED: ${{ secrets.TOKENSPEED_RELEASE_TOKEN != '' }}
+          RELEASE_CANDIDATE: ${{ inputs.release_candidate || '' }}
+          REPLACE_NIGHTLY: ${{ inputs.replace_nightly || false }}
+          SOURCE_RUN_ID: ''
+        run: python .github/scripts/windows_release.py plan
+
+  windows-build:
+    name: Shared Windows build and tests
+    needs: windows-metadata
+    uses: ./.github/workflows/windows-arm64-build.yml
+    with:
+      native_cuda: true
+      runner_label: ${{ vars.TOKENSPEED_WINDOWS_ARM64_RUNNER_LABEL }}
+      cuda_arch: ${{ vars.TOKENSPEED_WINDOWS_CUDA_ARCH }}
+      nightly_date: ${{ needs.windows-metadata.outputs.nightly_date }}
+      release_candidate: ${{ inputs.release_candidate || '' }}
+
+  windows-kernel:
+    name: Windows tokenspeed-kernel release
+    needs: [windows-metadata, windows-build]
+    uses: ./.github/workflows/release-tokenspeed-kernel.yml
     permissions:
       contents: write
       actions: read
+      id-token: write
     with:
-      windows_arm64: true
-      nightly: ${{ github.event_name == 'schedule' || inputs.nightly }}
-      release_candidate: ${{ inputs.release_candidate || '' }}
-      replace_nightly: ${{ inputs.replace_nightly || false }}
-      version_date: ${{ inputs.version_date || '' }}
-      dry_run: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_PUBLISH != 'true' || github.event_name != 'schedule' && inputs.windows_dry_run }}
-      publish_windows_index: ${{ github.event_name == 'schedule' && vars.TOKENSPEED_WINDOWS_INDEX == 'true' || inputs.publish_windows_index }}
+      platform: windows
+      source_run_id: ${{ github.run_id }}
+      nightly_date: ${{ needs.windows-metadata.outputs.nightly_date }}
+      dry_run: ${{ needs.windows-metadata.outputs.dry_run == 'true' }}
+      publish_windows_index: ${{ needs.windows-metadata.outputs.publish_index == 'true' }}
     secrets: inherit
+
+  windows-scheduler:
+    name: Windows tokenspeed-scheduler release
+    needs: [windows-metadata, windows-kernel]
+    uses: ./.github/workflows/release-tokenspeed-scheduler.yml
+    permissions:
+      contents: write
+      actions: read
+      id-token: write
+    with:
+      platform: windows
+      source_run_id: ${{ github.run_id }}
+      nightly_date: ${{ needs.windows-metadata.outputs.nightly_date }}
+      dry_run: ${{ needs.windows-metadata.outputs.dry_run == 'true' }}
+      publish_windows_index: ${{ needs.windows-metadata.outputs.publish_index == 'true' }}
+    secrets: inherit
+
+  windows-engine:
+    name: Windows tokenspeed-engine release
+    needs: [windows-metadata, windows-scheduler]
+    uses: ./.github/workflows/release-tokenspeed-engine.yml
+    permissions:
+      contents: write
+      actions: read
+      id-token: write
+    with:
+      platform: windows
+      source_run_id: ${{ github.run_id }}
+      nightly_date: ${{ needs.windows-metadata.outputs.nightly_date }}
+      dry_run: ${{ needs.windows-metadata.outputs.dry_run == 'true' }}
+      publish_windows_index: ${{ needs.windows-metadata.outputs.publish_index == 'true' }}
+    secrets: inherit
+
+  windows-runtime:
+    name: Windows runtime release
+    needs: [windows-metadata, windows-engine]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: read
+    concurrency:
+      group: wheelhouse-publication
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python -m pip install packaging
+      - uses: ./.github/actions/windows-component-release
+        with:
+          component: tokenspeed
+          source_run_id: ${{ github.run_id }}
+          nightly_date: ${{ needs.windows-metadata.outputs.nightly_date }}
+          dry_run: ${{ needs.windows-metadata.outputs.dry_run }}
+          publish_index: ${{ needs.windows-metadata.outputs.publish_index }}
+          release_repository: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+          index_repository: ${{ vars.TOKENSPEED_RELEASE_INDEX_REPOSITORY || vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
+          index_branch: ${{ vars.TOKENSPEED_RELEASE_INDEX_BRANCH || 'gh-pages' }}
+          read_token: ${{ github.token }}
+          release_token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN || github.token }}
+          index_token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN }}

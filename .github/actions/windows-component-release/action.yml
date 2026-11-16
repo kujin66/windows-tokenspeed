@@ -1,0 +1,136 @@
+name: Verified Windows component assets
+description: Adapt an already-tested Windows wheel to an existing component release job.
+inputs:
+  component:
+    required: true
+    description: Explicit project component name.
+  source_run_id:
+    required: true
+    description: Current shared-build run or a successful exact-source Windows validation run.
+  nightly_date:
+    required: true
+    description: Explicit coordinated date, or empty for an ordinary build.
+  dry_run:
+    required: true
+    description: Explicitly validate without publication.
+  publish_index:
+    required: true
+    description: Explicitly update the configured Windows index after asset publication.
+  release_repository:
+    required: true
+    description: Owned repository receiving component assets.
+  index_repository:
+    required: true
+    description: Owned repository containing the index branch.
+  index_branch:
+    required: true
+    description: Existing index branch.
+  read_token:
+    required: true
+    description: Token for reading source-run artifacts.
+  release_token:
+    required: true
+    description: Token for the selected asset repository.
+  index_token:
+    required: false
+    description: Required only for actual index publication.
+outputs:
+  version:
+    value: ${{ steps.metadata.outputs.version }}
+    description: Version read from the verified component wheel.
+  tag_name:
+    value: ${{ steps.metadata.outputs.tag_name }}
+    description: Platform-qualified component tag.
+runs:
+  using: composite
+  steps:
+    - name: Validate artifact source
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.read_token }}
+        SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      run: python .github/scripts/windows_release.py source-run "$SOURCE_RUN_ID"
+    - name: Download the tested package set
+      uses: actions/download-artifact@v4
+      with:
+        name: tokenspeed-windows-arm64
+        path: ${{ runner.temp }}/windows-component
+        run-id: ${{ inputs.source_run_id }}
+        github-token: ${{ inputs.read_token }}
+    - name: Verify the component and package-set provenance
+      id: metadata
+      shell: bash
+      env:
+        COMPONENT: ${{ inputs.component }}
+        WINDOWS_DIST: ${{ runner.temp }}/windows-component
+        NIGHTLY_DATE: ${{ inputs.nightly_date }}
+        DRY_RUN: ${{ inputs.dry_run }}
+        PUBLISH_INDEX: ${{ inputs.publish_index }}
+        INDEX_TOKEN_CONFIGURED: ${{ inputs.index_token != '' }}
+      run: python .github/scripts/windows_release.py metadata --directory "$WINDOWS_DIST" --component "$COMPONENT"
+    - name: Retain the component publication plan
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-release-plan-${{ inputs.component }}
+        path: windows-assets.txt
+        if-no-files-found: error
+        overwrite: true
+    - name: Publish immutable component assets
+      if: inputs.dry_run == 'false'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.release_token }}
+        COMPONENT: ${{ inputs.component }}
+        WINDOWS_DIST: ${{ runner.temp }}/windows-component
+        NIGHTLY_DATE: ${{ inputs.nightly_date }}
+        DRY_RUN: ${{ inputs.dry_run }}
+        PUBLISH_INDEX: ${{ inputs.publish_index }}
+        INDEX_TOKEN_CONFIGURED: ${{ inputs.index_token != '' }}
+        RELEASE_REPOSITORY: ${{ inputs.release_repository }}
+      run: python .github/scripts/windows_release.py publish --directory "$WINDOWS_DIST" --component "$COMPONENT"
+    - name: Checkout the configured index
+      if: inputs.publish_index == 'true' && inputs.dry_run == 'false'
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ inputs.index_repository }}
+        ref: ${{ inputs.index_branch }}
+        path: windows-index
+        token: ${{ inputs.index_token }}
+    - name: Update the component's Windows links using the upstream index writer
+      if: inputs.publish_index == 'true' && inputs.dry_run == 'false'
+      shell: bash
+      env:
+        COMPONENT: ${{ inputs.component }}
+        WINDOWS_DIST: ${{ runner.temp }}/windows-component
+        NIGHTLY_DATE: ${{ inputs.nightly_date }}
+        RELEASE_REPOSITORY: ${{ inputs.release_repository }}
+        INDEX_BRANCH: ${{ inputs.index_branch }}
+      run: |
+        set -euo pipefail
+        variant=win_arm64
+        index_path=windows-arm64
+        if [ -n "$NIGHTLY_DATE" ]; then
+          variant=win_arm64_nightly
+          index_path=nightly/windows-arm64
+        fi
+        python .github/scripts/update-nightly-index.py \
+          --wheelhouse windows-index --release-json published-release.json \
+          --distributions "$WINDOWS_DIST" --package "$COMPONENT" \
+          --variant "$variant" --repository "$RELEASE_REPOSITORY"
+        cd windows-index
+        git add -- "$index_path"
+        if git diff --cached --quiet; then exit 0; fi
+        if [ -f .pre-commit-config.yaml ]; then
+          python -m pip install pre-commit
+          pre-commit run --all-files
+          git add -- "$index_path"
+        fi
+        git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com \
+          commit -s -m "Publish Windows component index: $COMPONENT"
+        for attempt in 1 2 3; do
+          if git push origin "HEAD:$INDEX_BRANCH"; then exit 0; fi
+          git fetch origin "$INDEX_BRANCH"
+          git rebase "origin/$INDEX_BRANCH"
+        done
+        echo 'Could not publish the Windows component index after three attempts.' >&2
+        exit 1

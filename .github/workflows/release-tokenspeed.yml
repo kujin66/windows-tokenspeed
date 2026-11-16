@@ -2,231 +2,58 @@ name: Release TokenSpeed
 
 on:
   workflow_dispatch:
-    inputs: &release_inputs
-      windows_arm64:
-        description: Build, test and attach the coordinated Windows ARM64 package set.
-        type: boolean
-        default: false
-      publish_windows_index:
-        description: Publish verified Windows assets to the configured pip index.
-        type: boolean
-        default: false
-      nightly:
-        description: Use the upstream nightly version formatter and exact component pins.
-        type: boolean
-        default: false
-      version_date:
-        description: Optional nightly date, YYYYMMDD; otherwise select the UTC date once.
-        type: string
-        default: ''
-      dry_run:
-        description: Validate and upload evidence without creating a release or updating an index.
-        type: boolean
-        default: false
-      source_run_id:
-        description: Reuse an existing successful Windows CI run for this exact source instead of rebuilding.
-        type: string
-        default: ''
-      runner_label:
-        description: Optional prepared runner override for an explicit native build.
-        type: string
-        default: ''
-      cuda_arch:
-        description: Optional explicit nvcc architecture for the prepared runner.
-        type: string
-        default: ''
-      release_candidate:
-        description: Optional nightly release candidate N or rcN, using upstream version rules.
-        type: string
-        default: ''
-      replace_nightly:
-        description: Windows assets are immutable; replacement requests fail before building.
-        type: boolean
-        default: false
-  workflow_call:
-    inputs: *release_inputs
-    secrets:
-      TOKENSPEED_RELEASE_TOKEN:
-        required: false
 
 permissions:
   contents: write
-  actions: read
-
-concurrency:
-  group: release-tokenspeed-${{ github.ref }}-${{ inputs.nightly }}
-  cancel-in-progress: false
 
 jobs:
-  plan:
+  release:
+    if: github.repository == 'lightseekorg/tokenspeed'
     runs-on: ubuntu-latest
-    outputs:
-      nightly_date: ${{ steps.plan.outputs.nightly_date }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - run: python -m pip install packaging
-      - name: Validate release destination, channel and source
-        id: plan
-        env:
-          WINDOWS_ARM64: ${{ inputs.windows_arm64 }}
-          NIGHTLY: ${{ inputs.nightly }}
-          VERSION_DATE: ${{ inputs.version_date }}
-          DRY_RUN: ${{ inputs.dry_run }}
-          PUBLISH_INDEX: ${{ inputs.publish_windows_index }}
-          INDEX_TOKEN_CONFIGURED: ${{ secrets.TOKENSPEED_RELEASE_TOKEN != '' }}
-          RELEASE_CANDIDATE: ${{ inputs.release_candidate }}
-          REPLACE_NIGHTLY: ${{ inputs.replace_nightly }}
-          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
-        run: python .github/scripts/windows_release.py plan
-      - name: Verify the selected CI run before downloading its artifact
-        if: inputs.source_run_id != ''
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Resolve release metadata
+        id: metadata
+        run: |
+          python3 - <<'PY'
+          import os
+          import re
+          import tomllib
+          from pathlib import Path
+
+          pyproject_path = Path("python/pyproject.toml")
+          project = tomllib.loads(
+              pyproject_path.read_text(encoding="utf-8")
+          ).get("project")
+          if not isinstance(project, dict) or project.get("name") != "tokenspeed":
+              raise SystemExit(f"{pyproject_path} does not describe tokenspeed")
+
+          version = project.get("version")
+          if not isinstance(version, str) or not re.fullmatch(
+              r"[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9._+-]*", version
+          ):
+              raise SystemExit(f"invalid TokenSpeed version: {version}")
+
+          with Path(os.environ["GITHUB_OUTPUT"]).open(
+              "a", encoding="utf-8"
+          ) as output:
+              print(f"version={version}", file=output)
+          PY
+
+      - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
-        run: |
-          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID" > source-run.json
-          python .github/scripts/windows_release.py verify-run source-run.json
-
-  windows-build:
-    needs: plan
-    if: inputs.windows_arm64 && inputs.source_run_id == ''
-    uses: ./.github/workflows/windows-arm64-build.yml
-    with:
-      native_cuda: true
-      runner_label: ${{ inputs.runner_label || vars.TOKENSPEED_WINDOWS_ARM64_RUNNER_LABEL }}
-      cuda_arch: ${{ inputs.cuda_arch || vars.TOKENSPEED_WINDOWS_CUDA_ARCH }}
-      nightly_date: ${{ needs.plan.outputs.nightly_date }}
-      release_candidate: ${{ inputs.release_candidate }}
-
-  release:
-    needs: [plan, windows-build]
-    if: >-
-      !cancelled() && needs.plan.result == 'success' &&
-      (!inputs.windows_arm64 || inputs.source_run_id != '' || needs.windows-build.result == 'success')
-    runs-on: ubuntu-latest
-    outputs:
-      tag_name: ${{ steps.metadata.outputs.tag_name }}
-    env:
-      RELEASE_REPOSITORY: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
-      NIGHTLY_DATE: ${{ needs.plan.outputs.nightly_date }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - run: python -m pip install packaging
-      - name: Download the tested Windows package set
-        if: inputs.windows_arm64
-        uses: actions/download-artifact@v4
-        with:
-          name: tokenspeed-windows-arm64
-          path: windows-dist
-          run-id: ${{ inputs.source_run_id || github.run_id }}
-          github-token: ${{ github.token }}
-      - name: Verify source, tests, wheel hashes, versions and dependency pairing
-        id: metadata
-        env:
-          DRY_RUN: ${{ inputs.dry_run }}
-          WINDOWS_ARM64: ${{ inputs.windows_arm64 }}
-        run: |
-          args=()
-          if [ "$WINDOWS_ARM64" = true ]; then args+=(--directory windows-dist); fi
-          python .github/scripts/windows_release.py metadata "${args[@]}"
-      - name: Retain the verified publication plan
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-release-plan
-          path: windows-assets.txt
-          if-no-files-found: error
-      - name: Create GitHub release from verified assets
-        if: '!inputs.dry_run'
-        env:
-          GH_TOKEN: ${{ secrets.TOKENSPEED_RELEASE_TOKEN || github.token }}
-          TAG_NAME: ${{ steps.metadata.outputs.tag_name }}
           VERSION: ${{ steps.metadata.outputs.version }}
-          NIGHTLY: ${{ inputs.nightly }}
         run: |
-          set -euo pipefail
-          mapfile -t assets < windows-assets.txt
-          printf 'Source: https://github.com/%s/commit/%s\n' "$GITHUB_REPOSITORY" "$GITHUB_SHA" > release-notes.txt
-          options=()
-          if [ "$NIGHTLY" = true ]; then options+=(--prerelease); fi
-          if [ "$RELEASE_REPOSITORY" = "$GITHUB_REPOSITORY" ]; then
-            if ! gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
-              -f ref="refs/tags/$TAG_NAME" -f sha="$GITHUB_SHA"; then
-              actual=$(gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG_NAME" --jq '.object.sha')
-              test "$actual" = "$GITHUB_SHA"
-            fi
-            options+=(--verify-tag)
-          fi
-          gh release create "$TAG_NAME" "${assets[@]}" --repo "$RELEASE_REPOSITORY" \
-            --title "TokenSpeed $VERSION" --notes-file release-notes.txt "${options[@]}"
-
-  publish-windows-index:
-    needs: release
-    if: inputs.publish_windows_index && !inputs.dry_run
-    runs-on: ubuntu-latest
-    concurrency:
-      group: wheelhouse-publication
-      cancel-in-progress: false
-    env:
-      GH_TOKEN: ${{ secrets.TOKENSPEED_RELEASE_TOKEN }}
-      RELEASE_REPOSITORY: ${{ vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
-      INDEX_BRANCH: ${{ vars.TOKENSPEED_RELEASE_INDEX_BRANCH || 'gh-pages' }}
-      TAG_NAME: ${{ needs.release.outputs.tag_name }}
-      NIGHTLY: ${{ inputs.nightly }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-      - uses: actions/download-artifact@v4
-        with:
-          name: tokenspeed-windows-arm64
-          path: windows-dist
-          run-id: ${{ inputs.source_run_id || github.run_id }}
-          github-token: ${{ github.token }}
-      - name: Checkout the configured wheel index
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ vars.TOKENSPEED_RELEASE_INDEX_REPOSITORY || vars.TOKENSPEED_RELEASE_REPOSITORY || github.repository }}
-          ref: ${{ vars.TOKENSPEED_RELEASE_INDEX_BRANCH || 'gh-pages' }}
-          path: wheelhouse
-          token: ${{ secrets.TOKENSPEED_RELEASE_TOKEN }}
-      - name: Update Windows pages with the upstream index publisher
-        run: |
-          set -euo pipefail
-          gh api "repos/$RELEASE_REPOSITORY/releases/tags/$TAG_NAME" > published-release.json
-          variant=win_arm64
-          if [ "$NIGHTLY" = true ]; then variant=win_arm64_nightly; fi
-          for package in tokenspeed tokenspeed-kernel tokenspeed-scheduler tokenspeed-engine; do
-            python .github/scripts/update-nightly-index.py --package "$package" \
-              --variant "$variant" --repository "$RELEASE_REPOSITORY" \
-              wheelhouse published-release.json windows-dist
-          done
-      - name: Publish the Windows index
-        run: |
-          set -euo pipefail
-          cd wheelhouse
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          index_path=windows-arm64
-          if [ "$NIGHTLY" = true ]; then index_path=nightly/windows-arm64; fi
-          git add -- "$index_path"
-          git diff --cached --check
-          if git diff --cached --quiet; then exit 0; fi
-          if [ -f .pre-commit-config.yaml ] || [ -f .pre-commit-config.yml ]; then
-            python -m pip install pre-commit
-            pre-commit run --all-files
-            git add -- "$index_path"
-          fi
-          git commit -s -m "Publish Windows ARM64 wheel index"
-          for attempt in 1 2 3; do
-            if git push origin "HEAD:$INDEX_BRANCH"; then exit 0; fi
-            git fetch origin "$INDEX_BRANCH"
-            git rebase "origin/$INDEX_BRANCH"
-          done
-          exit 1
+          tag="v${VERSION}"
+          gh api --method POST \
+            "repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f ref="refs/tags/${tag}" \
+            -f sha="${GITHUB_SHA}"
+          gh release create "${tag}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "TokenSpeed ${VERSION}" \
+            --generate-notes \
+            --verify-tag
