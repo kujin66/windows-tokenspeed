@@ -127,18 +127,12 @@ releases or indexes. The original component entry points still provide their
 Linux build paths; Windows calls consume the validated shared artifact instead
 of independently rebuilding the same package set in every release job.
 
-### Windows-specific version policy retained for review
+### Windows version policy
 
-This CI-only refactor does not silently change the existing Windows package
-dependency policy. Runtime/kernel nightly formatting calls the upstream helper.
-The existing Windows adapter also gives engine/scheduler the same date/RC suffix
-and pins all three native components from the runtime. These extra two suffixes
-are Windows-specific behavior, not an unchanged upstream Linux rule. They keep
-the tested same-source package set explicit. An alternative that consumes
-separately published stable Windows dependencies must be reviewed and validated
-before changing this contract. Retain the current policy only as an explicit
-review item before enabling actual publication; changing it requires its own
-compatibility evidence.
+Runtime/kernel nightly formatting uses the upstream helper. The Windows adapter
+also gives engine/scheduler the same date/RC suffix and pins all three native
+components from the runtime, keeping the tested same-source package set explicit.
+The engine/scheduler suffixes are Windows-specific.
 
 Nightly metadata is prepared in a Git archive of the exact source revision;
 the original checkout remains clean. Archive symlinks are staged as link-text
@@ -179,16 +173,6 @@ Pages and the index branch must already exist. Windows packages are not uploaded
 to the official PyPI projects by this path. All actual publication/schedule
 switches remain off during branch validation and human review.
 
-### Cache boundary
-
-Keep the prepared Cargo cache and the project backends' own cache checks. This
-change does not introduce a cache of test results or blindly restore compiled
-CUDA libraries across jobs. The current backend identity plus source mtimes is
-not a sufficient cross-job cache key for changed headers. A future binary cache
-must include all native source/header inputs, dependency content, compiler/SDK,
-Python/ABI and architecture, and must still run every required test. Until that
-key is independently verified, correctness takes precedence over cache hits.
-
 ## Deploy and verify the default branch
 
 First validate the PR source, its hosted jobs and the required Windows GPU
@@ -196,10 +180,8 @@ task. Run the existing runtime release workflow in dry-run mode on that same
 branch, including the nightly channel. The already-registered parent can load
 its reusable component workflows and platform action from the selected commit;
 they do not need an earlier default-branch merge. A missing Actions menu entry
-is not permission to deploy unvalidated code. The compiler PR targets
-an upstream baseline; merging it there alone does not deploy main. A deployment
-PR to main must expose the upstream synchronization separately from Windows
-adaptation, because the fork's older main is not the compiler baseline.
+is not permission to deploy unvalidated code. This change targets main; after
+merge, verify the deployed default-branch workflows separately.
 During fork synchronization, the attribution check fetches the official main
 history and preserves commits reachable from its merge base with the PR source.
 It still checks newly contributed commits and verifies the current PR head.

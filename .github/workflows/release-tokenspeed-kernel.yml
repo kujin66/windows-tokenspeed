@@ -92,8 +92,7 @@ concurrency:
 jobs:
   metadata:
     if: >-
-      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
-      (true)
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule')
     name: Resolve release metadata
     runs-on: ubuntu-latest
     outputs:
@@ -218,8 +217,7 @@ jobs:
 
   build-wheel:
     if: >-
-      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
-      (true)
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule')
     name: Build ${{ matrix.cuda.variant }} ${{ matrix.arch.name }} wheel for Python ${{ matrix.python.version }}
     needs: metadata
     runs-on: ${{ matrix.arch.runner }}
@@ -363,8 +361,7 @@ jobs:
 
   build-sdist:
     if: >-
-      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
-      (true)
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule')
     name: Build source distribution
     needs: metadata
     runs-on: ubuntu-latest

@@ -28,7 +28,7 @@ on:
       - '.github/workflows/windows-arm64-build.yml'
       - '.github/workflows/run-ci-task-matrix.yml'
   pull_request:
-    branches: [main, 'baseline/upstream-*', 'build/windows-arm64-vendor-triton-refresh-20261110']
+    branches: [main, 'baseline/upstream-*']
     paths: *windows_paths
   workflow_dispatch:
     inputs:

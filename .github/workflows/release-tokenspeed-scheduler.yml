@@ -42,8 +42,7 @@ permissions:
 jobs:
   build-wheel:
     if: >-
-      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
-      (true)
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule')
     name: Build wheels (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -89,8 +88,7 @@ jobs:
 
   build-sdist:
     if: >-
-      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule') &&
-      (true)
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && (github.repository == 'lightseekorg/tokenspeed' || github.event_name != 'schedule')
     name: Build source distribution
     runs-on: ubuntu-latest
     steps:
@@ -117,8 +115,7 @@ jobs:
 
   release:
     if: >-
-      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && github.repository == 'lightseekorg/tokenspeed' &&
-      (true)
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && github.repository == 'lightseekorg/tokenspeed'
     name: Create wheelhouse release
     needs: [build-wheel, build-sdist]
     runs-on: ubuntu-latest
@@ -183,8 +180,7 @@ jobs:
 
   publish-pypi:
     if: >-
-      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && github.repository == 'lightseekorg/tokenspeed' &&
-      (true)
+      inputs.platform == '' && inputs.source_run_id == '' && inputs.nightly_date == '' && !inputs.publish_windows_index && inputs.dry_run != true && github.repository == 'lightseekorg/tokenspeed'
     name: Publish to PyPI
     needs: [build-wheel, build-sdist]
     runs-on: ubuntu-latest
